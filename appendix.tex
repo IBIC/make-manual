@@ -1,0 +1,87 @@
+\chapter{\texttt{makeToTeX}}
+\label{appendix:makeToTex}	
+	
+In case your script gives \LaTeX problems, the steps \texttt{makeToTex} undertakes are listed here.
+	
+\vspace{0.5\baselineskip}\hrule\vspace{0.5\baselineskip}
+	
+\begin{easylist}[enumerate]
+	& \texttt{;\textbackslash} is replaced with \texttt{;}\verb!\textbackslash!
+	& Covert any recipes to a special command to turn the target blue.
+	& Strip comments (lines beginning with \texttt{\#}).
+	&& At present, it doesn't strip trailing comments. Please remove those yourself.
+	& Escape the characters \texttt{\$}, \texttt{\%}, and \texttt{\#}.
+	& Add the terminal newline command (\texttt{\textbackslash\textbackslash}) to non-blank lines.
+	& Replace \textasciicircum with \verb!\textasciicircum!.
+	& Replace double dashes (\dd) with a macro that stops it from turning them into hyphens (--).
+	& Replace single TAB characters with a macro.
+	& Replace multiple TAB characters with \verb!\hfill!, a \LaTeX command that spaces nicely.
+	& Leading and trailing quotes are specified differently in \LaTeX. Leading quotes are coded with a backtick and trailing with an apostrophe.
+	& Extra spaces and multiple blank lines are filtered out.
+	\end{easylist}
+	
+	
+\vspace{0.5\baselineskip}\hrule\vspace{0.5\baselineskip}
+	
+Please ensure all comments are removed! They are very troublesome to display.
+	
+\chapter{Style Guide}
+\label{appendix:sg}
+	
+Please refer to this guide when in doubt. It covers typographic and phrasing consistencies.
+	
+\begin{easylist}[enumerate]
+	& Monospace (use the \verb!\texttt{}! macro) the following things:
+	&& \maken, when referring to the program.
+	&&& Use the macro \verb!\maken{}!. To remove the trailing space (for example, to use a comma after \maken), call the macro without the braces, \verb!\maken!.
+	&&& Never uppercase.
+	&& \bashn
+	&&& Use the macro \verb!\bashn{}!.
+	&& Any \bashn{} or \maken{} command. This is done automatically in the one-liner and multi-line environments. Be sure to monospace commands written in-line.
+	&& Explicit references to a file: e.g., ``\ldots open \texttt{subjects.txt}.''
+	&& Commands run from the command line: e.g., \texttt{ls}, \texttt{bet}, \texttt{flirt}, \texttt{qmake}, etc \ldots
+	&& References to directories: e.g., \texttt{/bin/}, \texttt{oasis-multisubject-sample/}.
+	&&& Use the trailing slash for clarity in all cases.
+	&& References to named variables: e.g., \texttt{\$(SUBJECTS)}, \texttt{\$<}, \texttt{\%}, \texttt{\$PWD}.
+	&& Command-line flags written in-line: e.g., \texttt{-n}, \texttt{-lart}.
+	& Don't monospace:
+	&& \textbf{Don't double up on quotes and monospacing.} If both would be used, prefer quotes. This is to avoid a complete monospacing overload.
+	&& Abstractions or filetypes: e.g., ``Makefiles are usually located \ldots'' or ``The nifti files \ldots''
+	&& Programs typically used through a GUI: e.g. OpenOffice, gimp.
+	&& Tool suites, like FSL or AFNI.
+	&& The names of operating systems.
+	&& References to the grid engine in any form.
+	&&& Use the article with the abbreviation: ``the SGE.''
+	&&& ``Grid engine,'' not ``gridengine.'' This is Oracle/SG's usage, although they capitalize it, which we won't do.
+	&& Subject identifiers.
+	& Oxford comma = yes: e.g. ``X, Y\textcolor{red}{,} and Z,'' not ``X, Y and Z.''
+	& Don't use em dashes (--) for emphasis. They should appear in pairs the majority of the time.
+	& Margin notes and footnotes:
+	&& Use margin notes to call out things a new reader would find useful:
+	&&& Define important terms with a [?].
+	&&& Call out important notes with a [!].
+	&& Use footnotes for things that could be completely ignored: advanced features, humorous commentary, etc\ldots.
+	& \LaTeX{} swallows up two dashes (\dd). Use \verb!\dd! to get a double dash. You can use a space after this command and \LaTeX will ignore it.
+	& \textbf{Skull-strip:} Two words, always hyphenated.
+	& Headers:
+	&& Chapters and Sections Are in Title Case
+	&& Subsections in sentence case
+	&& Figure captions in sentence case
+	& Numerals:
+	&& Spell out numbers less than 10, except the ones \LaTeX{} generates.
+	&& Always spell out a number at the beginning of a sentence. However, it usually better to recast the sentence to avoid this.
+	&& If you must refer to multiple number things, try:
+	&&& Using A, B, C \ldots{} instead: ``Process A will overwrite foo.out just in time for process B to use it.''
+	& Plurals
+	&& Since we may have to pluralize some weird things: No apostrophe between the stem and the ``s,'' no matter what. Use the same formatting (e.g. monospacing). If possible, recast the sentence.
+	& M/makefile
+	&& ``a makefile'' is an abstract noun referring to any make script (cf. ``a shell script''). This should be capitalized when appropriate.
+	&& ``the Makefile'' is the top-level makefile in a directory, usually named \texttt{Makefile} by IBIC conventions. This reference to the file with the same name does not need to be monospaced.
+	& Backticks and single quotes in monospaced font:
+	&& Use \texttt{\textbackslash\`{}\{\}} to get the correct backtick symbol.
+	&& There is currently no support for a straight single quote in the defaulty \verb!\ttfamily! font or Inconsolata at present.
+	& Ellipses
+	&& Spaces before and after: ``this \ldots{} and that.''
+	&& Use \verb!\ldots!
+	& FreeSurfer
+\end{easylist}

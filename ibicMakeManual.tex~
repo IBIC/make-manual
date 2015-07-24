@@ -1,0 +1,190 @@
+\documentclass[oneside,11pt]{memoir}
+
+% Fonts
+\usepackage[T1]{fontenc}	% better output encoding
+\usepackage{lmodern}		% Latin Modern instad of CM
+\usepackage{inconsolata}	% better monospaced font
+\usepackage{microtype}		% fix the little things % comes after any fonts
+
+% basics
+%\usepackage{geometry}	% margins n' stuff
+\usepackage{graphicx}	% now you can add pretty pictures
+\usepackage{url} 		% makes urls look nicer
+\usepackage[usenames,dvipsnames]{color} % adds colored text
+\usepackage[font=footnotesize]{caption}	% more control over figure captions
+\usepackage{xparse}		% nesting arguments wtihin environments
+\usepackage{underscore}	% better text underscores, defua??
+\usepackage{marginnote}	% better margin notes
+\usepackage{tabularx}	% more flexible tables
+\usepackage[table]{xcolor}	% alternating table colors
+\usepackage{todonotes}	% backend organization. Also for some reason necessary for tikz
+
+% Complex packages
+\usepackage{tcolorbox} 	% frames
+\usepackage{listings} 	% allows for adding $ at the beginning of lines
+\usepackage{dirtree}	% pretty directory trees
+%\usepackage[modulo]{lineno}	% line numbers
+
+
+% Lists
+\usepackage[ampersand]{easylist}	% Nicer syntax for creating lists
+\usepackage{paralist}	% Allows inline lists
+
+% Hyperref
+\usepackage[colorlinks=true]{hyperref} 	% allows hyperlinking % NEEDS TO BE LOADED LAST
+
+% underscore defaults to text mode over math mode
+\catcode`_=12 
+
+% Document information
+\title{Using GNU \texttt{make} for Neuroimaging Workflow}
+\author{ Tara M. Madhyastha (\url{madhyt@uw.edu}) \\ \and Zo\'e Mestre (\url{zlm@uw.edu}) %
+		\and Trevor McAllister-Day (\url{tkmday@uw.edu}) \and Natalie Koh (\url{natkoh@uw.edu)} %
+		}
+
+% Set up the margins and the mymarginnote command
+\setlrmargins{*}{*}{1}
+\setmarginnotes{0.25in}{1in}{0.5in}
+\checkandfixthelayout
+
+\newcommand{\mymarginnote}[2]{\marginpar{{\small \sffamily \selectfont\fbox{\textbf{#1}} #2}}} % custom margin notes
+
+% Code display commands
+\newcommand\maken{\texttt{make}} % typeset 'make' always in monospace
+\newcommand\bashn{\texttt{bash}} % same for 'bash'
+
+\definecolor{textgray}{gray}{0.75}
+\makeatletter
+\newcommand{\onelbox}[2]{%
+	\setbox0=\hbox{#1}%
+	\setlength{\@tempdima}{\dimexpr\wd0+13pt}%
+	\begin{tcolorbox}[colback=#2,boxrule=0.5pt,arc=4pt,
+		left=6pt,right=6pt,top=6pt,bottom=6pt,boxsep=0pt,width=\textwidth]
+		#1
+  	\end{tcolorbox}
+}
+\makeatother
+
+% ONE-LINE environments
+% $ is automatically added to the bash prompt.
+% % \hfill\, forces the minipage onto a new line. Don't ask.
+\newcommand{\bashcmd}[1]{ \hfill\, \begin{minipage}[t]{\linewidth}  \hrule \vspace{0.5\baselineskip} \texttt{\small \$ #1} \vspace{0.5\baselineskip} \hrule \end{minipage} \vspace{0.5\baselineskip} }
+\newcommand{\makecmd}[1]{ \vspace{0.5\baselineskip} \onelbox{\texttt{\small #1}}{white} \vspace{0.5\baselineskip} }
+% Since these commands are embedded in floats, the nicest way to space them properly in the output
+% % is to make sure that there is a newline between the command and the text you want to follow the figure.
+
+% load languages for the listings class
+\lstloadlanguages{bash,make}
+
+% DEFINE BASH MULTILINE ENVIRONMENT
+\makeatletter
+% define custom macro that expands to the language name
+% (for comparison purposes)
+\newcommand\langname@bash{}
+\def\langname@bash{bash}
+% define custom prompt
+\newcommand\prompt@bash{\$\ }
+% define a macro (initially empty) and insert it at the beginning of every paragraph
+\newcommand\addedToEveryPar@bash{}
+%\lst@AddToHook{EveryPar}{\addedToEveryPar@bash}
+% redefine the macro by the custom prompt, but only if the language in use
+% be `bash'
+\lst@AddToHook{PreInit}{%
+  \ifx\lst@language\langname@bash%
+    \let\addedToEveryPar@bash\prompt@bash%
+  \fi
+}
+\makeatother
+\lstnewenvironment{bashsession}[1][]{\lstset{language=bash,gobble=8,basicstyle=\small\ttfamily#1}}{}
+
+\newenvironment{bash}[2] % 
+{ \begin{samepage} \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip} \ttfamily } %
+{ \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip}  \caption{\captiontext} \label{\labelt} \end{figure} \end{samepage} %
+ } 
+
+% % This is rather unfortunate, but you can't nest \lstnewenvironment inside a \newenvironment so inorder to typset a block of bash code use :
+% % 	\begin{bash}\begin{bashsession}
+% %			multi-line
+% %			code
+% %		\end{bashsession}\end{bash}
+
+% DEFINE MAKE MULTILINE ENVIRONMENT
+\newenvironment{make}[2] %
+{ \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \begin{tcolorbox}[colback=white,boxrule=0.5pt,arc=4pt,left=6pt,right=6pt,boxsep=0pt,width=\textwidth] \ttfamily }%
+{ \normalfont \end{tcolorbox} \caption{\captiontext} \label{\labelt} \end{figure} }
+% You must terminate lines in the make environment
+% To indent lines, use \tab
+
+%\newcommand{\importmake}[1]{ %
+%	\small \ttfamily \linenumbers \setlength{\parindent}{0pt} %
+%	\input{#1} %
+%	}
+
+% use \maker to create recipes
+\newcommand{\maker}[2]{\textcolor{blue}{#1}:\enspace#2}
+
+% tab for indenting in make environment
+\newcommand{\tab}{\hspace*{4em}}
+
+% Specify command for "--"
+% use this to specify bash long inputs (--) so they don't get swallowed up into hyphens.
+% No space follows by default
+\newcommand{\dd}{-{}-} 
+
+% Change numbering
+\setsecnumdepth{chapter}	% only number chapters
+\maxtocdepth{subsection}	% put subsections in the table of contents
+\makeatletter
+\@addtoreset{chapter}{part}	% reset the chapter counter at each part
+\makeatother
+
+\pagestyle{ruled}	% Graphics command
+\raggedbottom		% Allow more flexibility at the bottom of the page - helpful with lots of floats.
+
+\newcommand{\martt}[1]{\texttt{\color{gray!75} #1}}
+
+\begin{document}
+
+	% Cover page
+	
+	\showthe\parindent
+
+	\thispagestyle{empty}
+	\begin{vplace}[0.7]
+		\begin{center}
+				\includegraphics[width=0.75\linewidth, natwidth=1890, natheight=761]{IBIClogo.png}				% IBIC logo
+				\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
+				{ \fontsize{30pt}{36pt} \selectfont Using GNU \textsc{make} for Neuroimaging Workflow\par }		% Title
+				\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
+				{\LARGE University of Washington} 																% University of Washington	
+		\end{center}	
+	\end{vplace}
+	
+	\frontmatter	% Define the front matter section of the document
+	
+	\maketitle		% Title page
+	
+	\tableofcontents
+	
+	\listoffigures
+	
+	\mainmatter		% The actual content
+	
+	\part{Manual}
+
+	\include{chapter1}	% Introduction to make
+		
+	\include{chapter2}	% Running make in context
+	
+	\include{chapter3}	% Running make in parallel
+	
+	\part{Practica}
+
+	\begin{vplace}[0.7]
+		\thispagestyle{empty}
+		\noindent Part II will guide you through four \maken{} classes, using data available on the IBIC system. Each class is structured as a brief lecture followed by a 	practicum designed to be completed as you read the chapter.
+	\end{vplace}
+	
+	\include{practicum1}	% Overview of make
+	
+\end{document}

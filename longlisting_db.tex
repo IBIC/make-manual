@@ -1,0 +1,244 @@
+\documentclass[oneside,11pt]{memoir}
+
+% Fonts
+\usepackage[T1]{fontenc}	% better output encoding
+\usepackage{lmodern}		% Latin Modern instad of CM
+\usepackage{inconsolata}	% better monospaced font
+\usepackage{microtype}		% fix the little things % comes after any fonts
+
+% basics
+\usepackage{graphicx}	% now you can add pretty pictures
+\usepackage{url} 		% makes urls look nicer
+\usepackage[usenames,dvipsnames]{color} % adds colored text
+\usepackage[font=footnotesize]{caption}	% more control over figure captions
+\usepackage{xparse}		% nesting arguments wtihin environments
+\usepackage{underscore}	% better text underscores, defua
+\usepackage{marginnote}	% better margin notes
+\usepackage{tabularx}	% more flexible tables
+\usepackage[table]{xcolor}	% alternating table colors
+\usepackage{todonotes}	% backend organization. Also for some reason necessary for tikz
+
+% Complex packages
+\usepackage{tcolorbox} 	% frames
+\usepackage{listings} 	% allows for adding $ at the beginning of lines
+\usepackage{dirtree}	% pretty directory trees
+
+% Lists
+\usepackage[ampersand]{easylist}	% Nicer syntax for creating lists
+\usepackage{paralist}	% Allows inline lists
+
+% Hyperref
+\usepackage[colorlinks=true]{hyperref} 	% allows hyperlinking % NEEDS TO BE LOADED LAST
+
+% underscore defaults to text mode over math mode
+\catcode`_=12 
+
+% Document information
+\title{Using GNU \texttt{make} for Neuroimaging Workflow}
+\author{ Tara M. Madhyastha (\url{madhyt@uw.edu}) \and Zo\'e Mestre (\url{zlm@uw.edu}) %
+	\and Trevor McAllister-Day (\url{tkmday@uw.edu}) \and Natalie Koh (\url{natkoh@uw.edu)} %
+}
+
+% Set up the margins and the mymarginnote command
+\setlrmargins{*}{*}{1}
+\setmarginnotes{0.25in}{1in}{0.5in}
+\checkandfixthelayout
+
+\newcommand{\mymarginnote}[2]{\marginpar{{\small \sffamily \selectfont\fbox{\textbf{#1}} #2}}} % custom margin notes
+
+% Code display commands
+\newcommand\maken{\texttt{make}} % typeset 'make' always in monospace
+\newcommand\bashn{\texttt{bash}} % same for 'bash'
+
+\definecolor{textgray}{gray}{0.75}
+\makeatletter
+\newcommand{\onelbox}[2]{%
+	\setbox0=\hbox{#1}%
+	\setlength{\@tempdima}{\dimexpr\wd0+13pt}%
+	\begin{tcolorbox}[colback=#2,boxrule=0.5pt,arc=4pt,
+		left=6pt,right=6pt,top=6pt,bottom=6pt,boxsep=0pt,width=\textwidth]
+		#1
+	\end{tcolorbox}
+}
+\makeatother
+
+% ONE-LINE environments
+% $ is automatically added to the bash prompt.
+% % \hfill\, forces the minipage onto a new line. Don't ask.
+\newcommand{\bashcmd}[1]{ \hfill\, \begin{minipage}[t]{\linewidth}  \hrule \vspace{0.5\baselineskip} \texttt{\small \$ #1} \vspace{0.5\baselineskip} \hrule \end{minipage} \vspace{0.5\baselineskip} }
+\newcommand{\makecmd}[1]{ \vspace{0.5\baselineskip} \onelbox{\texttt{\small #1}}{white} \vspace{0.5\baselineskip} }
+% Since these commands are embedded in floats, the nicest way to space them properly in the output
+% % is to make sure that there is a newline between the command and the text you want to follow the figure.
+
+% load languages for the listings class
+\lstloadlanguages{bash,make}
+
+% DEFINE BASH MULTILINE ENVIRONMENT
+\makeatletter
+% define custom macro that expands to the language name
+% (for comparison purposes)
+\newcommand\langname@bash{}
+\def\langname@bash{bash}
+% define custom prompt
+\newcommand\prompt@bash{\$\ }
+% define a macro (initially empty) and insert it at the beginning of every paragraph
+\newcommand\addedToEveryPar@bash{}
+%\lst@AddToHook{EveryPar}{\addedToEveryPar@bash}
+% redefine the macro by the custom prompt, but only if the language in use
+% be `bash'
+\lst@AddToHook{PreInit}{%
+	\ifx\lst@language\langname@bash%
+	\let\addedToEveryPar@bash\prompt@bash%
+	\fi
+}
+\makeatother
+\lstnewenvironment{bashsession}[1][]{\lstset{language=bash,gobble=8,basicstyle=\small\ttfamily#1}}{}
+
+\newenvironment{bash}[2] % 
+{ \begin{samepage} \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip} \ttfamily } %
+		{ \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip}  \caption{\captiontext} \label{\labelt} \end{figure} \end{samepage} 	} 
+	
+% % This is rather unfortunate, but you can't nest \lstnewenvironment inside a \newenvironment so inorder to typset a block of bash code use :
+% % 	\begin{bash}\begin{bashsession}
+% %			multi-line
+% %			code
+% %		\end{bashsession}\end{bash}
+	
+% DEFINE MAKE MULTILINE ENVIRONMENT
+\newenvironment{make}[2] %
+{ \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \begin{tcolorbox}[colback=white,boxrule=0.5pt,arc=4pt,left=6pt,right=6pt,boxsep=0pt,width=\textwidth] \ttfamily }%
+		{ \normalfont \end{tcolorbox} \caption{\captiontext} \label{\labelt} \end{figure} }
+% You must terminate lines in the make environment
+% To indent lines, use \tab
+			
+% use \maker to create recipes
+\newcommand{\maker}[2]{\textcolor{blue}{#1}:\enspace#2}
+			
+% tab for indenting in make environment
+\newcommand{\tab}{\hspace*{4em}}
+			
+% Specify command for "--"
+% use this to specify bash long inputs (--) so they don't get swallowed up into hyphens.
+% No space follows by default
+\newcommand{\dd}{-{}-} 
+			
+% Change numbering
+\setsecnumdepth{chapter}	% only number chapters
+\maxtocdepth{subsection}	% put subsections in the table of contents
+\makeatletter
+\@addtoreset{chapter}{part}	% reset the chapter counter at each part
+\makeatother
+			
+\pagestyle{ruled}	% Graphics command
+\raggedbottom		% Allow more flexibility at the bottom of the page - helpful with lots of floats.
+			
+\newcommand{\martt}[1]{\texttt{\color{gray!75} #1}}
+
+\begin{document}
+
+\small\ttfamily
+
+\# act-plus freesurfer makefile \\
+	
+\# This is where the subject directories live \\
+PROJHOME=/projects2/act-plus/subjects/session1 \\
+	
+cwd=\$(shell pwd) \\
+	
+\# This sets the subject directories to be the ones we selected \\
+SUBJECTS=\$(shell cat /projects2/act-plus/uds/good_subjects.txt) \\
+\#SUBJECT=\$(notdir \$(cwd)) \\
+	
+\# Set open MP number of threads to be 1\, so that we can parallize using make. \\
+export OMP_NUM_THREADS=1 \\
+
+\# for Freesurfer (running version 5.3) \\
+export SUBJECTS_DIR=/projects2/act-plus/freesurfer \\
+export QA_TOOLS=/usr/local/freesurfer/QAtools_v1.1 \\
+	
+\# be really careful with paths and variables - two versions of freesurfer \\
+\# installed \\
+export FREESURFER_SETUP = /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh \\
+export RECON_ALL = /usr/local/freesurfer/stable5_3/bin/recon-all \$(RECON_FLAGS) \\
+export TKMEDIT = /usr/local/freesurfer/stable5_3/bin/tkmedit \\
+	
+define usage \\
+@echo Usage: \\
+@echo ``make\, or make interactive\tab Makes interactive targets'' \\ 
+@echo ``make noninteractive\tab \tab Makes noninteractive targets'' \\ 
+@echo \\
+@echo Noninteractive targets: \\
+@echo ``make setup\tab \tab \tab Copies source files to this directory'' \\ 
+@echo ``make freesurfer\tab \tab Runs freesurfer'' \\ 
+@echo \\
+@echo Other useful targets: \\
+@echo ``make clean\tab \tab \tab Remove everything! Be careful!'' \\ 
+@echo ``make mostlyclean\tab \tab Remove everything but the good bits.'' \\ 
+@echo ``make help\tab \tab \tab Print this message.'' \\ 
+@echo \\
+@echo Variables: \\
+@echo ``RECON_FLAGS\tab \tab \tab Set to flags to recon-all\, by default'' \\ 
+@echo ``WAVE\tab \tab \tab \tab 1\, 2 or 3 to select subjects\, for setup'' \\ 
+endef \\
+	
+export SHELL=/bin/bash \\
+
+\maker{.PHONY}{qa clean mostlyclean output noninteractive} \\
+
+\maker{noninteractive}{setup freesurfer} \\
+
+\maker{all}{noninteractive} \\
+	
+output=\$(SUBJECTS:\%=\%/mri/aparc+aseg.mgz) \$(SUBJECTS:\%=\%/mri/brainmask.nii.gz) \\
+\maker{freesurfer}{\$(output)} \\
+	
+\#recon-all \$(RECON_FLAGS) -subjid  \$\${subj} -FLAIR \$\${subj}/flair.nii.gz -FLAIRpial ;\textbackslash \\
+	
+\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# \\
+	
+\maker{qafiles=\$(SUBJECTS}{\%=QA/\%)} \\
+	
+\maker{qa}{\$(qafiles)} \\
+	
+\maker{QA/\%}{\%} \\
+\tab source \$\$FREESURFER_SETUP  ;\textbackslash \\
+\tab \$(QA_TOOLS)/recon_checker -s \$* \\
+	
+\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# \\
+	
+\# No more Freesurfer mixed in with other stuff \\
+	
+\maker{\%/mri/aparc+aseg.mgz}{\$(PROJHOME)/\%/memprage/T1.nii.gz} \\
+\tab rm -rf `dirname \$@`/IsRunning.* \\
+\tab source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh  ;\textbackslash \\
+\tab export SUBJECTS_DIR=\$(SUBJECTS_DIR)  ;\textbackslash \\
+\tab /usr/local/freesurfer/stable5_3/bin/recon-all -i \$< -subjid \$* -all  ;\textbackslash \\
+\tab /usr/local/freesurfer/stable5_3/bin/recon-all -s \$* -T2 \$(PROJHOME)/\$*/flair/Flair.nii.gz -T2pial \\
+	
+\#Use Registration matrix to create skull stripped brain (memprage/T1_brain) from FreeSurfer's skull strip in fsl T1 space \\
+	
+\maker{\%/mri/brainmask.nii.gz}{\$(SUBJECTS_DIR)/\%/mri/aparc+aseg.mgz} \\
+\tab source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh  ;\textbackslash \\
+\tab mri_convert \$(SUBJECTS_DIR)/\$*/mri/brainmask.mgz \$@ \\
+
+\maker{clean}{} \\
+\tab echo rm -rf \$(inputdirs) \\
+	
+\maker{mostlyclean}{} \\
+\tab @echo Here I would delete things that are not necessary after all is said and done. \\
+	
+\maker{output}{} \\
+\tab @echo Nothing yet \\
+	
+\maker{setup}{\$(SUBJECTS)} \\
+
+\maker{\%}{\$(PROJHOME)/\%/memprage/T1.nii.gz} \\
+\tab mkdir -p \$@/mri/orig ;\textbackslash \\
+\tab cp \$\textasciicircum \$@/mri/orig ;\textbackslash \\
+\tab cd \$@/mri/orig ;\textbackslash \\
+\tab mri_convert T1.nii.gz 001.mgz \\
+	
+\maker{help}{} \\
+\tab \$(usage) \\
+	
+\end{document}

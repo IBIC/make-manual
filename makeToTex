@@ -1,0 +1,81 @@
+#!/bin/bash
+
+verbose=no
+
+usage="$0 [-hv] <infiles>
+Turn Makefiles into LaTeX syntax for the IBIC make manual.
+
+h: Show this help
+v: Verbose mode, for what it's worth
+
+Report bugs to tkmday@uw.edu."    
+    
+while getopts "vh" opt;
+do
+    case "$opt" in
+	v) verbose=yes
+	    ;;
+	h) echo "$usage"
+	    exit 0
+	    ;;
+    esac
+done
+
+if [[ $verbose == "yes" ]] ; then shift $((OPTIND-1)) ; echo FILES: $@ ; fi
+
+for i in $@
+do
+    IN=$i
+    basenameIN=`echo $IN | awk 'BEGIN{FS="."}{print $1}'`
+    OUT=${basenameIN}_texed.txt
+
+    if [ -e $IN ] ; then
+        cp $IN temp
+    
+
+        sed -e 's/;.*\\/ ;\\textbackslash/g' -i temp 
+        # replace ";\" with " ;\textbackslash"
+    
+        # Check each line for a ":"
+        # If there is a colon, put it in a \maker.
+        # If there isn't, don't
+        # Also ignore lines with "@echo"
+        awk 'BEGIN{FS=":"}{if(NF==2 && $0!~"@echo") print "\\maker{"$1"}{"$2"}"; else print $0}' temp > $OUT
+
+	
+	# strip comments
+	sed -e '/^[[:space:]]*#/d' -i $OUT
+
+        sed -e 's/[$]/\\\$/g' -i $OUT             # replace $ with \$ 
+        sed -e 's/[%,#]/\\&/g' -i $OUT          # escape # and %
+        sed -e 's/[^[:space:]]$/& \\\\/g' -i $OUT # append \\ to non-blank lines
+        sed -e 's/\^/\\textasciicircum/g' -i $OUT # replace ^ with macro
+        sed -e 's/--/\\dd/g' -i $OUT              # replace any long args with the long arg macro
+
+        # Fix quoting
+        sed -e 's/".*/-> & /g' -e 's/.*"/& <-/g' -e 's/"//g' -i $OUT # id quotes as forward or back, and remove "
+        sed -e 's/-> /``/g' -e "s/ <-/''/g" -i $OUT                  # replace with latex quotes
+
+	# replace TAB characters with the \tab macro
+        sed -e 's/	/\\tab /g' -i $OUT
+	# replace multiple \tab macros with \hfill
+	sed 's/\(\\tab[[:space:]]\)\{2,\}/\\hfill /g' -i $OUT
+        
+        # Remove spaces in braces
+        sed -e 's/{[[:space:]]*/{/g' -e 's/[[:space:]]*}/}/g' -i $OUT
+
+	echo '\newgeometry{scale=0.85, centering}' | cat - $OUT > temp && mv temp $OUT
+	echo '\restoregeometry' >> $OUT
+    
+        # remove extra blank lines and clean up
+	cat -s $OUT > temp
+	cat temp > $OUT
+        rm -f temp
+
+	if [[ $verbose == "yes" ]] ; then echo "Finished ${OUT}." ; fi
+
+    else 
+        echo "$IN does not exist!"
+        exit 1
+    fi
+done
