@@ -32,102 +32,107 @@ Feel free to scroll through chapter files to look for examples of usage if you a
 
 Notice how documentation will begin on a new page and a new page will be created at the end of the documentations. This is necessary to allow for wider margins that make the code easier to read.
 
-\begin{makefileread}
-	
-	
 \newgeometry{scale=0.85, centering}
 
-PROJHOME=/projects2/act-plus/subjects/session1 \\
-
-cwd=\$(shell pwd) \\
-
-SUBJECTS=\$(shell cat /projects2/act-plus/uds/good_subjects.txt) \\
-
-export OMP_NUM_THREADS=1 \\
-
-export SUBJECTS_DIR=/projects2/act-plus/freesurfer \\
-export QA_TOOLS=/usr/local/freesurfer/QAtools_v1.1 \\
-
-\begin{center}
-	\begin{minipage}{0.65\textwidth}
-		This is some commentary on your makefile
-		\lmhrule
-	\end{minipage}
-\end{center}
-
-export FREESURFER_SETUP = /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh \\
-export RECON_ALL = /usr/local/freesurfer/stable5_3/bin/recon-all \$(RECON_FLAGS) \\
-export TKMEDIT = /usr/local/freesurfer/stable5_3/bin/tkmedit \\
-
-define usage \\
-@echo Usage: \\
-@echo ``make\, or make interactive\hfill Makes interactive targets'' \\ 
-@echo ``make noninteractive\hfill Makes noninteractive targets'' \\ 
-@echo \\
-@echo Noninteractive targets: \\
-@echo ``make setup\hfill Copies source files to this directory'' \\ 
-@echo ``make freesurfer\hfill Runs freesurfer'' \\ 
-@echo \\
-@echo Other useful targets: \\
-@echo ``make clean\hfill Remove everything! Be careful!'' \\ 
-@echo ``make mostlyclean\hfill Remove everything but the good bits.'' \\ 
-@echo ``make help\hfill Print this message.'' \\ 
-@echo \\
-@echo Variables: \\
-@echo ``RECON_FLAGS\hfill Set to flags to recon-all\, by default'' \\ 
-@echo ``WAVE\hfill 1\, 2 or 3 to select subjects\, for setup'' \\ 
-endef \\
-
-export SHELL=/bin/bash \\
-
-\maker{.PHONY}{qa clean mostlyclean output noninteractive} \\
-
-\maker{noninteractive}{setup freesurfer} \\
-
-\maker{all}{noninteractive} \\
-
-output=\$(SUBJECTS:\%=\%/mri/aparc+aseg.mgz) \$(SUBJECTS:\%=\%/mri/brainmask.nii.gz) \\
-\maker{freesurfer}{\$(output)} \\
-
-\maker{qafiles=\$(SUBJECTS}{\%=QA/\%)} \\
-
-\maker{qa}{\$(qafiles)} \\
-
-\maker{QA/\%}{\%} \\
-\tab source \$\$FREESURFER_SETUP  ;\textbackslash \\
-\tab \$(QA_TOOLS)/recon_checker -s \$* \\
-
-\maker{\%/mri/aparc+aseg.mgz}{\$(PROJHOME)/\%/memprage/T1.nii.gz} \\
-\tab rm -rf `dirname \$@`/IsRunning.* \\
-\tab source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh  ;\textbackslash \\
-\tab export SUBJECTS_DIR=\$(SUBJECTS_DIR)  ;\textbackslash \\
-\tab /usr/local/freesurfer/stable5_3/bin/recon-all -i \$< -subjid \$* -all  ;\textbackslash \\
-\tab /usr/local/freesurfer/stable5_3/bin/recon-all -s \$* -T2 \$(PROJHOME)/\$*/flair/Flair.nii.gz -T2pial \\
-
-\maker{\%/mri/brainmask.nii.gz}{\$(SUBJECTS_DIR)/\%/mri/aparc+aseg.mgz} \\
-\tab source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh  ;\textbackslash \\
-\tab mri_convert \$(SUBJECTS_DIR)/\$*/mri/brainmask.mgz \$@ \\
-
-\maker{clean}{} \\
-\tab echo rm -rf \$(inputdirs) \\
-
-\maker{mostlyclean}{} \\
-\tab @echo Here I would delete things that are not necessary after all is said and done. \\
-
-\maker{output}{} \\
-\tab @echo Nothing yet \\
-
-\maker{setup}{\$(SUBJECTS)} \\
-
-\maker{\%}{\$(PROJHOME)/\%/memprage/T1.nii.gz} \\
-\tab mkdir -p \$@/mri/orig ;\textbackslash \\
-\tab cp \$\textasciicircum \$@/mri/orig ;\textbackslash \\
-\tab cd \$@/mri/orig ;\textbackslash \\
-\tab mri_convert T1.nii.gz 001.mgz \\
-
-\maker{help}{} \\
-\tab \$(usage) \\
-\restoregeometry
-
-\end{makefileread}
-
+\begin{minted}[gobble=1]{make}
+	# act-plus freesurfer makefile
+	
+	# This is where the subject directories live 
+	PROJHOME=/projects2/act-plus/subjects/session1
+	
+	cwd=$(shell pwd)
+	
+	SUBJECTS=$(shell cat /projects2/act-plus/uds/good_subjects.txt)
+	#SUBJECT=$(notdir $(cwd))
+	
+	# Set open MP number of threads to be 1, so that we can parallize using make.
+	export OMP_NUM_THREADS=1
+	
+	# for Freesurfer (running version 5.3)
+	export SUBJECTS_DIR=/projects2/act-plus/freesurfer
+	export QA_TOOLS=/usr/local/freesurfer/QAtools_v1.1
+	
+	# be really careful with paths and variables - two versions of freesurfer
+	# installed
+	export FREESURFER_SETUP = /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh
+	export RECON_ALL = /usr/local/freesurfer/stable5_3/bin/recon-all $(RECON_FLAGS)
+	export TKMEDIT = /usr/local/freesurfer/stable5_3/bin/tkmedit
+	
+	define usage
+	@echo Usage:
+	@echo "make, or make interactive	Makes interactive targets"
+	@echo "make noninteractive		Makes noninteractive targets"
+	@echo 
+	@echo Noninteractive targets:
+	@echo "make setup		Copies source files to this directory"
+	@echo "make freesurfer	Runs freesurfer"
+	@echo
+	@echo Other useful targets:
+	@echo "make clean		Remove everything! Be careful!"
+	@echo "make mostlyclean		Remove everything but the good bits."
+	@echo "make help		Print this message."
+	@echo
+	@echo Variables:
+	@echo "RECON_FLAGS	Set to flags to recon-all, by default"
+	@echo "WAVE		1, 2 or 3 to select subjects, for setup"
+	endef
+	
+	export SHELL=/bin/bash
+	
+	.PHONY: qa clean mostlyclean output noninteractive 
+	
+	noninteractive: setup freesurfer
+	
+	all: noninteractive
+	
+	output=$(SUBJECTS:%=%/mri/aparc+aseg.mgz) $(SUBJECTS:%=%/mri/brainmask.nii.gz)
+	freesurfer: $(output)
+	
+	#recon-all $(RECON_FLAGS) -subjid  $${subj} -FLAIR $${subj}/flair.nii.gz -FLAIRpial;\
+	
+	#####################################
+	
+	qafiles=$(SUBJECTS:%=QA/%)
+	
+	qa: $(qafiles)
+	
+	QA/%: %
+	source $$FREESURFER_SETUP ;\
+	$(QA_TOOLS)/recon_checker -s $*
+	
+	#####################################
+	
+	%/mri/aparc+aseg.mgz: $(PROJHOME)/%/memprage/T1.nii.gz
+	rm -rf `dirname $@`/IsRunning.*
+	source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh ;\
+	export SUBJECTS_DIR=$(SUBJECTS_DIR) ;\
+	/usr/local/freesurfer/stable5_3/bin/recon-all -i $< -subjid $* -all ;\
+	/usr/local/freesurfer/stable5_3/bin/recon-all -s $* -T2 
+		$(PROJHOME)/$*/flair/Flair.nii.gz -T2pial
+		
+	%/mri/brainmask.nii.gz: $(SUBJECTS_DIR)/%/mri/aparc+aseg.mgz
+	source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh ;\
+	mri_convert $(SUBJECTS_DIR)/$*/mri/brainmask.mgz $@
+	
+	clean:
+	echo rm -rf $(inputdirs)
+	
+	mostlyclean:
+	@echo "Here I would delete things that are not necessary after all is said and done."
+	
+	output: 
+	@echo "Nothing yet"
+	
+	setup: $(SUBJECTS)
+	
+	%:  $(PROJHOME)/%/memprage/T1.nii.gz 
+	mkdir -p $@/mri/orig; \
+	cp $^ $@/mri/orig; \
+	cd $@/mri/orig; \
+	mri_convert T1.nii.gz 001.mgz
+	
+	help:
+	$(usage)
+	
+	
+\end{minted}

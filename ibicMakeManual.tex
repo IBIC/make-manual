@@ -22,6 +22,8 @@
 % Complex packages
 \usepackage{tcolorbox} 	% frames
 \usepackage{listings} 	% allows for adding $ at the beginning of lines
+\usepackage{minted}		% pretty source code
+\usepackage{fancyvrb}
 \usepackage{dirtree}	% pretty directory trees
 
 % Lists
@@ -74,7 +76,7 @@
 % % is to make sure that there is a newline between the command and the text you want to follow the figure.
 
 % load languages for the listings class
-\lstloadlanguages{bash,make}
+\lstloadlanguages{bash, make}
 
 % DEFINE BASH MULTILINE ENVIRONMENT
 \makeatletter
@@ -149,51 +151,53 @@
 %\def\hrulefill{\leavevmode\leaders\hrule height 2pt\hfill\kern\z@}
 \newcommand{\lmhrule}{{\color{gray!75} \rule{\textwidth}{2pt}}\\}
 
+\listfiles
+
 \begin{document}
 	
 	% Cover page
 	
-	\thispagestyle{empty}
-	\begin{vplace}[0.7]
-		\begin{center}
-			\includegraphics[width=0.75\linewidth, natwidth=1890, natheight=761]{IBIClogo.png}				% IBIC logo
-			\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
-			{ \fontsize{30pt}{36pt} \selectfont Using GNU \textsc{make} for Neuroimaging Workflow\par }		% Title
-			\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
-			{\LARGE University of Washington} 																% University of Washington	
-		\end{center}	
-	\end{vplace}
-	
-	\frontmatter	% Define the front matter section of the document
-	
-	\maketitle		% Title page
-	
-	\tableofcontents
-	
-	\listoffigures
-	
-	\mainmatter		% The actual content
-	
-	\part{Manual}
-	
-	\include{chapter1}	% Introduction to make
-	
-	\include{chapter2}	% Running make in context
-	
-	\include{chapter3}	% Running make in parallel
-	
-	\part{Practica}
-	
-	\begin{vplace}[0.7]
-		
-		\thispagestyle{empty}
-		\large
-		\noindent Part II will guide you through four \maken{} classes, using data available on the IBIC system. Each class is structured as a brief lecture followed by a 	practicum designed to be completed as you read the chapter.
-		
-	\end{vplace}
-	
-	\include{practicum1}	% Overview of make
-	\include{practicum2} 	% Make in context
+%	\thispagestyle{empty}
+%	\begin{vplace}[0.7]
+%		\begin{center}
+%			\includegraphics[width=0.75\linewidth, natwidth=1890, natheight=761]{IBIClogo.png}				% IBIC logo
+%			\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
+%			{ \fontsize{30pt}{36pt} \selectfont Using GNU \textsc{make} for Neuroimaging Workflow\par }		% Title
+%			\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
+%			{\LARGE University of Washington} 																% University of Washington	
+%		\end{center}	
+%	\end{vplace}
+%	
+%	\frontmatter	% Define the front matter section of the document
+%	
+%	\maketitle		% Title page
+%	
+%	\tableofcontents
+%	
+%	\listoffigures
+%	
+%	\mainmatter		% The actual content
+%	
+%	\part{Manual}
+%	
+%	\include{chapter1}	% Introduction to make
+%	
+%	\include{chapter2}	% Running make in context
+%	
+%	\include{chapter3}	% Running make in parallel
+%	
+%	\part{Practica}
+%	
+%	\begin{vplace}[0.7]
+%		
+%		\thispagestyle{empty}
+%		\large
+%		\noindent Part II will guide you through four \maken{} classes, using data available on the IBIC system. Each class is structured as a brief lecture followed by a 	practicum designed to be completed as you read the chapter.
+%		
+%	\end{vplace}
+%	
+%	\include{practicum1}	% Overview of make
+%	\include{practicum2} 	% Make in context
 	
 	\include{documentation} % How to document makefiles
 	
