@@ -2,31 +2,7 @@
 
 This chapter will show you how to document (in \LaTeX) a makefile for this manual. While \LaTeX{} may look intimidating if you haven't used it before, it is fairly straightforward to use. We have created a number of tools to help you insert your makefile into this manual.
 
-\section{Makefile to \LaTeX}
 
-There are a number of things that need to be changed in a bare makefile in order to import it to the \LaTeX{} structure used for this manual. To do the basic stuff, call the script \texttt{makeToTex}\footnote{Please report bugs to Trevor at \url{tkmday@uw.edu}.} on your makefile(s). It can accept any number makefiles and outputs \texttt{<file>_texed.txt}. It has two flags, \texttt{h} and \texttt{v}, which call the help menu and verbose mode, respectively.
-
-There are two main things that need to happen: certain symbols need to be escaped in \LaTeX, and recipes need to be formatted in a  macro to make them pretty. Symbols like ``\$'' and ``\mypound'' have special functions in \LaTeX, and will result in catastrophe if you don't fix them.
-
-The functionality of the script is documented in \autoref{appendix:makeToTex}. Please refer to it if you have any troubles.
-
-Now to bring your new makefile into a \LaTeX document!
-
-\section{Editing a .tex File}
-
-Any script compiled with the main document will include the necessary environment \texttt{makefileread}. In your \LaTeX document, create a newline, ensuring the indentation is consistent and insert the command \verb!\begin{makefileread}!. If you are using a \LaTeX editor, it may autocomplete with the last line, \verb!\end{makefileread}.! If not, you'll have to type it yourself.
-
-Paste your code between those two commands. It should be one level more indented.
-
-To insert text comments between sections of code, you may terminate the environment, add your text and begin a new environment with the rest of the code. Refer to the style guide (\autoref{appendix:sg}) for stylistic choices we use to keep our text consistent. There are many idiosyncrasies to \LaTeX, too many to go into here, but a few of note:
-
-\begin{easylist}[itemize]
-	& Quotes are written with two backticks (opening) or two apostrophes (closing).
-	& Please leave a blank line between paragraphs. 
-	& Special characters should always be escaped (see \autoref{appendix:makeToTex} or Internet resources).
-\end{easylist}
-
-Feel free to scroll through chapter files to look for examples of usage if you are in doubt. The answers to further questions can probably be found online (I especially like \url{http://tex.stackexchange.com}).
 
 \section{How Makefile Documentation Should Look}
 
@@ -34,49 +10,32 @@ Notice how documentation will begin on a new page and a new page will be created
 
 \newgeometry{scale=0.85, centering}
 
-\begin{minted}[gobble=1]{make}
-	# act-plus freesurfer makefile
-	
-	# This is where the subject directories live 
+\lstset{language=make,
+	gobble=8,
+	basicstyle=\small\ttfamily,
+	breaklines=true,
+	escapeinside={\%*}{*}}
+
+\begin{lstlisting}
 	PROJHOME=/projects2/act-plus/subjects/session1
 	
 	cwd=$(shell pwd)
 	
 	SUBJECTS=$(shell cat /projects2/act-plus/uds/good_subjects.txt)
-	#SUBJECT=$(notdir $(cwd))
 	
-	# Set open MP number of threads to be 1, so that we can parallize using make.
-	export OMP_NUM_THREADS=1
-	
-	# for Freesurfer (running version 5.3)
+	%*\lnote* export OMP_NUM_THREADS=1
+
+\end{lstlisting}
+
+You can break up and explain your code. For example, \lnum{1} sets the number of threads to allow \maken{} to parallelize.
+
+\begin{lstlisting}
 	export SUBJECTS_DIR=/projects2/act-plus/freesurfer
 	export QA_TOOLS=/usr/local/freesurfer/QAtools_v1.1
 	
-	# be really careful with paths and variables - two versions of freesurfer
-	# installed
-	export FREESURFER_SETUP = /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh
+	%*\lnote* export FREESURFER_SETUP = /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh
 	export RECON_ALL = /usr/local/freesurfer/stable5_3/bin/recon-all $(RECON_FLAGS)
-	export TKMEDIT = /usr/local/freesurfer/stable5_3/bin/tkmedit
-	
-	define usage
-	@echo Usage:
-	@echo "make, or make interactive	Makes interactive targets"
-	@echo "make noninteractive		Makes noninteractive targets"
-	@echo 
-	@echo Noninteractive targets:
-	@echo "make setup		Copies source files to this directory"
-	@echo "make freesurfer	Runs freesurfer"
-	@echo
-	@echo Other useful targets:
-	@echo "make clean		Remove everything! Be careful!"
-	@echo "make mostlyclean		Remove everything but the good bits."
-	@echo "make help		Print this message."
-	@echo
-	@echo Variables:
-	@echo "RECON_FLAGS	Set to flags to recon-all, by default"
-	@echo "WAVE		1, 2 or 3 to select subjects, for setup"
-	endef
-	
+	export TKMEDIT = /usr/local/freesurfer/stable5_3/bin/tkmedit	
 	export SHELL=/bin/bash
 	
 	.PHONY: qa clean mostlyclean output noninteractive 
@@ -89,9 +48,7 @@ Notice how documentation will begin on a new page and a new page will be created
 	freesurfer: $(output)
 	
 	#recon-all $(RECON_FLAGS) -subjid  $${subj} -FLAIR $${subj}/flair.nii.gz -FLAIRpial;\
-	
-	#####################################
-	
+		
 	qafiles=$(SUBJECTS:%=QA/%)
 	
 	qa: $(qafiles)
@@ -99,9 +56,7 @@ Notice how documentation will begin on a new page and a new page will be created
 	QA/%: %
 	source $$FREESURFER_SETUP ;\
 	$(QA_TOOLS)/recon_checker -s $*
-	
-	#####################################
-	
+		
 	%/mri/aparc+aseg.mgz: $(PROJHOME)/%/memprage/T1.nii.gz
 	rm -rf `dirname $@`/IsRunning.*
 	source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh ;\
@@ -133,6 +88,4 @@ Notice how documentation will begin on a new page and a new page will be created
 	
 	help:
 	$(usage)
-	
-	
-\end{minted}
+\end{lstlisting}

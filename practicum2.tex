@@ -1,7 +1,7 @@
-\chapter{ \maken{} in Context}
+%\chapter{ \maken{} in Context}
 
 \section{Lecture: Organizing Subject Directories }
-% comment test
+
 In practice, a project will involve multiple subjects, each with
 several types of scans. One could imagine a universal standard where
 every NifTI file contained information about where it came from and
@@ -33,12 +33,11 @@ challenges for naming conventions.
 Because of the way that tools like XNAT like to organize data, we
 organize multiple visits for each subject as subdirectories under that
 subject's main data directory. However, this organization is highly
-inconvenient for processing with \maken{}.  
-
+inconvenient for processing with \maken.
 
 \section{Practical Example: A More Realistic Longitudinal Directory Structure}
 
-\subsection{Organizing Longitudinal Data}
+\subsection{Organizing longitudinal data}
 
 Follow along with this example. Copy directory 
 \newline\texttt{/project_space/makepipelines/oasis-longitudinal-sample-small/} \newline
@@ -48,11 +47,11 @@ to your home directory using the following command:
 This is a very small subset of the OASIS data set, which consists of a
 longitudinal sample of structural images. There are several T1 images
 taken at each scan session, and several visits that occurred a year or
-more apart. I’ve reduced the size by taking only one of the T1 images
+more apart. I've reduced the size by taking only one of the T1 images
 for each person, for each visit, and only one a small sample of
 subjects.
 
-Look at the directory structure of \texttt{subjects}. A useful command to do this is called \texttt{find}. For example, if you are in the \texttt{subjects} directory you can type:
+Look at the directory structure of \texttt{subjects/}. A useful command to do this is called \texttt{find}. For example, if you are in the \texttt{subjects} directory you can type:
 \bashcmd{find .}
 
 You can see that as we have discussed, each subject has one to five
@@ -75,7 +74,7 @@ Group-level analyses seem to be best found elsewhere in the project
 directory --- either at a specific timepoint or organized at the top
 level.
 
-Create the directory \texttt{visit1} within your copy of \texttt{oasis-longitudinal-sample-small}. 
+Create the directory \texttt{visit1/} within your copy of \texttt{oasis-longitudinal-sample-small}. 
 \bashcmd{mkdir visit1}
 
 Now \texttt{cd} into it:
@@ -87,23 +86,22 @@ You can do one link by hand:
 \bashcmd{ln -s ../subjects/OAS2_0001/visit1 OAS2_0001}
 
 You can also do this in bulk. Remove this link that you created and
-use the program in that directory (\texttt{makelinks}) to create all the subject links for visit1. 
-\mymarginnote{!}{The current directory won't be in your PATH, so make sure to call it with \texttt{./makelinks}.}
+use the program in that directory (\texttt{makelinks}) to create all the subject links for visit1.  The current directory won't be in your PATH, so make sure to call it with \texttt{./makelinks}.
 
+\mymarginnote{!}{Your \texttt{ls} command may be aliased to something pleasing, in which case you might see slightly different behavior than described here.}
 You can look to see that this is a link with \texttt{ls -l}, \texttt{ls -F} to see
 in shorthand that it is indeed a link, or \texttt{ls -L} if you want to follow
 it. With symbolic links is is very helpful to be able to know where
 you are.
-\mymarginnote{!}{Your \texttt{ls} command may be aliased to something pleasing, in which case you might see slightly different behavior than described here.}
 
-\subsection{Recursive \maken{}}
+\subsection{Recursive \maken}
 Now let's look at the Makefile 
 (\texttt{visit1/Makefile}).  This is just a 
 top-level ``driver'' makefile for each of the subjects. All it does is
 create a symbolic link, if necessary, to the subject-level makefile,
 and then it goes in and calls \maken{} in every subdirectory.
 
-Do you know why is the subject target a phony target? The reason is
+Do you know why the subject target is a phony target? The reason is
 that we want make to be triggered within the subject directory every
 time we call it.
 
@@ -137,7 +135,6 @@ directory path is different in each place.
 There is a useful little rule defined in the GNUMake Cookbook (Chapter
 2, p. 44) that may be useful for checking that you have set variables correctly. Add the following lines to the subject-level makefile.
 
-
 \begin{make}{Printing out the value of variables}{}
 \maker{print-\%}{}\\
 \tab @echo \$* = \$(\$*)
@@ -145,39 +142,40 @@ There is a useful little rule defined in the GNUMake Cookbook (Chapter
 
 Now if you type:
 \bashcmd{make print-subject}
+
 You can see the value that the variable \texttt{subject} is set to. Note that even if you place this new rule at the very top of the makefile, it will not execute this rule by default. It will fall through to the next non-pattern rule. This is one of the ways in which pattern rules (implicit rules) differ subtly from explict rules. 
 
 
-\subsection{Running Make Over Multiple Subject Directories}
+\subsection{Running \maken{} over multiple subject directories}
 Now that we have verified that the individual makefile works, we can
-go to the \texttt{visit1} directory and process all the
+go to the \texttt{visit1/} directory and process all the
 subjects. First, go back and edit the subject-level makefile to remove
 the \texttt{@} characters in front of the commands so that they are
 printed.
 
-From within the \texttt{visit1} directory, type:
+From within the \texttt{visit1/} directory, type:
 \bashcmd{make -n TARGET=skstrip}
 
-Note that what this is doing is (recursively) going into each subject directory and calling make. It will do this whether or not there is anything to do within the subject directory, because each subject directory has no dependencies. However, because we have specified the \texttt{-n} flag, it prints out what commands it will do without actually executing them.
+Note that what this is doing is (recursively) going into each subject directory and calling \maken. It will do this whether or not there is anything to do within the subject directory, because each subject directory has no dependencies. However, because we have specified the \texttt{-n} flag, it prints out what commands it will do without actually executing them.
 
-We can do this work in parallel. Bring up a system monitor (\texttt{gkrellm} is installed on the IBIC systems). See how many processing units you have and how busy they are. Note these numbers and get familar with the configuration of the computers that you have in the lab. In general, each job will require a certain amount of memory and can use at maximum one CPU. A safe calculation for most things is that you can normally run as many jobs at one time on a computer as you have CPUs. This is a huge oversimplification but it will suffice for now. 
+We can do this work in parallel. Bring up a system monitor (\texttt{gkrellm} is installed on the IBIC systems). See how many processing units you have and how busy they are. Note these numbers and get familiar with the configuration of the computers that you have in the lab. In general, each job will require a certain amount of memory and can use at maximum one CPU. A safe calculation for most things is that you can normally run as many jobs at one time on a computer as you have CPUs. This is a huge oversimplification but it will suffice for now. 
 
-You can specify to make how many CPUs to use. For example, if we specify the \texttt{ -j} flag with an argument of 2 (processors), we can parallelize execution of \maken{} over two CPUs. 
+You can specify to make how many CPUs to use. For example, if we specify the \texttt{-j} flag with an argument of \texttt{2} (processors), we can parallelize execution of \maken{} over two CPUs. 
 \bashcmd{make -j 2 TARGET=skstrip}
 
-If you specify \texttt{make -j} without any options, it will use as many CPUS as  you have on your machine. This is great if all the work you have ``fits'' into the computing resources that are available. However, if it does not, you can use a computing cluster.
+If you specify \texttt{make -j} without any options, it will use as many CPUS as you have on your machine. This is great if all the work you have ``fits'' into the computing resources that are available. However, if it does not, you can use a computing cluster.
 
 In our environment, we use the Sun Grid Engine (SGE) to distribute jobs across machines that are ``clustered'' together. To run on a cluster, you need to be logged on one of the machines that is allowed to submit to the grid engine.  Once there, you can use the command:
 \bashcmd{qmake -cwd -V -- -j 20 TARGET=skstrip}
 
 Here, we use \texttt{qmake} instead of \texttt{make} to interact with the grid engine. The \texttt{-cwd} flag says to run from the current working directory, and \texttt{-V} says to pass along all your environment variables. You will normally want to specify both of these flags. The \texttt{--} specifies to \texttt{qmake} that we are done specifying \texttt{qmake} flags and are now giving normal flags to \maken{}. For example, in this command we specify 20 jobs. 
 
-As an optional exercise, here you might want to set up the same directory structure for \texttt{visit2} and build everything from scratch in parallel.
+As an optional exercise, here you might want to set up the same directory structure for \texttt{visit2/} and build everything from scratch in parallel.
 
 \subsection{Running FreeSurfer}
 Now let us look at an example of a subject-level analysis that we typically don't run within the subject directories. FreeSurfer is a program that we use for cortical and subcortical parcellation. It itself is a complicated neuroimaging pipeline that is built using \maken{}. It likes to put all subject directories for an analysis in one directory, which makes it difficult to enforce the subject-level structure described. But in general, it is much wiser to work around what the programs want to do than to reorganize their output in ways that might break when the software is updated! This is our approach.
 
-The FreeSurfer example is documented in REFERENCEHERE.
+%The FreeSurfer example is documented most recently in \cite{reuter:long12}.
 
 %% need reference to freesurfer, see freesurfer web page for bibtex for how to reference
 % Heree put in a link to the freesurfer example
