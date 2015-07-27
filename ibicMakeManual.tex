@@ -29,6 +29,8 @@
 \usepackage{paralist}	% Allows inline lists
 \usepackage[modulo,right]{lineno}	% right-hand line numbers
 
+% For citations using Bibtex
+\usepackage{natbib}
 
 % Hyperref
 \usepackage[colorlinks=true]{hyperref} 	% allows hyperlinking % NEEDS TO BE LOADED LAST
@@ -195,10 +197,17 @@
 	\include{practicum1}	% Overview of make
 	\include{practicum2} 	% Make in context
 	
+	\part{Examples}
+	
+%	\include{freesurfer-example} % How to execute FreeSurfer using make
+	
 	\include{documentation} % How to document makefiles
 	
 	\appendix
 	
 	\include{appendix}
-		
+	
+	\bibliographystyle{apalike}
+	\bibliography{references}
+	
 \end{document}
