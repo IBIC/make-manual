@@ -34,6 +34,7 @@
 
 % Hyperref
 \usepackage[colorlinks=true]{hyperref} 	% allows hyperlinking % NEEDS TO BE LOADED LAST
+\hypersetup{citecolor=red}
 
 % underscore defaults to text mode over math mode
 \catcode`_=12 
@@ -135,8 +136,9 @@
 
 % % SOURCE CODE HIGHLIGHTING
 \newcounter{codehighlight}
-\newcommand*{\lnum}[1]{\tikz[baseline=(char.base)]{	\node[shape=circle,draw,inner sep=0.8pt, fill=black, text=white] (char) {\rmfamily\bfseries\footnotesize#1}; } }
-\newcommand*{\lnote}{\stepcounter{codehighlight}\llap{{\lnum{\thecodehighlight}}\hskip 6em}}
+\newcommand*{\lnum}[1]{\tikz[baseline=(char.base)]{	\node[shape=circle,draw,inner sep=0.8pt, fill=black, text=white] (char) {\rmfamily\bfseries\scriptsize#1}; } }
+\newcommand*{\lnote}{\stepcounter{codehighlight}\llap{{\lnum{\thecodehighlight}}\hskip 1em}} %6em original
+
 
 % Change numbering
 \setsecnumdepth{chapter}	% only number chapters
@@ -190,7 +192,7 @@
 		
 		\thispagestyle{empty}
 		\large
-		\noindent Part II will guide you through four \maken{} classes, using data available on the IBIC system. Each class is structured as a brief lecture followed by a 	practicum designed to be completed as you read the chapter.
+		\noindent Part II will guide you through four \maken{} classes, using data available on the IBIC system. Each class is structured as a brief lecture followed by a practicum designed to be completed as you read the chapter.
 		
 	\end{vplace}
 	
@@ -199,9 +201,9 @@
 	
 	\part{Examples}
 	
-%	\include{freesurfer-example} % How to execute FreeSurfer using make
+	\include{makefile-examples} % How to execute FreeSurfer using make
 	
-	\include{documentation} % How to document makefiles
+%	\include{documentation} % How to document makefiles
 	
 	\appendix
 	

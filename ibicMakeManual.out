@@ -1,0 +1,61 @@
+\BOOKMARK [0][-]{section*.1}{Contents}{}% 1
+\BOOKMARK [0][-]{section*.2}{List of Figures}{}% 2
+\BOOKMARK [-1][-]{part.1}{Manual}{}% 3
+\BOOKMARK [0][-]{chapter.1.1}{Introduction to make}{part.1}% 4
+\BOOKMARK [1][-]{section*.4}{Conventions Used in This Manual}{chapter.1.1}% 5
+\BOOKMARK [1][-]{section*.5}{Quick Start Example}{chapter.1.1}% 6
+\BOOKMARK [1][-]{section*.8}{A More Realistic Example}{chapter.1.1}% 7
+\BOOKMARK [1][-]{section*.12}{What is the Difference between a Makefile and a Shell Script?}{chapter.1.1}% 8
+\BOOKMARK [0][-]{chapter.1.2}{Running make in Context}{part.1}% 9
+\BOOKMARK [1][-]{section*.14}{File Naming Conventions}{chapter.1.2}% 10
+\BOOKMARK [2][-]{section*.15}{Subject Identifiers}{section*.14}% 11
+\BOOKMARK [2][-]{section*.16}{Filenames}{section*.14}% 12
+\BOOKMARK [1][-]{section*.18}{Directory Structure}{chapter.1.2}% 13
+\BOOKMARK [1][-]{section*.20}{Setting up an Analysis Directory}{chapter.1.2}% 14
+\BOOKMARK [2][-]{section*.21}{Defining the basic directory strucutre}{section*.20}% 15
+\BOOKMARK [2][-]{section*.23}{Create the session-level makefiles}{section*.20}% 16
+\BOOKMARK [2][-]{section*.25}{Creating the common subject-level makefile for each session}{section*.20}% 17
+\BOOKMARK [2][-]{section*.27}{Creating links to subject-level makefile}{section*.20}% 18
+\BOOKMARK [2][-]{section*.28}{Running analyses}{section*.20}% 19
+\BOOKMARK [1][-]{section*.30}{Setting Important Variables}{chapter.1.2}% 20
+\BOOKMARK [2][-]{section*.31}{Variables that control make's Behavior}{section*.30}% 21
+\BOOKMARK [2][-]{section*.38}{Other important variables}{section*.30}% 22
+\BOOKMARK [2][-]{section*.41}{Variable overrides}{section*.30}% 23
+\BOOKMARK [2][-]{section*.43}{Suggested targets}{section*.30}% 24
+\BOOKMARK [0][-]{chapter.1.3}{Running make in Parallel}{part.1}% 25
+\BOOKMARK [1][-]{section*.46}{Guidelines}{chapter.1.3}% 26
+\BOOKMARK [2][-]{section*.47}{Each line in a recipe is, by default, executed in its own shell}{section*.46}% 27
+\BOOKMARK [2][-]{section*.50}{Filenames must be unique}{section*.46}% 28
+\BOOKMARK [2][-]{section*.52}{Separate time-consuming tasks}{section*.46}% 29
+\BOOKMARK [1][-]{section*.55}{Running Makefiles in Parallel}{chapter.1.3}% 30
+\BOOKMARK [2][-]{section*.56}{Using multiple cores}{section*.55}% 31
+\BOOKMARK [1][-]{section*.57}{Using the grid engine}{chapter.1.3}% 32
+\BOOKMARK [2][-]{section*.58}{Setting FSLPARALLEL for FSL jobs}{section*.57}% 33
+\BOOKMARK [2][-]{section*.59}{Using qmake}{section*.57}% 34
+\BOOKMARK [2][-]{section*.60}{How long will everything take?}{section*.57}% 35
+\BOOKMARK [2][-]{section*.61}{Consideration of memory}{section*.57}% 36
+\BOOKMARK [1][-]{section*.62}{Troubleshooting make}{chapter.1.3}% 37
+\BOOKMARK [2][-]{section*.63}{Find out what make is trying to do}{section*.62}% 38
+\BOOKMARK [2][-]{section*.64}{Check for line continuation}{section*.62}% 39
+\BOOKMARK [2][-]{section*.65}{No rule to make target!}{section*.62}% 40
+\BOOKMARK [2][-]{section*.67}{Suspicious continuation in line \043}{section*.62}% 41
+\BOOKMARK [2][-]{section*.68}{make keeps rebuilding targets}{section*.62}% 42
+\BOOKMARK [2][-]{section*.69}{make doesn't rebuild things that it should}{section*.62}% 43
+\BOOKMARK [-1][-]{part.2}{Practica}{}% 44
+\BOOKMARK [0][-]{section*.71}{Lecture: Making Breakfast}{part.2}% 45
+\BOOKMARK [1][-]{section*.75}{Practical Example: Skull-stripping}{section*.71}% 46
+\BOOKMARK [2][-]{section*.76}{Manipulating a single subject}{section*.75}% 47
+\BOOKMARK [2][-]{section*.78}{Pattern rules and multiple subjects}{section*.75}% 48
+\BOOKMARK [2][-]{section*.81}{Phony targets}{section*.75}% 49
+\BOOKMARK [2][-]{section*.82}{Secondary targets}{section*.75}% 50
+\BOOKMARK [2][-]{section*.83}{make clean}{section*.75}% 51
+\BOOKMARK [1][-]{section*.85}{Lecture: Organizing Subject Directories }{section*.71}% 52
+\BOOKMARK [1][-]{section*.86}{Practical Example: A More Realistic Longitudinal Directory Structure}{section*.71}% 53
+\BOOKMARK [2][-]{section*.87}{Organizing longitudinal data}{section*.86}% 54
+\BOOKMARK [2][-]{section*.88}{Recursive make}{section*.86}% 55
+\BOOKMARK [2][-]{section*.91}{Running make over multiple subject directories}{section*.86}% 56
+\BOOKMARK [2][-]{section*.92}{Running FreeSurfer}{section*.86}% 57
+\BOOKMARK [0][-]{chapter.2.1}{Makefile Examples}{part.2}% 58
+\BOOKMARK [1][-]{section*.93}{Running FreeSurfer}{chapter.2.1}% 59
+\BOOKMARK [0][-]{appendix.A}{makeToTeX}{part.2}% 60
+\BOOKMARK [0][-]{appendix.B}{Style Guide}{part.2}% 61

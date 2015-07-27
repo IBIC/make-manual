@@ -1,0 +1,75 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\addvspace {10pt}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Basic \texttt {make}{} syntax. \relax }}{4}{figure.caption.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.2}{\ignorespaces A very basic \texttt {make}{} recipe.\relax }}{4}{figure.caption.7}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Automatic \texttt {make}{} variables\relax }}{5}{figure.caption.9}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.4}{\ignorespaces A more realistic example\relax }}{5}{figure.caption.10}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.5}{\ignorespaces An expansion of \autoref {make:recipe2}\relax }}{6}{figure.caption.11}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {1.6}{\ignorespaces A makefile expressed in \texttt {bash}{}\relax }}{7}{figure.caption.13}
+\defcounter {refsection}{0}\relax 
+\addvspace {10pt}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Example of good file naming conventions\relax }}{10}{figure.caption.17}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.2}{\ignorespaces An example of a project directory.\relax }}{11}{figure.caption.19}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.3}{\ignorespaces A longitudinal analysis directory.\relax }}{13}{figure.caption.22}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Session-level Makefile\relax }}{14}{figure.caption.24}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Subject-level makefile\relax }}{15}{figure.caption.26}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Making \texttt {test}\relax }}{16}{figure.caption.29}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Setting \texttt {\$(SHELL)}\relax }}{17}{figure.caption.33}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Running DTIPrep in make\relax }}{18}{figure.caption.39}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Controlling software version\relax }}{18}{figure.caption.40}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Specifying BET flags in make\relax }}{19}{figure.caption.42}
+\defcounter {refsection}{0}\relax 
+\addvspace {10pt}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.1}{\ignorespaces A non-functional multi-line makefile\relax }}{22}{figure.caption.48}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.2}{\ignorespaces A non-functional multi-line makefile\relax }}{23}{figure.caption.49}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.3}{\ignorespaces How not to name files\relax }}{23}{figure.caption.51}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.4}{\ignorespaces The wrong way to run two long tasks\relax }}{24}{figure.caption.53}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.5}{\ignorespaces The right way to run two long tasks\relax }}{24}{figure.caption.54}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Pattern-matching error handling\relax }}{29}{figure.caption.66}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.7}{\ignorespaces Creating a waffwich\relax }}{33}{figure.caption.72}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.8}{\ignorespaces How to make a waffwich\relax }}{34}{figure.caption.73}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.9}{\ignorespaces Using \texttt {make}{} to make a waffwich\relax }}{35}{figure.caption.74}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.10}{\ignorespaces Makefile as copied\relax }}{36}{figure.caption.77}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.11}{\ignorespaces Pattern-matched Makefile\relax }}{37}{figure.caption.79}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.12}{\ignorespaces Pattern-matching as a sieve\relax }}{38}{figure.caption.80}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.13}{\ignorespaces \texttt {make clean}\relax }}{40}{figure.caption.84}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.14}{\ignorespaces The \texttt {@} character hides commands\relax }}{43}{figure.caption.89}
+\defcounter {refsection}{0}\relax 
+\contentsline {figure}{\numberline {0.15}{\ignorespaces Printing out the value of variables\relax }}{43}{figure.caption.90}
+\defcounter {refsection}{0}\relax 
+\addvspace {10pt}
+\defcounter {refsection}{0}\relax 
+\addvspace {10pt}
+\defcounter {refsection}{0}\relax 
+\addvspace {10pt}

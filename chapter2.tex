@@ -134,7 +134,7 @@ To create a symlink, use the \texttt{ln} command.
 
 \texttt{target} is the file you're linking to, and \texttt{linkname} is the name of the new symlink.
 
-\subsection{Defining the basic directory strucutre}
+\subsection{Defining the basic directory structure}
 See \autoref{sec:dir} for more information on this step, which is important. Let us assume the project home (\texttt{PROJHOME}) is called \texttt{/project_space/Udall/}. There are three scans per individual. Let us also assume there are two subjects: RC4101 and RC4103. These are the directories that need to be in place. Note we organize the actual files by subject ID and scan session. However, to make processing at each cross-sectional point easier, we create directories with symbolic links to the correct subject/session directories. This flexibility helps in many ways to make cross-sectional and longitudinal analyses easier.
 
 All simple subject-specific processing is well-organized within the subject/session directories (for example, skull-stripping, possibly first level feat, dti analysis, co-registrations). We normally run FreeSurfer in a separate directory, because it likes to put directories in a single place. Analyses that combine data across subjects or timepoints (e.g. TBSS) best go in separate directories.
@@ -166,7 +166,7 @@ All simple subject-specific processing is well-organized within the subject/sess
 \end{center}
 
 \subsection{Create the session-level makefiles}
-We will do all the subject-level processing from the \texttt{PROJHOME/sessionN/} directories. You will need to create a Makefile in \texttt{PROJHOME/sesion1}, \texttt{PROJHOME/sesion2}, and \texttt{PROJHOME/sesion3} whose only purpose is to run \maken{} within all the subject-level directories beneath it. 
+We will do all the subject-level processing from the \texttt{PROJHOME/sessionN/} directories. You will need to create a Makefile in \texttt{PROJHOME/session1}, \texttt{PROJHOME/session2}, and \texttt{PROJHOME/session3} whose only purpose is to run \maken{} within all the subject-level directories beneath it. 
 \autoref{make:seshlevel} shows an example session-level makefile.
 
 \mymarginnote{?}{\textbf{\#}  the \maken{} comment character.}
