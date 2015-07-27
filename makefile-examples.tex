@@ -1,0 +1,83 @@
+\chapter{Makefile Examples}
+
+This chapter includes examples of Makefiles included in the practicum
+data. We assume that you have unzipped the practicum data into a
+directory somewhere in your local environment. Once you have done
+that, you should set an environment variable called
+\texttt{MAKEPIPELINES} to refer to this directory. Here we assume you have placed it in your home directory:
+\bashcmd{export MAKEPIPELINES=~/makepipelines}
+The examples included below will reference this environment variable as necessary to find the correct files.
+\input{exampleSettings.tex}
+
+\section{Running FreeSurfer}
+This is an example of how to use a makefile to execute FreeSurfer's longitudinal pipeline. Note that FreeSurfer itself is a large pipeline built using \texttt{make}. However we do not need to know that if we treat the program \texttt{recon-all} as a single executable and show how to use \maken{} to call it. Here, the Makefile functions more as a way to permit parallel execution of \text{recon-all} rather than a way to track dependencies. 
+\definecolor{lemon}{HTML}{F5ECCE}
+\lstset{backgroundcolor=\color{lemon}}
+\begin{lstlisting}
+	export SUBJECTS_DIR=/projects2/act-plus/freesurfer
+	PROJHOME=$$MAKEPIPELINES/oasis-longitudinal-sample-small
+	%*\lnote*SUBJECTS_DIR=$(PROJHOME)/freesurfer
+
+	QA_TOOLS=/usr/local/freesurfer/QAtools_v1.1
+	FREESURFER_SETUP = /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh
+	RECON_ALL = /usr/local/freesurfer/stable5_3/bin/recon-all $(RECON_FLAGS)	
+	%*\lnote*RECON_FLAGS = -use-mritotal -nuintensitycor-3T -qcache -all  -notal-check
+
+	%*\lnote*SHELL=/bin/bash
+	%*\lnote*SUBJECTS=$(notdir $(wildcard $(PROJHOME)/subjects/*))	
+
+\end{lstlisting}
+
+\lnum{1}FreeSurfer normally likes to work with all subjects in a single directory. We set the \maken{} variable \texttt{PROJHOME} for convenience, and the \texttt{SUBJECTS_DIR}. \lnum{2}Because we have multiple versions of FreeSurfer installed, and because it is possible to run FreeSurfer with different flags, we set several variables that describe what version of FreeSurfer and what options we are using in the Makefile. Note that the definition for \texttt{RECON_ALL} refers to \texttt{RECON_FLAGS} seemingly before it is set. Recall that \maken{} dereferences variables when it uses them, so the order that these variables are set does not matter. This is not like \texttt{bash}!
+
+\lnum{3} By default, \maken{} uses \texttt{/bin/sh} to interpret recipes. Sometimes this can cause confusion, because \texttt{sh} has only a subset of the functionality of \texttt{bash}. We can avoid such confusion by setting the \maken{} variable \texttt{SHELL} explictly.
+
+\begin{lstlisting}
+	%*\lnote*SUBJECTS=$(notdir $(wildcard $(PROJHOME)/subjects/*))	
+\end{lstlisting}
+
+\lnum{5} We need to obtain a list of subject identifiers to process. Here, we form this list by using a wildcard to obtain all the subject directories in \texttt{PROJHOME} and then stripping away all the directory prefixes using the \texttt{notdir} call.
+
+\begin{lstlisting}
+	SESSION=1
+	%*\lnote*inputdirs=$(SUBJECTS:%=%.t$(SESSION))
+
+	%*\lnote*.PHONY: qa setup freesurfer
+
+	%*\lnote*setup: $(inputdirs)
+
+	%*\lnote*%.t$(SESSION):  $(PROJHOME)/subjects/%/visit$(SESSION)/mpr-1.nifti.nii.gz
+                mkdir -p $@/mri/orig; \
+        	cp $^ $@/mri/orig; \
+        	cd $@/mri/orig; \
+        	mri_convert mpr-1.nifti.nii.gz 001.mgz
+\end{lstlisting}
+
+\lnum{6}This Makefile is intended to handle a longitudinal acquisition. Normally, one indicates the timepoint (here, the \texttt{SESSION} variable indicates the timepoint) by appending some suffix to the subject identifier. Here, we append the suffix \texttt{.t1} to each subject identifier to indicate that we are processing the first session. To run the makefile on the second timepoint, one could either edit it, or set this variable when calling \maken{} as follows:
+\bashcmd{make SESSION=2}
+
+\lnum{7}We define three targets that do not correspond to files, so these are denoted as phony targets.
+
+\lnum{8} The phony target \texttt{setup} depends upon the input directories we defined in \lnum{6}.
+
+\lnum{9} This recipe creates the input directories by transforming the first MPRAGE image from the subject directory into mgz format. More complicated recipes may include conditionally choosing one of multiple MPRAGE images, using two images if available, and so forth. 
+
+\begin{lstlisting}
+	%*\lnote*%.t$(SESSION)/mri/aparc+aseg.mgz: %.t$(SESSION)
+        	rm -rf `dirname $@`/IsRunning.*
+	        source $(FREESURFER_SETUP) ;\
+        	export SUBJECTS_DIR=$(SUBJECTS_DIR) ;\
+        	$(RECON_ALL) -subjid $*.t$(SESSION) -all
+\end{lstlisting}
+
+\lnum{10} FreeSurfer creates many output files when it runs. Here, we select one of the critical files that should exist upon successful completion, \texttt{mri/aparc+aseg.mgz} to be the target of this rule. It depends upon the directory having been created so that we can call \texttt{recon-all} by specifying the subject directory. You might think that it would be wise to specify multiple FreeSurfer output files as targets. In this case, if the multiple targets are specified using a pattern rule, the recipe would be executed only once to create the targets. However, if we did not use a pattern rule, the recipe could be executed once per target. This is clearly not the intended behavior. To avoid confusion, we usually pick a single late-stage output file to be the target.
+
+\begin{lstlisting}
+	%*\lnote*qa: $(inputdirs:%=QA/%)
+
+	%*\lnote*QA/%: %
+        	source $(FREESURFER_SETUP) ;\
+        	$(QA_TOOLS)/recon_checker -s $*
+\end{lstlisting}
+
+\lnum{11} We can create a number of quality assurance (QA) images from the FreeSurfer directories using the \texttt{recon_checker} program. The \texttt{qa} target depends upon directories within the \texttt{QA} subdirectory. These are created by \texttt{recon_checker} in \lnum{12}.

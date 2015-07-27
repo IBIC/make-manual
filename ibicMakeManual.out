@@ -55,7 +55,7 @@
 \BOOKMARK [2][-]{section*.88}{Recursive make}{section*.86}% 55
 \BOOKMARK [2][-]{section*.91}{Running make over multiple subject directories}{section*.86}% 56
 \BOOKMARK [2][-]{section*.92}{Running FreeSurfer}{section*.86}% 57
-\BOOKMARK [0][-]{chapter.2.1}{Documenting a makefile for this manual}{part.2}% 58
-\BOOKMARK [1][-]{section*.93}{How Makefile Documentation Should Look}{chapter.2.1}% 59
+\BOOKMARK [0][-]{chapter.2.1}{Makefile Examples}{part.2}% 58
+\BOOKMARK [1][-]{section*.93}{Running FreeSurfer}{chapter.2.1}% 59
 \BOOKMARK [0][-]{appendix.A}{makeToTeX}{part.2}% 60
 \BOOKMARK [0][-]{appendix.B}{Style Guide}{part.2}% 61

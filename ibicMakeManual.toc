@@ -128,9 +128,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{Running FreeSurfer}{45}{section*.92}
 \defcounter {refsection}{0}\relax 
-\contentsline {chapter}{\chapternumberline {1}Documenting a makefile for this manual}{46}{chapter.2.1}
+\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{46}{chapter.2.1}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{How Makefile Documentation Should Look}{46}{section*.93}
+\contentsline {section}{Running FreeSurfer}{47}{section*.93}
 \defcounter {refsection}{0}\relax 
 \contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{49}{appendix.A}
 \defcounter {refsection}{0}\relax 
