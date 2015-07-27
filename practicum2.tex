@@ -1,7 +1,7 @@
 \chapter{ \maken{} in Context}
 
 \section{Lecture: Organizing Subject Directories }
-% comment test
+
 In practice, a project will involve multiple subjects, each with
 several types of scans. One could imagine a universal standard where
 every NifTI file contained information about where it came from and
@@ -48,7 +48,7 @@ to your home directory using the following command:
 This is a very small subset of the OASIS data set, which consists of a
 longitudinal sample of structural images. There are several T1 images
 taken at each scan session, and several visits that occurred a year or
-more apart. I’ve reduced the size by taking only one of the T1 images
+more apart. I have reduced the size by taking only one of the T1 images
 for each person, for each visit, and only one a small sample of
 subjects.
 
@@ -86,29 +86,26 @@ What we want to do is create the symbolic links for each subject's first visit h
 You can do one link by hand:
 \bashcmd{ln -s ../subjects/OAS2_0001/visit1 OAS2_0001}
 
-You can also do this in bulk. Remove this link that you created and
-use the program in that directory (\texttt{makelinks}) to create all the subject links for visit1. 
+This command symbolically links the directory \texttt{../subjects/visit1/OAS2_0001} to the original directory \texttt{../subjects/OAS2_0001/visit1}. 
+Now, if you enter \texttt{ls -l} into the command line while remaining in the \texttt{visit1} directory, you will notice that the subdirectory \texttt{OAS2_0001} is symbolically linked, as indicated by an arrow, to the original target directory. You can also check whether a file or directory is linked by using the \texttt{ls -F} shorthand command, which indicates symbolic links with an \@ symbol. \texttt{ls -L}, whereas, dereferences the symbolic links so that you can view information for the original target file or directory itself.
+\mymarginnote{!}{Your \texttt{ls} command may be aliased to something pleasing, in which case you might see slightly different behavior than described here.} 
+
+You can also create symbolic links in bulk. To do so, remove the link that you have just created and
+use the script in the \texttt{visit1} directory (\texttt{makelinks}) to create all the subject links for visit1. 
 \mymarginnote{!}{The current directory won't be in your PATH, so make sure to call it with \texttt{./makelinks}.}
 
-You can look to see that this is a link with \texttt{ls -l}, \texttt{ls -F} to see
-in shorthand that it is indeed a link, or \texttt{ls -L} if you want to follow
-it. With symbolic links is is very helpful to be able to know where
-you are.
-\mymarginnote{!}{Your \texttt{ls} command may be aliased to something pleasing, in which case you might see slightly different behavior than described here.}
-
 \subsection{Recursive \maken{}}
-Now let's look at the Makefile 
-(\texttt{visit1/Makefile}).  This is just a 
+Now let's look at the Makefile (\texttt{visit1/Makefile}).  This is just a 
 top-level ``driver'' makefile for each of the subjects. All it does is
 create a symbolic link, if necessary, to the subject-level makefile,
 and then it goes in and calls \maken{} in every subdirectory.
 
 Do you know why is the subject target a phony target? The reason is
-that we want make to be triggered within the subject directory every
+that we want \maken{} to be triggered within the subject directory every
 time we call it.
 
 Create the symbolic links to the subject-level makefile as follows:
-\bashcmd{make makefiles}
+\bashcmd{make Makefile}
 
 Do you know why we use the \texttt{\$PWD} variable to create the link?
 If we used a relative path to the target file, what would happen when
@@ -117,8 +114,7 @@ we go to the subject directory?
 Let us see how this works. Look at the subject-level makefile. Go into
 a subject directory and run \texttt{make}.
 
-By now you might be getting really tired of seeing those same
-\texttt{fslreorient2std} and \texttt{bet} commands. By default, \maken{}
+By now, you might be getting really tired of seeing the same \texttt{fslreorient2std} and \texttt{bet} commands. \maken{}, by default,
 will echo the commands that it executes to the terminal. If you would
 like it to stop doing that, you can tell it not to do that by
 prepending the \texttt{@} character to each line.
@@ -143,9 +139,8 @@ There is a useful little rule defined in the GNUMake Cookbook (Chapter
 \tab @echo \$* = \$(\$*)
 \end{make}
 
-Now if you type:
-\bashcmd{make print-subject}
-You can see the value that the variable \texttt{subject} is set to. Note that even if you place this new rule at the very top of the makefile, it will not execute this rule by default. It will fall through to the next non-pattern rule. This is one of the ways in which pattern rules (implicit rules) differ subtly from explict rules. 
+Now if you type: \bashcmd{make print-subject} \\
+You can see the value that the variable \texttt{subject} is set to. Note that even if you place this new rule at the very top of the makefile, it will not execute this rule by default. It will fall through to the next non-pattern rule. This is one of the ways in which pattern rules (implicit rules) differ subtly from explicit rules. 
 
 
 \subsection{Running Make Over Multiple Subject Directories}
@@ -158,9 +153,9 @@ printed.
 From within the \texttt{visit1} directory, type:
 \bashcmd{make -n TARGET=skstrip}
 
-Note that what this is doing is (recursively) going into each subject directory and calling make. It will do this whether or not there is anything to do within the subject directory, because each subject directory has no dependencies. However, because we have specified the \texttt{-n} flag, it prints out what commands it will do without actually executing them.
+Note that what this is doing is (recursively) going into each subject directory and calling \maken{}. It will do this whether or not there is anything to do within the subject directory, because each subject directory has no dependencies. However, because we have specified the \texttt{-n} flag, it prints out what commands it will perform without actually executing them.
 
-We can do this work in parallel. Bring up a system monitor (\texttt{gkrellm} is installed on the IBIC systems). See how many processing units you have and how busy they are. Note these numbers and get familar with the configuration of the computers that you have in the lab. In general, each job will require a certain amount of memory and can use at maximum one CPU. A safe calculation for most things is that you can normally run as many jobs at one time on a computer as you have CPUs. This is a huge oversimplification but it will suffice for now. 
+We can do this work in parallel. Bring up a system monitor (\texttt{gkrellm} is installed on the IBIC systems). See how many processing units you have and how busy they are. Note these numbers and get familiar with the configuration of the computers that you have in the lab. In general, each job will require a certain amount of memory and can use at maximum one CPU. A safe calculation for most things is that you can normally run as many jobs at one time on a computer as you have CPUs. This is a huge oversimplification but it will suffice for now. 
 
 You can specify to make how many CPUs to use. For example, if we specify the \texttt{ -j} flag with an argument of 2 (processors), we can parallelize execution of \maken{} over two CPUs. 
 \bashcmd{make -j 2 TARGET=skstrip}
@@ -177,7 +172,7 @@ As an optional exercise, here you might want to set up the same directory struct
 \subsection{Running FreeSurfer}
 Now let us look at an example of a subject-level analysis that we typically don't run within the subject directories. FreeSurfer is a program that we use for cortical and subcortical parcellation. It itself is a complicated neuroimaging pipeline that is built using \maken{}. It likes to put all subject directories for an analysis in one directory, which makes it difficult to enforce the subject-level structure described. But in general, it is much wiser to work around what the programs want to do than to reorganize their output in ways that might break when the software is updated! This is our approach.
 
-The FreeSurfer example is documented in REFERENCEHERE.
+%The FreeSurfer example is documented in \cite{Desikan2006968}, \cite{Fischl01012004}. REFERENCESHERE.
 
 %% need reference to freesurfer, see freesurfer web page for bibtex for how to reference
 % Heree put in a link to the freesurfer example
