@@ -1,6 +1,6 @@
 %\chapter{Overview of \maken{}}
 
-\section{Lecture: Making Breakfast}
+\section{Lecture: The Conceptual Example of Making Breakfast}
 
 \maken{} is a tool for implementing a workflow, or a sequence of steps that you need to execute. Probably the way that most of you have been implementing workflows up until this point is with some kind of program, possibly a shell script. The goal of this lecture and practicum is to motivate the reasons why you might want to move from a shell script to some language for better specifying workflow.
 
@@ -81,7 +81,8 @@ However, we've reached the point where we have to leave this conceptual example 
 
 Follow along with this example. Copy directory 
 \newline\texttt{/project_space/makepipelines/oasis-multisubject-sample/} \newline
-to your home directory. \mymarginnote{!}{Don't forget to use \texttt{cp -r <old> <new>} to copy all files in a directory.}
+to your home directory. You can do this with the following command:
+\bashcmd{cp -r \$MAKEPIPELINES/oasis-multisubject-sample \textasciitilde{}}
 
 Your task is to skull strip all of these brains for subsequent use by \texttt{FSL}. However, note that first you need to reorient each image (try looking at it in \texttt{fslview}). So there are two commands you need to execute:
 \bashcmd{fslreorient <subject>_raw.nii.gz <subject>_T1.nii.gz}
@@ -248,11 +249,11 @@ What if you want to clean up your work? You've been deleting files by hand, but 
 	\tab rm -f *_T1.nii.gz *_T1_brain.nii.gz
 \end{make}
 
-Note that in the recipe, it's totally fine to use wildcards. Also note the use of the \texttt{-f} flag. In this instance, it hides error messages from attempting to erase nonexistent files. Be very careful in its use, however.
+Note that in the recipe, it's totally fine to use wildcards. Also note the use of the \texttt{-f} flag for \texttt{rm}. Here it hides error messages from attempting to erase nonexistent files. 
 
-This convention also only enforces discipline; you need to add every new file that you create in a makefile to the clean target. More dangerous is the that sometimes to get a neuroimaging subject to a certain state, you need to do some handwork that would be expensive to recreate. For example, no one wants to blow away freesurfer directories after doing hand editing. 
+The convention of putting a target for \texttt{clean} is just a convention; you need to add every new file that you create in a makefile to the clean target. More dangerous is the that sometimes to get a neuroimaging subject to a certain state, you need to do some handwork that would be expensive to recreate. For example, no one wants to blow away freesurfer directories after doing hand editing. 
 
 For these reasons, there exists the looser convention of \texttt{mostlyclean}, which means to remove things that can easily be regenerated, but to leave important partial products (e.g., your images converted from dicoms, freesurfer directories, final masks, and other things).
 
-Also add \texttt{clean} to your list of phony targets:
+Do not forget to add \texttt{clean}, or \textt{mostlyclean} if you prefer, to your list of phony targets:
 \makecmd{\maker{.PHONY}{skstrip clean}}
