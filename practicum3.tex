@@ -1,0 +1,158 @@
+\chapter{ Example Neuroimaging Pipelines and Getting Down and Dirty with \maken{}}
+
+\section{Practical Example: Running QMON }
+
+Bring up gkrellm. 
+Describe what a batch system is and how fsl_sub works.
+Go to one of the hosts for one of the clusters and bring up qmon. Demonstrate qmon. 
+
+\section{Practical Example: A Test Subject}
+If you have not already, copy \texttt{\$MAKEPIPELINES/testsubject} to your home directory as follows:
+\bashcmd{cp -r \$MAKEPIPELINES/testsubject \textasciitilde{}}
+
+This copy will take a few minutes, depending on what kind of file systems you are copying from and to, because this directory is fairly large.
+
+Go into this directory and look at its contents.
+\bashcmd{cd testsubject; ls}
+
+You will see three subdirectories: \texttt{bin}, \texttt{lib} and \texttt{testsubject}. 
+Describe what each of these is for. 
+
+This is a simplified structure as compared to the longitudinal directory structure that we looked at last week. For this example I have eliminated the individual subject subdirectories (because there is only one) and the symbolic links (because there is only one timepoint).
+
+Look at the makefile. Describe again the conditionals. Touch 00_NOT1 and see what happens (do a make -n).
+
+Now remove 00_NOT1 and type \texttt{make -n} to see what will happen. You can see that we are running our edited version of the first script, to conform to the Enigma protocol. 
+% cite Enigma protocol paper(s)
+
+This protocol may be viewed here:
+
+http://enigma.ini.usc.edu/protocols/imaging-protocols/hippocampal-segmentation-through-first/
+
+Running first will take a little time - so start it now and place it in the background:
+\bashcmd{make first \&}
+
+\subsection{Estimated total intracranial volume}
+Now let's turn our attention to the calculation of estimated total intracranial volume (etiv). This can be estimated by running FreeSurfer, but FreeSurfer failed on many of the brains in the project that this Makefile was modeled from.
+
+One technique for estimating the total intracrainal volume is simply
+to linearly register the brain to standard space. The transformation
+matrix describes the scaling that is necessary to align the brain to
+the standard brain. The inverse of the determinant of this
+transformation matrix is a scaling factor that can be multiplied by the size of the template (e.g., the volume of the standard space brain) to obtain an actual volume.
+
+If you type \texttt{make -n etiv}, the first command that will be executed is to skull strip the brain. This uses the \texttt{-B} flag, which does bias field correction and is rather slow. However, you can see that the T1_skstrip file is actually sitting in that directory.So why does it want to recreate it?
+
+Look at the dates. Now look at the dates in the master directory. Copying, using \texttt{cp -r} did not preserve the dates! Everything got the new date that it was created. Up until now we have created everything in the directories in which we are working from scratch. 
+
+You can avoid this by copying the files in some way that preserves the dates. For example,
+you can type
+\bashcmd{cp -r --preserve=time-stamps}
+
+Or you can use \texttt{tar} to create an archive, copy the archive, and unarchive it (Jen please include an example of these commands). 
+
+How can we ``trick'' make into not recreating this skull stripped file?
+An easy way here is simply to \texttt{touch} the skull stripped file.
+
+Make etiv:
+\bashcmd{make etiv}
+
+For those who are new to the idea of registration, brief intro to flirt.
+
+After this has completed, look at the contents of the file
+eTVI.csv. Often there are statistics that need to be collected for
+each subject. You could write a program that gathers the correct
+statistics for each individual, whether or not you call the program
+from within \maken{}. I find, however, that often I want to know what
+those numbers are while I am examining the output for a single
+individual, such as now. So I normally create a little comma separated
+value file that contains the subject id and whatever statistics I am
+interested in looking at. This way I don't need to remember the
+commands to obtain the number (what NIfTI file should I be looking at?
+What command do I need to use to extract the right value?). I can also
+go to the ``top level'' directory that contains all the subjects
+within it and use \texttt{cat} to gather all the files into a single
+file for data analysis.
+
+I happen to know that this subject has a big head. And yet, this says
+that the scaling factor is approximatly 0.6. This of course a
+contrived example. Look at the skull strip to see what went wrong. Too
+much of the brain was removed. This may be because there was a lot of neck.
+So at this point you would need to correct the skull strip.
+
+One way to do this is by specifying the center of the brain:
+\bashcmd{bet T1.nii.gz T1_skstrip.nii.gz -c 79,120,156}
+
+This improves the situation but it's still not great. And in a large
+study (suppose you are looking at 1000 brains), even a modest 10\%
+failure would mean handling 100 brains by hand.  Look back at the
+Makefile. You can see that there are two alternative rules for
+obtaining the skull stripped brain. My favorite is to obtain a brain
+mask from FreeSurfer. It takes many hours to run, but if you just do
+it, why not just use it? We have not yet run freesurfer. As an
+optional exercise, set up the freesurfer directory and modify the
+longitudinal makefile in \ref{example:makefile} and test this out.
+
+But for now, consider the program \texttt{robex}. This is a robust
+skull stripping program\cite{robex}. We can run
+\bashcmd{make robex}
+
+Now check to see that the skull stripping is better. Use whatever skull strip you think most represents the brain volume (so that the scaling will be improved, at least, if not perfect) and type 
+\bashcmd{make etiv}
+
+You should see that the scaling factor should be higher than it
+was. Note that it's still less than one. This is because the MNI
+template has ``drifted'' and is larger than most actual brains. 
+
+\subsection{Hippocampal volume}
+By now you should have a file called \texttt{hippo.csv} that contains the hippocampal volumes from the Enigma protocol. However, we have not done the quality checking step that is recommended by the protocol. In this example, we will add the step to create a webpage to display the registrations to the Makefile.
+
+This command is as follows:
+\bashcmd{${FSLDIR}/bin/slicesdir -p ${FSLDIR}/data/standard/MNI152_T1_1mm.nii.gz *_to_std_sub.nii.gz}
+
+Run it and you can see the output. Delete the directory, \texttt{slicesdir} that you just created. Now create a rule called \texttt{firstqa} that will execute this command and make sure that it is part of the target to make \texttt{first}.
+
+\subsection{Implementing a resting state pipeline}
+
+The script \texttt{resting-script} is 
+
+Some issues.
+
+Note that 3dDespike is an AFNI program that has been compiled to use all the cores in a machine. You will want to turn that off because you will do the parallelization yourself, and you can do that using the following line in a Makefile.
+
+\texttt{export OMP_NUM_THREADS=1}
+
+Note that the shell script assumes it will never be rerun again and
+calls \bashcmd{mkdir xfm_dir} If this directory already exists, you
+will get an error. To avoid this, specify the \texttt{-p} flag to
+\texttt{mkdir} to cause it to create the specified directory if it
+does not exist, but to not give an error otherwise. This is especially
+useful in makefiles that create deep directory structures.
+
+Many FSL commands (and other neuroimaging commands) automatically add
+file extensions such as \texttt{.nii.gz} if you do not append
+them. However, a makefile will not do this. Therefore, when converting
+commands from a script, you need to make sure that you don't take such
+shortcuts in a Makefile. A good rule of thumb is to specify all extensions.
+
+The decision whether to make something a multi-line recipe, a shell
+script of its own, or a short recipe is a little arbitrary. If I think
+that I want to do something often on a command line, I make it into a
+short shell script and call it from a makefile. In this example,
+despiking with AFNI is short enough that it can fit into a
+recipe. However, anything complicated that constitutes a pipeline in
+itself is better coded from the beginning as a makefile. Not only does
+this allow parallelism and fault tolerance at a fine granularity, but
+you can see that it is easy to ask someone for commands to do
+registrations or obtain a skull strip from FreeSurfer. Makefile
+commands can easily be shared, updated, and replaced with the latest
+methods. For example, we currently use the program \texttt{epi_reg} to
+register the resting state scan to the structural image. 
+
+For an optional exercise, edit the Makefile to use \texttt{epi_reg}
+instead of flirt. Delete the registration file and see that everything
+that should be automatically updated is.
+
+\subsection{}
+
+
