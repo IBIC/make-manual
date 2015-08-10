@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: ibicMakeManual.aux
+A level-1 auxiliary file: chapter1.aux
+A level-1 auxiliary file: chapter2.aux
+A level-1 auxiliary file: chapter3.aux
+A level-1 auxiliary file: practicum1.aux
+A level-1 auxiliary file: practicum2.aux
+A level-1 auxiliary file: practicum3.aux
+A level-1 auxiliary file: makefile-examples.aux
+A level-1 auxiliary file: appendix.aux
+The style file: apalike.bst
+Database file #1: references.bib
+You've used 5 entries,
+            1935 wiz_defined-function locations,
+            521 strings with 5410 characters,
+and the built_in function-call counts, 3139 in all, are:
+= -- 274
+> -- 245
+< -- 0
++ -- 95
+- -- 92
+* -- 329
+:= -- 566
+add.period$ -- 16
+call.type$ -- 5
+change.case$ -- 70
+chr.to.int$ -- 4
+cite$ -- 5
+duplicate$ -- 70
+empty$ -- 155
+format.name$ -- 97
+if$ -- 576
+int.to.chr$ -- 2
+int.to.str$ -- 0
+missing$ -- 5
+newline$ -- 29
+num.names$ -- 15
+pop$ -- 59
+preamble$ -- 1
+purify$ -- 70
+quote$ -- 0
+skip$ -- 51
+stack$ -- 0
+substring$ -- 187
+swap$ -- 5
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 30
+warning$ -- 0
+while$ -- 17
+width$ -- 0
+write$ -- 69

@@ -1,9 +1,8 @@
-%\chapter{Overview of \maken{}}
+\chapter*{Practicum 1: Overview of \maken{}}
 
 \section{Lecture: The Conceptual Example of Making Breakfast}
 
 \maken{} is a tool for implementing a workflow, or a sequence of steps that you need to execute. Probably the way that most of you have been implementing workflows up until this point is with some kind of program, possibly a shell script. The goal of this lecture and practicum is to motivate the reasons why you might want to move from a shell script to some language for better specifying workflow.
-
 
 A few elements of good workflow systems are:
 \begin{easylist}[itemize]
@@ -255,5 +254,5 @@ The convention of putting a target for \texttt{clean} is just a convention; you 
 
 For these reasons, there exists the looser convention of \texttt{mostlyclean}, which means to remove things that can easily be regenerated, but to leave important partial products (e.g., your images converted from dicoms, freesurfer directories, final masks, and other things).
 
-Do not forget to add \texttt{clean}, or \textt{mostlyclean} if you prefer, to your list of phony targets:
+Do not forget to add \texttt{clean}, or \texttt{mostlyclean} if you prefer, to your list of phony targets:
 \makecmd{\maker{.PHONY}{skstrip clean}}
