@@ -1,7 +1,7 @@
 \chapter*{Practicum 3: Getting Down and Dirty with \maken{}}
+\label{sec:practicum3}
 
 \section{Practical Example: Running QMON}
-
 As was mentioned in the previous practicum, we can determine how many processing units we have on our computer by calling up the system monitor. To do so, type \texttt{gkrellm} into the command line. As you will see, this software also allows us to monitor the status of CPUs, memory usage, and disk space. 
 
 If the number of jobs that you need to run exceeds the number of cores that you have, submitting jobs to the grid engine (explained in \hyperref[sec:gridengine]{Chapter 2}) might be a good idea. But how do we check whether the machines in the cluster we are interested in are available for batch processing? With functions similar to that of \texttt{gkrellm}, \texttt{qmon} is a graphical user interface that comes with the Sun Grid Engine software. It gives us the ability to track the status of machines in a cluster (and more besides, but you do not have to worry about that for now). \mymarginnote{!}{A list of the clusters and machines available for use at IBIC can be found at: \url{https://www.ibic.washington.edu/wiki/pages/viewpage.action?pageId=15008331}} 
