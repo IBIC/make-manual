@@ -16,9 +16,21 @@ Open up \texttt{Makefile}. You will notice that one of first few lines at the to
 As you scroll down, you will see that some of the targets are followed by a \texttt{call} command before their dependencies. For instance, look a the line:
 \makecmd{robex: \$(call print-help,robex,Alternate skull stripping with ROBEX) T1.nii.gz}
 
-This tells \maken{} to return the target \texttt{robex} along with its description when \texttt{print-help} is called (\texttt{print-help} is defined in \texttt{help_system.mk}, as we will see later). 
+This tells \maken{} to return the target \texttt{robex} along with its description when \texttt{print-help} is called (\texttt{print-help} is defined in \texttt{help_system.mk}, as we will see later). Other targets such as \texttt{freesurferskstrip} and \texttt{etiv} also make calls to \texttt{print-help}.
+
+Now, have a look at the \texttt{help_system.mk} file under the \texttt{lib\textbackslash makefiles} directory.  
+\makecmd{help: ; @echo \$(if \$(need-help),,Type \'\$(MAKE)\$(dash-f) help\' to get help)}
+
+This line tells \maken{} to echo the fellowing when you type \maken{} into the command line.
+\begin{bash}
+\$ make
+Type `\maken{} help' to get help
+\end{bash}
 
 
+
+
+For more information on how to create a help makefile, please refer to the GNU Make cookbook. 
 
 \section{Incorporating R Markdown into \maken{}}
 
