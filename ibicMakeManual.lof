@@ -17,7 +17,7 @@
 \contentsline {figure}{\numberline {2.9}{\ignorespaces Controlling software version\relax }}{18}{figure.caption.40}
 \contentsline {figure}{\numberline {2.10}{\ignorespaces Specifying BET flags in make\relax }}{19}{figure.caption.42}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces A non-functional multi-line makefile\relax }}{23}{figure.caption.48}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces A non-functional multi-line makefile\relax }}{22}{figure.caption.48}
 \contentsline {figure}{\numberline {3.2}{\ignorespaces A non-functional multi-line makefile\relax }}{23}{figure.caption.49}
 \contentsline {figure}{\numberline {3.3}{\ignorespaces How not to name files\relax }}{23}{figure.caption.51}
 \contentsline {figure}{\numberline {3.4}{\ignorespaces The wrong way to run two long tasks\relax }}{24}{figure.caption.53}
@@ -33,6 +33,9 @@
 \contentsline {figure}{\numberline {0.14}{\ignorespaces The \texttt {@} character hides commands\relax }}{44}{figure.caption.91}
 \contentsline {figure}{\numberline {0.15}{\ignorespaces Printing out the value of variables\relax }}{44}{figure.caption.92}
 \contentsline {figure}{\numberline {0.16}{\ignorespaces \texttt {resting-script} file\relax }}{54}{figure.caption.101}
+\contentsline {figure}{\numberline {0.17}{\ignorespaces \texttt {make}{}'s Help System\relax }}{57}{figure.caption.105}
+\contentsline {figure}{\numberline {0.18}{\ignorespaces Example of a R Markdown File\relax }}{59}{figure.caption.107}
+\contentsline {figure}{\numberline {0.19}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{60}{figure.caption.108}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}

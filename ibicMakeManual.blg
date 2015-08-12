@@ -7,13 +7,14 @@ A level-1 auxiliary file: chapter3.aux
 A level-1 auxiliary file: practicum1.aux
 A level-1 auxiliary file: practicum2.aux
 A level-1 auxiliary file: practicum3.aux
+A level-1 auxiliary file: practicum4.aux
 A level-1 auxiliary file: makefile-examples.aux
 A level-1 auxiliary file: appendix.aux
 The style file: apalike.bst
 Database file #1: references.bib
 You've used 5 entries,
             1935 wiz_defined-function locations,
-            521 strings with 5410 characters,
+            522 strings with 5424 characters,
 and the built_in function-call counts, 3139 in all, are:
 = -- 274
 > -- 245

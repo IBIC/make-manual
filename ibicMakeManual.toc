@@ -27,7 +27,7 @@
 \contentsline {subsection}{Other important variables}{18}{section*.38}
 \contentsline {subsection}{Variable overrides}{19}{section*.41}
 \contentsline {subsection}{Suggested targets}{19}{section*.43}
-\contentsline {subsubsection}{.PHONY}{21}{section*.44}
+\contentsline {subsubsection}{.PHONY}{20}{section*.44}
 \contentsline {subsubsection}{.SECONDARY}{21}{section*.45}
 \contentsline {chapter}{\chapternumberline {3}Running \texttt {make}{} in Parallel}{22}{chapter.1.3}
 \contentsline {section}{Guidelines}{22}{section*.46}
@@ -67,9 +67,12 @@
 \contentsline {subsection}{Estimated total intracranial volume}{50}{section*.98}
 \contentsline {subsection}{Hippocampal volumes}{52}{section*.99}
 \contentsline {section}{Implementing a resting state pipeline: converting a shell script into a makefile}{52}{section*.100}
-\contentsline {part}{\partnumberline {III}Examples}{56}{part.3}
-\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{57}{chapter.3.1}
-\contentsline {section}{Running FreeSurfer}{58}{section*.103}
-\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{60}{appendix.A}
-\contentsline {appendix}{\chapternumberline {B}Style Guide}{61}{appendix.B}
-\contentsline {chapter}{Bibliography}{63}{section*.105}
+\contentsline {section}{The \texttt {Clean} Target}{56}{section*.103}
+\contentsline {section}{Creating a \texttt {make}{} Help System}{56}{section*.104}
+\contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{58}{section*.106}
+\contentsline {part}{\partnumberline {III}Examples}{61}{part.3}
+\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{62}{chapter.3.1}
+\contentsline {section}{Running FreeSurfer}{63}{section*.110}
+\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{65}{appendix.A}
+\contentsline {appendix}{\chapternumberline {B}Style Guide}{66}{appendix.B}
+\contentsline {chapter}{Bibliography}{68}{section*.112}

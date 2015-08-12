@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=latex 2014.12.29)  10 AUG 2015 12:32
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.12.29)  12 AUG 2015 10:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -26,7 +26,7 @@ ment class
 \c@@memmarkcntra=\count80
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
-Package ifpdf Info: pdfTeX in PDF mode is not detected.
+Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/ifetex/ifetex.sty
 Package: ifetex 2011/12/15 v1.2 ifetex
@@ -527,10 +527,18 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: dvips.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/dvips.def
-File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count142
 ))
 \Gin@req@height=\dimen156
 \Gin@req@width=\dimen157
@@ -545,7 +553,7 @@ Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package color Info: Driver file: dvips.def on input line 130.
+Package color Info: Driver file: pdftex.def on input line 130.
 
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/dvipsnam.def
 File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
@@ -568,7 +576,7 @@ Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
 \caption@parindent=\dimen162
 \caption@hangindent=\dimen163
 )
-\c@ContinuedFloat=\count142
+\c@ContinuedFloat=\count143
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
@@ -594,19 +602,19 @@ Package: l3seq 2012/03/04 v3490 L3 Experimental sequences and stacks
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3int.sty
 Package: l3int 2012/03/04 v3490 L3 Experimental integers
-\c_max_int=\count143
-\l_tmpa_int=\count144
-\l_tmpb_int=\count145
-\l_tmpc_int=\count146
-\g_tmpa_int=\count147
-\g_tmpb_int=\count148
+\c_max_int=\count144
+\l_tmpa_int=\count145
+\l_tmpb_int=\count146
+\l_tmpc_int=\count147
+\g_tmpa_int=\count148
+\g_tmpb_int=\count149
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3quark.sty
 Package: l3quark 2012/02/12 v3384 L3 Experimental quarks
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3prg.sty
 Package: l3prg 2012/03/04 v3490 L3 Experimental control structures
-\g_prg_map_int=\count149
+\g_prg_map_int=\count150
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3clist.sty
 Package: l3clist 2012/03/04 v3490 L3 Experimental comma separated lists
@@ -622,12 +630,12 @@ Package: l3msg 2012/04/23 v3568 L3 Experimental messages
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3file.sty
 Package: l3file 2012/03/09 v3520 L3 Experimental file and I/O operations
-\l_iow_stream_int=\count150
-\l_iow_line_length_int=\count151
-\l_iow_target_length_int=\count152
-\l_iow_current_line_int=\count153
-\l_iow_current_word_int=\count154
-\l_iow_current_indentation_int=\count155
+\l_iow_stream_int=\count151
+\l_iow_line_length_int=\count152
+\l_iow_target_length_int=\count153
+\l_iow_current_line_int=\count154
+\l_iow_current_word_int=\count155
+\l_iow_current_indentation_int=\count156
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3skip.sty
 Package: l3skip 2012/03/05 v3499 L3 Experimental dimensions and skips
@@ -644,64 +652,64 @@ Package: l3skip 2012/03/05 v3499 L3 Experimental dimensions and skips
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3keys.sty
 Package: l3keys 2012/03/03 v3487 L3 Experimental key-value interfaces
-\g_keyval_level_int=\count156
-\l_keys_choice_int=\count157
+\g_keyval_level_int=\count157
+\l_keys_choice_int=\count158
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3fp.sty
 Package: l3fp 2012/03/04 v3490 L3 Experimental floating-point operations
-\c_one_million=\count158
-\c_one_hundred_million=\count159
-\c_five_hundred_million=\count160
-\c_one_thousand_million=\count161
-\c_fp_pi_by_four_decimal_int=\count162
-\c_fp_pi_by_four_extended_int=\count163
-\c_fp_pi_decimal_int=\count164
-\c_fp_pi_extended_int=\count165
-\c_fp_two_pi_decimal_int=\count166
-\c_fp_two_pi_extended_int=\count167
-\l_fp_count_int=\count168
-\l_fp_div_offset_int=\count169
-\l_fp_exp_integer_int=\count170
-\l_fp_exp_decimal_int=\count171
-\l_fp_exp_extended_int=\count172
-\l_fp_exp_exponent_int=\count173
-\l_fp_input_a_sign_int=\count174
-\l_fp_input_a_integer_int=\count175
-\l_fp_input_a_decimal_int=\count176
-\l_fp_input_a_exponent_int=\count177
-\l_fp_input_b_sign_int=\count178
-\l_fp_input_b_integer_int=\count179
-\l_fp_input_b_decimal_int=\count180
-\l_fp_input_b_exponent_int=\count181
-\l_fp_input_a_extended_int=\count182
-\l_fp_input_b_extended_int=\count183
-\l_fp_mul_a_i_int=\count184
-\l_fp_mul_a_ii_int=\count185
-\l_fp_mul_a_iii_int=\count186
-\l_fp_mul_a_iv_int=\count187
-\l_fp_mul_a_v_int=\count188
-\l_fp_mul_a_vi_int=\count189
-\l_fp_mul_b_i_int=\count190
-\l_fp_mul_b_ii_int=\count191
-\l_fp_mul_b_iii_int=\count192
-\l_fp_mul_b_iv_int=\count193
-\l_fp_mul_b_v_int=\count194
-\l_fp_mul_b_vi_int=\count195
-\l_fp_mul_output_int=\count196
+\c_one_million=\count159
+\c_one_hundred_million=\count160
+\c_five_hundred_million=\count161
+\c_one_thousand_million=\count162
+\c_fp_pi_by_four_decimal_int=\count163
+\c_fp_pi_by_four_extended_int=\count164
+\c_fp_pi_decimal_int=\count165
+\c_fp_pi_extended_int=\count166
+\c_fp_two_pi_decimal_int=\count167
+\c_fp_two_pi_extended_int=\count168
+\l_fp_count_int=\count169
+\l_fp_div_offset_int=\count170
+\l_fp_exp_integer_int=\count171
+\l_fp_exp_decimal_int=\count172
+\l_fp_exp_extended_int=\count173
+\l_fp_exp_exponent_int=\count174
+\l_fp_input_a_sign_int=\count175
+\l_fp_input_a_integer_int=\count176
+\l_fp_input_a_decimal_int=\count177
+\l_fp_input_a_exponent_int=\count178
+\l_fp_input_b_sign_int=\count179
+\l_fp_input_b_integer_int=\count180
+\l_fp_input_b_decimal_int=\count181
+\l_fp_input_b_exponent_int=\count182
+\l_fp_input_a_extended_int=\count183
+\l_fp_input_b_extended_int=\count184
+\l_fp_mul_a_i_int=\count185
+\l_fp_mul_a_ii_int=\count186
+\l_fp_mul_a_iii_int=\count187
+\l_fp_mul_a_iv_int=\count188
+\l_fp_mul_a_v_int=\count189
+\l_fp_mul_a_vi_int=\count190
+\l_fp_mul_b_i_int=\count191
+\l_fp_mul_b_ii_int=\count192
+\l_fp_mul_b_iii_int=\count193
+\l_fp_mul_b_iv_int=\count194
+\l_fp_mul_b_v_int=\count195
+\l_fp_mul_b_vi_int=\count196
 Normal \count register pool exhausted, switching to extended pool.
-\l_fp_output_sign_int=\count277
-\l_fp_output_integer_int=\count278
-\l_fp_output_decimal_int=\count279
-\l_fp_output_exponent_int=\count280
-\l_fp_output_extended_int=\count281
-\l_fp_round_position_int=\count282
-\l_fp_round_target_int=\count283
-\l_fp_split_sign_int=\count284
-\l_fp_internal_int=\count285
-\l_fp_trig_octant_int=\count286
-\l_fp_trig_sign_int=\count287
-\l_fp_trig_decimal_int=\count288
-\l_fp_trig_extended_int=\count289
+\l_fp_mul_output_int=\count277
+\l_fp_output_sign_int=\count278
+\l_fp_output_integer_int=\count279
+\l_fp_output_decimal_int=\count280
+\l_fp_output_exponent_int=\count281
+\l_fp_output_extended_int=\count282
+\l_fp_round_position_int=\count283
+\l_fp_round_target_int=\count284
+\l_fp_split_sign_int=\count285
+\l_fp_internal_int=\count286
+\l_fp_trig_octant_int=\count287
+\l_fp_trig_sign_int=\count288
+\l_fp_trig_decimal_int=\count289
+\l_fp_trig_extended_int=\count290
 \l_fp_internal_dim=\dimen169
 \l_fp_internal_skip=\skip191
 )
@@ -755,15 +763,15 @@ Package: l3color 2011/09/07 v2776 L3 Experimental colour support
 )
 (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3luatex.sty
 Package: l3luatex 2012/02/09 v3355 L3 Experimental LuaTeX-specific functions
-\g_cctab_allocate_int=\count290
-\g_cctab_stack_int=\count291
+\g_cctab_allocate_int=\count291
+\g_cctab_stack_int=\count292
 ))
 Package: xparse 2012/04/23 v3570 L3 Experimental document command parser
-\l_xparse_current_arg_int=\count292
-\l_xparse_m_args_int=\count293
-\l_xparse_mandatory_args_int=\count294
-\l_xparse_processor_int=\count295
-\l_xparse_v_nesting_int=\count296
+\l_xparse_current_arg_int=\count293
+\l_xparse_m_args_int=\count294
+\l_xparse_mandatory_args_int=\count295
+\l_xparse_processor_int=\count296
+\l_xparse_v_nesting_int=\count297
 )
 (/usr/share/texlive/texmf-dist/tex/latex/underscore/underscore.sty
 Package: underscore 2006/09/13
@@ -771,7 +779,7 @@ LaTeX Info: Redefining \_ on input line 42.
 )
 (/usr/share/texlive/texmf-dist/tex/latex/marginnote/marginnote.sty
 Package: marginnote 2012/03/29 v1.1i non floating margin notes for LaTeX
-\c@mn@abspage=\count297
+\c@mn@abspage=\count298
 )
 (/usr/share/texmf/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
@@ -779,7 +787,7 @@ Package: xcolor 2007/01/21 v2.11 LaTeX color extensions (UK)
 (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
-Package xcolor Info: Driver file: dvips.def on input line 225.
+Package xcolor Info: Driver file: pdftex.def on input line 225.
 
 (/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
@@ -787,8 +795,9 @@ Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
 \minrowclearance=\skip192
 )
 LaTeX Info: Redefining \color on input line 702.
-\rownum=\count298
+\rownum=\count299
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1337.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1341.
 Package xcolor Info: Model `RGB' extended on input line 1353.
 Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1355.
 Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1356.
@@ -810,7 +819,7 @@ Package: xkeyval 2008/08/13 v2.6a package option processing (HA)
 (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex
 \XKV@toks=\toks26
 \XKV@tempa@toks=\toks27
-\XKV@depth=\count299
+\XKV@depth=\count300
 File: xkeyval.tex 2008/08/13 v2.6a key=value parser (HA)
 ))
 (/usr/share/texmf/tex/latex/pgf/frontendlayer/tikz.sty
@@ -852,22 +861,21 @@ Package: pgfsys 2010/06/30 v2.10 (rcs-revision 1.37)
 \pgf@yc=\dimen265
 \w@pgf@writea=\write4
 \r@pgf@reada=\read2
-\c@pgf@counta=\count300
-\c@pgf@countb=\count301
-\c@pgf@countc=\count302
-\c@pgf@countd=\count303
+\c@pgf@counta=\count301
+\c@pgf@countb=\count302
+\c@pgf@countc=\count303
+\c@pgf@countd=\count304
 
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/05/14  (rcs-revision 1.7)
 )
-Package pgfsys Info: Driver file for pgf: pgfsys-dvips.def on input line 900.
+Package pgfsys Info: Driver file for pgf: pgfsys-pdftex.def on input line 900.
 
-(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-dvips.def
-File: pgfsys-dvips.def 2008/04/03  (rcs-revision 1.20)
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2009/05/22  (rcs-revision 1.26)
 
-(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-common-postscript.def
-File: pgfsys-common-postscript.def 2008/10/01  (rcs-revision 1.22)
-\pgf@objectcount=\count304
+(/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2008/05/19  (rcs-revision 1.10)
 )))
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2008/07/18  (rcs-revision 1.7)
@@ -1173,8 +1181,8 @@ Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
 Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
 Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
-Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
 Package hobsub Info: Skipping package `ifluatex' (already loaded).
 Package hobsub Info: Skipping package `ifvtex' (already loaded).
 Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
@@ -1191,7 +1199,7 @@ Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode is ignored in DVI mode.
+Package pdftexcmds Info: \pdfdraftmode found.
 Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
 Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
 )
@@ -1255,17 +1263,10 @@ ass
 \c@memhycontfloat=\count366
 )
 
-Package hyperref Message: Driver (default): hdvips.
+Package hyperref Message: Driver (autodetected): hpdftex.
 
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hdvips.def
-File: hdvips.def 2012/05/13 v6.82q Hyperref driver for dvips
-
-(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pdfmark.def
-File: pdfmark.def 2012/05/13 v6.82q Hyperref definitions for pdfmark specials
-\pdf@docset=\toks40
-\pdf@box=\box55
-\pdf@toks=\toks41
-\pdf@defaulttoks=\toks42
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2012/05/13 v6.82q Hyperref driver for pdfTeX
 \Fld@listcount=\count367
 \c@bookmark@seq@number=\count368
 
@@ -1275,7 +1276,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip262
-))
+)
 
 ******************************************************
 Stock height and width: 794.96999pt by 614.295pt
@@ -1312,41 +1313,105 @@ File: lstmisc.sty 2007/02/22 1.4 (Carsten Heinz)
 
 LaTeX Warning: Label `' multiply defined.
 
-) (./practicum3.aux) (./makefile-examples.aux) (./appendix.aux))
+) (./practicum3.aux) (./practicum4.aux
+! Missing \endcsname inserted.
+<to be read again> 
+                   \protect 
+l.6 ...text \relax \relax }{figure.caption.105}{}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+
+LaTeX Warning: Label `\$' multiply defined.
+
+! Missing \endcsname inserted.
+<to be read again> 
+                   \protect 
+l.6 ...text \relax \relax }{figure.caption.105}{}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+
+Runaway argument?
+{
+! Paragraph ended before \@newl@bel was complete.
+<to be read again> 
+                   \par 
+l.9 \newlabel{\par
+                   }{{\M@TitleReference {0.18}{Example of a R Markdown File\...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Extra }, or forgotten \endgroup.
+l.9 \newlabel{\par }
+                    {{\M@TitleReference {0.18}{Example of a R Markdown File\...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...{0.18}{Example of a R Markdown File\relax }
+                                                  }{59}{\captiontext \relax ...
+
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+! Undefined control sequence.
+l.9 ...a R Markdown File\relax }}{59}{\captiontext
+                                                   \relax \relax }{figure.ca...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+) (./makefile-examples.aux) (./appendix.aux))
 \openout1 = `ibicMakeManual.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 156.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 156.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 159.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 159.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 156.
-LaTeX Font Info:    ... okay on input line 156.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 156.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 159.
+LaTeX Font Info:    ... okay on input line 159.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 159.
 
 (/usr/share/texmf/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \microtypecontext on input line 156.
-Package microtype Info: Generating DVI output.
+LaTeX Info: Redefining \microtypecontext on input line 159.
+Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
-Package microtype Info: No font expansion.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `basictext'.
 Package microtype Info: No tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1356,9 +1421,9 @@ File: mt-cmr.cfg 2009/11/09 v2.0 microtype config. file: Computer Modern Roman
 (RS)
 )
 *geometry* driver: auto-detecting
-*geometry* detected driver: dvips
+*geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
-* driver: dvips
+* driver: pdftex
 * paper: <default>
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
@@ -1389,16 +1454,45 @@ File: mt-cmr.cfg 2009/11/09 v2.0 microtype config. file: Computer Modern Roman
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count370
+\scratchdimen=\dimen325
+\scratchbox=\box55
+\nofMPsegments=\count371
+\nofMParguments=\count372
+\everyMPshowfont=\toks40
+\MPscratchCnt=\count373
+\MPscratchDim=\dimen326
+\MPnumerator=\count374
+\makeMPintoPDFobject=\count375
+\everyMPtoPDFconversion=\toks41
+) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package marginnote Info: \pdfoutput not 0 and \pdflastxpos available.
 (marginnote)             Extended position detection mode activated.
+
 ABD: EveryShipout initializing macros
-\c@lstlisting=\count370
+\c@lstlisting=\count376
 \AtBeginShipoutBox=\box56
-Package hyperref Info: Link coloring ON on input line 156.
+Package hyperref Info: Link coloring ON on input line 159.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
@@ -1406,27 +1500,31 @@ Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count371
+\c@section@level=\count377
 )
 Redoing nameref's sectioning
 Redoing nameref's label
-LaTeX Info: Redefining \nameref on input line 156.
-LaTeX Info: Redefining \ref on input line 156.
-LaTeX Info: Redefining \pageref on input line 156.
-LaTeX Info: Redefining \nameref on input line 156.
+LaTeX Info: Redefining \nameref on input line 159.
+LaTeX Info: Redefining \ref on input line 159.
+LaTeX Info: Redefining \pageref on input line 159.
+LaTeX Info: Redefining \nameref on input line 159.
 (./ibicMakeManual.out) (./ibicMakeManual.out)
 \@outlinefile=\write6
 \openout6 = `ibicMakeManual.out'.
 
-File: IBIClogo.png Graphic file (type eps)
- <IBIClogo.png>
+
+<IBIClogo.png, id=292, 1897.0875pt x 763.85374pt>
+File: IBIClogo.png Graphic file (type png)
+ <use IBIClogo.png>
+Package pdftex.def Info: IBIClogo.png used on input line 166.
+(pdftex.def)             Requested size: 299.25pt x 120.48242pt.
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/30'.
 (microtype)             Ignoring protrusion settings for this character.
  [1
 
-]
-LaTeX Font Info:    Try loading font information for T1+fi4 on input line 174.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./IBIClogo.png>]
+LaTeX Font Info:    Try loading font information for T1+fi4 on input line 177.
 
 (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1fi4.fd
 File: t1fi4.fd 2009/05/28 T1/Inconsolata
@@ -1437,36 +1535,36 @@ Package microtype Info: Character `textendash ' is missing
 Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/fi4/m/n/17.28'.
 (microtype)             Ignoring protrusion settings for this character.
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 174.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 177.
 
 
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 174.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 177.
 
 
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 174
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 177
 .
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 174
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 177
 .
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 174.
+(Font)              <12> on input line 177.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 174.
+(Font)              <8> on input line 177.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 174.
+(Font)              <6> on input line 177.
 Package microtype Info: Character `textendash ' is missing
 (microtype)             in font `T1/fi4/m/n/12'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1495,12 +1593,12 @@ Package microtype Info: Character `textemdash ' is missing
 (microtype)             Ignoring protrusion settings for this character.
 [1
 
-] [2]
-Overfull \hbox (8.88687pt too wide) in paragraph at lines 69--69
- [][] [] []  
- []
-
-) (./ibicMakeManual.lof [3]) [4] [1
+] [2]) (./ibicMakeManual.lof [3]) [4]pdfTeX warning (ext4): destination with th
+e same identifier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.184 	\part{Manual}
+                     [1
 
 
 ]
@@ -1529,27 +1627,27 @@ LaTeX Font Info:    Try loading font information for T1+lmss on input line 24.
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Underfull \hbox (badness 10000) in paragraph at lines 24--24
-[][] \T1/lmss/m/n/10 Recipes in
+[][] \T1/lmss/m/n/10 (+20) Recipes in
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 24--24
-\T1/fi4/m/n/10 make \T1/lmss/m/n/10 need to
+\T1/fi4/m/n/10 make \T1/lmss/m/n/10 (+20) need to
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 24--24
-\T1/lmss/m/n/10 be-gin with a
+\T1/lmss/m/n/10 (+20) be-gin with a
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 24--24
-\T1/lmss/m/n/10 TAB char-ac-ter.
+\T1/lmss/m/n/10 (+20) TAB char-ac-ter.
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 24--24
-\T1/lmss/m/n/10 not nine, but
+\T1/lmss/m/n/10 (+20) not nine, but
  []
 
 
@@ -1575,10 +1673,10 @@ Package paralist Warning: Incorrect label; no or multiple counters.
 (paralist)                The label is: \itshape b)\upshape  on input line 44.
 
 
-Overfull \hbox (3.8227pt too wide) in paragraph at lines 44--45
-[]\T1/lmr/m/n/10.95 Here, the tar-get file is \T1/fi4/bx/n/10.95 s001_-skstrip.
-nii.gz\T1/lmr/m/n/10.95 , which ``de-pends'' on \T1/fi4/bx/n/10.95 s001_-T1.nii
-.gz\T1/lmr/m/n/10.95 .
+Overfull \hbox (0.12662pt too wide) in paragraph at lines 44--45
+[]\T1/lmr/m/n/10.95 (-20) Here, the tar-get file is \T1/fi4/bx/n/10.95 s001_-sk
+strip.nii.gz\T1/lmr/m/n/10.95 (-20) , which ``de-pends'' on \T1/fi4/bx/n/10.95 
+s001_-T1.nii.gz\T1/lmr/m/n/10.95 (-20) .
  []
 
 [3] [4]
@@ -1590,66 +1688,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 77--80
 \openout2 = `chapter2.aux'.
 
  (./chapter2.tex
-Underfull \hbox (badness 5622) in paragraph at lines 8--8
-[][] \T1/lmss/m/n/10 ``\T1/lmss/bx/n/10 Extension\T1/lmss/m/n/10 ''
+Underfull \hbox (badness 5133) in paragraph at lines 8--8
+[][] \T1/lmss/m/n/10 (+20) ``\T1/lmss/bx/n/10 Extension\T1/lmss/m/n/10 (+20) ''
+
  []
 
 
-Underfull \hbox (badness 6063) in paragraph at lines 8--8
-\T1/lmss/m/n/10 of-ten refers to
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--8
-\T1/lmss/m/n/10 the file suf-fix,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--8
-\T1/lmss/m/n/10 e.g., ``.csv,''
- []
-
-
-Underfull \hbox (badness 1019) in paragraph at lines 8--8
-\T1/lmss/m/n/10 but there is no
- []
-
-
-Underfull \hbox (badness 5119) in paragraph at lines 8--8
-\T1/lmss/m/n/10 rea-son it must
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 8--8
-\T1/lmss/m/n/10 char-ac-ters af-ter
+Underfull \hbox (badness 2809) in paragraph at lines 8--8
+\T1/lmss/m/n/10 (+20) file suf-fix, e.g.,
  []
 
 [8
 
 
 
-]
-Underfull \hbox (badness 1194) in paragraph at lines 63--63
-[]|\T1/lmr/m/n/10.95 Writing task B0map phase im-age,
- []
-
-[9]
+] [9]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [10]
-Underfull \hbox (badness 4036) in paragraph at lines 110--110
-[][] \T1/lmss/m/n/10 The \T1/lmss/bx/n/10 sticky
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 110--110
-\T1/lmss/m/n/10 from delet-ing
- []
-
-
-Underfull \hbox (badness 2671) in paragraph at lines 110--110
-\T1/lmss/m/n/10 files cre-ated by
+Underfull \hbox (badness 3690) in paragraph at lines 110--110
+[][] \T1/lmss/m/n/10 (+20) The \T1/lmss/bx/n/10 sticky
  []
 
 [11] [12] [13]
@@ -1719,9 +1778,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 229--231
  []
 
 
-Overfull \hbox (52.9767pt too wide) in paragraph at lines 238--240
-\T1/lmr/m/n/10.95 pro-pri-ate subject-level make-file. For ex-am-ple, within th
-e di-rec-tory \T1/fi4/bx/n/10.95 PROJHOME/session2/RC4101/\T1/lmr/m/n/10.95 ,
+Overfull \hbox (47.05644pt too wide) in paragraph at lines 238--240
+\T1/lmr/m/n/10.95 (-20) pro-pri-ate subject-level make-file. For ex-am-ple, wit
+hin the di-rec-tory \T1/fi4/bx/n/10.95 PROJHOME/session2/RC4101/\T1/lmr/m/n/10.
+95 (-20) ,
  []
 
 [15]
@@ -1754,12 +1814,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 303--305
 
 Underfull \hbox (badness 10000) in paragraph at lines 303--305
 
- []
-
-
-Overfull \hbox (50.93837pt too wide) in paragraph at lines 307--308
-[]\T1/lmr/m/n/10.95 What about when the pro-grams are in-stalled in some de-fau
-lt lo-ca-tion, e.g. \T1/fi4/bx/n/10.95 /usr/local/bin/\T1/lmr/m/n/10.95 ,
  []
 
 [18]
@@ -1803,25 +1857,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 352--353
  []
 
 )
-Underfull \hbox (badness 10000) in paragraph at lines 357--185
+Underfull \hbox (badness 10000) in paragraph at lines 357--188
 
  []
 
 [21]
 \openout2 = `chapter3.aux'.
 
- (./chapter3.tex
+ (./chapter3.tex [22
+
+
+
+]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[22
-
-
-
-] [23]
+[23]
 Underfull \hbox (badness 10000) in paragraph at lines 50--52
 
  []
@@ -1832,12 +1883,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 68.
 [24]
 Underfull \hbox (badness 10000) in paragraph at lines 76--76
-[][] \T1/lmss/m/n/10 You can
- []
-
-
-Underfull \hbox (badness 1184) in paragraph at lines 76--76
-\T1/lmss/m/n/10 any grid en-gine.
+[][] \T1/lmss/m/n/10 (+20) You can
  []
 
 [25] [26]
@@ -1876,8 +1922,8 @@ Underfull \hbox (badness 1067) in paragraph at lines 14--14
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 14--14
-\T1/lmss/m/n/10 does not fol-low
+Underfull \hbox (badness 1337) in paragraph at lines 14--14
+\T1/lmss/m/n/10 (+20) does not fol-low
  []
 
 
@@ -1887,13 +1933,8 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 ]
-Underfull \hbox (badness 1102) in paragraph at lines 57--57
-[][] \T1/lmss/m/n/10 There is no
- []
-
-
-Underfull \hbox (badness 5578) in paragraph at lines 58--58
-\T1/lmss/m/n/10 make the next
+Underfull \hbox (badness 4291) in paragraph at lines 58--58
+\T1/lmss/m/n/10 (+20) make the next
  []
 
 
@@ -1925,45 +1966,45 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 ]
-Overfull \hbox (14.19408pt too wide) in paragraph at lines 78--80
-[]\T1/lmr/m/n/10.95 Create the di-rec-tory \T1/fi4/bx/n/10.95 visit1 \T1/lmr/m/
-n/10.95 within your copy of \T1/fi4/bx/n/10.95 oasis-longitudinal-sample-small\
-T1/lmr/m/n/10.95 .
+Overfull \hbox (10.67552pt too wide) in paragraph at lines 78--80
+[]\T1/lmr/m/n/10.95 (-20) Create the di-rec-tory \T1/fi4/bx/n/10.95 visit1 \T1/
+lmr/m/n/10.95 (-20) within your copy of \T1/fi4/bx/n/10.95 oasis-longitudinal-s
+ample-small\T1/lmr/m/n/10.95 (-20) .
  []
 
 [42]
 Underfull \hbox (badness 10000) in paragraph at lines 90--90
-\T1/lmss/m/n/10 mand may be
+[][] \T1/lmss/m/n/10 (+20) Your \T1/fi4/m/n/10 ls
  []
 
 
-Underfull \hbox (badness 2626) in paragraph at lines 90--90
-\T1/lmss/m/n/10 which case you
+Underfull \hbox (badness 1831) in paragraph at lines 90--90
+\T1/lmss/m/n/10 (+20) which case you
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 90--90
-\T1/lmss/m/n/10 than de-scribed
+\T1/lmss/m/n/10 (+20) than de-scribed
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 95--95
-[][] \T1/lmss/m/n/10 The cur-rent
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 95--95
-\T1/lmss/m/n/10 di-rec-tory won't
+Underfull \hbox (badness 1448) in paragraph at lines 95--95
+[][] \T1/lmss/m/n/10 (+20) The cur-rent
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 95--95
-\T1/lmss/m/n/10 so make sure
+\T1/lmss/m/n/10 (+20) di-rec-tory won't
  []
 
 
-Underfull \hbox (badness 3049) in paragraph at lines 95--95
-\T1/lmss/m/n/10 to call it with
+Underfull \hbox (badness 10000) in paragraph at lines 95--95
+\T1/lmss/m/n/10 (+20) so make sure
+ []
+
+
+Underfull \hbox (badness 2538) in paragraph at lines 95--95
+\T1/lmss/m/n/10 (+20) to call it with
  []
 
 
@@ -1982,25 +2023,49 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 7.
 
 Underfull \hbox (badness 10000) in paragraph at lines 7--7
-\T1/lmss/m/n/10 chines avail-able
+[][] \T1/lmss/m/n/10 (+20) A list of
  []
 
 
-Overfull \hbox (297.48001pt too wide) in paragraph at lines 7--7
-[][][][][][] 
+Underfull \hbox (badness 10000) in paragraph at lines 7--7
+\T1/lmss/m/n/10 (+20) the clus-ters
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--7
+\T1/lmss/m/n/10 (+20) and ma-chines
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--7
+\T1/fi4/m/n/10 / / www . ibic .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--7
+\T1/fi4/m/n/10 washington .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--7
+\T1/fi4/m/n/10 edu / wiki /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--7
+\T1/fi4/m/n/10 pages / viewpage .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--7
+\T1/fi4/m/n/10 action ? pageId =
  []
 
 [47
 
 
 
-] [48]
-Overfull \hbox (384.45364pt too wide) in paragraph at lines 62--64
-[]\T1/lmr/m/n/10.95 , []). The pro-to-col may be viewed on-line at: [][][][][][
-] 
- []
-
-[49] [50] [51]
+] [48] [49] [50] [51]
 Underfull \hbox (badness 10000) in paragraph at lines 137--137
 []\T1/fi4/m/n/10 $ ${FSLDIR}/bin/slicesdir -p ${FSLDIR}/data/standard/MNI152_-T
 1_-1mm.nii.gz *_-to_-
@@ -2008,17 +2073,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 137--137
 
 [52]
 Underfull \hbox (badness 10000) in paragraph at lines 175--175
-[][] \T1/lmss/m/n/10 To cre-ate
+[][] \T1/lmss/m/n/10 (+20) To cre-ate
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 175--175
-\T1/lmss/m/n/10 a make-file in
+\T1/lmss/m/n/10 (+20) a make-file in
  []
 
 
-Underfull \hbox (badness 6380) in paragraph at lines 175--175
-\T1/lmss/m/n/10 to en-sure that
+Underfull \hbox (badness 4995) in paragraph at lines 175--175
+\T1/lmss/m/n/10 (+20) to en-sure that
  []
 
 
@@ -2028,67 +2093,67 @@ Underfull \hbox (badness 10000) in paragraph at lines 175--175
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 175--175
-\T1/fi4/m/n/10 gmake_-mod \T1/lmss/m/n/10 into
+\T1/fi4/m/n/10 gmake_-mod \T1/lmss/m/n/10 (+20) into
  []
 
 
-Underfull \hbox (badness 3240) in paragraph at lines 175--175
-\T1/lmss/m/n/10 the emacs con-
+Underfull \hbox (badness 2310) in paragraph at lines 175--175
+\T1/lmss/m/n/10 (+20) the emacs con-
  []
 
 
-Underfull \hbox (badness 5008) in paragraph at lines 175--175
-\T1/lmss/m/n/10 sole to change
+Underfull \hbox (badness 3815) in paragraph at lines 175--175
+\T1/lmss/m/n/10 (+20) sole to change
  []
 
 [53]
-Underfull \hbox (badness 1466) in paragraph at lines 189--189
-[][] \T1/lmss/m/n/10 If you need
+Underfull \hbox (badness 1199) in paragraph at lines 189--189
+[][] \T1/lmss/m/n/10 (+20) If you need
  []
 
 
-Underfull \hbox (badness 3646) in paragraph at lines 189--189
-\T1/lmss/m/n/10 and de-pen-dency
+Underfull \hbox (badness 1668) in paragraph at lines 189--189
+\T1/lmss/m/n/10 (+20) and de-pen-dency
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--189
-\T1/lmss/m/n/10 from the shell
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 189--189
-\T1/lmss/m/n/10 the com-mand
+Underfull \hbox (badness 6961) in paragraph at lines 189--189
+\T1/lmss/m/n/10 (+20) from the shell
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 189--189
-\T1/lmss/m/n/10 FLIRT, sim-ply
- []
-
-
-Underfull \hbox (badness 1881) in paragraph at lines 189--189
-\T1/lmss/m/n/10 will be able to
- []
-
-
-Underfull \hbox (badness 2409) in paragraph at lines 189--189
-\T1/lmss/m/n/10 the flags mean,
- []
-
-
-Underfull \hbox (badness 2662) in paragraph at lines 189--189
-\T1/lmss/m/n/10 and from there
+\T1/lmss/m/n/10 (+20) the com-mand
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 189--189
-\T1/lmss/m/n/10 find out what
+\T1/lmss/m/n/10 (+20) FLIRT, sim-ply
  []
 
 
-Underfull \hbox (badness 3635) in paragraph at lines 189--189
-\T1/lmss/m/n/10 your in-put and
+Underfull \hbox (badness 1496) in paragraph at lines 189--189
+\T1/lmss/m/n/10 (+20) will be able to
+ []
+
+
+Underfull \hbox (badness 1648) in paragraph at lines 189--189
+\T1/lmss/m/n/10 (+20) the flags mean,
+ []
+
+
+Underfull \hbox (badness 1867) in paragraph at lines 189--189
+\T1/lmss/m/n/10 (+20) and from there
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 189--189
+\T1/lmss/m/n/10 (+20) find out what
+ []
+
+
+Underfull \hbox (badness 2653) in paragraph at lines 189--189
+\T1/lmss/m/n/10 (+20) your in-put and
  []
 
 
@@ -2141,18 +2206,102 @@ Package microtype Info: Character `textemdash ' is missing
 (microtype)             Ignoring protrusion settings for this character.
 [54
 
-]) [55] [56
+]) [55]
+\openout2 = `practicum4.aux'.
+
+ (./practicum4.tex [56
+
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 22--22
+[]\T1/fi4/m/it/10 robex: $(call print-help,robex,Alternate skull stripping with
+ ROBEX)
+ []
+
+[57] [58]
+Underfull \hbox (badness 10000) in paragraph at lines 58--66
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 69--70
+
+ []
+
+
+Overfull \hbox (33.52428pt too wide) in paragraph at lines 71--78
+\T1/fi4/bx/n/10.95 grep -e `Examination date/time' /project_-dir/subjects/SUBJE
+CT/QA/images/RUN.PAR 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--78
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--80
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--82
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--86
+[]\T1/fi4/bx/n/10.95 <img src=``/project_-dir/subjects/SUBJECT/QA/images/rest_-
+x_-animation.gif"
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--86
+\T1/fi4/bx/n/10.95 <img src=``/project_-dir/subjects/SUBJECT/QA/images/rest_-y_
+-animation.gif"
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 83--86
+\T1/fi4/bx/n/10.95 <img src=``/project_-dir/subjects/SUBJECT/QA/images/rest_-z_
+-animation.gif"
+ []
+
+[59
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 102--105
+[]\T1/fi4/bx/n/10.95 QA/fMRI_-Preprocessing.html: $(LIB)/R/fMRI.Rmd
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--105
+| \T1/fi4/bx/n/10.95 sed -e 's/SUBJECT/$(SUBJECT)/g' $(LIB)/R/fMRI.Rmd >
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--105
+
+ []
+
+) [60] [61
 
 
 ]
 \openout2 = `makefile-examples.aux'.
 
- (./makefile-examples.tex (./exampleSettings.tex [57
+ (./makefile-examples.tex (./exampleSettings.tex [62
 
 
 ]
 *geometry* verbose mode - [ newgeometry ] result:
-* driver: dvips
+* driver: pdftex
 * paper: <default>
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
@@ -2186,25 +2335,19 @@ Package microtype Info: Character `textemdash ' is missing
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 )
-(./freeSurfer-example.tex [58
+(./freeSurfer-example.tex [63
 
-]
-Overfull \hbox (1.53276pt too wide) in paragraph at lines 84--85
-[]\T1/lmr/m/n/10.95 We solve these prob-lems by writ-ing a shell script that ge
-n-er-ates a cor-rect Make-file (\T1/fi4/bx/n/10.95 Makefile.longitudinal\T1/lmr
-/m/n/10.95 ).
- []
-
-)) [59]
+])) [64]
 \openout2 = `appendix.aux'.
 
- (./appendix.tex [60
+ (./appendix.tex [65
 
 
 
-] [61
+] [66
 
-]) [62] (./ibicMakeManual.bbl) [63
+]) [67]
+(./ibicMakeManual.bbl) [68
 
 
 ]
@@ -2214,16 +2357,82 @@ n-er-ates a cor-rect Make-file (\T1/fi4/bx/n/10.95 Makefile.longitudinal\T1/lmr
 \tf@lof=\write8
 \openout8 = `ibicMakeManual.lof'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 216.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 216.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 220.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 220.
+ (./ibicMakeManual.aux (./chapter1.aux)
+(./chapter2.aux) (./chapter3.aux) (./practicum1.aux) (./practicum2.aux)
+(./practicum3.aux) (./practicum4.aux
+! Missing \endcsname inserted.
+<to be read again> 
+                   \protect 
+l.6 ...text \relax \relax }{figure.caption.105}{}}
+                                                  
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
 
-(./ibicMakeManual.aux (./chapter1.aux) (./chapter2.aux) (./chapter3.aux)
-(./practicum1.aux) (./practicum2.aux) (./practicum3.aux)
-(./makefile-examples.aux) (./appendix.aux))
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 216.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 216.
+Runaway argument?
+{
+! Paragraph ended before \@newl@bel was complete.
+<to be read again> 
+                   \par 
+l.9 \newlabel{\par
+                   }{{\M@TitleReference {0.18}{Example of a R Markdown File\...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Extra }, or forgotten \endgroup.
+l.9 \newlabel{\par }
+                    {{\M@TitleReference {0.18}{Example of a R Markdown File\...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Undefined control sequence.
+l.9 ...a R Markdown File\relax }}{59}{\captiontext
+                                                   \relax \relax }{figure.ca...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+Runaway argument?
+{
+! Paragraph ended before \@newl@bel was complete.
+<to be read again> 
+                   \par 
+l.11 \newlabel{\par
+                    }{{\M@TitleReference {0.19}{Reading a .Rmd file in \text...
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+! Extra }, or forgotten \endgroup.
+l.11 \newlabel{\par }
+                     {{\M@TitleReference {0.19}{Reading a .Rmd file in \text...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Undefined control sequence.
+l.11 ...texttt  {make}{}\relax }}{60}{\captiontext
+                                                   \relax \relax }{figure.ca...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+) (./makefile-examples.aux) (./appendix.aux))
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 220.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 220.
 Package rerunfilecheck Info: File `ibicMakeManual.out' has not changed.
-(rerunfilecheck)             Checksum: C0012769460699938B44218ED6B91ECD;5043.
+(rerunfilecheck)             Checksum: 44FA4C53EA6A1456B76BAC57CCA5CE03;5270.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -2231,15 +2440,34 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 216.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 220.
  ) 
 Here is how much of TeX's memory you used:
- 28592 strings out of 493486
- 488599 string characters out of 3143548
- 682727 words of memory out of 3000000
- 31356 multiletter control sequences out of 15000+200000
- 103760 words of font info for 74 fonts, out of 3000000 for 9000
+ 29525 strings out of 493485
+ 501160 string characters out of 3143525
+ 747053 words of memory out of 3000000
+ 31852 multiletter control sequences out of 15000+200000
+ 109915 words of font info for 143 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
  69i,12n,80p,1112b,966s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dv
+ips/lm/lm-ts1.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/fi
+4-ts1.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/fi4-ec.enc
+}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texlive
+/texmf-dist/fonts/type1/public/inconsolata/Inconsolata.pfb></usr/share/texmf/fo
+nts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.p
+fb></usr/share/texmf/fonts/type1/public/lm/lmbx8.pfb></usr/share/texmf/fonts/ty
+pe1/public/lm/lmcsc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></u
+sr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/pu
+blic/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr6.pfb></usr/share/
+texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lm
+r9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fon
+ts/type1/public/lm/lmss10.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.
+pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb>
+Output written on ibicMakeManual.pdf (73 pages, 717823 bytes).
+PDF statistics:
+ 1035 PDF objects out of 1200 (max. 8388607)
+ 932 compressed objects within 10 object streams
+ 272 named destinations out of 1000 (max. 500000)
+ 35914 words of extra memory for PDF output out of 42996 (max. 10000000)
 
-Output written on ibicMakeManual.dvi (68 pages, 421180 bytes).
