@@ -60,8 +60,8 @@
 \BOOKMARK [2][-]{section*.98}{Estimated total intracranial volume}{section*.97}% 60
 \BOOKMARK [2][-]{section*.99}{Hippocampal volumes}{section*.97}% 61
 \BOOKMARK [1][-]{section*.100}{Implementing a resting state pipeline: converting a shell script into a makefile}{section*.72}% 62
-\BOOKMARK [1][-]{section*.103}{The Clean Target}{section*.72}% 63
-\BOOKMARK [1][-]{section*.104}{Creating a make Help System}{section*.72}% 64
+\BOOKMARK [1][-]{section*.103}{The Clean target}{section*.72}% 63
+\BOOKMARK [1][-]{section*.104}{Creating a make help system}{section*.72}% 64
 \BOOKMARK [1][-]{section*.106}{Incorporating R Markdown into make}{section*.72}% 65
 \BOOKMARK [-1][-]{part.3}{Examples}{}% 66
 \BOOKMARK [0][-]{chapter.3.1}{Makefile Examples}{part.3}% 67

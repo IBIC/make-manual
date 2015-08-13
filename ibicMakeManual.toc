@@ -67,8 +67,8 @@
 \contentsline {subsection}{Estimated total intracranial volume}{50}{section*.98}
 \contentsline {subsection}{Hippocampal volumes}{52}{section*.99}
 \contentsline {section}{Implementing a resting state pipeline: converting a shell script into a makefile}{52}{section*.100}
-\contentsline {section}{The \texttt {Clean} Target}{56}{section*.103}
-\contentsline {section}{Creating a \texttt {make}{} Help System}{56}{section*.104}
+\contentsline {section}{The \texttt {Clean} target}{56}{section*.103}
+\contentsline {section}{Creating a \texttt {make}{} help system}{56}{section*.104}
 \contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{58}{section*.106}
 \contentsline {part}{\partnumberline {III}Examples}{61}{part.3}
 \contentsline {chapter}{\chapternumberline {1}Makefile Examples}{62}{chapter.3.1}
