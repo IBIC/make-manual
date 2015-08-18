@@ -2,6 +2,7 @@
 
 % Fonts
 \usepackage[T1]{fontenc}	% better output encoding
+\usepackage{textcomp}		% For ASCII diacritics
 \usepackage{lmodern}		% Latin Modern instad of CM
 \usepackage{inconsolata}	% better monospaced font
 \usepackage{microtype}		% fix the little things % comes after any fonts
@@ -26,14 +27,9 @@
 
 % Lists
 \usepackage[ampersand]{easylist}	% Nicer syntax for creating lists
-\usepackage{paralist}	% Allows inline lists
-\usepackage[modulo,right]{lineno}	% right-hand line numbers
-
+\usepackage{paralist}	% Allows inline lists %
 % For citations using Bibtex
 \usepackage{natbib}
-
-% For ASCII diacritics
-\usepackage{textcomp}
 
 % Hyperref
 \usepackage[colorlinks=true]{hyperref} 	% allows hyperlinking % NEEDS TO BE LOADED LAST
@@ -139,7 +135,7 @@
 
 % % SOURCE CODE HIGHLIGHTING
 \newcounter{codehighlight}
-\newcommand*{\lnum}[1]{\tikz[baseline=(char.base)]{	\node[shape=circle,draw,inner sep=0.8pt, fill=black, text=white] (char) {\rmfamily\bfseries\scriptsize#1}; } }
+\newcommand*{\lnum}[1]{\tikz[baseline=(char.base)]{	\node[shape=rectangle,draw,inner sep=0.8pt, fill=black, text=white] (char) {\rmfamily\bfseries\scriptsize#1}; } }
 \newcommand*{\lnote}{\stepcounter{codehighlight}\llap{{\lnum{\thecodehighlight}}\hskip 1em}} %6em original
 
 
