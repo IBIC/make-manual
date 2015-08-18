@@ -1,10 +1,10 @@
-\chapter*{Practicum 2: \maken{} in Context}
+\chapter{\maken{} in Context}
 \label{sec:practicum2}
 \section{Lecture: Organizing Subject Directories}
 
 In practice, a project will involve multiple subjects, each with
 several types of scans. One could imagine a universal standard where
-every NifTI file contained information about where it came from and
+every nifti file contained information about where it came from and
 what information it contained, and all neuroimaging programs
 understood how to read and interpret this information. We could dump
 all of our files into a database and extract exactly what we
@@ -41,7 +41,7 @@ inconvenient for processing with \maken{}.
 \subsection{Organizing Longitudinal Data}
 
 Follow along with this example. Copy directory 
-\newline\texttt{/project_space/makepipelines/oasis-longitudinal-sample-small/} \newline
+\newline\texttt{/project_space/makepipelines/oasis-longitudinal-sample-small/} \\
 to your home directory using the following command:
 \bashcmd{cp -r /project_space/makepipelines/oasis-longitudinal-sample-small/ ~}
 
@@ -49,10 +49,10 @@ This is a very small subset of the OASIS data set, which consists of a
 longitudinal sample of structural images. There are several T1 images
 taken at each scan session, and several visits that occurred a year or
 more apart. I have reduced the size by taking only one of the T1 images
-for each person, for each visit, and only one a small sample of
+for each person, for each visit, and only of a small sample of
 subjects.
 
-Look at the directory structure of \texttt{subjects}. A useful command to do this is called \texttt{find}. For example, if you are in the \texttt{subjects} directory you can type:
+Look at the directory structure of \texttt{subjects/}. A useful command to do this is called \texttt{find}. For example, if you are in the \texttt{subjects} directory you can type:
 \bashcmd{find .}
 
 You can see that as we have discussed, each subject has one to five
@@ -75,7 +75,7 @@ Group-level analyses seem to be best found elsewhere in the project
 directory --- either at a specific timepoint or organized at the top
 level.
 
-Create the directory \texttt{visit1} within your copy of \texttt{oasis-longitudinal-sample-small}. 
+Create the directory \texttt{visit1/} within your copy of \texttt{oasis-longitudinal-sample-small}. 
 \bashcmd{mkdir visit1}
 
 Now \texttt{cd} into it:
@@ -88,7 +88,7 @@ You can do one link by hand:
 
 This command symbolically links the directory \texttt{../subjects/visit1/OAS2_0001} to the original directory \texttt{../subjects/OAS2_0001/visit1}. 
 \mymarginnote{!}{Your \texttt{ls} command may be aliased to something pleasing, in which case you might see slightly different behavior than described here.} 
-Now, if you enter \texttt{ls -l} into the command line while remaining in the \texttt{visit1} directory, you will notice that the subdirectory \texttt{OAS2_0001} is symbolically linked, as indicated by an arrow, to the original target directory. You can also check whether a file or directory is linked by using the \texttt{ls -F} shorthand command, which indicates symbolic links with an \@ symbol. \texttt{ls -L}, whereas, dereferences the symbolic links so that you can view information for the original target file or directory itself.
+Now, if you enter \texttt{ls -l} into the command line while remaining in the \texttt{visit1} directory, you will notice that the subdirectory \texttt{OAS2_0001} is symbolically linked, as indicated by an arrow, to the original target directory. You can also check whether a file or directory is linked by using the \texttt{ls -F} shorthand command, which indicates symbolic links with an\@ symbol. Conversel, \texttt{ls -L} dereferences the symbolic links so that you can view information for the original target file or directory itself.
 
 You can also create symbolic links in bulk. To do so, remove the link that you have just created and
 use the program in the \texttt{visit1} directory (\texttt{makelinks}) to create all the subject links for visit1. 
@@ -142,15 +142,14 @@ There is a useful little rule defined in the GNUMake Cookbook (Chapter
 Now if you type: \bashcmd{make print-subject} \\
 You can see the value that the variable \texttt{subject} is set to. Note that even if you place this new rule at the very top of the makefile, it will not execute this rule by default. It will fall through to the next non-pattern rule. This is one of the ways in which pattern rules (implicit rules) differ subtly from explicit rules. 
 
-
-\subsection{Running Make Over Multiple Subject Directories}
+\subsection{Running \maken{} over multiple subject directories}
 Now that we have verified that the individual makefile works, we can
 go to the \texttt{visit1} directory and process all the
 subjects. First, go back and edit the subject-level makefile to remove
 the \texttt{@} characters in front of the commands so that they are
 printed.
 
-From within the \texttt{visit1} directory, type:
+From within the \texttt{visit1/} directory, type:
 \bashcmd{make -n TARGET=skstrip}
 
 Note that what this is doing is (recursively) going into each subject directory and calling \maken{}. It will do this whether or not there is anything to do within the subject directory, because each subject directory has no dependencies. However, because we have specified the \texttt{-n} flag, it prints out what commands it will perform without actually executing them.
@@ -162,12 +161,12 @@ You can specify to make how many CPUs to use. For example, if we specify the \te
 
 If you specify \texttt{make -j} without any options, it will use as many CPUS as  you have on your machine. This is great if all the work you have ``fits'' into the computing resources that are available. However, if it does not, you can use a computing cluster.
 
-In our environment, we use the Sun Grid Engine (SGE) to distribute jobs across machines that are ``clustered'' together. To run on a cluster, you need to be logged on one of the machines that is allowed to submit to the grid engine.  Once there, you can use the command:
+In our environment, we use the Sun Grid Engine (SGE) to distribute jobs across machines that are ``clustered'' together. To run on a cluster, you need to be logged on one of the machines that is allowed to submit to the grid engine.\footnote{They are: \texttt{amygdala}, \texttt{broca}, \texttt{dentate}, \texttt{homunculus}, \texttt{pole}, \texttt{pons}, \texttt{precuneus}, and \texttt{triangularis}.} Once there, you can use the command:
 \bashcmd{qmake -cwd -V -- -j 20 TARGET=skstrip}
 
 Here, we use \texttt{qmake} instead of \texttt{make} to interact with the grid engine. The \texttt{-cwd} flag says to run from the current working directory, and \texttt{-V} says to pass along all your environment variables. You will normally want to specify both of these flags. The \texttt{--} specifies to \texttt{qmake} that we are done specifying \texttt{qmake} flags and are now giving normal flags to \maken{}. For example, in this command we specify 20 jobs. 
 
-As an optional exercise, here you might want to set up the same directory structure for \texttt{visit2} and build everything from scratch in parallel.
+As an optional exercise, here you might want to set up the same directory structure for \texttt{visit2/} and build everything from scratch in parallel.
 
 \subsection{Running FreeSurfer}
 Now let us look at an example of a subject-level analysis that we typically don't run within the subject directories. FreeSurfer \citep[see][]{Desikan2006968, Fischl01012004, Fischl2004S69} is a program that we use for cortical and subcortical parcellation. It itself is a complicated neuroimaging pipeline that is built using \maken{}. It likes to put all subject directories for an analysis in one directory, which makes it difficult to enforce the subject-level structure described. But in general, it is much wiser to work around what the programs want to do than to reorganize their output in ways that might break when the software is updated! This is our approach.

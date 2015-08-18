@@ -15,11 +15,20 @@ This means that any variables you set in one line won't be ``remembered'' by the
 	cat \$\$foo > brain.volume.txt
 \end{make}
 
+
 Instead, write the script as shown in \autoref{make:failfix}.
-\begin{make}{A non-functional multi-line makefile}{make:failfix}
+\begin{make}{A now-functional multi-line makefile}{make:failfix}
 	set foo=\`{}fslmaths brain.nii.gz -V | awk '{print \$\$2}'\`{} \texttt{{\color{red} ;\textbackslash}} \\
 	cat \$\$foo > brain.volume.txt
 \end{make}
+
+You can also use \texttt{\&\&}, a \texttt{bash} operator that executes the next command only if the previous command was successful\footnote{In other words, has exited with an exit status (\texttt{\$?}) of ``0.''}. For example:
+\begin{make}{A multi-line makefile using ``\texttt{\&\&\textbackslash}''}{make:ampersandfix}
+	set foo=\`{}fslmaths brain.nii.gz -V | awk '{print \$\$2}'\`{} \&\&\textbackslash\\
+	cat \$\$foo > brain.volume.txt
+\end{make}
+
+In this instance, \texttt{bash} will not attempt to \texttt{cat} the file if \texttt{fslmaths} or \texttt{awk} failed.
 
 \subsection{Filenames must be unique}
 
@@ -29,7 +38,7 @@ It is very tempting to do something like the following, or the previous example,
 	do something \dd now \dd with foo.out
 \end{make}
 
-This will work great sequentially; first \texttt{foo.out} is created and then it is used. You have attended to rule \#1 and the commands will be executed together in one shell. But consider what happens when four cores run this recipe independently, in the same directory. Whichever recipe completes first will overwrite \texttt{foo.out}. This could happen at any time, so it is entirely possible that process A writes foo.out just in time for process B to use it. Meanwhile, process C can come along and rewrite it again. You see the point. The best way to avoid this problem, no matter how the makefile is used, is to create temporary files (like \texttt{foo.out}) that include a unique identifier, such as a subject identifier. For longitudinal analysis we play it safe and always use a timepoint identifier as well. Thus, whether you conduct your analysis using one subdirectory per subject or in a single directory for the entire analysis, you can take the recipe you have written and use it without modification.
+This will work great sequentially; first \texttt{foo.out} is created and then it is used. You have attended to rule \mypound 1 and the commands will be executed together in one shell. But consider what happens when four cores run this recipe independently, in the same directory. Whichever recipe completes first will overwrite \texttt{foo.out}. This could happen at any time, so it is entirely possible that process A writes foo.out just in time for process B to use it. Meanwhile, process C can come along and rewrite it again. You see the point. The best way to avoid this problem, no matter how the makefile is used, is to create temporary files (like \texttt{foo.out}) that include a unique identifier, such as a subject identifier. For longitudinal analysis we play it safe and always use a timepoint identifier as well. Thus, whether you conduct your analysis using one subdirectory per subject or in a single directory for the entire analysis, you can take the recipe you have written and use it without modification.
 
 Many neuroimaging software packages use the convention that files within a subject-specific directory that contains a subject identifier can have the same names. In that case, just go with it: They have done that in part to avoid this confusion while running the software in parallel on a shared filesystem.
 
@@ -37,7 +46,7 @@ Many neuroimaging software packages use the convention that files within a subje
 
 Try to separate expensive tasks into separate recipes. 
 
-Suppose you have two time-consuming steps: \texttt{run_a} and \texttt{run_b}. \texttt{run_A} takes half an hour to generate \texttt{a.out} and \texttt{run_b} takes an hour to generate \texttt{b.out}. Additionally, \texttt{run_a} must complete before the other can begin. You try the rule in \autoref{make:twolong}
+Suppose you have two time-consuming steps: \texttt{run_a} and \texttt{run_b}. \texttt{run_a} takes half an hour to generate \texttt{a.out} and \texttt{run_b} takes an hour to generate \texttt{b.out}. Additionally, \texttt{run_a} must complete before the other can begin. Examine the rule in \autoref{make:twolong}.
 \begin{make}{The wrong way to run two long tasks}{make:twolong}
 	\maker{a.out b.out}{b.in} \\
 	\tab run_a ;\textbackslash \\
@@ -65,7 +74,7 @@ First you need to know the number of cores on your machine. The command \texttt{
 You have to be careful not to start a lot more jobs than you have cores, other wise the performance of all the jobs will suffer. Let us assume there are four cores available. Pass the number of jobs to \maken. 
 \bashcmd{make -j 4}
 
-Now you will execute the four cores simultaneously. This will work well if no one else is using your machine to run jobs. If they are, \texttt{kill} their jobs. It's your machine. \footnote{Mostly joking. Don't kill people's jobs indiscriminately.}
+Now you will execute the four cores simultaneously. This will work well if no one else is using your machine to run jobs. If they are, \texttt{kill} their jobs. It's your machine\footnote{Mostly joking. Don't kill people's jobs indiscriminately.}.
 
 Recall \maken{} will die when it obtains an error. When running jobs in parallel, \maken{} can encounter an error much sooner. If one job dies, all the rest will be stopped, leaving your process in a bad state. This is rarely the behavior you want, as typically each job is independent of the others. To tell make not to give up when the going gets tough, use the \texttt{-k} flag.
 \bashcmd{make -j 4 -k}
@@ -93,7 +102,7 @@ There are two ways that you can execute qmake, giving you a lot of flexibility. 
 
 \textbf{The flags that appear before the ``\dd{}'' are flags to \texttt{qmake},} and control grid engine parameters. The \texttt{-cwd} flag means to start grid engine jobs from the current directory (useful!) and \texttt{-V} tells it to pass all your environment variables along. If you forget the \texttt{-V}, we promise you that very bad things will happen. For example, FSL will crash because it can't find its shared libraries. Many programs will ``not be found'' because your path is not set correctly. Your jobs will crash, and that earthquake will kill all of us.
 
-\textbf{On the opposite side of the \dd{} are flags to \maken.} By default, just like normal \maken, this will start exactly one job at a time. This is not very useful! You probably want to specify how much parallelism you want by using the -j flag to make (how many jobs to start at any one time). The above example runs 20 jobs simultaneously. The last argument, \texttt{all}, is a target for \maken{} that is dependent upon the particular makefile used.
+\textbf{On the opposite side of the ``\dd{}'' are flags to \maken.} By default, just like normal \maken, this will start exactly one job at a time. This is not very useful! You probably want to specify how much parallelism you want by using the -j flag to make (how many jobs to start at any one time). The above example runs 20 jobs simultaneously. The last argument, \texttt{all}, is a target for \maken{} that is dependent upon the particular makefile used.
 
 One drawback of executing jobs dynamically is that make might never get enough computer resources to finish. For this reason, there is also a parallel environment for \maken{} that reserves some number of processors for the \maken{} process and then manages those itself. You can specify your needs for this environment by typing
 \bashcmd{qmake -cwd -V -pe make 1-10 \dd{} freesurfer}
@@ -119,7 +128,7 @@ One flaw of \maken{} (and indeed, many UNIX and neuroimaging programs and just l
 Start from scratch, remove the files you are trying to create, then execute \maken{} with the \texttt{-n} flag.
 \bashcmd{make -n all}
 
-You can also place the flag at the end of the command.
+You can also place the flag at the end of the command. This way, it is easy to hit $\uparrow$ and delete \texttt{-n} without having to muck about arrowing over to the flag placed at the beginning of the command. By doing this you could save seconds a day!
 \bashcmd{make all -n}
 
 The \texttt{-n} flag shows what commands will be executed without executing them. This is very handy for debugging problems, as it tells you what make is actually programmed to do. Remember, computers do exactly what you tell them.
@@ -142,7 +151,7 @@ This can be rather frustrating. There are multiple ways this error message could
 	&& \maken{} is trying to create this target to satisfy the target \texttt{all}. This tells you that it was trying to make \texttt{data_FA.nii.gz} because this is a dependency of the target \texttt{all}.
 	& If your error is indeed coming from \maken, then try to pinpoint the rule that is failing. \emph{Look} at your makefile and check that the rule looks correct. Do all the dependencies of the rule (the things to the left of the colon) exist? Are they where they should be? Can you read them?
 	& If everything looks ok, you are missing something. Rules that expand patterns and that use variables can be tricky to interpret (the same way that you generally like a debugger to look at code). To see what make is really doing with your rules, use the \texttt{-p} flag to print the database and examine the rules. We suggest doing this in conjunction with \texttt{-n} so that you do not actually execute anything.
-	Pattern matching has an odd behavior where, if there is no rule to create a dependency, it will tell you there is no rule to create the target. \\ For example, \autoref{make:pmbehavior} will fail with \\ \texttt{\ldots{} No rule to make target \`{}<subj>_T1_brain.nii.gz' \ldots} \\not \\ \texttt{\ldots{} No rule to make target \`{}foo' \ldots }
+	& Pattern matching has an odd behavior where, if there is no rule to create a dependency, it will tell you there is no rule to create the target. \\ For example, \autoref{make:pmbehavior} will fail with \\ \texttt{\ldots{} No rule to make target \`{}<subj>_T1_brain.nii.gz' \ldots} \\not \\ \texttt{\ldots{} No rule to make target \`{}foo' \ldots }
 	\begin{make}{Pattern-matching error handling}{make:pmbehavior}
 		\maker{\%_T1_brain.nii.gz}{\%_T1.nii.gz foo} \\
 		\tab bet \$< \$@ 
@@ -151,7 +160,7 @@ This can be rather frustrating. There are multiple ways this error message could
 
 \subsection{Suspicious continuation in line \mypound{}} % ignore the error this line throws, it's fine.
 
-If you get this error while trying to save a makefile (using emacs, which is smart enough to help you ensure the syntax of your makefile is correct), it means that you probably have a space after the trailing \texttt{;\textbackslash} at the end of the line. No, you can't have indiscriminate whitespace in a makefile!
+If you get this error while trying to save a makefile (using \texttt{emacs}, which is smart enough to help you ensure the syntax of your makefile is correct), it means that you probably have a space after the trailing \texttt{;\textbackslash} at the end of the line. No, you can't have indiscriminate whitespace in a makefile!
 
 \subsection{\maken{} keeps rebuilding targets}
 

@@ -47,19 +47,21 @@ File naming conventions begin with converted raw data (nifti files derived from 
 											% column 1 expands, and forces 2 to shrink and wrap
 		\rowcolor{gray!75}
 		\normalfont\textbf{Filename} 		& \textbf{Description} 	\\ \hline
-		RPI001_T1_brain.nii.gz	& Skull stripped T1 MPRAGE image 	\\  
-		RPI001_T1.nii.gz		& T1 MPRAGE image 					\\  
-		RPI001_read.nii.gz		& Reading task scan 				\\  
-		RPI001_read_rest.nii.gz	& Resting state scan for reading session	\\ 
-		RPI001_read_fMRIb0_phase.nii.gz	& RPI001_read_fMRIb0_mag.nii.gz		\\  
+		RPI001_T1_brain.nii.gz				& Skull stripped T1 MPRAGE image 	\\  
+		RPI001_T1.nii.gz					& T1 MPRAGE image 					\\  
+		RPI001_read.nii.gz					& Reading task scan 				\\  
+		RPI001_read_rest.nii.gz				& Resting state scan for reading session	\\ 
+		RPI001_read_fMRIb0_phase.nii.gz		& {\color{red} needs desc.} 		\\
+		RPI001_read_fMRIb0_mag.nii.gz		& {\color{red} needs desc.}			\\  
 		RPI001_read_fMRIb0_mag_brain.nii.gz & Reading task B0map phase image, magnitude image and brain overlaying over magnitude image	\\  
-		RPI001_write.nii.gz		& Writing task scan 				\\  
-		RPI001_write_rest.nii.gz	& Resting state scan for writing session	\\  
-		RPI001_write_fMRIb0_phase.nii.gz	& RPI001_write_fMRIb0_mag.nii.gz	\\  
+		RPI001_write.nii.gz					& Writing task scan 				\\  
+		RPI001_write_rest.nii.gz			& Resting state scan for writing session	\\  
+		RPI001_write_fMRIb0_phase.nii.gz	& {\color{red} needs desc.}			\\
+		RPI001_write_fMRIb0_mag.nii.gz		& {\color{red} needs desc. }		\\  
 		RPI001_write_fMRIb0_mag_brain.nii.gz	& Writing task B0map phase image, magnitude image and skull stripped magnitude image	\\ 
-		RPI001_DTI.nii.gz		& DTI image 						\\ 
-		bvecs.txt				& bvalues and bvectors for  DTI processing 	\\  \hline
-		%		bvals.txt & \\ \hline
+		RPI001_DTI.nii.gz					& DTI image 						\\ 
+		bvecs.txt							& bvalues and bvectors for  DTI processing 	\\
+		bvals.txt 							& {\color{red} needs desc.}\\ \hline
 	\end{tabularx}
 	\caption{Example of good file naming conventions}
 	\label{table:filenames}
@@ -132,7 +134,12 @@ This relies on the concept of a ``symbolic link.'' This is a file that points to
 To create a symlink, use the \texttt{ln} command.
 \bashcmd{ln -s target linkname}
 
-\texttt{target} is the file you're linking to, and \texttt{linkname} is the name of the new symlink.
+\texttt{target} is the path of the file you're linking to, and \texttt{linkname} is the name of the new symlink.
+
+Target paths can either be absolute or relative, but they must be relative to their new location (in \texttt{linkname}). For example, using the directory structure in \autoref{figure:udalldir}, the command to create the link \texttt{session3/RPI001} might look something like this (run from \texttt{Udall/}:
+\bashcmd{ln -s subjects/RPI001/session3 subjects/RPI001}
+
+You may rename the symlink (as we've done here) or, if you're symlinking to your present working directory, you can leave it blank to preserve the name.
 
 \subsection{Defining the basic directory structure}
 See \autoref{sec:dir} for more information on this step, which is important. Let us assume the project home (\texttt{PROJHOME}) is called \texttt{/project_space/Udall/}. There are three scans per individual. Let us also assume there are two subjects: RC4101 and RC4103. These are the directories that need to be in place. Note we organize the actual files by subject ID and scan session. However, to make processing at each cross-sectional point easier, we create directories with symbolic links to the correct subject/session directories. This flexibility helps in many ways to make cross-sectional and longitudinal analyses easier.
@@ -169,7 +176,7 @@ All simple subject-specific processing is well-organized within the subject/sess
 We will do all the subject-level processing from the \texttt{PROJHOME/sessionN/} directories. You will need to create a Makefile in \texttt{PROJHOME/session1}, \texttt{PROJHOME/session2}, and \texttt{PROJHOME/session3} whose only purpose is to run \maken{} within all the subject-level directories beneath it. 
 \autoref{make:seshlevel} shows an example session-level makefile.
 
-\mymarginnote{?}{\textbf{\#}  the \maken{} comment character.}
+\mymarginnote{?}{\textbf{\mypound}: the \maken{} comment character.}
 
 \begin{make}{Session-level Makefile}{make:seshlevel}
 	\# Top level makefile \\
@@ -261,17 +268,15 @@ By default the shell used by make recipes is \texttt{/bin/sh}.  This shell is on
 	export SHELL
 \end{make}
 
-Note that \texttt{SHELL} is accessed \texttt{\$(SHELL)}, as is other \maken{} variable. 
+Note that \texttt{SHELL} is accessed \texttt{\$(SHELL)}, as are all \maken{} variables. 
 
 \subsubsection{\texttt{TARGET}}
 In the strategy that we outline for organizing makefiles and conducting subject-level analyses, we run \maken{} recursively (i.e., within the subject directories) from the session-level directory. To do this very generally, we call make from the session-level by specifying the TARGET, or what it should ``make'' within the subject directory. You do not need to do this within the subject directory itself. For example:
 
 (in \texttt{subjects/session1})
-
 \bashcmd{make TARGET=convert_dicoms}
 
 (in \texttt{subjects/session1/s001})
-
 \bashcmd{make convert_dicoms}
 
 \subsubsection{\texttt{SUBJECTS}}
@@ -319,39 +324,43 @@ It is probably a good idea not to edit the makefile too much once it works. But 
 
 However, these can be overriden from the command line as follows:
 
-\makecmd{make BETFLAGS=``-f .4 -R''} 
+\makecmd{make BETFLAGS='-f .4 -R'} 
 
 \subsection{Suggested targets}
 These suggestions come from experience building pipelines. Having conventions, so that similarly named targets do similar kinds of things across different neuroimaging workflows, is rather helpful and comforting, especially when you spend a lot of time going between modalities and tools.
 
-We propose splitting functions into multiple makefiles that can then be called from a common makefile. It is helpful to avoid overruling target names for common targets. Therefore, if the makefile is called, for example, \texttt{convert_dicoms.mk}, we will add the text string ``convert_dicoms'' to the end of each target, as illustrated in the examples below. Top level makefiles (Makefile) can then invoke targets ``\texttt{all}'', ``\texttt{help}'', etc., that depend upon the included makefile targets (See General Recipe for Setting up an Analysis Directory With \maken{}).\\
+We propose splitting functions into multiple makefiles that can then be called from a common makefile. It is helpful to avoid overruling target names for common targets. Therefore, if the makefile is called, for example, \texttt{convert_dicoms.mk}, we will add the text string ``convert_dicoms'' to the end of each target, as illustrated in the examples below. Top level makefiles (Makefile) can then invoke targets ``\texttt{all}'', ``\texttt{help}'', etc., that depend upon the included makefile targets (See General Recipe for Setting up an Analysis Directory With \maken{}). \\
 
-\texttt{all_} (e.g, \texttt{all_convert_dicoms}) 
+\texttt{all} (e.g, \texttt{all_convert_dicoms}) 
 
-This is the default, the first target in the file. Nothing in this target should require human intervention.\\
+This is the default, the first target in the file. Nothing in this target should require human intervention. \\
 
-\texttt{help_} (e.g., \texttt{help_convert_dicoms})
+\texttt{help} (e.g., \texttt{help_convert_dicoms})
 
-This provides a helpful message describing all the targets in the makefile. Therefore, you can approach any makefile by saying ``make help'' and get something out of it. The message provided by help should also detail the makefile variables that can be used to control the workflow (e.g., BETFLAGS may supply user-preferred flags to a skull stripping analysis with FSL bet, etc)\\
+This provides a helpful message describing all the targets in the makefile. Therefore, you can approach any makefile by saying ``make help'' and get something out of it. The message provided by help should also detail the makefile variables that can be used to control the workflow (e.g., BETFLAGS may supply user-preferred flags to a skull-stripping analysis with FSL bet, etc). \\
 
-\texttt{clean_} (e.g., \texttt{clean_convert_dicoms})
+\texttt{clean} (e.g., \texttt{clean_convert_dicoms})
 
-Typically this target is used to remove all generated files (e.g., .o, dependency lists) and clean up the directory so that one can type "make" again and regenerate. It usually does not delete configuration information. So the idea is that ``\texttt{make clean}'' will bring you back to square one - starting the pipeline from scratch, but without removing any configuration information you may have created. Good for disaster recovery.\\
+Typically this target is used to remove all generated files (e.g., .o, dependency lists) and clean up the directory so that one can type "make" again and regenerate. It usually does not delete configuration information. So the idea is that ``\texttt{make clean}'' will bring you back to square one - starting the pipeline from scratch, but without removing any configuration information you may have created. Good for disaster recovery. \\
 
-\texttt{mostlyclean_} (e.g., \texttt{mostlyclean_convert_dicoms})
+\texttt{mostlyclean} (e.g., \texttt{mostlyclean_convert_dicoms})
 
-Same as clean, but does not remove things that are a pain to recreate (e.g., involve hand checking, or time-consuming analysis). We think that this might be a good ``archive state'' type of target - removing all files that you don't think you would need later to examine the results.\\
+Same as clean, but does not remove things that are a pain to recreate (e.g., involve hand checking, or time-consuming analysis). We think that this might be a good ``archive state'' type of target - removing all files that you don't think you would need later to examine the results. \\
 
-\texttt{output_} (e.g., \texttt{output_convert_dicoms})
+\texttt{output} (e.g., \texttt{output_convert_dicoms})
 
-Often we write a text file containing summary statistics in some reasonable format for import to Your Favorite Program. Thus, typing "make output" will ensure that summary stats are computed and put into an easy to find place. Sometimes it makes sense to generate the output for each individual subject, as that subject is finished (e.g., inserting some numbers or status into a Google spreadsheet). This is the usual case in a study in which we are doing processing ``greedily'' as soon as subjects come in. We follow the convention that the first column is the subject id number, and subsequent columns hold the output statistics from the analysis.
+Often we write a text file containing summary statistics in some reasonable format for import to Your Favorite Program. Thus, typing ``make output'' will ensure that summary stats are computed and put into an easy to find place. Sometimes it makes sense to generate the output for each individual subject, as that subject is finished (e.g., inserting some numbers or status into a Google spreadsheet). This is the usual case in a study in which we are doing processing ``greedily'' as soon as subjects come in. We follow the convention that the first column is the subject id number, and subsequent columns hold the output statistics from the analysis.
 
 \subsubsection{.PHONY}
-.PHONY (the period in front is necessary) is a special target used to tell \maken{} which targets are not real files. For example, common targets are \texttt{all} (to make everything) and \texttt{clean} (to remove everything). If you create a file named ``all'' or ``clean'' in the directory with the makefile, suddenly \maken{} will see that the target file ``all'' exists, and will not do anything if it is newer than its dependencies.\\
+.PHONY (the period in front is necessary) is a special target used to tell \maken{} which targets are not real files. For example, common targets are \texttt{all} (to make everything) and \texttt{clean} (to remove everything). If you create a file named ``all'' or ``clean'' in the directory with the makefile, suddenly \maken{} will see that the target file ``all'' exists, and will not do anything if it is newer than its dependencies.
 
-To stop this rather unexpected behavior, list targets that are not real files as .PHONY:\\
+To stop this rather unexpected behavior, list targets that are not real files as .PHONY:
 
 \texttt{.PHONY = all clean anything_else_that_is_not_a_file}
 
 \subsubsection{.SECONDARY}
-This target is used to define files that are created as intermediate products by implicit rules, but that you don't want deleted. This is critically important - perhaps a good philosophy is to define here all the files that are a pain to recreate.\\
+This target is used to define files that are created as intermediate products by implicit rules, but that you don't want deleted. This is critically important - perhaps a good philosophy is to define here all the files that are a pain to recreate.
+
+{\color{red} expand this section}
+
+

@@ -1,4 +1,6 @@
-\chapter*{Practicum 1: Overview of \maken{}}
+% Redefining this makes figure auto-labeling work, and the toc prettier.
+\renewcommand{\chaptername}{Practicum}
+\chapter{Overview of \maken{}}
 
 \section{Lecture: The Conceptual Example of Making Breakfast}
 
@@ -54,8 +56,7 @@ The information in \autoref{bash:waffwich} can alternatively be represented as a
 \label{tikz:waffle}
 \end{figure}
 
-\mymarginnote{!}{There is no circularity in this graph.}
-\mymarginnote{!}{The arrows indicate which file needs to exist to make the next one.}
+Note that there are no circular references in this graph! (Hence, an ``acyclic'' graph.)
 
 A graph like this is a very good way of describing a partially ordered sequence of steps.  However, writing a graph is a really nasty way of writing a program, so we need a better syntax for making dependencies. The \maken{} recipe for a waffwich would look something like \autoref{make:waffwich}.
 
@@ -79,7 +80,7 @@ However, we've reached the point where we have to leave this conceptual example 
 \subsection{Manipulating a single subject}
 
 Follow along with this example. Copy directory 
-\newline\texttt{/project_space/makepipelines/oasis-multisubject-sample/} \newline
+\newline\texttt{/project_space/makepipelines/oasis-multisubject-sample/} 
 to your home directory. You can do this with the following command:
 \bashcmd{cp -r \$MAKEPIPELINES/oasis-multisubject-sample \textasciitilde{}}
 
@@ -229,7 +230,7 @@ As an esoteric example, this command could be used to replace all the final 5s w
 
 \subsection{Secondary targets}
 
-Now if you type \maken{} here it is going to go through and do everything, if there's anything to do. But it's easier to see the point of secondary targets if you use the \texttt{-n} flag for \maken{}, which asks \maken{} to tell you what it's going to do, without actually doing it.\footnote{Trevor likes to use \texttt{make <cmd> -n}, which makes it easier to hit <UP> and remove the flag without any annoying arrowing around.} It's puzzling, isn't it, that all the T1 files are deleted? What's wrong here?
+Now if you type \maken{} here it is going to go through and do everything, if there's anything to do. But it's easier to see the point of secondary targets if you use the \texttt{-n} flag for \maken{}, which asks \maken{} to tell you what it's going to do, without actually doing it.\footnote{Trevor likes to use \texttt{make <cmd> -n}, which makes it easier to hit $\uparrow$ and remove the flag without any annoying arrowing around.} It's puzzling, isn't it, that all the T1 files are deleted? What's wrong here?
 
 Because we explicitly asked for the skull-stripped brains, \maken{} figured out it needed to make the T1 brains. This is an \emph{implicit} call. \maken, once it has finished running, goes back and erases anything that was implicitly created. This is a good thing, or a weird thing, depending on how you look at it. You can specify to \maken{} to keep those intermediary targets by adding it to the \texttt{.SECONDARY} target, like so:
 \makecmd{\maker{.SECONDARY}{\$(SUBJECTS:=T1.nii.gz)}}

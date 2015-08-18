@@ -31,17 +31,17 @@ These commands take the form of ``rules'' that look like this:
 	
 \begin{make}{Basic \maken{} syntax. }{make:syntax}
 	\maker{target}{dependencies} \\
-	\tab \begin{minipage}[t]{\linewidth-4em} {\color{gray} Shell commands to create target from dependencies (a recipe), beginning with a [TAB] character.} 	\end{minipage}
+	\tab \begin{minipage}[t]{\linewidth-4em} {\color{gray} Shell commands to create target from dependencies (a recipe), beginning with a [TAB] character.} \end{minipage}
 \end{make}
 	
 This may be best understood by example. \autoref{make:recipe1} is a simple makefile that executes FSL's \texttt{bet} command to skull-strip a T1 nifti.
 	
 \begin{make}{A very basic \maken{} recipe.}{make:recipe1}
 	\maker{s001\_T1\_skstrip.nii.gz}{s001\_T1.nii.gz} \\
-	\tab	bet s001_T1.nii.gz s001_T1_skstrip.nii.gz -R
+	\tab bet s001_T1.nii.gz s001_T1_skstrip.nii.gz -R
 \end{make}
 	
-Here, the target file is \texttt{s001_skstrip.nii.gz}, which ``depends'' on \texttt{s001_T1.nii.gz}. More specifically, to ``depend on'' something means that \begin{inparaenum}[\itshape b)\upshape] \item it cannot be created unless the dependency exits, and \item it must be recreated if the dependency exists, but is newer than the target. \end{inparaenum}
+Here, the target file is \texttt{s001_skstrip.nii.gz}, which ``depends'' on \texttt{s001_T1.nii.gz}. More specifically, to ``depend on'' something means that \begin{inparaenum}[\itshape a)\upshape] \item it cannot be created unless the dependency exits, and \item it must be recreated if the dependency exists, but is newer than the target. \end{inparaenum}
 	
 The ``recipe'' is the \texttt{bet} command that creates the skull-stripped image from the T1 image. This executes in a shell, just as if you were typing it in the terminal.
 	
@@ -63,7 +63,7 @@ Suppose we have a directory that contains the T1 images from 100 subjects with i
 	\begin{center}
 		\begin{tabular}{ r l }
 			\texttt{\%} 	& matches a pattern. \\
-			\texttt{\$\@}	& is the target. \\
+			\texttt{\$@}	& is the target. \\
 			\texttt{\$<}	& is the first dependency. \\
 			\texttt{\$(VAR)}& is a \maken{} variable.
 		\end{tabular}
@@ -106,7 +106,7 @@ This probably seems like an enormous amount of effort to go to for some skull st
 	
 \section{What is the Difference between a Makefile and a Shell Script?}
 	
-This is a really good question. A makefile is basically a specialized program that is good at expressing how X depends upon Y and how to create it. The recipes in a makefile are indeed little shell scripts, adding to the confusion. By making these dependencies explicit, you enable the computer to execute as many of the recipes as it can at once, finishing the work as quickly as possible. It allows the computer to pick right back up if there is a crash or error that causes the job to die somewhere in the middle. It allows you, the scientist, to decide that you want to change some step three-quarters of the way down and redo everything that depends upon that step.
+This is a really good question. A makefile is basically a specialized program that is good at expressing how X depends upon Y and how to create it. The recipes in a makefile are indeed little shell scripts, adding to the confusion. By making these dependencies explicit, you enable the computer to execute as many of the recipes as it can at once, finishing the work as quickly as possible. It allows the computer to pick right back up if there is a crash or error that  causes the job to die somewhere in the middle. It allows you, the scientist, to decide that you want to change some step three-quarters of the way down and redo everything that depends upon that step.
 	
 Shell scripts are more general programs that can do all sorts of things, but inherently do them one at a time. For example, the shell script that is the equivalent to \autoref{make:recipe2} could be written something like \autoref{bash:makefile}.
 	
