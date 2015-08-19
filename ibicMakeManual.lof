@@ -26,11 +26,11 @@
 \contentsline {figure}{\numberline {3.7}{\ignorespaces Pattern-matching error handling\relax }}{30}{figure.caption.68}
 \addvspace {10pt}
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Obtaining a list of subjects from a file.\relax }}{31}{figure.caption.73}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Obtaining a list of subjects using a wildcard.\relax }}{31}{figure.caption.74}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Obtaining a list of subjects using a wildcard.\relax }}{32}{figure.caption.74}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Determining the subject name from the current working directory and a pattern.\relax }}{32}{figure.caption.76}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Setting a variable to determine whether a FLAIR image has been acquired.\relax }}{32}{figure.caption.78}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Setting a variable to determine whether a FLAIR image has been acquired.\relax }}{33}{figure.caption.78}
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Setting a variable to indicate the study site.\relax }}{33}{figure.caption.79}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Testing the site variable to determine the name of the T1 image.\relax }}{33}{figure.caption.81}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Testing the site variable to determine the name of the T1 image.\relax }}{34}{figure.caption.81}
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Testing to see whether an environment variable is undefined\relax }}{34}{figure.caption.83}
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Testing the Linux version to determine whether to proceed\relax }}{35}{figure.caption.85}
 \addvspace {10pt}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 15:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 16:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1301,7 +1301,7 @@ File: lstmisc.sty 2014/09/06 1.5e (Carsten Heinz)
 \c@codehighlight=\count290
 
 (./ibicMakeManual.aux (./chapter1.aux) (./chapter2.aux) (./chapter3.aux)
-(./practicum1.aux) (./practicum2.aux
+(./chapter4.aux) (./practicum1.aux) (./practicum2.aux
 
 LaTeX Warning: Label `' multiply defined.
 
@@ -1318,7 +1318,11 @@ LaTeX Warning: Label `' multiply defined.
 
 LaTeX Warning: Label `' multiply defined.
 
-) (./makefile-examples.aux) (./appendix.aux))
+) (./makefile-examples.aux
+
+LaTeX Warning: Label `sec:testsubjectxfm' multiply defined.
+
+) (./appendix.aux))
 \openout1 = `ibicMakeManual.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 155.
@@ -1460,7 +1464,7 @@ LaTeX Info: Redefining \nameref on input line 155.
 \openout7 = `ibicMakeManual.out'.
 
 
-<IBIClogo.png, id=320, 1897.0875pt x 763.85374pt>
+<IBIClogo.png, id=356, 1897.0875pt x 763.85374pt>
 File: IBIClogo.png Graphic file (type png)
  <use IBIClogo.png>
 Package pdftex.def Info: IBIClogo.png used on input line 162.
@@ -1543,7 +1547,7 @@ Package microtype Info: Character `textendash ' is missing
 Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/zi4/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
- [2]) (./ibicMakeManual.lof [3] [4]) [5]pdfTeX warning (ext4): destination with
+ [2] [3]) (./ibicMakeManual.lof [4]) [5]pdfTeX warning (ext4): destination with
  the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
@@ -1829,15 +1833,7 @@ Package hyperref Warning: Difference (2) between bookmark levels is greater
 (hyperref)                than one, level fixed on input line 6.
 
 
-LaTeX Warning: Reference `make:subjectsfile' on page 31 undefined on input line
- 8.
-
-
 LaTeX Warning: Reference `example:fcon' on page 31 undefined on input line 9.
-
-
-LaTeX Warning: Reference `make:subjectswildcard' on page 31 undefined on input 
-line 16.
 
 
 Overfull \hbox (24.81357pt too wide) in paragraph at lines 16--17
@@ -1845,23 +1841,18 @@ Overfull \hbox (24.81357pt too wide) in paragraph at lines 16--17
 95 oasis-longitudinal-sample-small/visit1/Makefile\T1/lmr/m/n/10.95 (-20) ,
  []
 
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 [31
 
 
 
 ]
 
-LaTeX Warning: Reference `make:setsubject' on page 32 undefined on input line 2
-5.
-
-
-LaTeX Warning: Reference `make:conditional' on page 32 undefined on input line 
-35.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [32]
-
-LaTeX Warning: Reference `make:site' on page 33 undefined on input line 43.
-
 
 LaTeX Warning: Reference `sec:dti' on page 33 undefined on input line 49.
 
@@ -1871,14 +1862,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 55--59
  []
 
 
-LaTeX Warning: Reference `make:environment' on page 33 undefined on input line 
-68.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [33]
-
-LaTeX Warning: Reference `make:linux' on page 34 undefined on input line 79.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 83--84
 
  []
@@ -2220,20 +2209,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--146
 )
 (./freeSurfer-example.tex [71
 
-]) (./testsubject-xfm-example.tex [72]
+]) (./testsubject-Makefile-example.tex [72]
+[73] [74] [75]) (./testsubject-xfm-example.tex
 
-LaTeX Warning: Reference `practicum4' on page 73 undefined on input line 18.
+LaTeX Warning: Reference `practicum4' on page 76 undefined on input line 18.
 
-[73])) [74]
+[76])) [77]
 \openout2 = `appendix.aux'.
 
- (./appendix.tex [75
+ (./appendix.tex [78
 
 
 
-] [76
+] [79
 
-]) [77] (./ibicMakeManual.bbl) [78
+]) [80] (./ibicMakeManual.bbl) [81
 
 
 ]
@@ -2251,15 +2241,9 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 218.
 (./practicum4.aux) (./makefile-examples.aux) (./appendix.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 218.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 218.
+Package rerunfilecheck Info: File `ibicMakeManual.out' has not changed.
+(rerunfilecheck)             Checksum: F9A9957D40D58655D78A084855D0E1A8;6560.
 
-
-Package rerunfilecheck Warning: File `ibicMakeManual.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `ibicMakeManual.out':
-(rerunfilecheck)             Before: EEBF45ED2CCB891FF5409108620DCEF0;5821
-(rerunfilecheck)             After:  7A7D3693544D248B7D41DB6566577033;6485.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -2271,94 +2255,37 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 33952 strings out of 493089
- 625550 string characters out of 6134842
- 817623 words of memory out of 5000000
- 36365 multiletter control sequences out of 15000+600000
+ 34185 strings out of 493089
+ 628900 string characters out of 6134842
+ 886900 words of memory out of 5000000
+ 36496 multiletter control sequences out of 15000+600000
  104492 words of font info for 146 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 68i,12n,101p,10421b,1687s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{figure.caption.110} has been referenced but does 
-not exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.109} has been referenced but does no
-t exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.108} has been referenced but does no
-t exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.103} has been referenced but does no
-t exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.92} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.87} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.82} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{figure.caption.75} has been referenced but does not
- exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.107} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.106} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.97} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.96} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.95} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.90} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.89} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.88} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.85} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.78} has been referenced but does not exist
-, replaced by a fixed one
-
-pdfTeX warning (dest): name{section*.73} has been referenced but does not exist
-, replaced by a fixed one
-
-{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/te
-xlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2015
-/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/2015/texmf-dist/f
-onts/enc/dvips/inconsolata/i4-ts1.enc}{/usr/local/texlive/2015/texmf-dist/fonts
-/enc/dvips/inconsolata/i4-t1-0.enc}</usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/public/inconsolata/Inconsolata-zi4b.pfb></usr/local/texlive/2015/texmf-dist
-/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2015/t
-exmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2015/texmf-dist/
-fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
-1/public/lm/lmbx8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm
-/lmcsc10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr10.pf
-b></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/loc
-al/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texlive/
-2015/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2015/texmf-d
-ist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/public/lm/lmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/l
-m/lmri10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmss10.p
-fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></usr
-/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/tex
-live/2015/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on ibicMakeManual.pdf (84 pages, 759325 bytes).
+ 68i,12n,101p,10421b,1695s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
+texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/20
+15/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/2015/texmf-dist
+/fonts/enc/dvips/inconsolata/i4-ts1.enc}{/usr/local/texlive/2015/texmf-dist/fon
+ts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/local/texlive/2015/texmf-dist/fonts/
+type1/public/inconsolata/Inconsolata-zi4b.pfb></usr/local/texlive/2015/texmf-di
+st/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2015/texmf-dis
+t/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
+pe1/public/lm/lmbx8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
+lm/lmcsc10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr10.
+pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/l
+ocal/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2015/texmf
+-dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/
+type1/public/lm/lmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
+/lm/lmri10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmss10
+.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></u
+sr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/t
+exlive/2015/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
+Output written on ibicMakeManual.pdf (87 pages, 778995 bytes).
 PDF statistics:
- 1224 PDF objects out of 1440 (max. 8388607)
- 1106 compressed objects within 12 object streams
- 363 named destinations out of 1000 (max. 500000)
- 35458 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 1406 PDF objects out of 1440 (max. 8388607)
+ 1284 compressed objects within 13 object streams
+ 460 named destinations out of 1000 (max. 500000)
+ 35530 words of extra memory for PDF output out of 35830 (max. 10000000)
 

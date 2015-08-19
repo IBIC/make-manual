@@ -54,7 +54,7 @@
 \contentsline {subsection}{Setting a variable that contains the subject id }{32}{section*.75}
 \contentsline {subsection}{Setting a conditional flag }{32}{section*.77}
 \contentsline {subsection}{Using a conditional flag}{33}{section*.80}
-\contentsline {subsection}{Conditional execution based on the environment}{34}{section*.82}
+\contentsline {subsection}{Conditional execution based on the environment}{33}{section*.82}
 \contentsline {subsection}{Conditional execution based upon the Linux version}{34}{section*.84}
 \contentsline {part}{\partnumberline {II}Practicals}{36}{part.2}
 \contentsline {chapter}{\chapternumberline {1}Overview of \texttt {make}{}}{38}{chapter.2.1}
@@ -87,7 +87,8 @@
 \contentsline {part}{\partnumberline {III}Examples}{69}{part.3}
 \contentsline {chapter}{\chapternumberline {1}Makefile Examples}{70}{chapter.3.1}
 \contentsline {section}{Running FreeSurfer}{71}{section*.126}
-\contentsline {section}{Testsubject Transformations}{73}{section*.127}
-\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{75}{appendix.A}
-\contentsline {appendix}{\chapternumberline {B}Style Guide}{76}{appendix.B}
-\contentsline {chapter}{Bibliography}{78}{section*.129}
+\contentsline {section}{Testsubject Main Makefile}{73}{section*.127}
+\contentsline {section}{Testsubject Transformations}{76}{section*.128}
+\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{78}{appendix.A}
+\contentsline {appendix}{\chapternumberline {B}Style Guide}{79}{appendix.B}
+\contentsline {chapter}{Bibliography}{81}{section*.130}
