@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 16:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 16:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2252,10 +2252,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 34181 strings out of 493089
- 628863 string characters out of 6134842
- 888902 words of memory out of 5000000
- 36493 multiletter control sequences out of 15000+600000
+ 34182 strings out of 493089
+ 628891 string characters out of 6134842
+ 888945 words of memory out of 5000000
+ 36494 multiletter control sequences out of 15000+600000
  104492 words of font info for 146 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,12n,101p,10421b,1695s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2279,10 +2279,10 @@ type1/public/lm/lmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
 .pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></u
 sr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on ibicMakeManual.pdf (87 pages, 779109 bytes).
+Output written on ibicMakeManual.pdf (87 pages, 779012 bytes).
 PDF statistics:
- 1406 PDF objects out of 1440 (max. 8388607)
- 1284 compressed objects within 13 object streams
+ 1407 PDF objects out of 1440 (max. 8388607)
+ 1285 compressed objects within 13 object streams
  459 named destinations out of 1000 (max. 500000)
  35530 words of extra memory for PDF output out of 35830 (max. 10000000)
 

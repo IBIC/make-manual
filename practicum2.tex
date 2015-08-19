@@ -20,7 +20,7 @@ need to work with UNIX file naming conventions to do our processing.
 Therefore, selecting good naming conventions for files and for
 directories is key. \maken{} specifically depends upon naming
 conventions so that people can keep track of what programs and steps
-were used to generate what projects. See \autoref{chap:context} for examples of good file naming conventions and typical project directory structures. 
+were used to generate what projects. See \nameref{chap:context} for examples of good file naming conventions and typical project directory structures. 
 
 % It's ok here to reprint modified info from Chapter 2 
 
@@ -186,6 +186,6 @@ As an optional exercise, here you might want to set up the same directory struct
 \subsection{Running FreeSurfer}
 Now let us look at an example of a subject-level analysis that we typically don't run within the subject directories. FreeSurfer \citep[see][]{Desikan2006968, Fischl01012004, Fischl2004S69} is a program that we use for cortical and subcortical parcellation. It itself is a complicated neuroimaging pipeline that is built using \maken{}. It likes to put all subject directories for an analysis in one directory, which makes it difficult to enforce the subject-level structure described. But in general, it is much wiser to work around what the programs want to do than to reorganize their output in ways that might break when the software is updated! This is our approach.
 
-The FreeSurfer example is documented in \hyperref[sec:freesurfer]{Part 3 of this manual}. 
+The FreeSurfer example is documented in \nameref{example:freesurfer}. 
 
 % For complete FreeSurfer references, add these: Fischl26092000, FischlLiuDale, FischlSalat2002, HBM:HBM10, Jovicich2006436, Kuperberg2003, Rosas12032002, Salat2004, Segonne20041060, dale:99, fischl:99, han:06, sledzijdenbos1998, spf2007, reuter:robreg10, reuter:bias11, reuter:long12
