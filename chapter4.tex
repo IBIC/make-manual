@@ -1,0 +1,92 @@
+\chapter{Recipes}
+\label{seq:recipes}
+
+This section contains recipes for different kinds of small tasks you may wish to accomplish with \maken{}. Some of these recipes can be seen ``in action'' in real makefiles in the example data supplement to this manual. These real example makefiles are documented in Chapter IV. When we refer to these files, we will assume that the path is relative to where you have unpacked these examples in your environment. 
+
+\subsection{Obtaining a list of subjects}
+
+A common thing you may want to do in a Makefile is to set a variable that includes the names of all subjects that you will be processing. Here are some examples of code to set the SUBJECTS variable. This first approach (\autoref{make:subjectsfile}) keeps a list of subjects in a file called \texttt{subject-list.txt}. 
+This is extremely handy for analyses that use only a subset of the subjects: for example, only a treatment group, or a selected subset of subjects from the entire study. For an example of this approach in use, see \autoref{example:fcon}. 
+
+\begin{make}{Obtaining a list of subjects from a file.}{make:subjectsfile}
+  SUBJECTS=\$(shell cat subject-list.txt) 
+\end{make}
+
+
+This second approach (Figure~\ref{make:subjectswildcard} simply uses the project directory as reference, assuming that if a subject directory exists, so does the data to run this analysis. For an example of this approach in use, see \texttt{oasis-longitudinal-sample-small/visit1/Makefile}, described in Practical 2. 
+
+\begin{make}{Obtaining a list of subjects using a wildcard.}{make:subjectswildcard}
+SUBJECTS = \$(wildcard OAS2\_????)
+\end{make}
+
+Both approaches are appropriate for different circumstances. For example, we have used the first approach for a pilot study where several subjects in the pilot had some technical problems with their ASL scans. They were perfectly usable for other purposes but not for the ASL analysis. We have used the second approach for keeping up with FreeSurfer analyses of cortical thickness, running FreeSurfer on new subjects as soon as their dicoms are converted to nifti files and their T1 image is placed in their subject directories.  
+
+\subsection{Setting a variable that contains the subject id }
+It is useful to set a variable that contains the subject identifier, to be used when naming or accessing files that incorporate the subject identifier. We assume that this is in the context of subject-specific processing within a directory. One way to do this robustly (so that it works whether or not you are accessing the subject directory via a symbolic link or from the directory itself) is as shown in \autoref{make:setsubject}. For an example of this approach in use, see \texttt{oasis-longitudinal-sample-small/visit1/Makefile.subdir}, described in Practical 2.
+
+\begin{make}{Determining the subject name from the current working directory and a pattern.}{make:setsubject}
+subject=\$(shell pwd|egrep -o `{}OAS2_[0-9]*')
+\end{make}
+
+By using the command \texttt{grep} and a pattern to identify the subject identifier from the current working directory, this method will work no matter where in the path the subject identifier is located.
+
+\subsection{Setting a conditional flag }
+
+Sometimes we wish to process data only if we have the correct file (or files). By design or by accident, it may be that a certain scan was not acquired or is not of sufficient quality to process. Here, we have created a file \texttt{00\_NOFLAIR} for each subject data directory that is missing a Fluid Attenuated Inversion Recovery (FLAIR) scan sequence. We set a variable called \texttt{HAVEFLAIR} that we can later use to "comment out" commands that would fail miserably if the basis files do not exist (\autoref{make:conditional}). To see this in use, see \texttt{testsubject/test001/Makefile}, described in Practical 3.
+
+\begin{make}{Setting a variable to determine whether a FLAIR image has been acquired.}{make:conditional}
+HAVEFLAIR = \$(shell if [ -f 00_NOFLAIR ] ; then echo false; else echo true; fi)
+\end{make}
+
+We could also just look for the FLAIR image and decide that if it isn't there, we shouldn't try to process it (not throwing an error). With hundreds of subjects, however, it takes a lot of time to cross reference the master spreadsheet to check whether the file is missing by design or whether it did not get copied correctly. Making little marker files such as \texttt{00\_NOFLAIR} (which can contain missing data codes and reasons for the missing data) helps a lot to avoid re-checking.  
+
+Another example is a multisite study that occurs at several sites, each with different scanners. We may want to set a site variable that we can use to perform conditional processing (for example, adjusting for different sequence flags). Here, we create a site file called \texttt{00\_XX}, where the XX is a two letter code for the specific site. The site variable is then set to \texttt{00\_XX} (Figure~\ref{make:site}).
+
+\begin{make}{Setting a variable to indicate the study site.}{make:site}
+SITE = \$(shell echo 00\_??)
+\end{make}
+
+Finally, \autoref{sec:dti}  illustrates how to perform conditional processing based on the existence of specific files. In that example, the presence of certain files triggers different streams of diffusion tensor imaging (DTI) processing. This is a useful strategy for programming a makefile to be portable across different common acquisitions. 
+
+\subsection{Using a conditional flag}
+Once set, it is possible to test a conditional flag and perform different processing. Having set a conditional flag, it can be used to select rules in your makefile. Here, for example, we use the \texttt{SITE} variable to reorient and rename the correct T1 image (which has a different name depending on the different sequence/scanner used at each site). 
+
+\begin{make}{Testing the site variable to determine the name of the T1 image.}{make:sitetest}
+ifeq (\$(SITE),00\_BN) \\
+\maker{\$(subject)\_T1.nii.gz}{\$(wildcard *SCALP.nii.gz)}\\
+     \tab fslreorient2std \$< \$@    \\
+endif \\
+
+ifeq (\$(SITE),00_MR) \\
+\maker{\$(subject)_T1.nii.gz} {\$(wildcard *t1_fl3d_SAG.nii.gz)} \\
+    \tab  fslreorient2std \$< \$@    \\
+endif
+\end{make}
+
+
+\subsection{Conditional execution based on the environment}
+By default, environment variables set in the shell are passed to \maken{}. These variables may be overridden within a makefile. In this example (\autoref{make:environment}), used in many of the example data makefiles, we check whether users have set an environment variable \texttt{MAKEPIPELINES}. This is used to refer to files within the example directories.  If it is undefined it is set to the default IBIC location (so that IBIC users can try out the makefiles without worrying about setting the variable).
+
+\begin{make}{Testing to see whether an environment variable is undefined}{make:environment}
+ifeq "\$(origin MAKEPIPELINES)" "undefined" \\
+MAKEPIPELINES=/project\_space/makepipelines \\
+endif
+\end{make}
+
+
+\subsection{Conditional execution based upon the Linux version}
+
+In our environment we strive to run the exact same image of the Linux operating system, with all the same software packages installed, on all computers. However, we often migrate workstations to the latest version of the operating system over a period of several months. Different groups time their upgrades to minimally disturb image processing. In one case, there was a particular AFNI program necessary for our resting state analysis that was only installed in the latest OS. So, we check the version of the OS in order to conditionally set the targets that the makefile will build (\autoref{make:linux}).
+
+The command \texttt{lsb_release -sc}  produces the codeword corresponding to the Linux version installed (here, precise), and this is what we check. The @ before echo in the second all target indicates not to print the commands themselves to the screen, only the output of the commands, which improves readability.
+\begin{make}{Testing the Linux version to determine whether to proceed}{make:linux}
+RELEASE=\$(shell lsb_release -sc)\\
+
+ifeq (\$(RELEASE),precise)\\
+     \maker{all}{processedrest_medn.nii.gz}\\
+else\\
+     \maker{all}{}\\     
+     @echo "The software to run this pipeline is only installed on"\\
+     @echo "the newest version of the OS, 12.04"\\
+endif
+\end{make}
