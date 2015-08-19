@@ -42,37 +42,45 @@
 \BOOKMARK [2][-]{section*.69}{Suspicious continuation in line \043}{section*.63}% 42
 \BOOKMARK [2][-]{section*.70}{make keeps rebuilding targets}{section*.63}% 43
 \BOOKMARK [2][-]{section*.71}{make doesn't rebuild things that it should}{section*.63}% 44
-\BOOKMARK [-1][-]{part.2}{Practica}{}% 45
-\BOOKMARK [0][-]{chapter.2.1}{Overview of make}{part.2}% 46
-\BOOKMARK [1][-]{section*.73}{Lecture: The Conceptual Example of Making Breakfast}{chapter.2.1}% 47
-\BOOKMARK [1][-]{section*.77}{Practical Example: Skull-stripping}{chapter.2.1}% 48
-\BOOKMARK [2][-]{section*.78}{Manipulating a single subject}{section*.77}% 49
-\BOOKMARK [2][-]{section*.80}{Pattern rules and multiple subjects}{section*.77}% 50
-\BOOKMARK [2][-]{section*.84}{Phony targets}{section*.77}% 51
-\BOOKMARK [2][-]{section*.85}{Secondary targets}{section*.77}% 52
-\BOOKMARK [2][-]{section*.86}{make clean}{section*.77}% 53
-\BOOKMARK [0][-]{chapter.2.2}{make in Context}{part.2}% 54
-\BOOKMARK [1][-]{section*.88}{Lecture: Organizing Subject Directories}{chapter.2.2}% 55
-\BOOKMARK [1][-]{section*.89}{Practical Example: A More Realistic Longitudinal Directory Structure}{chapter.2.2}% 56
-\BOOKMARK [2][-]{section*.90}{Organizing Longitudinal Data}{section*.89}% 57
-\BOOKMARK [2][-]{section*.91}{Recursive make}{section*.89}% 58
-\BOOKMARK [2][-]{section*.94}{Running make over multiple subject directories}{section*.89}% 59
-\BOOKMARK [2][-]{section*.95}{Running FreeSurfer}{section*.89}% 60
-\BOOKMARK [0][-]{chapter.2.3}{Getting Down and Dirty with make}{part.2}% 61
-\BOOKMARK [1][-]{section*.96}{Practical Example: Running QMON}{chapter.2.3}% 62
-\BOOKMARK [1][-]{section*.97}{Practical Example: A Test Subject}{chapter.2.3}% 63
-\BOOKMARK [2][-]{section*.98}{Estimated total intracranial volume}{section*.97}% 64
-\BOOKMARK [2][-]{section*.99}{Hippocampal volumes}{section*.97}% 65
-\BOOKMARK [1][-]{section*.100}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{chapter.2.3}% 66
-\BOOKMARK [0][-]{chapter.2.4}{Advanced Topics \046 Quality Assurance with R Markdown}{part.2}% 67
-\BOOKMARK [1][-]{section*.102}{Creating a make help system}{chapter.2.4}% 68
-\BOOKMARK [1][-]{section*.104}{makefile Directory structure}{chapter.2.4}% 69
-\BOOKMARK [1][-]{section*.105}{The Clean target}{chapter.2.4}% 70
-\BOOKMARK [1][-]{section*.106}{Defining macros}{chapter.2.4}% 71
-\BOOKMARK [1][-]{section*.107}{Incorporating R Markdown into make}{chapter.2.4}% 72
-\BOOKMARK [-1][-]{part.3}{Examples}{}% 73
-\BOOKMARK [0][-]{chapter.3.1}{Makefile Examples}{part.3}% 74
-\BOOKMARK [1][-]{section*.112}{Running FreeSurfer}{chapter.3.1}% 75
-\BOOKMARK [0][-]{appendix.A}{makeToTeX}{part.3}% 76
-\BOOKMARK [0][-]{appendix.B}{Style Guide}{part.3}% 77
-\BOOKMARK [0][-]{section*.114}{Bibliography}{part.3}% 78
+\BOOKMARK [0][-]{chapter.1.4}{Recipes}{part.1}% 45
+\BOOKMARK [1][-]{section*.72}{Obtaining a list of subjects}{chapter.1.4}% 46
+\BOOKMARK [2][-]{section*.75}{Setting a variable that contains the subject id }{section*.72}% 47
+\BOOKMARK [2][-]{section*.77}{Setting a conditional flag }{section*.72}% 48
+\BOOKMARK [2][-]{section*.80}{Using a conditional flag}{section*.72}% 49
+\BOOKMARK [2][-]{section*.82}{Conditional execution based on the environment}{section*.72}% 50
+\BOOKMARK [2][-]{section*.84}{Conditional execution based upon the Linux version}{section*.72}% 51
+\BOOKMARK [-1][-]{part.2}{Practicals}{}% 52
+\BOOKMARK [0][-]{chapter.2.1}{Overview of make}{part.2}% 53
+\BOOKMARK [1][-]{section*.87}{Lecture: The Conceptual Example of Making Breakfast}{chapter.2.1}% 54
+\BOOKMARK [1][-]{section*.91}{Practical Example: Skull-stripping}{chapter.2.1}% 55
+\BOOKMARK [2][-]{section*.92}{Manipulating a single subject}{section*.91}% 56
+\BOOKMARK [2][-]{section*.94}{Pattern rules and multiple subjects}{section*.91}% 57
+\BOOKMARK [2][-]{section*.98}{Phony targets}{section*.91}% 58
+\BOOKMARK [2][-]{section*.99}{Secondary targets}{section*.91}% 59
+\BOOKMARK [2][-]{section*.100}{make clean}{section*.91}% 60
+\BOOKMARK [0][-]{chapter.2.2}{make in Context}{part.2}% 61
+\BOOKMARK [1][-]{section*.102}{Lecture: Organizing Subject Directories}{chapter.2.2}% 62
+\BOOKMARK [1][-]{section*.103}{Practical Example: A More Realistic Longitudinal Directory Structure}{chapter.2.2}% 63
+\BOOKMARK [2][-]{section*.104}{Organizing Longitudinal Data}{section*.103}% 64
+\BOOKMARK [2][-]{section*.105}{Recursive make}{section*.103}% 65
+\BOOKMARK [2][-]{section*.108}{Running make over multiple subject directories}{section*.103}% 66
+\BOOKMARK [2][-]{section*.109}{Running FreeSurfer}{section*.103}% 67
+\BOOKMARK [0][-]{chapter.2.3}{Getting Down and Dirty with make}{part.2}% 68
+\BOOKMARK [1][-]{section*.110}{Practical Example: Running QMON}{chapter.2.3}% 69
+\BOOKMARK [1][-]{section*.111}{Practical Example: A Test Subject}{chapter.2.3}% 70
+\BOOKMARK [2][-]{section*.112}{Estimated total intracranial volume}{section*.111}% 71
+\BOOKMARK [2][-]{section*.113}{Hippocampal volumes}{section*.111}% 72
+\BOOKMARK [1][-]{section*.114}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{chapter.2.3}% 73
+\BOOKMARK [0][-]{chapter.2.4}{Advanced Topics \046 Quality Assurance with R Markdown}{part.2}% 74
+\BOOKMARK [1][-]{section*.116}{Creating a make help system}{chapter.2.4}% 75
+\BOOKMARK [1][-]{section*.118}{makefile Directory structure}{chapter.2.4}% 76
+\BOOKMARK [1][-]{section*.119}{The Clean target}{chapter.2.4}% 77
+\BOOKMARK [1][-]{section*.120}{Defining macros}{chapter.2.4}% 78
+\BOOKMARK [1][-]{section*.121}{Incorporating R Markdown into make}{chapter.2.4}% 79
+\BOOKMARK [-1][-]{part.3}{Examples}{}% 80
+\BOOKMARK [0][-]{chapter.3.1}{Makefile Examples}{part.3}% 81
+\BOOKMARK [1][-]{section*.126}{Running FreeSurfer}{chapter.3.1}% 82
+\BOOKMARK [1][-]{section*.127}{Testsubject Transformations}{chapter.3.1}% 83
+\BOOKMARK [0][-]{appendix.A}{makeToTeX}{part.3}% 84
+\BOOKMARK [0][-]{appendix.B}{Style Guide}{part.3}% 85
+\BOOKMARK [0][-]{section*.129}{Bibliography}{part.3}% 86

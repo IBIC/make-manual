@@ -25,24 +25,33 @@
 \contentsline {figure}{\numberline {3.6}{\ignorespaces The right way to run two long tasks\relax }}{24}{figure.caption.55}
 \contentsline {figure}{\numberline {3.7}{\ignorespaces Pattern-matching error handling\relax }}{30}{figure.caption.68}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Creating a waffwich\relax }}{34}{figure.caption.74}
-\contentsline {figure}{\numberline {1.2}{\ignorespaces How to make a waffwich\relax }}{35}{figure.caption.75}
-\contentsline {figure}{\numberline {1.3}{\ignorespaces Using \texttt {make}{} to make a waffwich\relax }}{35}{figure.caption.76}
-\contentsline {figure}{\numberline {1.4}{\ignorespaces Makefile as copied\relax }}{36}{figure.caption.79}
-\contentsline {figure}{\numberline {1.5}{\ignorespaces Pattern-matched Makefile\relax }}{37}{figure.caption.81}
-\contentsline {figure}{\numberline {1.6}{\ignorespaces Pattern-matched Makefile\relax }}{37}{figure.caption.82}
-\contentsline {figure}{\numberline {1.7}{\ignorespaces Pattern-matching as a sieve\relax }}{38}{figure.caption.83}
-\contentsline {figure}{\numberline {1.8}{\ignorespaces \texttt {make clean}\relax }}{41}{figure.caption.87}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Obtaining a list of subjects from a file.\relax }}{31}{figure.caption.73}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Obtaining a list of subjects using a wildcard.\relax }}{31}{figure.caption.74}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Determining the subject name from the current working directory and a pattern.\relax }}{32}{figure.caption.76}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Setting a variable to determine whether a FLAIR image has been acquired.\relax }}{32}{figure.caption.78}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Setting a variable to indicate the study site.\relax }}{33}{figure.caption.79}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Testing the site variable to determine the name of the T1 image.\relax }}{33}{figure.caption.81}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Testing to see whether an environment variable is undefined\relax }}{34}{figure.caption.83}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Testing the Linux version to determine whether to proceed\relax }}{35}{figure.caption.85}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces The \texttt {@} character hides commands\relax }}{45}{figure.caption.92}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Printing out the value of variables\relax }}{45}{figure.caption.93}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Creating a waffwich\relax }}{39}{figure.caption.88}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces How to make a waffwich\relax }}{40}{figure.caption.89}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Using \texttt {make}{} to make a waffwich\relax }}{40}{figure.caption.90}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Makefile as copied\relax }}{41}{figure.caption.93}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Pattern-matched Makefile\relax }}{42}{figure.caption.95}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Pattern-matched Makefile\relax }}{42}{figure.caption.96}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Pattern-matching as a sieve\relax }}{43}{figure.caption.97}
+\contentsline {figure}{\numberline {1.8}{\ignorespaces \texttt {make clean}\relax }}{46}{figure.caption.101}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{55}{figure.caption.101}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces The \texttt {@} character hides commands\relax }}{50}{figure.caption.106}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Printing out the value of variables\relax }}{50}{figure.caption.107}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {4.1}{\ignorespaces \texttt {make}{}'s Help System\relax }}{58}{figure.caption.103}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{61}{figure.caption.108}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of a R Markdown File\relax }}{62}{figure.caption.109}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{63}{figure.caption.110}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{60}{figure.caption.115}
+\addvspace {10pt}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces \texttt {make}{}'s Help System\relax }}{63}{figure.caption.117}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{66}{figure.caption.122}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of a R Markdown File\relax }}{67}{figure.caption.123}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{68}{figure.caption.124}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}

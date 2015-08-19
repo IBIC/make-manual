@@ -49,37 +49,45 @@
 \contentsline {subsection}{Suspicious continuation in line \scalebox {0.8}{\raisebox {0.4ex}{\#}}{}}{29}{section*.69}
 \contentsline {subsection}{\texttt {make}{} keeps rebuilding targets}{30}{section*.70}
 \contentsline {subsection}{\texttt {make}{} doesn't rebuild things that it should}{30}{section*.71}
-\contentsline {part}{\partnumberline {II}Practica}{31}{part.2}
-\contentsline {chapter}{\chapternumberline {1}Overview of \texttt {make}{}}{33}{chapter.2.1}
-\contentsline {section}{Lecture: The Conceptual Example of Making Breakfast}{33}{section*.73}
-\contentsline {section}{Practical Example: Skull-stripping}{35}{section*.77}
-\contentsline {subsection}{Manipulating a single subject}{35}{section*.78}
-\contentsline {subsection}{Pattern rules and multiple subjects}{37}{section*.80}
-\contentsline {subsection}{Phony targets}{39}{section*.84}
-\contentsline {subsection}{Secondary targets}{40}{section*.85}
-\contentsline {subsection}{\texttt {make clean}}{40}{section*.86}
-\contentsline {chapter}{\chapternumberline {2}\texttt {make}{} in Context}{42}{chapter.2.2}
-\contentsline {section}{Lecture: Organizing Subject Directories}{42}{section*.88}
-\contentsline {section}{Practical Example: A More Realistic Longitudinal Directory Structure}{43}{section*.89}
-\contentsline {subsection}{Organizing Longitudinal Data}{43}{section*.90}
-\contentsline {subsection}{Recursive \texttt {make}{}}{44}{section*.91}
-\contentsline {subsection}{Running \texttt {make}{} over multiple subject directories}{46}{section*.94}
-\contentsline {subsection}{Running FreeSurfer}{47}{section*.95}
-\contentsline {chapter}{\chapternumberline {3}Getting Down and Dirty with \texttt {make}{}}{48}{chapter.2.3}
-\contentsline {section}{Practical Example: Running QMON}{48}{section*.96}
-\contentsline {section}{Practical Example: A Test Subject}{49}{section*.97}
-\contentsline {subsection}{Estimated total intracranial volume}{51}{section*.98}
-\contentsline {subsection}{Hippocampal volumes}{53}{section*.99}
-\contentsline {section}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{54}{section*.100}
-\contentsline {chapter}{\chapternumberline {4}Advanced Topics \& Quality Assurance with R Markdown}{57}{chapter.2.4}
-\contentsline {section}{Creating a \texttt {make}{} help system}{57}{section*.102}
-\contentsline {section}{makefile Directory structure}{58}{section*.104}
-\contentsline {section}{The \texttt {Clean} target}{59}{section*.105}
-\contentsline {section}{Defining macros}{59}{section*.106}
-\contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{60}{section*.107}
-\contentsline {part}{\partnumberline {III}Examples}{64}{part.3}
-\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{65}{chapter.3.1}
-\contentsline {section}{Running FreeSurfer}{66}{section*.112}
-\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{68}{appendix.A}
-\contentsline {appendix}{\chapternumberline {B}Style Guide}{69}{appendix.B}
-\contentsline {chapter}{Bibliography}{71}{section*.114}
+\contentsline {chapter}{\chapternumberline {4}Recipes}{31}{chapter.1.4}
+\contentsline {subsection}{Obtaining a list of subjects}{31}{section*.72}
+\contentsline {subsection}{Setting a variable that contains the subject id }{32}{section*.75}
+\contentsline {subsection}{Setting a conditional flag }{32}{section*.77}
+\contentsline {subsection}{Using a conditional flag}{33}{section*.80}
+\contentsline {subsection}{Conditional execution based on the environment}{34}{section*.82}
+\contentsline {subsection}{Conditional execution based upon the Linux version}{34}{section*.84}
+\contentsline {part}{\partnumberline {II}Practicals}{36}{part.2}
+\contentsline {chapter}{\chapternumberline {1}Overview of \texttt {make}{}}{38}{chapter.2.1}
+\contentsline {section}{Lecture: The Conceptual Example of Making Breakfast}{38}{section*.87}
+\contentsline {section}{Practical Example: Skull-stripping}{40}{section*.91}
+\contentsline {subsection}{Manipulating a single subject}{40}{section*.92}
+\contentsline {subsection}{Pattern rules and multiple subjects}{42}{section*.94}
+\contentsline {subsection}{Phony targets}{44}{section*.98}
+\contentsline {subsection}{Secondary targets}{45}{section*.99}
+\contentsline {subsection}{\texttt {make clean}}{45}{section*.100}
+\contentsline {chapter}{\chapternumberline {2}\texttt {make}{} in Context}{47}{chapter.2.2}
+\contentsline {section}{Lecture: Organizing Subject Directories}{47}{section*.102}
+\contentsline {section}{Practical Example: A More Realistic Longitudinal Directory Structure}{48}{section*.103}
+\contentsline {subsection}{Organizing Longitudinal Data}{48}{section*.104}
+\contentsline {subsection}{Recursive \texttt {make}{}}{49}{section*.105}
+\contentsline {subsection}{Running \texttt {make}{} over multiple subject directories}{51}{section*.108}
+\contentsline {subsection}{Running FreeSurfer}{52}{section*.109}
+\contentsline {chapter}{\chapternumberline {3}Getting Down and Dirty with \texttt {make}{}}{53}{chapter.2.3}
+\contentsline {section}{Practical Example: Running QMON}{53}{section*.110}
+\contentsline {section}{Practical Example: A Test Subject}{54}{section*.111}
+\contentsline {subsection}{Estimated total intracranial volume}{56}{section*.112}
+\contentsline {subsection}{Hippocampal volumes}{58}{section*.113}
+\contentsline {section}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{59}{section*.114}
+\contentsline {chapter}{\chapternumberline {4}Advanced Topics \& Quality Assurance with R Markdown}{62}{chapter.2.4}
+\contentsline {section}{Creating a \texttt {make}{} help system}{62}{section*.116}
+\contentsline {section}{makefile Directory structure}{63}{section*.118}
+\contentsline {section}{The \texttt {Clean} target}{64}{section*.119}
+\contentsline {section}{Defining macros}{64}{section*.120}
+\contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{65}{section*.121}
+\contentsline {part}{\partnumberline {III}Examples}{69}{part.3}
+\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{70}{chapter.3.1}
+\contentsline {section}{Running FreeSurfer}{71}{section*.126}
+\contentsline {section}{Testsubject Transformations}{73}{section*.127}
+\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{75}{appendix.A}
+\contentsline {appendix}{\chapternumberline {B}Style Guide}{76}{appendix.B}
+\contentsline {chapter}{Bibliography}{78}{section*.129}
