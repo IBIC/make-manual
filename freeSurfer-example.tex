@@ -24,14 +24,14 @@ The code for this example is in \texttt{\$MAKEPIPELINES/oasis-longitudinal-examp
 \indent\lnum{2}Because we have multiple versions of FreeSurfer installed, and because it is possible to run FreeSurfer with different flags, we set several variables that describe what version of FreeSurfer and what options we are using in the Makefile. Note that the definition for \texttt{RECON_ALL} refers to \texttt{RECON_FLAGS} seemingly before it is set. Recall that \maken{} dereferences variables when it uses them, so the order that these variables are set does not matter. This is not like \texttt{bash}!\\
 \indent\lnum{3}By default, \maken{} uses \texttt{/bin/sh} to interpret recipes. Sometimes this can cause confusion, because \texttt{sh} has only a subset of the functionality of \texttt{bash}. We can avoid such confusion by setting the \maken{} variable \texttt{SHELL} explicitly.
 
-\setcounter{codehighlight}{0}
+
 \begin{lstlisting}
 	%*\lnote*SUBJECTS=$(notdir $(wildcard $(PROJHOME)/subjects/*))	
 \end{lstlisting}
 
 \lnum{4}We need to obtain a list of subject identifiers to process. Here, we form this list by using a wildcard to obtain all the subject directories in \texttt{PROJHOME} and then stripping away all the directory prefixes using the \texttt{notdir} call.
 
-\setcounter{codehighlight}{0}
+
 \begin{lstlisting}
 	SESSION=1
 	%*\lnote*inputdirs=$(SUBJECTS:%=%.t$(SESSION))
@@ -54,7 +54,7 @@ The code for this example is in \texttt{\$MAKEPIPELINES/oasis-longitudinal-examp
 \indent\lnum{7}The phony target \texttt{setup} depends upon the input directories we defined in \lnum{6}.\\
 \indent\lnum{8}This recipe creates the input directories by transforming the first MPRAGE image from the subject directory into mgz format. More complicated recipes may include conditionally choosing one of multiple MPRAGE images, using two images if available, and so forth. 
 
-\setcounter{codehighlight}{0}
+
 \begin{lstlisting}
 	%*\lnote*%.t$(SESSION)/mri/aparc+aseg.mgz: %.t$(SESSION)
         	rm -rf `dirname $@`/IsRunning.*
@@ -65,7 +65,7 @@ The code for this example is in \texttt{\$MAKEPIPELINES/oasis-longitudinal-examp
 
 \lnum{9} FreeSurfer creates many output files when it runs. Here, we select one of the critical files that should exist upon successful completion, \texttt{mri/aparc+aseg.mgz} to be the target of this rule. It depends upon the directory having been created so that we can call \texttt{recon-all} by specifying the subject directory. You might think that it would be wise to specify multiple FreeSurfer output files as targets. In this case, if the multiple targets are specified using a pattern rule, the recipe would be executed only once to create the targets. However, if we did not use a pattern rule, the recipe could be executed once per target. This is clearly not the intended behavior. To avoid confusion, we usually pick a single late-stage output file to be the target.
 
-\setcounter{codehighlight}{0}
+
 \begin{lstlisting}
 	%*\lnote*qa: $(inputdirs:%=QA/%)
 
@@ -76,7 +76,7 @@ The code for this example is in \texttt{\$MAKEPIPELINES/oasis-longitudinal-examp
 
 \lnum{10}We can create a number of quality assurance (QA) images from the FreeSurfer directories using the \texttt{recon_checker} program. The \texttt{qa} target depends upon directories within the \texttt{QA} subdirectory. These are created by \texttt{recon_checker} in \lnum{12}.
 
-\setcounter{codehighlight}{0}
+
 \begin{lstlisting}
 	%*\lnote*Makefile.longitudinal:
 		$(PROJHOME)/bin/genctlongitudinalmakefile > $@
