@@ -1,10 +1,12 @@
 \chapter{Running \maken{} in Context}
 \label{chap:context}
 
+In the previous chapter we presented some toy examples. However, in real neuroimaging life one deals with hundreds of subjects with multiple types of scans and many planned analyses. To keep this straight requires some conventions, whether you use \maken{} or not. Here we describe some conventions that are useful for managing realistic projects.
+
 \section{File Naming Conventions}
 \label{sec:naming}
 
-File naming conventions are also critical for scripting in general, and for Makefiles in particular. \maken{} is specifically designed to turn files with one extension (the extension is the last several characters of the filename) into files with another extension. For example, in \autoref{make:recipe1} we turned a file with an extension ``T1.nii.gz'' into a file with the extension ``T1_skstrip.nii.gz.'' 
+File naming conventions are critical for scripting in general, and for Makefiles in particular. \maken{} is specifically designed to turn files with one extension (the extension is the last several characters of the filename) into files with another extension. For example, in \autoref{make:recipe1} we turned a file with an extension ``T1.nii.gz'' into a file with the extension ``T1_skstrip.nii.gz.'' 
 \mymarginnote{!}{``\textbf{Extension}'' often refers to the file suffix, e.g., ``.csv,'' but there is no reason it must be limited to a fixed number of characters after a period.}
 
 So we can use naming conventions within a project, and across projects consistently to reuse rules that we write for common operations. In fact, \maken{} has many built-in rules for compiling programs that are absolutely useless to us. But we can write our own rules.
@@ -13,12 +15,12 @@ Thus, it is important to decide upon naming conventions.
 
 \subsection{Subject Identifiers}
 
-The first element of naming conventions is the subject identifier. This is usually the first part of any file name that we might end up using outside of its directory. For example, when processing resting state data, the final cleaned data begins with the subject identifier, allowing us to dump all those files into a new directory for subsequent analysis with another program, without having to rename them or risk overwriting other subject files. Some features (by no means exhaustive) that may be useful for subject identifiers are:
+The first element of naming conventions is the subject identifier. This is usually the first part of any file name that we might end up using outside of its directory. For example, we might include the subject identifier in the final preprocessed resting state data, allowing us to dump all those files into a new directory for subsequent analysis with another program, without having to rename them or risk overwriting other subject files. Some features (by no means exhaustive) that may be useful for subject identifiers are:
 
 \begin{easylist}[enumerate]
 	& \textbf{They should contain some indicator of which project the subjects belong to.} \\
 	This is particularly important if you work on multiple projects, or if you may be pooling data from multiple studies. Typically choose a multi-letter code that is the prefix to the subject ID.
-	& \textbf{If applicable, it should contain some indicator of treatment group that the subject belongs to.} \\
+	& \textbf{If applicable, they should contain some indicator of treatment group that the subject belongs to.} \\
 	It is helpful to indicate in the subject ID (usually with another letter or digit code) whether the subject is part of a treatment group or a control.
 	& \textbf{They should be short.} \\
 	Short names are easier to type and to remember, and make it easier to work with lists of directories that are named according to the subject id.
@@ -27,13 +29,13 @@ The first element of naming conventions is the subject identifier. This is usual
 	& \textbf{They should sort reasonably in UNIX.} \\
 	Many utilities ultimately require a list of filenames, which is easy to generate using wildcards and the treatment group code if the subject ID sort order is reasonable. The classic problem is to name subjects S1 \ldots S10, S11 -- the subjects will not be in numeric order without zero-padding to the subject numbers.
 	& \textbf{They should be easy to type.} \\
-	\bashn{} has many tricks to help you avoid typing, but when you have to type, the farther you have to move the longer it takes.
+	\bashn{} has many tricks to help you avoid typing, but when you have to type, the farther you have to move the longer it takes. Do you really need capital letters? 
 	& \textbf{They should be easy to remember for short periods of time.} \\
 	My attention span is very short when doing repetitive tasks; subject IDs that are nine-digit random numbers are harder to remember than subject IDs that are four letter random sequences. 
 	& \textbf{They should be easy to divide into groups using patterns.} \\
-	My favorite set of subject IDs were randomly generated four letter sequences, making it easy to divide the subjects into groups of just about any size using the first letters and wildcards. This makes it very easy to test something on a subset of subjects. 
+	My favorite set of subject IDs were randomly generated four letter sequences that sounded like fake English words, making it easy to divide the subjects into groups of just about any size using the first letters and wildcards. This makes it very easy to test something on a subset of subjects. 
 	& \textbf{They should be consistently used in all data sets within the project.} \\
-	If the subject identifier is ``RC4101'' in a directory, it should not be ``RC4-101'' in the corresponding Redcap database and ``101'' in the neuropsychological data -- it is easier if everyone can decide upon one form of name.
+	If the subject identifier is ``RC4101'' in a directory, it should not be ``RC4-101'' in the corresponding Redcap database and ``101'' in the neuropsychological data. It is easier if everyone can decide upon one form of name.
 \end{easylist}
 
 \subsection{Filenames}
@@ -67,7 +69,7 @@ File naming conventions begin with converted raw data (nifti files derived from 
 	\label{table:filenames}
 \end{figure}
 
-The specific file names chosen are not as important as consistency in the use of extensions and names, and documentation of what these files are and how they were processed. The more you can keep things the same between projects, the more you will be able to reuse from one study to another with minimal changes. 
+The specific file names chosen are not as important as consistency in the use of extensions and names, and documentation of what these files are and how they were processed. The more you can keep things the same between projects, the more Makefiles you will be able to reuse from one study to another with minimal changes. 
 
 \section{Directory Structure}
 \label{sec:dir}
@@ -85,10 +87,10 @@ An example hierarchy (for project Udall) is shown in \autoref{figure:udalldir}.
 			.2 data\DTcomment{Other sources of data for all subjects}.
 			.2 lib\DTcomment{Holds things that are used by many scripts and analyses}.
 			.3 makefiles\DTcomment{Makefiles for this project}.
-			.4 networkROIs\DTcomment{A set of ROI masks for fMRI analysis}.
-			.4 tractographyMasks\DTcomment{A set of masks for tractography analysis}.
+			.3 networkROIs\DTcomment{A set of ROI masks for fMRI analysis}.
+			.3 tractographyMasks\DTcomment{A set of masks for tractography analysis}.
 			.2 freesurfer\DTcomment{Freesurfer (cortical thickness) runs}.
-			.2 tbss\DTcomment{Group-level Tract-Based Spatial Statistics}.
+			.2 tbss\DTcomment{Group-level Tract-Based Spatial Statistics analyses}.
 			.2 subjects\DTcomment{All subject data collected in neuroimaging sessions}.
 			.3 SUBJECT\DTcomment{A specific subject}.
 			.4 session1\DTcomment{Difference subject sessions}.
@@ -107,27 +109,27 @@ An example hierarchy (for project Udall) is shown in \autoref{figure:udalldir}.
 	\end{figure}
 \end{center}
 
-This directory is typically protected so that only members of the project who are permitted by the Institutional Review Board to access the data may \texttt{cd} into the directory, using a specific group related to the project. The sticky bit is set on the project directory and the file permissions are set by default to permit group read, write, and execute permission for each individual so that files people create within the directory substructure are accessible by others in the project. 
+This directory is typically protected so that only members of the project who are permitted by the Institutional Review Board to access the data may \texttt{cd} into the directory, using a specific group related to the project. The setgid bit \mymarginnote{?}{The \texttt{setgid} bit on a directory ensures that files created here assume the group to which the directory belongs, and not the group to which the person creating them belongs.} is set on the project directory and the file permissions are set by default to permit group read, write, and execute permission for each individual so that files people create within the directory substructure are accessible by others in the project. 
 
-\mymarginnote{?}{The \textbf{sticky bit} prevents users from deleting files created by other users.}
 
-The structure is set up for a longitudinal project, where each subject is imaged at separate time points (sessions). All subject data is stored under the directory subjects (under subdirectories corresponding to each session). However, since often it is convenient to conduct analyses on a single time point, we create a convenience directory at the top level (e.g., session3) which has symbolic links to all of the subjects' session 3 data. This can make it easier to perform subject-specific processing (see \autoref{sec:analysisdir}).
+
+The structure is set up for a longitudinal project, where each subject is imaged at separate time points (sessions). All subject data is stored under the directory subjects (under subdirectories corresponding to each session). However, because often it is convenient to conduct analyses on a single time point, we create a convenience directory at the top level (e.g., session3) which has symbolic links to all of the subjects' session 3 data. This can make it easier to perform subject-specific processing.
 
 Notice that in the project directory, we also keep scripts that we write to process the data, other data files, and miscellaneous support files for workflow (in the \texttt{lib/} subdirectory). Your naming conventions may differ and there may be more categories than we have, but it is important to decide upon some structure that everyone agrees upon for the project.
 
 We find it useful to locate the results of some subject-specific processing (e.g. co-registration of files, subject-level DTI processing, subject-level task fMRI processing) in the subject/session directories. However, other types of analyses are more conveniently performed in directories (e.g. \texttt{freesurfer/}, \texttt{tbss/}) that are stored at the top level of the project.
 
-Data files that are collected from non-neuroimaging sources are usually kept in text (tab or comma-separated) form in the \texttt{data/} directory so that scripts can find and use them (e.g., to use the subject age or some cognitive variable as a regressor in an analysis).
+Data files that are collected from non-neuroimaging sources are usually kept in text (tab or comma-separated) form in the \texttt{data/} directory so that scripts can find and use them (e.g., to use the subject age or some cognitive variable as a regressor in an analysis). We have found it very useful to document, manage, and merge this data very carefully, including the important QA variables that describe whether or not a subject's scan should be included in analyses.
 
-Finally, note that we have a directory labeled incoming. This is a scratch directory (it could be a symbolic link to a scratch drive) for placing zip files that come from the scanner, that contain the dicoms for the scan, the Philips-specific PAR/REC files, the physiological data logged (used to correct functional MRI data for heart rate and respiration-related signal) and data from scanner tasks (e.g., EPRIME files).
+Finally, note that we have a directory labeled \texttt{incoming}. This is a scratch directory (it could be a symbolic link to a scratch drive) for placing zip files that come from the scanner, that contain the dicoms for the scan, the Philips-specific PAR/REC files, the physiological data logged (used to correct functional MRI data for heart rate and respiration-related signal) and data from scanner tasks (e.g., EPRIME files).
 
 \section{Setting up an Analysis Directory}
 \label{sec:analysisdir}
 
-We have described, up until this point, little examples of makefiles that process subjects within a single directory. However, real studies include many subjects and many analyses; each analysis often produces hundreds of files per subject. Often, several researchers are trying to conduct different analyses on the same data set at the same time.
+Up until this point we have only seen little examples of makefiles that process subjects within a single directory. However, real studies include many subjects and many analyses; each analysis often produces hundreds of files per subject. Often, several researchers are trying to conduct different analyses on the same data set at the same time.
 
 % add reference to incoming makefile
-For these reasons, we use a collection of makefiles to manage a project. This section describes this basic recipe (which is a little complicated). Typically the steps involving creating subject directories and links are done by a script or an ``incoming'' makefile at the time that the subject data appears from the scanner. Better, if you use an archival system that you can write programs to access (for example, XNAT) a script can create all the links and name files nicely for you.
+For these reasons, we use a collection of makefiles to manage a project. This section describes this basic recipe (which is a little complicated). You can also see this in \texttt{oasis-longitudinal-sample-small}. Typically the steps involving creating subject directories and links are done by a script or an ``incoming'' makefile at the time that the subject data appears from the scanner. Better, if you use an archival system that you can write programs to access (for example, XNAT) a script can create all the links and name files nicely for you.
 
 This relies on the concept of a ``symbolic link.'' This is a file that points to another file or directory. If you remove the link, you will not remove the thing that it points to. However, if you remove the target of the link, the link won't work any more.
 
@@ -142,7 +144,7 @@ Target paths can either be absolute or relative, but they must be relative to th
 You may rename the symlink (as we've done here) or, if you're symlinking to your present working directory, you can leave it blank to preserve the name.
 
 \subsection{Defining the basic directory structure}
-See \autoref{sec:dir} for more information on this step, which is important. Let us assume the project home (\texttt{PROJHOME}) is called \texttt{/project_space/Udall/}. There are three scans per individual. Let us also assume there are two subjects: RC4101 and RC4103. These are the directories that need to be in place. Note we organize the actual files by subject ID and scan session. However, to make processing at each cross-sectional point easier, we create directories with symbolic links to the correct subject/session directories. This flexibility helps in many ways to make cross-sectional and longitudinal analyses easier.
+Let us assume the project home (\texttt{PROJHOME}) is called \texttt{/project_space/Udall/}. There are three scans per individual. Let us also assume there are two subjects: RC4101 and RC4103. These are the directories that need to be in place. Note we organize the actual files by subject ID and scan session. However, to make processing at each cross-sectional point easier, we create directories with symbolic links to the correct subject/session directories. This flexibility helps in many ways to make cross-sectional and longitudinal analyses easier.
 
 All simple subject-specific processing is well-organized within the subject/session directories (for example, skull-stripping, possibly first level feat, dti analysis, co-registrations). We normally run FreeSurfer in a separate directory, because it likes to put directories in a single place. Analyses that combine data across subjects or timepoints (e.g. TBSS) best go in separate directories.
 
@@ -186,14 +188,7 @@ We will do all the subject-level processing from the \texttt{PROJHOME/sessionN/}
 	SUBJECTS=\$(wildcard RC4????) \\
 	
 	\maker{.PHONY}{all \$(SUBJECTS)} \\
-	
-	define usage \\
-	\tab @echo Usage: \\
-	\tab @echo ``make \ldots Makes everything in subdirectories'' \\
-	\tab @echo ``\tab Remember to specify TARGET=?'' \\
-	\tab @echo Other useful targets: \\
-	\tab @echo ``make help \ldots Print this message.'' \\
-	endef \\
+
 	
 	\maker{all}{\$(SUBJECTS)} \\
 	
@@ -280,7 +275,7 @@ In the strategy that we outline for organizing makefiles and conducting subject-
 \bashcmd{make convert_dicoms}
 
 \subsubsection{\texttt{SUBJECTS}}
-We think it makes life easier to set this to the list of subjects in the study (or subjects for whom data has been collected). For example, given our directory structure, when in the top level for a session, the subject identifiers can easily be found with a wildcard on the directory names. The following statement sets the variable \texttt{SUBJECTS} to be all the six-digit files in the current directory (i.e., all the subject directories.) 
+We think it makes life easier to set this variable to the list of subjects in the study (or subjects for whom data has been collected). For example, given our directory structure, when in the top level for a session, the subject identifiers can easily be found with a wildcard on the directory names. The following statement sets the variable \texttt{SUBJECTS} to be all the six-digit files in the current directory (i.e., all the subject directories.) 
 
 \makecmd{SUBJECTS=\$(wildcard [0-9][0-9][0-9][0-9][0-9][0-9])}
 
@@ -298,9 +293,9 @@ Ultimately, when it comes time to publish, it is important to state what version
 	\tab DTIPrep \dd DWINrrdFile \$< -p dtiprep/default.xml \dd default \dd check \dd outputFolder dtiprep/ \\
 \end{make}
 
-Unless you take preventative measures, the version of \texttt{DTIPrep} that is used depends on the caller's path. So if the version of \texttt{DTIPrep} on one machine is newer than that on another, the results may differ. Alternatively, if my graduate student runs this makefile, and happens to have the newest version fo DTIPrep installed in their \texttt{bin/}, that is the version that will be used.
+Unless you take preventative measures, the version of \texttt{DTIPrep} that is used depends entirely on the caller's path. So if the version of \texttt{DTIPrep} on one machine is newer than that on another, results may differ. Alternatively, if my graduate student runs this makefile, and happens to have the newest version of DTIPrep installed in their own \texttt{bin/} directory, that is the version that will be used. This is a big problem for reproducibility.
 
-A practical way to control for this is to specify the location of the program (if that conveys version information). See \autoref{make:dtiv}
+A practical way to control for this is to specify the location of the program (if that conveys version information) as in \autoref{make:dtiv}.
 
 \begin{make}{Controlling software version}{make:dtiv}
 	DTIPREPHOME=/usr/local/DTIPrep_1.1.1_linux64/DTIPrep \\
@@ -314,7 +309,7 @@ What about when the programs are installed in some default location, e.g. \textt
 In the case of simple scripts or statically linked programs, it is fairly easy to copy them into a project-specific bin directory, giving them names that indicate their versions. If you cannot do this, you need to check the version (if the program is kind enough to provide an option that will provide the version) or to check the date that the program was installed, to alert yourself to potential errors. It is useful to set variables for things like reference brains, templates, and so forth. 
 
 \subsection{Variable overrides}
-It is probably a good idea not to edit the makefile too much once it works. But sometimes, it is useful to reissue a command with different parameters. Target-specific variables may be specified in the makefile and overridden on the command line. In the example below, the default flags for FSL bet are specified as \texttt{-f .4 -B -S}.
+It is probably a good idea not to edit a makefile too much once it works. But sometimes, it is useful to reissue a command with different parameters. Target-specific variables may be specified in the makefile and overridden on the command line. In the example below, the default flags for FSL bet are specified as \texttt{-f .4 -B -S}.
 
 \begin{make}{Specifying BET flags in make}{make:betflags}
 	\maker{\%skstrip.nii.gz}{BETFLAGS = -f .3 -B -S} \\
@@ -331,28 +326,26 @@ These suggestions come from experience building pipelines. Having conventions, s
 
 We propose splitting functions into multiple makefiles that can then be called from a common makefile. It is helpful to avoid overruling target names for common targets. Therefore, if the makefile is called, for example, \texttt{convert_dicoms.mk}, we will add the text string ``convert_dicoms'' to the end of each target, as illustrated in the examples below. Top level makefiles (Makefile) can then invoke targets ``\texttt{all}'', ``\texttt{help}'', etc., that depend upon the included makefile targets (See General Recipe for Setting up an Analysis Directory With \maken{}). \\
 
-\texttt{all} (e.g, \texttt{all_convert_dicoms}) 
+\texttt{all}
 
 This is the default, the first target in the file. Nothing in this target should require human intervention. \\
 
-\texttt{help} (e.g., \texttt{help_convert_dicoms})
+\texttt{help} 
 
 This provides a helpful message describing all the targets in the makefile. Therefore, you can approach any makefile by saying ``make help'' and get something out of it. The message provided by help should also detail the makefile variables that can be used to control the workflow (e.g., BETFLAGS may supply user-preferred flags to a skull-stripping analysis with FSL bet, etc). \\
 
-\texttt{clean} (e.g., \texttt{clean_convert_dicoms})
+\texttt{clean} 
 
-Typically this target is used to remove all generated files (e.g., .o, dependency lists) and clean up the directory so that one can type "make" again and regenerate. It usually does not delete configuration information. So the idea is that ``\texttt{make clean}'' will bring you back to square one - starting the pipeline from scratch, but without removing any configuration information you may have created. Good for disaster recovery. \\
+Typically this target is used to remove all generated files (e.g., .o, dependency lists) and clean up the directory to its original state so that one can type "make" again and regenerate. So the idea is that ``\texttt{make clean}'' will bring you back to square one - starting the pipeline from scratch. Good for disaster recovery. \\
 
-\texttt{mostlyclean} (e.g., \texttt{mostlyclean_convert_dicoms})
+\texttt{mostlyclean} (or \texttt{archive})
 
-Same as clean, but does not remove things that are a pain to recreate (e.g., involve hand checking, or time-consuming analysis). We think that this might be a good ``archive state'' type of target - removing all files that you don't think you would need later to examine the results. \\
+Same as clean, but does not remove things that are a pain to recreate (e.g., involve hand checking, or time-consuming analysis) or are critical results for publication. We use this because we are perpetually short of disk space, and this helps to clean up.  \\
 
-\texttt{output} (e.g., \texttt{output_convert_dicoms})
 
-Often we write a text file containing summary statistics in some reasonable format for import to Your Favorite Program. Thus, typing ``make output'' will ensure that summary stats are computed and put into an easy to find place. Sometimes it makes sense to generate the output for each individual subject, as that subject is finished (e.g., inserting some numbers or status into a Google spreadsheet). This is the usual case in a study in which we are doing processing ``greedily'' as soon as subjects come in. We follow the convention that the first column is the subject id number, and subsequent columns hold the output statistics from the analysis.
 
 \subsubsection{.PHONY}
-.PHONY (the period in front is necessary) is a special target used to tell \maken{} which targets are not real files. For example, common targets are \texttt{all} (to make everything) and \texttt{clean} (to remove everything). If you create a file named ``all'' or ``clean'' in the directory with the makefile, suddenly \maken{} will see that the target file ``all'' exists, and will not do anything if it is newer than its dependencies.
+.PHONY (the period in front is necessary) is a special variable used to tell \maken{} which targets are not real files. For example, common targets are \texttt{all} (to make everything) and \texttt{clean} (to remove everything). If you create a file named ``all'' or ``clean'' in the directory with the makefile, suddenly \maken{} will see that the target file ``all'' exists, and will not do anything if it is newer than its dependencies.
 
 To stop this rather unexpected behavior, list targets that are not real files as .PHONY:
 
