@@ -1,5 +1,6 @@
 \chapter{\maken{} in Context}
 \label{sec:practicum2}
+Learning objectives: Organize a subject directory, run make in parallel, convert a shell script to a makefile.
 \section{Lecture: Organizing Subject Directories}
 
 In practice, a project will involve multiple subjects, each with
@@ -19,7 +20,7 @@ need to work with UNIX file naming conventions to do our processing.
 Therefore, selecting good naming conventions for files and for
 directories is key. \maken{} specifically depends upon naming
 conventions so that people can keep track of what programs and steps
-were used to generate what projects.
+were used to generate what projects. See \autoref{chap:context} for examples of good file naming conventions and typical project directory structures. 
 
 % It's ok here to reprint modified info from Chapter 2 
 
@@ -35,20 +36,22 @@ organize multiple visits for each subject as subdirectories under that
 subject's main data directory. However, this organization is highly
 inconvenient for processing with \maken{}.  
 
+These basic issues and the goal of minimizing complexity drive the directory structure described in this practical. 
+
 
 \section{Practical Example: A More Realistic Longitudinal Directory Structure}
 
 \subsection{Organizing Longitudinal Data}
 
 Follow along with this example. Copy directory 
-\newline\texttt{/project_space/makepipelines/oasis-longitudinal-sample-small/} \\
+\newline\texttt{\$MAKEPIPELINES/oasis-longitudinal-sample-small/} \\
 to your home directory using the following command:
-\bashcmd{cp -r /project_space/makepipelines/oasis-longitudinal-sample-small/ ~}
+\bashcmd{cp -r \$MAKEPIPELINES/oasis-longitudinal-sample-small/ ~}
 
-This is a very small subset of the OASIS data set, which consists of a
+This is a very small subset of the OASIS data set (\texttt{http://www.oasis-brains.org}), which consists of a
 longitudinal sample of structural images. There are several T1 images
 taken at each scan session, and several visits that occurred a year or
-more apart. I have reduced the size by taking only one of the T1 images
+more apart. I have reduced the size of this directory by taking only one of the T1 images
 for each person, for each visit, and only of a small sample of
 subjects.
 
@@ -72,7 +75,7 @@ data. In general, a good rule of thumb is that the results of
 subject-level analyses are best placed within the subject directories.
 
 Group-level analyses seem to be best found elsewhere in the project
-directory --- either at a specific timepoint or organized at the top
+directory, either as a subdirectory within a specific timepoint or organized at the top
 level.
 
 Create the directory \texttt{visit1/} within your copy of \texttt{oasis-longitudinal-sample-small}. 
@@ -88,11 +91,23 @@ You can do one link by hand:
 
 This command symbolically links the directory \texttt{../subjects/visit1/OAS2_0001} to the original directory \texttt{../subjects/OAS2_0001/visit1}. 
 \mymarginnote{!}{Your \texttt{ls} command may be aliased to something pleasing, in which case you might see slightly different behavior than described here.} 
-Now, if you enter \texttt{ls -l} into the command line while remaining in the \texttt{visit1} directory, you will notice that the subdirectory \texttt{OAS2_0001} is symbolically linked, as indicated by an arrow, to the original target directory. You can also check whether a file or directory is linked by using the \texttt{ls -F} shorthand command, which indicates symbolic links with an\@ symbol. Conversel, \texttt{ls -L} dereferences the symbolic links so that you can view information for the original target file or directory itself.
+Now, if you enter \texttt{ls -l} into the command line while remaining in the \texttt{visit1} directory, you will notice that the subdirectory \texttt{OAS2_0001} is symbolically linked, as indicated by an arrow, to the original target directory. You can also check whether a file or directory is linked by using the \texttt{ls -F} shorthand command, which indicates symbolic links with an\@ symbol. The command \texttt{ls -L} dereferences the symbolic links so that you can view information for the original target file or directory itself.
 
 You can also create symbolic links in bulk. To do so, remove the link that you have just created and
 use the program in the \texttt{visit1} directory (\texttt{makelinks}) to create all the subject links for visit1. 
 \mymarginnote{!}{The current directory won't be in your PATH, so make sure to call it with \texttt{./makelinks}.}
+
+Take a look at the \texttt{makelinks} script, reprinted below. This script loops through all of the subject directories that have a first visit (visit1). It extracts the subject identifier from the directory name (\texttt{\$i}) by using the \texttt{egrep} command to find the bit of the name that matches the subject identifier pattern (\texttt{OAS2_[0-9]}). With this information, it can link the subject name to the directory. 
+
+\begin{lstlisting}[basicstyle=\ttfamily,frame=single,language=bash]
+#!/bin/bash
+
+for i in ../subjects/*/visit1
+do
+	subject=`echo $i| egrep -o 'OAS2_[0-9]*'` 
+	ln -s $i $subject
+done
+\end{lstlisting}
 
 \subsection{Recursive \maken{}}
 Now let's look at the Makefile (\texttt{visit1/Makefile}).  This is just a 
@@ -111,7 +126,7 @@ Do you know why we use the \texttt{\$PWD} variable to create the link?
 If we used a relative path to the target file, what would happen when
 we go to the subject directory?
 
-Let us see how this works. Look at the subject-level makefile. Go into
+Let us see how this works. Look at the subject-level makefile (\texttt{Makefile.subdir}). Go into
 a subject directory and run \texttt{make}.
 
 By now, you might be getting really tired of seeing the same \texttt{fslreorient2std} and \texttt{bet} commands. \maken{}, by default,

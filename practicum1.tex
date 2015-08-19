@@ -1,7 +1,8 @@
 % Redefining this makes figure auto-labeling work, and the toc prettier.
-\renewcommand{\chaptername}{Practicum}
+\renewcommand{\chaptername}{Practical}
 \chapter{Overview of \maken{}}
-
+Learning objectives: Obtain a conceptual understanding of \maken{}, understand the basic syntax of makefiles and pattern rules.
+\label{sec:practicum1}
 \section{Lecture: The Conceptual Example of Making Breakfast}
 
 \maken{} is a tool for implementing a workflow, or a sequence of steps that you need to execute. Probably the way that most of you have been implementing workflows up until this point is with some kind of program, possibly a shell script. The goal of this lecture and practicum is to motivate the reasons why you might want to move from a shell script to some language for better specifying workflow.
@@ -13,7 +14,7 @@ A few elements of good workflow systems are:
 	& Fault tolerance, which a shell script can absolutely not deal with. If there is a problem in subject nine of your 100-subject loop, subjects 10-100 will not even begin, even if nothing is wrong with them.
 \end{easylist}
 
-We will start with a conceptual example of the difference between shell scripts and \maken{}. \maken{} is organized into code blocks called ``recipes,'' so for our conceptual example, we will create a ``waffwich'', a delicious\footnote{So I'm told.} breakfast food that one can eat with one hand on the way to the bus stop. We can create a pseudocode  \mymarginnote{!}{\textbf{Pseudocode} does not follow any real programming syntax} example of how to make a waffwich:
+We will start with a conceptual example of the difference between shell scripts and \maken{}. \maken{} is organized into code blocks called ``recipes,'' so for our conceptual example, we will create a ``waffwich'', a delicious\footnote{So I'm told.} breakfast food that one can eat with one hand on the way to the bus stop. We can create a pseudocode  \mymarginnote{!}{\textbf{Pseudocode} does not follow any real programming syntax} example of how to make a waffwich (\autoref{bash:waffwich}.
 \begin{bash}{Creating a waffwich}{bash:waffwich}
 	for person in a b c \\
 	do \\
@@ -56,9 +57,7 @@ The information in \autoref{bash:waffwich} can alternatively be represented as a
 \label{tikz:waffle}
 \end{figure}
 
-Note that there are no circular references in this graph! (Hence, an ``acyclic'' graph.)
-
-A graph like this is a very good way of describing a partially ordered sequence of steps.  However, writing a graph is a really nasty way of writing a program, so we need a better syntax for making dependencies. The \maken{} recipe for a waffwich would look something like \autoref{make:waffwich}.
+Note that there are no circular references in this graph! (Hence, it is called an ``acyclic'' graph.) Also note that every arrow points in one direction (to what it depends upon). This is what makes this graph ``directed''. A graph like this is a very good way of describing a partially ordered sequence of steps.  However, drawing a graph is a really nasty way of writing a program, so we need a better syntax for making dependencies. The \maken{} recipe for a waffwich would look something like \autoref{make:waffwich}.
 
 \begin{make}{Using \maken{} to make a waffwich}{make:waffwich}
 	\maker{waffwich}{toastedwaffles berries PB} \\
@@ -71,7 +70,7 @@ A graph like this is a very good way of describing a partially ordered sequence 
 	\tab toast waffle
 \end{make}
 
-We must note: makefiles are not linear, unlike shell scripts. \texttt{toastedwaffle} needs to be created before \texttt{waffwich}, but does not need to appear before it in the script. \maken{} will fall through in the order it needs.
+We must note: makefiles are not linear, unlike shell scripts. \texttt{toastedwaffle} needs to be created before \texttt{waffwich}, but does not need to appear before it in the script. \maken{} will search for the targets that it needs to create in whatever order it needs to find them.
 
 However, we've reached the point where we have to leave this conceptual example because \maken{} is aware of whether something exists or not, and whether it has to make it. It does this by assuming that the target and dependencies are files, and by checking the dates on those files. There are many exceptions to this; but let's accept this simplification for the moment, and move on to a real example with files.
 
@@ -80,19 +79,19 @@ However, we've reached the point where we have to leave this conceptual example 
 \subsection{Manipulating a single subject}
 
 Follow along with this example. Copy directory 
-\newline\texttt{/project_space/makepipelines/oasis-multisubject-sample/} 
+\newline\texttt{\$MAKEPIPELINES/oasis-multisubject-sample/} 
 to your home directory. You can do this with the following command:
 \bashcmd{cp -r \$MAKEPIPELINES/oasis-multisubject-sample \textasciitilde{}}
 
-Your task is to skull strip all of these brains for subsequent use by \texttt{FSL}. However, note that first you need to reorient each image (try looking at it in \texttt{fslview}). So there are two commands you need to execute:
+This is a tiny sample of subjects from the OASIS data set (\texttt{http://www.oasis-brains.org}). Your task is to skull strip all of these brains. However, note that first you need to reorient each image (try looking at it in \texttt{fslview}). So there are two commands you need to execute:
 \bashcmd{fslreorient <subject>_raw.nii.gz <subject>_T1.nii.gz}
 
 and
 \bashcmd{bet <subject>_T1.nii.gz <subject>_T1.skstrip.nii.gz}
 
-By default, \maken{} reads files called ``Makefile.'' According to the manual, GNU looks for \texttt{GNUmakefile}, \texttt{makefile}, and \texttt{Makefile} -- in that order -- but if you use just one convention, you are unlikely to get confused. 
+The first command reorients the image and the second performs the skull stripping. By default, \maken{} reads files called ``Makefile.'' According to the manual, GNU looks for \texttt{GNUmakefile}, \texttt{makefile}, and \texttt{Makefile}  (in that order) but if you stick to just one convention, you are unlikely to get confused. 
 
-Open the makefile that came with the directory. You should have the following:
+Open the makefile (\texttt{Makefile})that came with the directory with an editor. You should see the following:
 
 \begin{make}{Makefile as copied}{p1:1}
 	\maker{OAS2_0_T1_skstrip.nii.gz}{OAS2_0001_T1.nii.gz} \\
@@ -106,7 +105,7 @@ Play around with this. What happens when you execute \texttt{make} from the comm
 
 Change the order of the rules. What happens? Note that by default, \maken{} starts by looking at the first target (the first thing with a colon after it). That is why, when you change the order of the rules, you get different outcomes, but \emph{not} because it is reading them one by one. It's creating a directed acyclic graph, but it has to start somewhere.
 
-You can also tell it where to start. Delete any files that you may have created. Leave the makefile with the rules reordered. Now type:
+You can also tell it where to start. Delete any files that you may have created. Leave the makefile with the rules reordered (so that the \texttt{fslreorient2std} rule is first). Now type:
 \bashcmd{make OAS2_0001_skstrip.nii.gz}
 
 Now \maken{} starts with this target and goes on from there, working backward to figure out what it needs to do.
@@ -125,13 +124,22 @@ dependencies.\mymarginnote{!}{Patterns can be matched anywhere in the
   filename, not just at the beginning.} However, what do you do in the
 recipe when you don't know the actual names of the file you're
 presently working with? The \texttt{\%} won't work there. However, the
-symbol \texttt{\$*} does. But that can get visually ugly. One common
+symbol \texttt{\$*} does, as you can see in \autoref{p1:star}. 
+
+\begin{make}{Pattern-matched Makefile}{p1:star}
+	\maker{\%_T1_skstrip.nii.gz}{\%_T1.nii.gz} \\
+	\tab bet \$*_T1.nii.gz \$*_T1_skstrip.nii.gz \\
+	
+	\maker{\%_T1.nii.gz}{\%_raw.nii.gz}\\
+	\tab fslreorient2std \$*_raw.nii.gz \$*_T1.nii.gz
+\end{make}
+
+Using the \texttt{\$*} to stand in for patterns can get visually ugly. One common
 shortcut is to use the automatic variable \texttt{\$@} to replace the
 target, and \texttt{\$<} for the first dependency.
 
 
-Using these new variables, our code can now be written:
-
+Using these new variables, our code can now be written as in \autoref{p1:2}.
 \begin{make}{Pattern-matched Makefile}{p1:2}
 	\maker{\%_T1_skstrip.nii.gz}{\%_T1.nii.gz} \\
 	\tab bet \$< \$@ \\
@@ -140,7 +148,8 @@ Using these new variables, our code can now be written:
 	\tab fslreorient2std \$< \$@
 \end{make}
 
-But try executing \texttt{make} now, with just those rules. You should
+
+But try executing \texttt{make} now, with just those rules. (If you are completely lost now, look at the file \texttt{Makefile.1} to see what your makefile should look like). You should
 get an error that there are no targets. Note that \texttt{\%} does not
 work as a wildcard as in the \bashn{} shell. If you are used to that
 behavior, you might expect \maken{} will sense that you have a lot of
@@ -218,7 +227,7 @@ Now we can write a target for skullstripping.
 You also now must notify \maken{} to tell it that \texttt{skstrip} is not a real  file. Do this by using the following statement:
 \makecmd{\maker{.PHONY}{skstrip}}
 
-The pattern substitution for changing subjects to files comes from section 8.2 of the GNU \maken{} manual. You can look up the other options, but the basic function of this command is to add the affix \texttt{_T1_skstrip.nii.gz} to each item in \texttt{SUBJECTS}. 
+The pattern substitution for changing subjects to files comes from Section 8.2 of the GNU \maken{} manual. You can look up the other options, but the basic function of this command is to add the affix \texttt{_T1_skstrip.nii.gz} to each item in \texttt{SUBJECTS}. 
 
 The command uses the more general syntax, which can be used to remove parts of names before adding your new affix.
 \makecmd{\$(var:suffix=replacement)}
@@ -238,22 +247,24 @@ Because we explicitly asked for the skull-stripped brains, \maken{} figured out 
 An alternative method is to pass any targets you want to keep to the phony variable.
 \makecmd{\maker{skstrip}{\$(SUBJECTS:=_T1_skstrip.nii.gz) \$(SUBJECTS:=_T1_skstrip.nii.gz)}}
 
-This is a little easier to interpret, as well. It also provides the advantage of allowing \maken{} to realize when an intermediary target needs to be remade. For example, if you erased only a T1 image (perhaps to rerun \texttt{bet}), and told it to \texttt{make skstrip}, it would look and see that all the T1_brain images are newer than the raw images, and therefore, no change needs to be made. While this problem could be solved by also removing the T1_brain image, that's more work and we want to do as little of that as possible.
+This is a little easier to interpret, as well. It also provides the advantage of allowing \maken{} to realize when an intermediary target needs to be remade. For example, if you erased only a T1 image (perhaps to rerun \texttt{bet}), and told it to \texttt{make skstrip}, it would look and see that all the \texttt{T1_brain} images are newer than the raw images, and therefore, no change needs to be made. While this problem could be solved by also removing the \texttt{T1_brain} image, that's more work and we want to do as little of that as possible.
 
 \subsection{\texttt{make clean}}
 
-What if you want to clean up your work? You've been deleting files by hand, but with phony targets, you don't have to. A common thing is to create a target called \texttt{clean}, which removes everything that the makefile created to bring the directory to its virgin state.
+What if you want to clean up your work? You've been deleting files by hand, but with phony targets, you don't have to. A common thing is to create a target called \texttt{clean}, which removes everything that the makefile created to bring the directory to its original state.
 
 \begin{make}{\texttt{make clean}}{p1:clean}
 	\maker{clean}{}\\
 	\tab rm -f *_T1.nii.gz *_T1_brain.nii.gz
 \end{make}
 
-Note that in the recipe, it's totally fine to use wildcards. Also note the use of the \texttt{-f} flag for \texttt{rm}. Here it hides error messages from attempting to erase nonexistent files. 
+Note that in the recipe, it's totally fine to use wildcards. Depending on how far along you got with your processing before you decide to clean and restart, not every file might have been created.  For this reason we typically use the \texttt{-f} flag for \texttt{rm}. This flag hides error messages from attempting to erase nonexistent files. 
 
-The convention of putting a target for \texttt{clean} is just a convention; you need to add every new file that you create in a makefile to the clean target. More dangerous is the that sometimes to get a neuroimaging subject to a certain state, you need to do some handwork that would be expensive to recreate. For example, no one wants to blow away freesurfer directories after doing hand editing. 
+The convention of putting a target for \texttt{clean} is just a convention; you need to muster the discipline to add every new file that you create in a makefile to the clean target. More dangerous is the that sometimes to get a neuroimaging subject to a certain state, you need to do some handwork that would be expensive to recreate. For example, no one wants to blow away freesurfer directories after doing hand editing. 
 
-For these reasons, there exists the looser convention of \texttt{mostlyclean}, which means to remove things that can easily be regenerated, but to leave important partial products (e.g., your images converted from dicoms, freesurfer directories, final masks, and other things).
+For these reasons, we like the looser convention of \texttt{mostlyclean} or \texttt{archive} which means to remove things that can easily be regenerated, but to leave important partial products (e.g., your images converted from dicoms, freesurfer directories, final masks, and other things).
 
-Do not forget to add \texttt{clean}, or \texttt{mostlyclean} if you prefer, to your list of phony targets:
+Do not forget to add \texttt{clean}, \texttt{mostlyclean} and any other phony targets that you find useful to your list of phony targets:
 \makecmd{\maker{.PHONY}{skstrip clean}}
+
+Compare your final makefile to the finished version in \texttt{Makefile.2} and you are done with the first practical.
