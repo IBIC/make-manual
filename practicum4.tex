@@ -76,7 +76,7 @@ Clicking on the link \texttt{testsubject} will redirect you to a page that holds
 We can also create our own QA images to, say, check whether a T1 brain has been properly registered to a brain in standard space. These images can be specified as targets in your makefile like so: 
 \clearpage
 \begin{make}{Using FSL's slicer to create a registration image}{}
-\\
+
 \maker{QA/images/T1\_to\_mni\_deformed.png}{xfm\_dir/T1\_to\_mni\_deformed.nii.gz \$(FSLpath)/data/standard/MNI152\_T1\_2mm\_brain.nii.gz} \\
 	\tab mkdir -p QA/images ;\textbackslash{} \\
 	\tab\$(FSLpath)/bin/slicer \$(word 1,\$\textasciicircum{}) \$(word 2,\$\textasciicircum{}) -s 2 -x 0.35 sla.png -x 0.45 slb.png -x 0.55 slc.png -x 0.65 sld.png -y 0.35 sle.png -y 0.45 slf.png -y 0.55 slg.png -y 0.65 slh.png -z 0.35 sli.png -z 0.45 slj.png -z 0.55 slk.png -z 0.65 sll.png ;\textbackslash{} \\

@@ -6,43 +6,43 @@
 \contentsline {figure}{\numberline {1.5}{\ignorespaces An expansion of \autoref {make:recipe2}\relax }}{6}{figure.caption.11}
 \contentsline {figure}{\numberline {1.6}{\ignorespaces A makefile expressed in \texttt {bash}{}\relax }}{7}{figure.caption.13}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Example of good file naming conventions\relax }}{12}{figure.caption.17}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces An example of a project directory.\relax }}{13}{figure.caption.19}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces A longitudinal analysis directory.\relax }}{15}{figure.caption.22}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Session-level Makefile\relax }}{16}{figure.caption.24}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Subject-level makefile\relax }}{17}{figure.caption.26}
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Making \texttt {test}\relax }}{17}{figure.caption.29}
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Setting \texttt {\$(SHELL)}\relax }}{18}{figure.caption.33}
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Running DTIPrep in make\relax }}{19}{figure.caption.39}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Controlling software version\relax }}{20}{figure.caption.40}
-\contentsline {figure}{\numberline {2.10}{\ignorespaces Specifying BET flags in make\relax }}{21}{figure.caption.42}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Example of good file naming conventions\relax }}{10}{figure.caption.17}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces An example of a project directory.\relax }}{11}{figure.caption.19}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces A longitudinal analysis directory.\relax }}{14}{figure.caption.22}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Session-level Makefile\relax }}{15}{figure.caption.24}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Subject-level makefile\relax }}{16}{figure.caption.26}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Making \texttt {test}\relax }}{16}{figure.caption.29}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Setting \texttt {\$(SHELL)}\relax }}{17}{figure.caption.33}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Running DTIPrep in make\relax }}{18}{figure.caption.39}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Controlling software version\relax }}{19}{figure.caption.40}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces Specifying BET flags in make\relax }}{19}{figure.caption.42}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces A non-functional multi-line makefile\relax }}{24}{figure.caption.48}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces A now-functional multi-line makefile\relax }}{24}{figure.caption.49}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces A multi-line makefile using ``\texttt {\&\&\textbackslash }''\relax }}{24}{figure.caption.50}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces How not to name files\relax }}{24}{figure.caption.52}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces The wrong way to run two long tasks\relax }}{25}{figure.caption.54}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces The right way to run two long tasks\relax }}{25}{figure.caption.55}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Pattern-matching error handling\relax }}{31}{figure.caption.68}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces A non-functional multi-line makefile\relax }}{23}{figure.caption.48}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces A now-functional multi-line makefile\relax }}{23}{figure.caption.49}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces A multi-line makefile using ``\texttt {\&\&\textbackslash }''\relax }}{23}{figure.caption.50}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces How not to name files\relax }}{23}{figure.caption.52}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces The wrong way to run two long tasks\relax }}{24}{figure.caption.54}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces The right way to run two long tasks\relax }}{24}{figure.caption.55}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Pattern-matching error handling\relax }}{30}{figure.caption.68}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Creating a waffwich\relax }}{35}{figure.caption.74}
-\contentsline {figure}{\numberline {1.2}{\ignorespaces How to make a waffwich\relax }}{36}{figure.caption.75}
-\contentsline {figure}{\numberline {1.3}{\ignorespaces Using \texttt {make}{} to make a waffwich\relax }}{36}{figure.caption.76}
-\contentsline {figure}{\numberline {1.4}{\ignorespaces Makefile as copied\relax }}{37}{figure.caption.79}
-\contentsline {figure}{\numberline {1.5}{\ignorespaces Pattern-matched Makefile\relax }}{38}{figure.caption.81}
-\contentsline {figure}{\numberline {1.6}{\ignorespaces Pattern-matched Makefile\relax }}{38}{figure.caption.82}
-\contentsline {figure}{\numberline {1.7}{\ignorespaces Pattern-matching as a sieve\relax }}{39}{figure.caption.83}
-\contentsline {figure}{\numberline {1.8}{\ignorespaces \texttt {make clean}\relax }}{42}{figure.caption.87}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Creating a waffwich\relax }}{34}{figure.caption.74}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces How to make a waffwich\relax }}{35}{figure.caption.75}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Using \texttt {make}{} to make a waffwich\relax }}{35}{figure.caption.76}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Makefile as copied\relax }}{36}{figure.caption.79}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Pattern-matched Makefile\relax }}{37}{figure.caption.81}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Pattern-matched Makefile\relax }}{37}{figure.caption.82}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Pattern-matching as a sieve\relax }}{38}{figure.caption.83}
+\contentsline {figure}{\numberline {1.8}{\ignorespaces \texttt {make clean}\relax }}{41}{figure.caption.87}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces The \texttt {@} character hides commands\relax }}{46}{figure.caption.92}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Printing out the value of variables\relax }}{46}{figure.caption.93}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces The \texttt {@} character hides commands\relax }}{45}{figure.caption.92}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Printing out the value of variables\relax }}{45}{figure.caption.93}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{56}{figure.caption.101}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{55}{figure.caption.101}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {4.1}{\ignorespaces \texttt {make}{}'s Help System\relax }}{59}{figure.caption.103}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{62}{figure.caption.108}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of a R Markdown File\relax }}{63}{figure.caption.109}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{64}{figure.caption.110}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces \texttt {make}{}'s Help System\relax }}{58}{figure.caption.103}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{61}{figure.caption.108}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of a R Markdown File\relax }}{62}{figure.caption.109}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{63}{figure.caption.110}
 \addvspace {10pt}
 \addvspace {10pt}
 \addvspace {10pt}
