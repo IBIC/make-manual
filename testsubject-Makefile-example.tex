@@ -98,18 +98,17 @@ does.
 
 
 \begin{lstlisting}
-T1_skstrip.nii.gz: T1.nii.gz 
-	bet $< $@ -B
+	T1_skstrip.nii.gz: T1.nii.gz 
+		bet $< $@ -B
 
-robex: $(call print-help,robex,Alternate skull stripping with ROBEX) T1.nii.gz 
-	$(PROJECT_HOME)/bin/ROBEX/runROBEX.sh T1.nii.gz T1_skstrip.nii.gz
+	robex: $(call print-help,robex,Alternate skull stripping with ROBEX) T1.nii.gz 
+		$(PROJECT_HOME)/bin/ROBEX/runROBEX.sh T1.nii.gz T1_skstrip.nii.gz
 
-freesurferskstrip: $(call print-help,freesurferskullstrip, Alternate skull stripping with FreeSurfer) $(PROJECT_HOME)/freesurfer/$(subject)/mri/brain.mgz
-	subj=$(subject) ;\
-	mri_vol2vol --mov $(PROJECT_HOME)/freesurfer/$${subj}/mri/brain.mgz --targ $(PROJECT_HOME)/freesurfer/$${subj}/mri/rawav
-g.mgz --regheader --o brain-in-rawavg.mgz ;\
-	mri_convert brain-in-rawavg.mgz brain-in-rawavg.nii.gz ;\
-	fslreorient2std brain-in-rawavg.nii.gz T1_skstrip.nii.gz ;\
+	freesurferskstrip: $(call print-help,freesurferskullstrip, Alternate skull stripping with FreeSurfer) $(PROJECT_HOME)/freesurfer/$(subject)/mri/brain.mgz
+		subj=$(subject) ;\
+		mri_vol2vol --mov $(PROJECT_HOME)/freesurfer/$${subj}/mri/brain.mgz --targ $(PROJECT_HOME)/freesurfer/$${subj}/mri/rawavg.mgz --regheader --o brain-in-rawavg.mgz ;\
+		mri_convert brain-in-rawavg.mgz brain-in-rawavg.nii.gz ;\
+		fslreorient2std brain-in-rawavg.nii.gz T1_skstrip.nii.gz ;\
 \end{lstlisting}
 
 We have rules in this makefile for three methods of skull

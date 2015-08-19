@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 16:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 16:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1883,17 +1883,17 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 \openout2 = `practicum1.aux'.
 
  (./practicum1.tex
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 12.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 13.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Underfull \hbox (badness 1067) in paragraph at lines 17--17
+Underfull \hbox (badness 1067) in paragraph at lines 18--18
 [][] \T1/lmss/bx/n/10 Pseu-docode
  []
 
 
-Underfull \hbox (badness 1337) in paragraph at lines 17--17
+Underfull \hbox (badness 1337) in paragraph at lines 18--18
 \T1/lmss/m/n/10 (+20) does not fol-low
  []
 
@@ -1908,7 +1908,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 63--68
+Underfull \hbox (badness 10000) in paragraph at lines 64--69
 
  []
 
@@ -1916,24 +1916,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 63--68
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [39] [40]
-Overfull \hbox (37.41058pt too wide) in paragraph at lines 86--88
+Overfull \hbox (37.41058pt too wide) in paragraph at lines 87--89
 []\T1/lmr/m/n/10.95 (-20) This is a tiny sam-ple of sub-jects from the OA-SIS d
 ata set (\T1/zi4/m/n/10.95 http://www.oasis-brains.org\T1/lmr/m/n/10.95 (-20) )
 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 97--99
+Underfull \hbox (badness 10000) in paragraph at lines 98--100
 
  []
 
 [41]
-Underfull \hbox (badness 10000) in paragraph at lines 130--132
+Underfull \hbox (badness 10000) in paragraph at lines 131--133
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--146
+Underfull \hbox (badness 10000) in paragraph at lines 145--147
 
  []
 
@@ -2210,14 +2210,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--146
 (./freeSurfer-example.tex [71
 
 ]) (./testsubject-Makefile-example.tex [72]
-[73] [74] [75]) (./testsubject-xfm-example.tex
-
-LaTeX Warning: Reference `practicum4' on page 76 undefined on input line 18.
-
-[76])) [77]
+[73] [74] [75]) (./testsubject-xfm-example.tex [76])) [77]
 \openout2 = `appendix.aux'.
 
- (./appendix.tex [78
+ (./appendix.tex
+[78
 
 
 
@@ -2235,10 +2232,10 @@ LaTeX Warning: Reference `practicum4' on page 76 undefined on input line 18.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 218.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 218.
-
-(./ibicMakeManual.aux (./chapter1.aux) (./chapter2.aux) (./chapter3.aux)
-(./chapter4.aux) (./practicum1.aux) (./practicum2.aux) (./practicum3.aux)
-(./practicum4.aux) (./makefile-examples.aux) (./appendix.aux))
+ (./ibicMakeManual.aux
+(./chapter1.aux) (./chapter2.aux) (./chapter3.aux) (./chapter4.aux)
+(./practicum1.aux) (./practicum2.aux) (./practicum3.aux) (./practicum4.aux)
+(./makefile-examples.aux) (./appendix.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 218.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 218.
 Package rerunfilecheck Info: File `ibicMakeManual.out' has not changed.
@@ -2255,10 +2252,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 34185 strings out of 493089
- 628900 string characters out of 6134842
- 886900 words of memory out of 5000000
- 36496 multiletter control sequences out of 15000+600000
+ 34181 strings out of 493089
+ 628863 string characters out of 6134842
+ 888902 words of memory out of 5000000
+ 36493 multiletter control sequences out of 15000+600000
  104492 words of font info for 146 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,12n,101p,10421b,1695s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2282,10 +2279,10 @@ type1/public/lm/lmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
 .pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></u
 sr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on ibicMakeManual.pdf (87 pages, 778995 bytes).
+Output written on ibicMakeManual.pdf (87 pages, 779109 bytes).
 PDF statistics:
  1406 PDF objects out of 1440 (max. 8388607)
  1284 compressed objects within 13 object streams
- 460 named destinations out of 1000 (max. 500000)
+ 459 named destinations out of 1000 (max. 500000)
  35530 words of extra memory for PDF output out of 35830 (max. 10000000)
 
