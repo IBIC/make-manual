@@ -90,6 +90,5 @@
 \contentsline {section}{Running FreeSurfer}{72}{section*.127}
 \contentsline {section}{Testsubject Main Makefile}{74}{section*.128}
 \contentsline {section}{Testsubject Transformations}{77}{section*.129}
-\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{79}{appendix.A}
-\contentsline {appendix}{\chapternumberline {B}Style Guide}{80}{appendix.B}
-\contentsline {chapter}{Bibliography}{82}{section*.131}
+\contentsline {appendix}{\chapternumberline {A}Style Guide}{79}{appendix.A}
+\contentsline {chapter}{Bibliography}{81}{section*.131}
