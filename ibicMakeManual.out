@@ -75,7 +75,7 @@
 \BOOKMARK [0][-]{chapter.2.4}{Advanced Topics \046 Quality Assurance with R Markdown}{part.2}% 75
 \BOOKMARK [1][-]{section*.118}{Creating a make help system}{chapter.2.4}% 76
 \BOOKMARK [1][-]{section*.120}{makefile Directory structure}{chapter.2.4}% 77
-\BOOKMARK [1][-]{section*.121}{The Clean target}{chapter.2.4}% 78
+\BOOKMARK [1][-]{section*.121}{The clean target}{chapter.2.4}% 78
 \BOOKMARK [1][-]{section*.122}{Defining macros}{chapter.2.4}% 79
 \BOOKMARK [1][-]{section*.123}{Incorporating R Markdown into make}{chapter.2.4}% 80
 \BOOKMARK [-1][-]{part.3}{Examples}{}% 81
@@ -83,6 +83,5 @@
 \BOOKMARK [1][-]{section*.128}{Running FreeSurfer}{chapter.3.1}% 83
 \BOOKMARK [1][-]{section*.129}{Testsubject Main Makefile}{chapter.3.1}% 84
 \BOOKMARK [1][-]{section*.130}{Testsubject Transformations}{chapter.3.1}% 85
-\BOOKMARK [1][-]{section*.131}{Testsubject FreeSurfer}{chapter.3.1}% 86
+\BOOKMARK [1][-]{section*.131}{Testsubject QA Makefile}{chapter.3.1}% 86
 \BOOKMARK [0][-]{appendix.A}{Style Guide}{part.3}% 87
-\BOOKMARK [0][-]{section*.133}{Bibliography}{part.3}% 88

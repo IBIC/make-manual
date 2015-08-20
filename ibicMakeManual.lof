@@ -28,9 +28,9 @@
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Obtaining a list of subjects from a file.\relax }}{32}{figure.caption.75}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Obtaining a list of subjects using a wildcard.\relax }}{33}{figure.caption.76}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Determining the subject name from the current working directory and a pattern.\relax }}{33}{figure.caption.78}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Setting a variable to determine whether a FLAIR image has been acquired.\relax }}{34}{figure.caption.80}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Setting a variable to determine whether a FLAIR image has been acquired.\relax }}{33}{figure.caption.80}
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Setting a variable to indicate the study site.\relax }}{34}{figure.caption.81}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Testing the site variable to determine the name of the T1 image.\relax }}{35}{figure.caption.83}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Testing the site variable to determine the name of the T1 image.\relax }}{34}{figure.caption.83}
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Testing to see whether an environment variable is undefined\relax }}{35}{figure.caption.85}
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Testing the Linux version to determine whether to proceed\relax }}{36}{figure.caption.87}
 \addvspace {10pt}
@@ -49,8 +49,8 @@
 \contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{61}{figure.caption.117}
 \addvspace {10pt}
 \contentsline {figure}{\numberline {4.1}{\ignorespaces \texttt {make}{}'s Help System\relax }}{64}{figure.caption.119}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{67}{figure.caption.124}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of a R Markdown File\relax }}{68}{figure.caption.125}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{69}{figure.caption.126}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{68}{figure.caption.124}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of a R Markdown File\relax }}{70}{figure.caption.125}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{71}{figure.caption.126}
 \addvspace {10pt}
 \addvspace {10pt}
