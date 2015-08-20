@@ -90,6 +90,7 @@
 \contentsline {chapter}{\chapternumberline {1}Makefile Examples}{71}{chapter.3.1}
 \contentsline {section}{Running FreeSurfer}{72}{section*.128}
 \contentsline {section}{Testsubject Main Makefile}{74}{section*.129}
-\contentsline {section}{Testsubject Transformations}{77}{section*.130}
-\contentsline {appendix}{\chapternumberline {A}Style Guide}{79}{appendix.A}
-\contentsline {chapter}{Bibliography}{82}{section*.132}
+\contentsline {section}{Testsubject Transformations}{78}{section*.130}
+\contentsline {section}{Testsubject FreeSurfer}{80}{section*.131}
+\contentsline {appendix}{\chapternumberline {A}Style Guide}{82}{appendix.A}
+\contentsline {chapter}{Bibliography}{85}{section*.133}
