@@ -25,7 +25,7 @@ Type `\maken{} help' to get help
 
 The variable \texttt{need-help} is set such that \maken{} will filter for the word \texttt{help} in your command line entry to decide whether or not you need help. If so, the variable \texttt{print-help} will be called upon -- and this will result in \maken{} printing the name of your targets and their descriptions to your shell. Depending on whether or not this will be helpful for you, you may want to copy \texttt{help_system.mk} to your own project directory and include it in your top-level Makefile. 
 
-We will not delve into the rest of \texttt{help_system.mk} in this practicum. If you are seeking more information on how to create a help makefile, please refer to page 181 of John Graham-Cumming's GNU Make Book. 
+We will not reproduce the details of how \texttt{help_system.mk} works in this practicum. For an excellent description of this simple but useful system, please refer to page 181 of John Graham-Cumming's GNU Make Book, or to his \href{http://www.cmcrossroads.com/article/self-documenting-makefiles}{blog posting}.  
 
 \section{makefile Directory structure}
 Oftentimes, there are several people working on processing different types of data from a project and this calls for several makefiles. Or, you may wish to split up a processing pipeline into various parts as we have in our Makefile example. In the main makefile \texttt{Makefile} from the \texttt{test001} directory -- and this was mentioned earlier -- you should have noticed that several other makefiles were included. 
