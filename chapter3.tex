@@ -65,16 +65,16 @@ This sort of works, but suppose another task only needs \texttt{a.out}, and does
 \label{sec:gridengine}
 \subsection{Using multiple cores}
 
-Most modern computers have multiple processing elements (cores). You can use these to execute multiple jobs simultaneously by passing the \texttt{-j} option to \maken.
+Most modern computers have multiple processing elements (cores). You can use these to execute multiple jobs simultaneously by passing the \texttt{-j} option to \maken. You can either specify the number of jobs after \texttt{-j} or you can omit the argument and let it use the maximum number of cores available. 
 
-First you need to know the number of cores on your machine. The command \texttt{nproc} might work, or you can ask your system administrator.
+It is good to know the number of cores on your machine. The command \texttt{nproc} might work, or you can ask your system administrator. 
 
 You have to be careful not to start a lot more jobs than you have cores, other wise the performance of all the jobs will suffer. Let us assume there are four cores available. Pass the number of jobs to \maken. 
 \bashcmd{make -j 4}
 
-Now you will execute the four cores simultaneously. This will work well if no one else is using your machine to run jobs. 
+Now you will execute the four cores simultaneously. This will work well if no one else is using your machine to run jobs. For this reason, you may want to specify that \maken{} should use fewer cores than available so that you can still get good response time on the machine. 
 
-Recall that \maken{} will die when it obtains an error. When running jobs in parallel, \maken{} can encounter an error that much faster. If one job dies, all the rest will be stopped. This is rarely the behavior you want, because typically each job is independent of the others. To tell make not to give up when the going gets tough, use the \texttt{-k} (keep going!)flag.
+Recall that \maken{} will die when it obtains an error. When running jobs in parallel, \maken{} can encounter an error that much faster. If one job dies, all the rest will be stopped. This is rarely the behavior you want, because typically each job is independent of the others. To tell make not to give up when the going gets tough, use the \texttt{-k} (keep going!) flag.
 \bashcmd{make -j 4 -k}
 
 \section{Using the grid engine}
@@ -132,7 +132,7 @@ You can also place the flag at the end of the command. This way, it is easy to h
 The \texttt{-n} flag shows what commands will be executed without executing them. This is very handy for debugging problems, as it tells you what make is actually programmed to do. Remember, computers do exactly what you tell them.
 
 \subsection{Use the trace option in \maken{} 4.1}
-Debugging is such an issue that the latest version of GNU \maken{}, version 4.1, has tracing functionality to show you what is going on. Even if your system does not have this installed, you can download it and run it with the \texttt{--trace} option. Note that there are some subtle differences between \maken{} versions. For a thorough desciption of version differences and more debugging options, see \citation{GnuMakeBook}.
+Debugging is such an issue that the latest version of GNU \maken{}, version 4.1, has tracing functionality to show you what is going on. Even if your system does not have this installed, you can download it and run it with the \texttt{--trace} option. Note that there are some subtle differences between \maken{} versions. For a thorough desciption of version differences and more debugging options, see \citation{GnuMakeBook}. %%% need to add this to the bibliobraphy
 
 \subsection{Check for line continuation}
 

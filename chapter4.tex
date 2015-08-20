@@ -1,12 +1,12 @@
 \chapter{Recipes}
 \label{seq:recipes}
 
-This section contains recipes for different kinds of small tasks you may wish to accomplish with \maken{}. Some of these recipes can be seen ``in action'' in real makefiles in the example data supplement to this manual. These real example makefiles are documented in Chapter IV. When we refer to these files, we will assume that the path is relative to where you have unpacked these examples in your environment. 
+This section contains recipes for different kinds of small tasks you may wish to accomplish with \maken{}. Some of these recipes can be seen ``in action'' in real makefiles in the example data supplement to this manual. These real example makefiles are documented in \nameref{chap:examples}. When we refer to these files, we will assume that the path is relative to where you have unpacked these examples in your environment. 
 
 \subsection{Obtaining a list of subjects}
 
 A common thing you may want to do in a Makefile is to set a variable that includes the names of all subjects that you will be processing. Here are some examples of code to set the SUBJECTS variable. This first approach (\autoref{make:subjectsfile}) keeps a list of subjects in a file called \texttt{subject-list.txt}. 
-This is extremely handy for analyses that use only a subset of the subjects: for example, only a treatment group, or a selected subset of subjects from the entire study. For an example of this approach in use, see \autoref{example:fcon}. 
+This is extremely handy for analyses that use only a subset of the subjects: for example, only a treatment group, or a selected subset of subjects from the entire study. For an example of this approach in use, see \nameref{example:xnat}. 
 
 \begin{make}{Obtaining a list of subjects from a file.}{make:subjectsfile}
   SUBJECTS=\$(shell cat subject-list.txt) 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  20 AUG 2015 11:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  20 AUG 2015 12:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1664,12 +1664,22 @@ Underfull \hbox (badness 2809) in paragraph at lines 10--10
 
 
 
-] [10] [11]
+]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <9> on input line 38.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 38.
+ [10] [11]
 Underfull \hbox (badness 5519) in paragraph at lines 112--112
 \T1/lmss/m/n/10 (+20) rec-tory be-longs,
  []
 
-[12] [13] [14]
+[12]
+
+LaTeX Warning: Reference `example:xnat' on page 13 undefined on input line 132.
+
+
+[13] [14]
 Underfull \hbox (badness 10000) in paragraph at lines 184--186
 
  []
@@ -1771,17 +1781,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 315--318
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 327--328
 
- []
+LaTeX Warning: Reference `example:testsubject' on page 21 undefined on input li
+ne 327.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 331--332
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 335--336
 
  []
 
@@ -1795,7 +1800,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 343--344
 
  []
 
-[21]) [22]
+[21]
+
+LaTeX Warning: Reference `example:testsubjectresting' on page 22 undefined on i
+nput line 358.
+
+) [22]
 \openout2 = `chapter3.aux'.
 
  (./chapter3.tex
@@ -1805,10 +1815,6 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 25.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 25.
 [23
 
 
@@ -1839,7 +1845,7 @@ Package hyperref Warning: Difference (2) between bookmark levels is greater
 (hyperref)                than one, level fixed on input line 6.
 
 
-LaTeX Warning: Reference `example:fcon' on page 32 undefined on input line 9.
+LaTeX Warning: Reference `example:xnat' on page 32 undefined on input line 9.
 
 
 Overfull \hbox (24.81357pt too wide) in paragraph at lines 16--17
@@ -1889,17 +1895,17 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 \openout2 = `practicum1.aux'.
 
  (./practicum1.tex
-LaTeX Font Info:    Try loading font information for TS1+lmr on input line 13.
+LaTeX Font Info:    Try loading font information for TS1+lmr on input line 12.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Underfull \hbox (badness 1067) in paragraph at lines 18--18
+Underfull \hbox (badness 1067) in paragraph at lines 17--17
 [][] \T1/lmss/bx/n/10 Pseu-docode
  []
 
 
-Underfull \hbox (badness 1337) in paragraph at lines 18--18
+Underfull \hbox (badness 1337) in paragraph at lines 17--17
 \T1/lmss/m/n/10 (+20) does not fol-low
  []
 
@@ -1914,7 +1920,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--69
+Underfull \hbox (badness 10000) in paragraph at lines 63--68
 
  []
 
@@ -1922,24 +1928,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 64--69
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [40] [41]
-Overfull \hbox (37.41058pt too wide) in paragraph at lines 87--89
+Overfull \hbox (37.41058pt too wide) in paragraph at lines 86--88
 []\T1/lmr/m/n/10.95 (-20) This is a tiny sam-ple of sub-jects from the OA-SIS d
 ata set (\T1/zi4/m/n/10.95 http://www.oasis-brains.org\T1/lmr/m/n/10.95 (-20) )
 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 98--100
+Underfull \hbox (badness 10000) in paragraph at lines 97--99
 
  []
 
 [42]
-Underfull \hbox (badness 10000) in paragraph at lines 131--133
+Underfull \hbox (badness 10000) in paragraph at lines 130--132
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--147
+Underfull \hbox (badness 10000) in paragraph at lines 144--146
 
  []
 
@@ -2224,7 +2230,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--146
 
 
 
-]) [80] (./ibicMakeManual.bbl) [81
+] [80]) [81] (./ibicMakeManual.bbl) [82
 
 
 ]
@@ -2234,16 +2240,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--146
 \tf@lof=\write9
 \openout9 = `ibicMakeManual.lof'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 218.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 218.
- (./ibicMakeManual.aux (./chapter1.aux)
-(./chapter2.aux) (./chapter3.aux) (./chapter4.aux) (./practicum1.aux)
-(./practicum2.aux) (./practicum3.aux) (./practicum4.aux)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 220.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 220.
+ (./ibicMakeManual.aux
+(./chapter1.aux) (./chapter2.aux) (./chapter3.aux) (./chapter4.aux)
+(./practicum1.aux) (./practicum2.aux) (./practicum3.aux) (./practicum4.aux)
 (./makefile-examples.aux) (./appendix.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 218.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 218.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 220.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 220.
 Package rerunfilecheck Info: File `ibicMakeManual.out' has not changed.
-(rerunfilecheck)             Checksum: BDABA195C0E3DCB96898046F39344350;6602.
+(rerunfilecheck)             Checksum: 4151307D63595FFEEF60D4BEB4FB3993;6603.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -2256,10 +2262,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 34176 strings out of 493089
- 628809 string characters out of 6134842
- 888982 words of memory out of 5000000
- 36492 multiletter control sequences out of 15000+600000
+ 34181 strings out of 493089
+ 628889 string characters out of 6134842
+ 888978 words of memory out of 5000000
+ 36494 multiletter control sequences out of 15000+600000
  104232 words of font info for 144 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,12n,101p,10421b,1695s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2267,26 +2273,29 @@ Here is how much of TeX's memory you used:
 texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/20
 15/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/2015/texmf-dist
 /fonts/enc/dvips/inconsolata/i4-ts1.enc}{/usr/local/texlive/2015/texmf-dist/fon
-ts/enc/dvips/inconsolata/i4-t1-0.enc}</usr/local/texlive/2015/texmf-dist/fonts/
-type1/public/inconsolata/Inconsolata-zi4b.pfb></usr/local/texlive/2015/texmf-di
-st/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/local/texlive/2015
-/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2015/texmf-dis
-t/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/public/lm/lmbx8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
-lm/lmcsc10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr10.
-pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/l
-ocal/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr17.pfb></usr/local/texliv
-e/2015/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/local/texlive/2015/texmf
--dist/fonts/type1/public/lm/lmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/
-type1/public/lm/lmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
-/lm/lmri10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmss10
-.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/t
-exlive/2015/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on ibicMakeManual.pdf (87 pages, 779498 bytes).
+ts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/l
+m/lm-mathit.enc}{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/inconsolata
+/i4-t1-0.enc}</usr/local/texlive/2015/texmf-dist/fonts/type1/public/inconsolata
+/Inconsolata-zi4b.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/in
+consolata/Inconsolata-zi4r.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
+public/lm/lmbx10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/
+lmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmbx8.pfb>
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/loc
+al/texlive/2015/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive
+/2015/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2015/texmf
+-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texlive/2015/texmf-dist/fonts
+/type1/public/lm/lmr17.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publ
+ic/lm/lmr6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr8.p
+fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmr9.pfb></usr/loc
+al/texlive/2015/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive
+/2015/texmf-dist/fonts/type1/public/lm/lmss10.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/public/lm/lmssbx10.pfb></usr/local/texlive/2015/texmf-dist/f
+onts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
+/public/lm/lmsy9.pfb>
+Output written on ibicMakeManual.pdf (88 pages, 785919 bytes).
 PDF statistics:
- 1413 PDF objects out of 1440 (max. 8388607)
- 1291 compressed objects within 13 object streams
- 459 named destinations out of 1000 (max. 500000)
+ 1434 PDF objects out of 1440 (max. 8388607)
+ 1309 compressed objects within 14 object streams
+ 462 named destinations out of 1000 (max. 500000)
  35530 words of extra memory for PDF output out of 35830 (max. 10000000)
 

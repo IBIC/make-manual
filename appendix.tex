@@ -6,6 +6,8 @@
 Please refer to this guide when in doubt. It covers typographic and phrasing consistencies.
 	
 \begin{easylist}[enumerate]
+        & Be specific when describing IBIC or site-specific things
+        (e.g. machine names or paths) that may not work at other sites
 	& Monospace (use the \verb!\texttt{}! macro) the following things:
 	&& \maken, when referring to the program.
 	&&& Use the macro \verb!\maken{}!. To remove the trailing space (for example, to use a comma after \maken), call the macro without the braces, \verb!\maken!.
@@ -58,6 +60,15 @@ Please refer to this guide when in doubt. It covers typographic and phrasing con
 	& Ellipses
 	&& Spaces before and after: ``this \ldots{} and that.''
 	&& Use \verb!\ldots!
-	& FreeSurfer
+	& FreeSurfer to refer to the program (note capitalization)
+        & NIfTI to refer to .nii.gz files
+        & $B_0$ to refer to fMRI and DTI field maps
+        & b-vectors and b-values to refer to DTI b vectors and
+        b-values
+        & $S_0$ to refer to the nonweighted first diffusion image
+        & FEAT and other FSL tools should be capitalized unless
+        refering to their program counterparts (e.g., \texttt{feat})
+        & use \texttt{autoref} to refer to figures and sections except
+        for the practicals. Use \texttt{nameref} to refer to the practicals.
 \end{easylist}
 
