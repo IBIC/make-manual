@@ -4,17 +4,20 @@
 \section{Creating a \maken{} help system}
 It is sometimes useful to know what a makefile does without having to look through the entire makefile itself. One way of getting that information at a glance is to create a \maken{} help system that prints out the targets and a short summary explaining what each target does. 
 
-To go about creating this help system, you need to create a separate ``help'' makefile that tells \maken{} what to do when you call for help. Before we expand on that, however, let us take a look at the main makefile in the \texttt{testsubject/} directory copied over from \texttt{/project_space/}.
+To go about creating this help system, you need to create a separate ``help'' makefile that tells \maken{} what to do when you call for help. Before we expand on that, however, let us take a look at the main makefile in the \texttt{testsubject} directory copied over from \texttt{/project_space/}.
 \bashcmd{cd ~/testsubject/test001}
 
-Open up \texttt{Makefile}. You will notice that one of first few lines at the top of the file asks \maken{} to include a makefile called \texttt{help_system.mk}; this is the ``help'' makefile that we alluded to earlier. The \texttt{include} directive tells \maken{} to read other makefiles before continuing with the execution of other things in the current makefile.  
+Let the variable \$(PROJECT_HOME) represent the pathway to your \texttt{testsubject} directory. You can set this variable in top-level makefile.
+\makecmd{PROJECT_HOME=/yourhomedirectory/testsubject}
+
+Open up \texttt{Makefile} in an editor. You will notice that one of first few lines at the top of the file asks \maken{} to include a makefile called \texttt{help_system.mk}; this is the ``help'' makefile that we alluded to earlier. The \texttt{include} directive tells \maken{} to read other makefiles before continuing with the execution of other things in the current makefile.    
 
 As you scroll down, you will see that some of the targets are followed by a \texttt{call} command before their dependencies. For instance, look at the line:
 \makecmd{robex: \$(call print-help,robex,Alternate skull stripping with ROBEX) T1.nii.gz}
 
 This tells \maken{} to return the target \texttt{robex} along with its description when \texttt{print-help} is called (\texttt{print-help} is defined in \texttt{help_system.mk}, as we will see later). Other targets such as \texttt{freesurferskstrip} and \texttt{etiv} also make calls to \texttt{print-help}.
 
-Now, have a look at the \texttt{help_system.mk} file under the \texttt{lib/makefiles/} directory.  
+Now, have a look at \texttt{\$(PROJECT_HOME)/lib/makefiles/help_system.mk}.
 \makecmd{help: ; @echo \$(if \$(need-help),,Type \`{}\$(MAKE)\$(dash-f) help\'{} to get help)} % what is happening here?
 
 This line tells \maken{} to echo the fellowing when you type \maken{} into the command line.
@@ -28,7 +31,7 @@ The variable \texttt{need-help} is set such that \maken{} will filter for the wo
 We will not reproduce the details of how \texttt{help_system.mk} works in this practicum. For an excellent description of this simple but useful system, please refer to page 181 of John Graham-Cumming's GNU Make Book, or to his \href{http://www.cmcrossroads.com/article/self-documenting-makefiles}{blog posting}.  
 
 \section{makefile Directory structure}
-Oftentimes, there are several people working on processing different types of data from a project and this calls for several makefiles. Or, you may wish to split up a processing pipeline into various parts as we have in our Makefile example. In the main makefile \texttt{Makefile} from the \texttt{test001} directory -- and this was mentioned earlier -- you should have noticed that several other makefiles were included. 
+Oftentimes, there are several people working on processing different types of data from a project and this calls for several makefiles. Or, you may wish to split up a processing pipeline into various parts as we have in our Makefile example. In the main makefile \texttt{Makefile} from the \texttt{\$(PROJECT_HOME)/test001} directory -- and this was mentioned earlier -- you should have noticed that several other makefiles were included. 
 
 \makecmd{
 \\
@@ -42,18 +45,20 @@ include \$(PROJECT_HOME)/lib/makefiles/QA.mk \\
 Here, we see that there are makefiles for:
 \begin{enumerate}
 \item creating the \maken{} \texttt{help_system}
-\item processing resting-state data called \texttt{resting.mk}
-\item obtaining transformation matrices for registrations called \texttt{xfm.mk}
-\item running seed-based connectivity analysis called \texttt{fcconnectivity.mk}
-\item creating QA reports called \texttt{QA.mk}
+\item processing resting-state data called \texttt{resting.mk} (this is documented in detail in \autoref{example:?})
+\item obtaining transformation matrices for registrations called \texttt{xfm.mk} (see \autoref{example:testsubjectxfm} for documentation)
+\item running seed-based connectivity analysis called \texttt{fcconnectivity.mk} (see \autoref{example:?} for documentation)
+\item creating QA reports called \texttt{QA.mk} (see \autoref{example:testsubjectQA} for documentation)
 \end{enumerate} 
 
-Makefiles should be stored in the \texttt{lib} directory as was done for this example. This is good practice and helps keep your directories organized and less cluttered. The importance of creating a tidy directory tree structure has been continually emphasized throughout this course. Refer to \hyperref[sec:practicum3]{Practical 3} or \hyperref[sec:dir]{Chapter 2} of the manual for a more thorough discussion of the directory structure common to most IBIC projects.
+For a full description of the makefiles (excluding \texttt{help_system.mk}), we encourage you to refer to their documentations in the last section of the manual. The documentations will guide you through each makefile and explain the syntax, scripts and programs used in each of them. % make this a margin note?
 
-\section{The \texttt{Clean} target}
-In \maken{}, the \texttt{Clean} target serves to delete all unnecessary files that were created in the process of running \maken{}. Remember that storage is limited! Cleaning up your project directory will make space for future projects that you will be working on. The target itself is usually specified last in a typical \maken{} recipe, and must be included in your list of \texttt{.PHONY} targets if you choose to run it. 
+Note that makefiles should be stored in the \texttt{lib} directory as was done for this example. This is good practice and helps keep your directories organized and less cluttered. The importance of creating a tidy directory tree structure has been continually emphasized throughout this course. Refer to \hyperref[sec:practicum3]{Practical 3} or \hyperref[sec:dir]{Chapter 2} of the manual for a more thorough discussion of the directory structure common to most IBIC projects.
 
-Now, go to your \texttt{testsubject/test001} directory and open \texttt{Makefile}. Scroll all the way down. You will see both an \texttt{archive} and \texttt{clean} target. \texttt{archive} is a target intended to clean up the directory for archiving after a paper has been accepted. The purpose of this target is to retain important results but remove the partial products. Obviously, what you may define as ``important results'' depend upon the kinds of questions that might come up later. 
+\section{The \texttt{clean} target}
+In \maken{}, the \texttt{clean} target serves to delete all unnecessary files that were created in the process of running \maken{}. Remember that storage is limited! Cleaning up your project directory will make space for future projects that you will be working on. The target itself is usually specified last in a typical \maken{} recipe, and must be included in your list of \texttt{.PHONY} targets if you choose to run it. 
+
+Now, go to your \texttt{\$(PROJECT_HOME)/test001} directory and open \texttt{Makefile} in an editor. Scroll all the way down. You will see both an \texttt{archive} and \texttt{clean} target. \texttt{archive} is a target intended to clean up the directory for archiving after a paper has been accepted. The purpose of this target is to retain important results but remove the partial products. Obviously, what you may define as ``important results'' depend upon the kinds of questions that might come up later. 
 
 The \texttt{clean} target in this makefile includes \texttt{qaclean} and \texttt{restingclean} which are themselves targets in other makefiles in the \texttt{lib/} directory. Typically, files that are ``easy'' to make and are no longer necessary can be removed. Other files, such as those generated by FreeSurfer's \texttt{recon-all}, are not as easily remade. Other examples of files that you may not want to remove include hand-edited files, and end stage products of quantitative processing pipelines. You should therefore think carefully about what you want to remove and what you want to keep. 
 
@@ -62,13 +67,17 @@ The \texttt{clean} target in this makefile includes \texttt{qaclean} and \texttt
 
 
 \section{Incorporating R Markdown into \maken{}}
-Quality assurance (QA) is an important step in a neuroimaging analyses pipeline. At IBIC, data is typically  preprocessed and checked for quality before proceeding with further analyses. This can be done both qualitatively and quantitatively. Some of the common aspects of data that are looked at include motion outliers, quality of brain registration/normalization to a subjects-specific or standard template, and whether brain segmentation has been performed correctly. 
+Quality assurance (QA) is an important step in a neuroimaging analyses pipeline. At IBIC, data is typically preprocessed and checked for quality before proceeding with further analyses. This can be done both qualitatively and quantitatively. Some of the common aspects of data that are looked at include motion outliers, quality of brain registration/normalization to a subjects-specific or standard template, and whether brain segmentation has been performed correctly. 
 
-While neuroimaging packages usually include QA tools of their own (such as FSL's FEAT report), built-in QA tools have limited application when you are using more than one neuroimaging package to process your data or if you want to view your data in a non-traditional way.
+While neuroimaging packages usually include QA tools of their own (such as FSL's FEAT report), built-in QA tools have limited application when you are using more than one neuroimaging package to process your data or if you want to view your data in a non-traditional way. 
 
-Since there are several things that have to be inspected during a quality assurance procedure, it is incredibly helpful to have images and data parameters displayed on a single page for each subject in a project. These can be fed into PDF documents or HTML pages. The latter is preferred, however, because it gives us the ability to look at moving GIF images, which are useful when we want to view the collected brain scans as a time series. 
+Know that you may certainly create QA measures for each subject in your project and inspect these one-by-one in a previewer program -- but this may prove inconvenient and time-consuming. Since there usually are several things that have to be inspected during a quality assurance procedure, it is incredibly helpful to have images and data parameters or statistics displayed on a single page for each subject in a project. Alternatively, you may choose to look at a single aspect of your data and would like to concatenate a QA measure from all of your subjects into one report. This is where R Markdown comes in.
 
-Go to the directory \texttt{testsubject/freesurfer/QA} and open up \texttt{QA_check.html} with your internet browser. 
+R Markdown is an authoring format that allows us to generate reports from R (\url{http://rmarkdown.rstudio.com}). It is extremely versatile in that it can read HTML and bash code to generate HTML and PDF documents, or even interactive web applications. 
+
+Although QA measures can be fed into PDF documents or HTML pages, we at the IBIC prefer to use the HTML format for a couple of reasons. For one, a HTML report gives us the ability to look at moving GIF images, which are useful when we want to view the collected brain scans as a time series. In addition, it circumvents the issue of pagination and allows us scroll seamlessly through all our images and statistics in a single page. PDFs, however, tend to be more cumbersome to use as images may be awkwardly split between pages and cause page breaks if they are not properly sized.  
+
+Go to the directory \texttt{\$(PROJECT_HOME)/freesurfer/QA} and open up \texttt{QA_check.html} with your internet browser. 
 \bashcmd{iceweasel QA_check.html}
 
 Clicking on the link \texttt{testsubject} will redirect you to a page that holds the images generated by FreeSurfer. Here, you can see the segmented and parcellated brain of the subject, along with images showing the surface curvature of the brain. This page is automatically created by FreeSurfer's recon-all.
@@ -78,88 +87,80 @@ We can also create our own QA images to, say, check whether a T1 brain has been 
 \begin{make}{Using FSL's slicer to create a registration image}{}
 
 \maker{QA/images/T1\_to\_mni\_deformed.png}{xfm\_dir/T1\_to\_mni\_deformed.nii.gz \$(FSLpath)/data/standard/MNI152\_T1\_2mm\_brain.nii.gz} \\
-	\tab mkdir -p QA/images ;\textbackslash{} \\
-	\tab\$(FSLpath)/bin/slicer \$(word 1,\$\textasciicircum{}) \$(word 2,\$\textasciicircum{}) -s 2 -x 0.35 sla.png -x 0.45 slb.png -x 0.55 slc.png -x 0.65 sld.png -y 0.35 sle.png -y 0.45 slf.png -y 0.55 slg.png -y 0.65 slh.png -z 0.35 sli.png -z 0.45 slj.png -z 0.55 slk.png -z 0.65 sll.png ;\textbackslash{} \\
-	\tab pngappend sla.png + slb.png + slc.png + sld.png + sle.png + slf.png + slg.png + slh.png + sli.png + slj.png + slk.png + sll.png QA/images/intermediate1.png ;\textbackslash{} \\
-	\tab\$(FSLpath)/bin/slicer \$(word 2,\$\textasciicircum{}) \$(word 1,\$\textasciicircum{}) -s 2 -x 0.35 sla.png -x 0.45 slb.png -x 0.55 slc.png -x 0.65 sld.png -y 0.35 sle.png -y 0.45 slf.png -y 0.55 slg.png -y 0.65 slh.png -z 0.35 sli.png -z 0.45 slj.png -z 0.55 slk.png -z 0.65 sll.png ;\textbackslash{} \\
-	\tab pngappend sla.png + slb.png + slc.png + sld.png + sle.png + slf.png + slg.png + slh.png + sli.png + slj.png + slk.png + sll.png QA/images/intermediate2.png ;\textbackslash{} \\
-	\tab pngappend QA/images/intermediate1.png - QA/images/intermediate2.png \$@ ;\textbackslash{} \\
-	\tab rm -f sl?.png QA/images/intermediate?.png
+\tab mkdir -p QA/images ;\textbackslash{} \\
+\tab\$(FSLpath)/bin/slicer \$(word 1,\$\textasciicircum{}) \$(word 2,\$\textasciicircum{}) -s 2 -x 0.35 sla.png -y 0.35 slb.png -z 0.35 slc.png ;\textbackslash{} \\
+\tab pngappend sla.png + slb.png + slc.png QA/images/intermediate1.png ;\textbackslash{} \\
+\tab\$(FSLpath)/bin/slicer \$(word 2,\$\textasciicircum{}) \$(word 1,\$\textasciicircum{}) -s 2 -x 0.35 sld.png -y 0.35 sle.png -z 0.35 slf.png ;\textbackslash{} \\
+\tab pngappend sld.png + sle.png + slf.png QA/images/intermediate2.png ;\textbackslash{} \\
+\tab pngappend QA/images/intermediate1.png - QA/images/intermediate2.png \$@ ;\textbackslash{} \\
+\tab rm -f sl?.png QA/images/intermediate?.png
 \end{make}
 
-Normally, we want to make our own HTML pages containing only the information we need for QA. The way we do this is to use an authoring format called R Markdown that allows us to generate reports from R (\url{http://rmarkdown.rstudio.com}). R Markdown is extremely versatile in that it can read HTML and bash code to generate documents. Generating our own QA report allows us to exploit pre-existing tools, which as those developed in-house or by FreeSurfer and FSL to create QA content. 
+Here, FSL slicer is used to create 2D images from 3D images. To get a better understanding of how slicer is used, simply type \texttt{slicer} into the command line. The FSL page \url{http://fsl.fmrib.ox.ac.uk/fsl/fslwiki/Miscvis} also provides a brief description of what slicer does. In the context of the above example, slicer first overlays the \texttt{T1\_to\_mni\_deformed} image on top of the MNI152 brain. Subsequently, it creates several 2D images named \texttt{sl?.png} that come from sagittal, coronal or axial slices. This is indicated by the -x/y/z flags used followed by the name of the image generated. Note that these files are temporary! Once \texttt{pngappend} has been used to paste these images next to each other to generate a single image, the temporary files are removed. If you are using FSL slicer for more than one instance in a makefile, the temporary files created may cause \maken{} to crash if they are given the same names and are put into the same directory when \maken{} is run in parallel. Make sure that the names of your outputs from FSL slicer do not overlap each other. 
 
-Once we have created all the images we want to include in our HTML report, we need to create a \texttt{.Rmd} file that tells R Markdown where to find these images. 
+Given that the code used to generate QA images can be very messy and ugly, you may want to create a bash script to create those images and call that from your QA makefile instead. This also avoids potential problems that may arise when many similarly named temporary files are generated that may cause \maken{} to continually overwrite these files when using a tool like FSL slicer in parallel. A wonderful example of such a script can be found at \texttt{\$MAKEPIPELINES/tapping/bin/bin/sliceappend.sh} (credit goes to Matt Peverill!). 
 
-Now let us have a look at a subsection of a \texttt{.Rmd} file on the next page.
+Once we have created all the QA images we want to include in our HTML report, we need to create a \texttt{.Rmd} file that tells R Markdown where to find these images. 
+
+Now let us have a look at a subsection of a \texttt{.Rmd} file on the next page. The file is \texttt{\$(PROJECT\_HOME)/lib/Rmd/fMRI.Rmd}. 
 \clearpage
 
 \begin{bash}{Example of a R Markdown File}{}
 
 --- \\
-title: Quality Assurance of Preprocessing for fMRI for ID SUBJECT \\
+title: Quality Assurance of Preprocessing for TASK for ID SUBJECT \\
 output: \\
-  html_document: \\
-    keep_md: no \\
+  html\_document: \\
+    keep\_md: no \\
     toc: yes \\
-    force_captions: TRUE \\
+    force\_captions: TRUE \\
 --- \\
+\#T1 Skull-Strip \\
 
-\#PARAMETERS \\
+<img src="/project\_space/makepipelines/testsubject/test001/QA/images/T1\_skstrip.gif" width="500px" /> \\
 
-\#\#Raw Data Parameters (from PAR) \\
+\#Parameters \\
 
-\`{}\`{}\`{}\{r engine=`bash', echo=FALSE\} \\
-if [ -f /project_dir/subjects/SUBJECT/QA/images/RUN.PAR ]; then \\
-  grep -e `Patient name' /project_dir/subjects/SUBJECT/QA/images/RUN.PAR \\
-  grep -e `Examination date/time' /project_dir/subjects/SUBJECT/QA/images/RUN.PAR \\
-  grep -e `Scan Duration' /project_dir/subjects/SUBJECT/QA/images/RUN.PAR \\
-fi \\
+\#\#Time Series Difference Analysis \\
+
+<img src="/project\_space/makepipelines/testsubject/test001/QA/images/TASK\_tsdiffana.gif" width="750px" /> \\
+
+\# MOTION \\
+
+\#\#Motion Statistics \\
+
+\`{}\`{}\`{}\{r engine='bash', echo=FALSE\} \\
+val=\`{}cat /project\_space/makepipelines/testsubject/test001/rest\_dir/TASK\_mean\_abs\_disp.txt\`{} \\
+echo "Mean Absolute Displacement : \$val mm" \\
+val=\`{}cat /project\_space/makepipelines/testsubject/test001/rest\_dir/TASK\_mean\_rel\_disp.txt\`{} \\
+echo "Mean Relative Displacement : \$val mm" \\
 \`{}\`{}\`{} \\
 
-\#RAW DATA QUALITY \\
-
-\#\#Raw Data Movie \\
-
-<img src=``/project_dir/subjects/SUBJECT/QA/images/rest_x_animation.gif'' width=``348px'' /> \\
-<img src=``/project_dir/subjects/SUBJECT/QA/images/rest_y_animation.gif'' width=``348px'' /> \\
-<img src=``/project_dir/subjects/SUBJECT/QA/images/rest_z_animation.gif'' width=``204px'' /> \\
 \end{bash}
 
-A \texttt{.Rmd} file should always begin with a demarcated section listing the title of the report and the type of file to be created. We see that the output here is a HTML document. \texttt{toc} refers to table of contents. \texttt{force_captions} allows you to specify the dimensions of an image in html text (????). % Can't find any documentation explaining what force_captions does 
+A \texttt{.Rmd} file should always begin with a demarcated section listing the title of the report and the type of file to be created. We see that the output here is a HTML document. \texttt{toc} refers to table of contents. %\texttt{force_captions} allows you to specify the dimensions of an image in html text (????). % Can't find any documentation explaining what force_captions does 
 
 In R Markdown, the size of headers depend on the number of \# (hash) symbols used before the name of a header. This is akin to how the titles of major sections of a text are rendered in the largest text size, and subsections along with sub-subsections are printed in smaller-size text. A double hash symbol before a title will mean that the title will be treated as a `sub-section' and be printed in smaller size than the main headers. As the number of hash symbols used before a title increases, the text becomes smaller.
 
-% Include image of HTML output to show this.
+Notice that HTML syntax is used to insert images into the report. Heights and widths of images can be specified as well. 
 
-Assuming we want to print out some information about the subject into the report, we can use \bashn{} within a R Markdown file to \texttt{grep} for the stuff we need. In the example above, we open the bash script portion of the file with three backticks and a curly bracket telling R that the following text is written in \bashn{} code. Here, we are looking for lines that contain patterns that match the strings ``patient name'', ``examination date/time'' and ``scan duration'' from a file called \texttt{RUN.PAR} [see grep help if you are not familiar with its usage]. These will then be printed out into our HTML report.
+Assuming we want to print out some information about the subject into the report, we can use \bashn{} within a R Markdown file to \texttt{grep} for the stuff we need or \texttt{cat} a value from a file. In the example above, we open the bash script portion of the file with three backticks and a curly bracket telling R that the following text is written in \bashn{} code. Here, we are asking R to \texttt{cat} the values from two text files that gives us the mean absolute and mean relative displacement in mm (see \texttt{cat} help if you are not familiar with its usage). These will then be printed out into our HTML report.
 
-Next, we want to include a movie that shows us the raw images collected over the span of the entire scan session. Notice that HTML syntax is used to insert an image into the report. Heights and widths of images can be specified as well. 
-
-Once we have a \texttt{.Rmd} file ready, we want to tell \maken{} to create the HTML report for us. By doing so, we can parallelize the generation of QA reports. We do this by inserting a target such as the following into a makefile:
+Once we have a \texttt{.Rmd} file ready, we want to tell \maken{} to create the HTML report for us. By doing so, we can parallelize the generation of QA reports. We do this by inserting a target such as the following into our QA makefile (which is fully documented in \autoref{example:testsubjectQA}):
 
 \begin{make}{Reading a .Rmd file in \maken{}}{}
-	
-	QA/fMRI_Preprocessing.html: \$(LIB)/R/fMRI.Rmd paths-to-images-to-be-included-in-report \\
-	\tab sed -e 's/SUBJECT/\$(SUBJECT)/g' \$(LIB)/R/fMRI.Rmd > QA/fMRI.Rmd ;\ \\
-	\tab R -e `library(``rmarkdown'');rmarkdown::render(``QA/fMRI.Rmd'')' \\
+\maker{QA/rest\_Preprocessing.html}{\$(PROJECT\_HOME)/lib/R/fMRI.Rmd TSNR MotionGraphs SkullstripQA} \\
+\tab sed -e `s/SUBJECT/\$(subject)/g' -e `s/TASK/rest/g' \$(word 1,\$\textasciicircum{}) > QA/rest\_Preprocessing.Rmd ;\textbackslash{} \\
+\tab R -e `library(``rmarkdown'');rmarkdown::render(``QA/rest\_Preprocessing.Rmd'')' \\
 \end{make}
 
-The target is your HTML file, and the dependencies are your \texttt{.Rmd} file and your images or whatever else you decide to include in your report. We then use \texttt{sed} to replace all strings with the pattern SUBJECT in the R Markdown file with the actual subject ID. The subject ID variable \texttt{\$SUBJECT} should have been set at the initial portion of your makefile. \maken{} will then call R to load the package ``rmarkdown" so that it can read R Markdown, and proceed to generate/render your report.
+The target is your HTML file, and the dependencies are your \texttt{.Rmd} file and your images or whatever else you decide to include in your report. We then use \texttt{sed} to replace all strings with the pattern SUBJECT in the R Markdown file with the actual subject ID. The subject ID variable \texttt{\$subject} should have been set at the initial portion of your makefile. \maken{} will then call R to load the package ``rmarkdown" so that it can read R Markdown, and proceed to generate/render your report, which will look something like this: 
 
-You can also use \maken{} to build a \texttt{.Rmd} file and HTML file for every separate contrast (from running FSL's FEAT). This is slightly more complex, but can be achieved with the following code:
+\includegraphics[scale=0.6]{QAcropped.png}
 
+The report in its entirety may be viewed in your internet browser and can be found at \$(PROJECT\_HOME)/test001/QA/rest\_Preprocessing\_example.html. 
  
-
-That's it! 
-
-
-
-
-
-
-
-
+And that's it! 
 
 
 
