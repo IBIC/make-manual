@@ -51,7 +51,7 @@ Try to separate expensive tasks into seperate recipes. Suppose you have two time
 	\tab run_b
 \end{make}
 
-This works, but suppose another task only needs \texttt{a.out}, and doesn't depend at all on \texttt{b.out}. You would spend a lot of extra time generating \texttt{b.out}, especially if this was a batch job. So it is better to write the rule in two separate lines, as in \autoref{make:twoshort}.
+This sort of works, but suppose another task only needs \texttt{a.out}, and doesn't depend at all on \texttt{b.out}. You would spend a lot of extra time generating \texttt{b.out}, especially if this was a batch job. A worse problem is that you have specified two targets, \texttt{a.out} and \texttt{b.out}. This is like reproducing this rule twice. If you run in parallel this rule will fire twice, once to create \texttt{a.out} and once to create\texttt{b.out}, and you will spend twice as much effort as you need to (but in parallel).  So it is better for many reasons to write the rule in two separate lines, as in \autoref{make:twoshort}.
 
 \begin{make}{The right way to run two long tasks}{make:twoshort}
 	\maker{a.out}{b.in} \\

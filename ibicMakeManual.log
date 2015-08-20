@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 17:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 17:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2278,10 +2278,10 @@ type1/public/lm/lmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
 .pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></u
 sr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on ibicMakeManual.pdf (88 pages, 780568 bytes).
+Output written on ibicMakeManual.pdf (88 pages, 781075 bytes).
 PDF statistics:
- 1419 PDF objects out of 1440 (max. 8388607)
- 1296 compressed objects within 13 object streams
+ 1421 PDF objects out of 1440 (max. 8388607)
+ 1298 compressed objects within 13 object streams
  461 named destinations out of 1000 (max. 500000)
  35538 words of extra memory for PDF output out of 35830 (max. 10000000)
 

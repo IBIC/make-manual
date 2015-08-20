@@ -1,29 +1,4 @@
-\chapter{\texttt{makeToTeX}}
-\label{appendix:makeToTex}	
-	
-In case your script gives \LaTeX problems, the steps \texttt{makeToTex} undertakes are listed here.
-	
-\vspace{0.5\baselineskip}\hrule\vspace{0.5\baselineskip}
-	
-\begin{easylist}[enumerate]
-	& \texttt{;\textbackslash} is replaced with \texttt{;}\verb!\textbackslash!
-	& Covert any recipes to a special command to turn the target blue.
-	& Strip comments (lines beginning with \texttt{\#}).
-	&& At present, it doesn't strip trailing comments. Please remove those yourself.
-	& Escape the characters \texttt{\$}, \texttt{\%}, and \texttt{\#}.
-	& Add the terminal newline command (\texttt{\textbackslash\textbackslash}) to non-blank lines.
-	& Replace \textasciicircum with \verb!\textasciicircum!.
-	& Replace double dashes (\dd) with a macro that stops it from turning them into hyphens (--).
-	& Replace single TAB characters with a macro.
-	& Replace multiple TAB characters with \verb!\hfill!, a \LaTeX command that spaces nicely.
-	& Leading and trailing quotes are specified differently in \LaTeX. Leading quotes are coded with a backtick and trailing with an apostrophe.
-	& Extra spaces and multiple blank lines are filtered out.
-	\end{easylist}
-	
-	
-\vspace{0.5\baselineskip}\hrule\vspace{0.5\baselineskip}
-	
-Please ensure all comments are removed! They are very troublesome to display.
+
 	
 \chapter{Style Guide}
 \label{appendix:sg}
