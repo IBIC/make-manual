@@ -6,89 +6,90 @@
 \contentsline {section}{Quick Start Example}{3}{section*.5}
 \contentsline {section}{A More Realistic Example}{5}{section*.8}
 \contentsline {section}{What is the Difference between a Makefile and a Shell Script?}{7}{section*.12}
-\contentsline {chapter}{\chapternumberline {2}Running \texttt {make}{} in Context}{8}{chapter.1.2}
-\contentsline {section}{File Naming Conventions}{8}{section*.14}
-\contentsline {subsection}{Subject Identifiers}{8}{section*.15}
-\contentsline {subsection}{Filenames}{10}{section*.16}
-\contentsline {section}{Directory Structure}{11}{section*.18}
-\contentsline {section}{Setting up an Analysis Directory}{12}{section*.20}
-\contentsline {subsection}{Defining the basic directory structure}{13}{section*.21}
-\contentsline {subsection}{Create the session-level makefiles}{14}{section*.23}
-\contentsline {subsection}{Creating the common subject-level makefile for each session}{14}{section*.25}
-\contentsline {subsection}{Creating links to subject-level makefile}{15}{section*.27}
-\contentsline {subsection}{Running analyses}{16}{section*.28}
-\contentsline {section}{Setting Important Variables}{16}{section*.30}
-\contentsline {subsection}{Variables that control \texttt {make}'s Behavior}{17}{section*.31}
-\contentsline {subsubsection}{\texttt {SHELL}}{17}{section*.32}
-\contentsline {subsubsection}{\texttt {TARGET}}{17}{section*.34}
-\contentsline {subsubsection}{\texttt {SUBJECTS}}{18}{section*.35}
-\contentsline {subsubsection}{\texttt {subject}}{18}{section*.36}
-\contentsline {subsubsection}{\texttt {SESSION}}{18}{section*.37}
-\contentsline {subsection}{Other important variables}{18}{section*.38}
-\contentsline {subsection}{Variable overrides}{19}{section*.41}
-\contentsline {subsection}{Suggested targets}{20}{section*.43}
-\contentsline {subsubsection}{.PHONY}{21}{section*.44}
-\contentsline {subsubsection}{.SECONDARY}{21}{section*.45}
-\contentsline {chapter}{\chapternumberline {3}Running \texttt {make}{} in Parallel}{22}{chapter.1.3}
-\contentsline {section}{Guidelines for Writing Parallelizable Makefiles}{22}{section*.46}
-\contentsline {subsection}{Each line in a recipe is, by default, executed in its own shell}{22}{section*.47}
-\contentsline {subsection}{Filenames must be unique}{23}{section*.51}
-\contentsline {subsection}{Separate time-consuming tasks}{24}{section*.53}
-\contentsline {section}{Executing in Parallel}{25}{section*.56}
-\contentsline {subsection}{Using multiple cores}{25}{section*.57}
-\contentsline {section}{Using the grid engine}{25}{section*.58}
-\contentsline {subsection}{Setting \texttt {FSLPARALLEL} for FSL jobs}{25}{section*.59}
-\contentsline {subsection}{Using \texttt {qmake}}{26}{section*.60}
-\contentsline {subsection}{How long will everything take?}{27}{section*.61}
-\contentsline {subsection}{Consideration of memory}{27}{section*.62}
-\contentsline {section}{Troubleshooting \texttt {make}}{28}{section*.63}
-\contentsline {subsection}{Find out what \texttt {make}{} is trying to do}{28}{section*.64}
-\contentsline {subsection}{Use the trace option in \texttt {make}{} 4.1}{28}{section*.65}
-\contentsline {subsection}{Check for line continuation}{28}{section*.66}
-\contentsline {subsection}{No rule to make target!}{28}{section*.67}
-\contentsline {subsection}{Suspicious continuation in line \scalebox {0.8}{\raisebox {0.4ex}{\#}}{}}{29}{section*.69}
-\contentsline {subsection}{\texttt {make}{} keeps rebuilding targets}{30}{section*.70}
-\contentsline {subsection}{\texttt {make}{} doesn't rebuild things that it should}{30}{section*.71}
-\contentsline {chapter}{\chapternumberline {4}Recipes}{31}{chapter.1.4}
-\contentsline {subsection}{Obtaining a list of subjects}{31}{section*.72}
-\contentsline {subsection}{Setting a variable that contains the subject id }{32}{section*.75}
-\contentsline {subsection}{Setting a conditional flag }{32}{section*.77}
-\contentsline {subsection}{Using a conditional flag}{33}{section*.80}
-\contentsline {subsection}{Conditional execution based on the environment}{33}{section*.82}
-\contentsline {subsection}{Conditional execution based upon the Linux version}{34}{section*.84}
-\contentsline {part}{\partnumberline {II}Practicals}{36}{part.2}
-\contentsline {chapter}{\chapternumberline {1}Overview of \texttt {make}{}}{38}{chapter.2.1}
-\contentsline {section}{Lecture: The Conceptual Example of Making Breakfast}{38}{section*.87}
-\contentsline {section}{Practical Example: Skull-stripping}{40}{section*.91}
-\contentsline {subsection}{Manipulating a single subject}{40}{section*.92}
-\contentsline {subsection}{Pattern rules and multiple subjects}{42}{section*.94}
-\contentsline {subsection}{Phony targets}{44}{section*.98}
-\contentsline {subsection}{Secondary targets}{45}{section*.99}
-\contentsline {subsection}{\texttt {make clean}}{45}{section*.100}
-\contentsline {chapter}{\chapternumberline {2}\texttt {make}{} in Context}{47}{chapter.2.2}
-\contentsline {section}{Lecture: Organizing Subject Directories}{47}{section*.102}
-\contentsline {section}{Practical Example: A More Realistic Longitudinal Directory Structure}{48}{section*.103}
-\contentsline {subsection}{Organizing Longitudinal Data}{48}{section*.104}
-\contentsline {subsection}{Recursive \texttt {make}{}}{50}{section*.105}
-\contentsline {subsection}{Running \texttt {make}{} over multiple subject directories}{51}{section*.108}
-\contentsline {subsection}{Running FreeSurfer}{52}{section*.109}
-\contentsline {chapter}{\chapternumberline {3}Getting Down and Dirty with \texttt {make}{}}{53}{chapter.2.3}
-\contentsline {section}{Practical Example: Running QMON}{53}{section*.110}
-\contentsline {section}{Practical Example: A Test Subject}{54}{section*.111}
-\contentsline {subsection}{Estimated total intracranial volume}{56}{section*.112}
-\contentsline {subsection}{Hippocampal volumes}{58}{section*.113}
-\contentsline {section}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{59}{section*.114}
-\contentsline {chapter}{\chapternumberline {4}Advanced Topics \& Quality Assurance with R Markdown}{62}{chapter.2.4}
-\contentsline {section}{Creating a \texttt {make}{} help system}{62}{section*.116}
-\contentsline {section}{makefile Directory structure}{63}{section*.118}
-\contentsline {section}{The \texttt {Clean} target}{64}{section*.119}
-\contentsline {section}{Defining macros}{64}{section*.120}
-\contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{65}{section*.121}
-\contentsline {part}{\partnumberline {III}Examples}{69}{part.3}
-\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{70}{chapter.3.1}
-\contentsline {section}{Running FreeSurfer}{71}{section*.126}
-\contentsline {section}{Testsubject Main Makefile}{73}{section*.127}
-\contentsline {section}{Testsubject Transformations}{76}{section*.128}
-\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{78}{appendix.A}
-\contentsline {appendix}{\chapternumberline {B}Style Guide}{79}{appendix.B}
-\contentsline {chapter}{Bibliography}{81}{section*.130}
+\contentsline {section}{Additional Resources For Learning About \texttt {make}{}}{8}{section*.14}
+\contentsline {chapter}{\chapternumberline {2}Running \texttt {make}{} in Context}{9}{chapter.1.2}
+\contentsline {section}{File Naming Conventions}{9}{section*.15}
+\contentsline {subsection}{Subject Identifiers}{9}{section*.16}
+\contentsline {subsection}{Filenames}{11}{section*.17}
+\contentsline {section}{Directory Structure}{12}{section*.19}
+\contentsline {section}{Setting up an Analysis Directory}{13}{section*.21}
+\contentsline {subsection}{Defining the basic directory structure}{14}{section*.22}
+\contentsline {subsection}{Create the session-level makefiles}{15}{section*.24}
+\contentsline {subsection}{Creating the common subject-level makefile for each session}{15}{section*.26}
+\contentsline {subsection}{Creating links to subject-level makefile}{16}{section*.28}
+\contentsline {subsection}{Running analyses}{17}{section*.29}
+\contentsline {section}{Setting Important Variables}{17}{section*.31}
+\contentsline {subsection}{Variables that control \texttt {make}'s Behavior}{18}{section*.32}
+\contentsline {subsubsection}{\texttt {SHELL}}{18}{section*.33}
+\contentsline {subsubsection}{\texttt {TARGET}}{18}{section*.35}
+\contentsline {subsubsection}{\texttt {SUBJECTS}}{19}{section*.36}
+\contentsline {subsubsection}{\texttt {subject}}{19}{section*.37}
+\contentsline {subsubsection}{\texttt {SESSION}}{19}{section*.38}
+\contentsline {subsection}{Other important variables}{19}{section*.39}
+\contentsline {subsection}{Variable overrides}{20}{section*.42}
+\contentsline {subsection}{Suggested targets}{21}{section*.44}
+\contentsline {subsubsection}{.PHONY}{22}{section*.45}
+\contentsline {subsubsection}{.SECONDARY}{22}{section*.46}
+\contentsline {chapter}{\chapternumberline {3}Running \texttt {make}{} in Parallel}{23}{chapter.1.3}
+\contentsline {section}{Guidelines for Writing Parallelizable Makefiles}{23}{section*.47}
+\contentsline {subsection}{Each line in a recipe is, by default, executed in its own shell}{23}{section*.48}
+\contentsline {subsection}{Filenames must be unique}{24}{section*.52}
+\contentsline {subsection}{Separate time-consuming tasks}{25}{section*.54}
+\contentsline {section}{Executing in Parallel}{26}{section*.57}
+\contentsline {subsection}{Using multiple cores}{26}{section*.58}
+\contentsline {section}{Using the grid engine}{26}{section*.59}
+\contentsline {subsection}{Setting \texttt {FSLPARALLEL} for FSL jobs}{26}{section*.60}
+\contentsline {subsection}{Using \texttt {qmake}}{27}{section*.61}
+\contentsline {subsection}{How long will everything take?}{28}{section*.62}
+\contentsline {subsection}{Consideration of memory}{28}{section*.63}
+\contentsline {section}{Troubleshooting \texttt {make}}{29}{section*.64}
+\contentsline {subsection}{Find out what \texttt {make}{} is trying to do}{29}{section*.65}
+\contentsline {subsection}{Use the trace option in \texttt {make}{} 4.1}{29}{section*.66}
+\contentsline {subsection}{Check for line continuation}{29}{section*.67}
+\contentsline {subsection}{No rule to make target!}{29}{section*.68}
+\contentsline {subsection}{Suspicious continuation in line \scalebox {0.8}{\raisebox {0.4ex}{\#}}{}}{30}{section*.70}
+\contentsline {subsection}{\texttt {make}{} keeps rebuilding targets}{31}{section*.71}
+\contentsline {subsection}{\texttt {make}{} doesn't rebuild things that it should}{31}{section*.72}
+\contentsline {chapter}{\chapternumberline {4}Recipes}{32}{chapter.1.4}
+\contentsline {subsection}{Obtaining a list of subjects}{32}{section*.73}
+\contentsline {subsection}{Setting a variable that contains the subject id }{33}{section*.76}
+\contentsline {subsection}{Setting a conditional flag }{33}{section*.78}
+\contentsline {subsection}{Using a conditional flag}{34}{section*.81}
+\contentsline {subsection}{Conditional execution based on the environment}{34}{section*.83}
+\contentsline {subsection}{Conditional execution based upon the Linux version}{35}{section*.85}
+\contentsline {part}{\partnumberline {II}Practicals}{37}{part.2}
+\contentsline {chapter}{\chapternumberline {1}Overview of \texttt {make}{}}{39}{chapter.2.1}
+\contentsline {section}{Lecture: The Conceptual Example of Making Breakfast}{39}{section*.88}
+\contentsline {section}{Practical Example: Skull-stripping}{41}{section*.92}
+\contentsline {subsection}{Manipulating a single subject}{41}{section*.93}
+\contentsline {subsection}{Pattern rules and multiple subjects}{43}{section*.95}
+\contentsline {subsection}{Phony targets}{45}{section*.99}
+\contentsline {subsection}{Secondary targets}{46}{section*.100}
+\contentsline {subsection}{\texttt {make clean}}{46}{section*.101}
+\contentsline {chapter}{\chapternumberline {2}\texttt {make}{} in Context}{48}{chapter.2.2}
+\contentsline {section}{Lecture: Organizing Subject Directories}{48}{section*.103}
+\contentsline {section}{Practical Example: A More Realistic Longitudinal Directory Structure}{49}{section*.104}
+\contentsline {subsection}{Organizing Longitudinal Data}{49}{section*.105}
+\contentsline {subsection}{Recursive \texttt {make}{}}{51}{section*.106}
+\contentsline {subsection}{Running \texttt {make}{} over multiple subject directories}{52}{section*.109}
+\contentsline {subsection}{Running FreeSurfer}{53}{section*.110}
+\contentsline {chapter}{\chapternumberline {3}Getting Down and Dirty with \texttt {make}{}}{54}{chapter.2.3}
+\contentsline {section}{Practical Example: Running QMON}{54}{section*.111}
+\contentsline {section}{Practical Example: A Test Subject}{55}{section*.112}
+\contentsline {subsection}{Estimated total intracranial volume}{57}{section*.113}
+\contentsline {subsection}{Hippocampal volumes}{59}{section*.114}
+\contentsline {section}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{60}{section*.115}
+\contentsline {chapter}{\chapternumberline {4}Advanced Topics \& Quality Assurance with R Markdown}{63}{chapter.2.4}
+\contentsline {section}{Creating a \texttt {make}{} help system}{63}{section*.117}
+\contentsline {section}{makefile Directory structure}{64}{section*.119}
+\contentsline {section}{The \texttt {Clean} target}{65}{section*.120}
+\contentsline {section}{Defining macros}{65}{section*.121}
+\contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{66}{section*.122}
+\contentsline {part}{\partnumberline {III}Examples}{70}{part.3}
+\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{71}{chapter.3.1}
+\contentsline {section}{Running FreeSurfer}{72}{section*.127}
+\contentsline {section}{Testsubject Main Makefile}{74}{section*.128}
+\contentsline {section}{Testsubject Transformations}{77}{section*.129}
+\contentsline {appendix}{\chapternumberline {A}\texttt {makeToTeX}}{79}{appendix.A}
+\contentsline {appendix}{\chapternumberline {B}Style Guide}{80}{appendix.B}
+\contentsline {chapter}{Bibliography}{82}{section*.131}
