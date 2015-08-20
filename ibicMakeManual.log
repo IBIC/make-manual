@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 AUG 2015 18:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  20 AUG 2015 11:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1636,7 +1636,17 @@ Package microtype Info: Character `textendash ' is missing
 Package microtype Info: Character `textemdash ' is missing
 (microtype)             in font `T1/zi4/b/n/14.4'.
 (microtype)             Ignoring protrusion settings for this character.
-) [8]
+)
+Underfull \hbox (badness 10000) in paragraph at lines 131--182
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--182
+
+ []
+
+[8]
 \openout2 = `chapter2.aux'.
 
  (./chapter2.tex
@@ -2246,11 +2256,11 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 34180 strings out of 493089
- 628855 string characters out of 6134842
+ 34176 strings out of 493089
+ 628809 string characters out of 6134842
  888982 words of memory out of 5000000
  36492 multiletter control sequences out of 15000+600000
- 104492 words of font info for 146 fonts, out of 8000000 for 9000
+ 104232 words of font info for 144 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  68i,12n,101p,10421b,1695s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
@@ -2273,7 +2283,7 @@ type1/public/lm/lmr9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public
 .pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></u
 sr/local/texlive/2015/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/lm/lmsy9.pfb>
-Output written on ibicMakeManual.pdf (87 pages, 779662 bytes).
+Output written on ibicMakeManual.pdf (87 pages, 779498 bytes).
 PDF statistics:
  1413 PDF objects out of 1440 (max. 8388607)
  1291 compressed objects within 13 object streams

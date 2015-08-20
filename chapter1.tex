@@ -36,14 +36,14 @@ These commands take the form of ``rules'' that look like those in \autoref{make:
 	\tab \begin{minipage}[t]{\linewidth-4em} {\color{gray} Shell commands to create target from dependencies (a recipe), beginning with a [TAB] character.} \end{minipage}
 \end{make}
 	
-This may be best understood by example. \autoref{make:recipe1} is a simple makefile that executes FSL's \texttt{bet} command to skull-strip a T1 nifti.
+This may be best understood by example. \autoref{make:recipe1} is a simple makefile that executes FSL's \texttt{bet} command to skull-strip a T1 NIfTI file.
 	
 \begin{make}{A very basic \maken{} recipe.}{make:recipe1}
 	\maker{s001\_T1\_skstrip.nii.gz}{s001\_T1.nii.gz} \\
 	\tab bet s001_T1.nii.gz s001_T1_skstrip.nii.gz -R
 \end{make}
 	
-In \autoref{make:recipe1} the target file is \texttt{s001_skstrip.nii.gz}, which ``depends'' on \texttt{s001_T1.nii.gz}. More specifically, to ``depend on'' something means that \begin{inparaenum}[\itshape a)\upshape] \item it cannot be created unless the dependency exits, and \item it must be recreated if the dependency exists, but is newer than the target. \end{inparaenum}
+In \autoref{make:recipe1} the target file is \texttt{s001_T1_skstrip.nii.gz}, which ``depends'' on \texttt{s001_T1.nii.gz}. More specifically, to ``depend on'' something means that \begin{inparaenum}[\itshape a)\upshape] \item it cannot be created unless the dependency exits, and \item it must be recreated if the dependency exists, but is newer than the target. \end{inparaenum}
 	
 The ``recipe'' is the \texttt{bet} command that creates the skull-stripped image from the T1 image. This executes in a shell, just as if you were typing it in the terminal.
 	
@@ -73,7 +73,7 @@ Suppose we have a directory that contains the T1 images from 100 subjects with i
 	\caption{Automatic \maken{} variables}
 \end{figure}
 
-The first two lines in \autoref{make:recipe2} set variables for Make. Yes, the syntax is icky but it is well explained in the GNU \maken{} manual. We will summarize here. The first variable is assigned to the result of a ``wildcard'' operation that expands to all files with the pattern \texttt{s????_T1.nii.gz}. If you are not familiar with wildcards, if you do a directory listing of that same pattern, it will match all files that begin with an ``s,'' are followed by exactly three characters, and then ``_T1.nii.gz.'' In other words, the \texttt{T1files} variable is set to be all T1 files belonging to those subjects in the current directory.
+The first two lines in \autoref{make:recipe2} set variables for Make. Yes, the syntax is icky but it is well explained in the GNU \maken{} manual. We will summarize here. The first variable is assigned to the result of a ``wildcard'' operation that expands to all files with the pattern \texttt{s???_T1.nii.gz}. If you are not familiar with wildcards, if you do a directory listing of that same pattern, it will match all files that begin with an ``s,'' are followed by exactly three characters, and then ``_T1.nii.gz.'' In other words, the \texttt{T1files} variable is set to be all T1 files belonging to those subjects in the current directory.
 	
 \begin{make}{A more realistic example}{make:recipe2}
 	T1files=\$(wildcard s???_T1.nii.gz) \\
@@ -130,6 +130,8 @@ The focus of this manual is on structuring neuroimaging projects using \maken{}.
 
 GNU Make Manual, Free Software Foundation. Last updated Oct 5, 2014. \href{http://www.gnu.org/software/make/manual/}{Link to manual.} Although this manual is for version 4.1, which is a somewhat newer version than we use in our examples, most of the information here is the same. This is an excellent reference for the syntax of \maken{} and its functionality. 
 \\
+\\
 Managing Projects with GNU Make, Third Edition by Robert Mecklenburg. Nov 2004. \href{http://www.oreilly.com/openbook/make3/book/index.csp}{Link to open book content.} This O'Reilly book covers a lot of basics but in a readable form for someone trying to manage a large scale project. Information about directory structures is probably less relevant for neuroimaging applications. 
+\\
 \\
 The GNU Make Book by John Graham-Cumming. April 2015. \href{https://www.nostarch.com/gnumake}{Link to purchase.} This book has an enormous amount of useful advanced information, including details describing differences between different versions of \maken{}, many approaches to debugging, and the help system that we use in our examples. 
