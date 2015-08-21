@@ -3,7 +3,7 @@
 
 This is an example of using a makefile to create quality assurance (QA) images, and then generate a final QA report in HTML using R Markdown. 
 
-The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/lib/makefiles/QA.mk}, and it is included by \texttt{\$MAKEPIPELINES/testsubject/test001/Makefile}.
+The code for this example is in \texttt{testsubject/lib/makefiles/QA.mk}, and it is included by \texttt{testsubject/test001/Makefile}.
 
 \setcounter{codehighlight}{0} % RESET THIS BEFORE EVERY LST LISTING
 \begin{lstlisting}
@@ -20,7 +20,6 @@ The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/lib/makefile
 \lnum{3} This line tells the \maken{} help system what to do when you are unsure of what this makefile does. In this instance, it will print out the purpose of this makefile if any of the phony targets are given with the help flag attached. See \autoref{sec:practicum4} for more information about the help system. \\
 
 \begin{lstlisting}
-	#### TSNR - threshold signal to noise ratio for resting state scans
 	%*\lnote*TSNR: QA/images/rest_tsdiffana.gif
 
 	# Convert to gif for inclusion in Rmarkdown. 
@@ -40,14 +39,13 @@ The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/lib/makefile
 \includegraphics[scale=0.5]{QAtsdiffana.png}
 
 \begin{lstlisting}
-	### Motion graphs
 	MotionGraphs: QA/images/rest_MotionGraphRotations.gif 
 
 	QA/images/rest_MotionGraphRotations.gif: rest_dir/rest_mc.nii.gz
 		%*\lnote*$(PROJECT_HOME)/bin/R/MakingGraphs.Rscript  QA/images rest
 \end{lstlisting}
 
-\lnum{8} The \texttt{MakingGraphs.Rscript} is a R script that will generate 4 separate graphs for you -- these being: 
+\lnum{8} The \texttt{MakingGraphs.Rscript} is a R script that will generate 4 separate graphs for you: 
 	\tab 1. A motion rotations graph showing rotations along the x/y/z planes.\\
 	\tab 2. A motion translations graph showing translations along the x/y/z planes.\\
 	\tab 3. A framewise displacement (FD) graph to show displacement in mm across acquired volumes.\\
@@ -58,7 +56,6 @@ The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/lib/makefile
 \includegraphics[scale=0.3]{QAmotion2.png}
 
 \begin{lstlisting}
-	### Skull strip check
 	SkullstripQA: QA/images/T1_skstrip.gif
 
 	QA/images/T1_skstrip.gif: T1.nii.gz T1_skstrip_mask.nii.gz
@@ -70,7 +67,8 @@ The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/lib/makefile
 		rm `dirname $@`/`basename $@ .gif`.png
 
 \end{lstlisting}
-\\
+
+
 
 To ensure that our skull-strip does not remove too much of the brain or too little of the skull, we can create an image to overlay the skull-stripped mask generated from \texttt{resting.mk} on top of the T1 brain. \\
 \tab\lnum{9} FSL overlay is a tool that is used to overlay a 3D images over another. It is capable of overlaying a maximum of 2 images on top of a reference image. Type \texttt{overlay} into your command line to understand how it is used. In this line, we see that FSL overlay is first called upon. The \texttt{1}s specify the color and output type of your overlay. The background image is then given -- which in this case is the first dependency we have listed, i.e. \texttt{T1.nii.gz}. The \$\textasciicircum{} refers to this file. The final output image is called \texttt{rendered\_T1\_brain.nii.gz}. Again, to understand the flags, you must look at overlay's usage. \\
@@ -80,7 +78,6 @@ To ensure that our skull-strip does not remove too much of the brain or too litt
 \includegraphics[scale=0.4]{QAskullstrip.png}
 
 \begin{lstlisting}
-	### QA Report
 	QAreport: QA/rest_Preprocessing.html 
 
 	QA/rest_Preprocessing.html: $(PROJECT_HOME)/lib/Rmd/fMRI.Rmd TSNR MotionGraphs SkullstripQA
@@ -88,20 +85,19 @@ To ensure that our skull-strip does not remove too much of the brain or too litt
 		%*\lnote*R -e 'library("rmarkdown");rmarkdown::render("QA/rest_Preprocessing.Rmd")' ;\
 		rm -f QA/rest_Preprocessing.Rmd QA/rest_Preprocessing.md
 \end{lstlisting}
-\\
+
 
 Finally, to generate our QA HTML report, we use R Markdown. We do this by writing a script called \texttt{fMRI.Rmd}, which is the first dependency listed here. The \texttt{fMRI.Rmd} file reads the QA images that were generated in the previous portions of this makefile to create a HTML page (see \autoref{sec:practicum4} for a brief explanation of what goes into a Rmd file and how to write one). \\
-\lnum{12} In this line, we substitute pattern strings in the \texttt{fMRI.Rmd} file with variables that have been defined in the makefiles by using \texttt{sed}. SUBJECT, for instance, will be replaced with the \$(subject) variable defined in the main makefile \texttt{\${(PROJECT\_HOME)/test001/Makefile}. TASK will be replaced with `rest', since we are only interested in looking at the QA report for resting-state functional scans for now. We can define another variable called \texttt{task} if we have several types of runs that we want to generate QA reports for. Once the pattern strings have been substituted, the \texttt{fMRI.Rmd} file will be copied over to the \texttt{QA} directory and be renamed as \texttt{rest\_Preprocessing.Rmd}. \\
+\lnum{12} In this line, we substitute pattern strings in the \texttt{fMRI.Rmd} file with variables that have been defined in the makefiles by using \texttt{sed}. SUBJECT, for instance, will be replaced with the \$(subject) variable defined in the main makefile \texttt{\$(PROJECT\_HOME)/test001/Makefile}. TASK will be replaced with `rest', since we are only interested in looking at the QA report for resting-state functional scans for now. We can define another variable called \texttt{task} if we have several types of runs that we want to generate QA reports for. Once the pattern strings have been substituted, the \texttt{fMRI.Rmd} file will be copied over to the \texttt{QA} directory and be renamed as \texttt{rest\_Preprocessing.Rmd}. \\
 \lnum{13} Now, R is called upon. This line tells R to load the `\texttt{rmarkdown}' library so that it can read the R Markdown syntax. R will then run \texttt{QA/rest\_Preprocessing.Rmd} to create your HTML report! \\
 
 To view the full report, check out \texttt{\$MAKEPIPELINES/testsubject/test001/QA/rest_Preprocessing_example.html}. 
 
 \begin{lstlisting}
-	### Clean up
 		clean_qa: 
 		rm -rf QA
 \end{lstlisting}
-\\
+
 
 As with other makefiles, we define a \texttt{clean} target specifically for QA. Since quality assurance is an intermediary step in the neuroimaging processing pipeline, we do not necessarily need to retain the images and reports once they have been checked through and the data has been further processed for analyses. 
 

@@ -75,7 +75,7 @@ The specific file names chosen are not as important as consistency in the use of
 \label{sec:dir}
 
 Typically, we create a directory for each project. Within that project directory is storage for scripts, masks, data files from other sources (e.g., cognitive or neuropsychological data) and subject neuroimaging data. Subjects may have different timepoints or occasions of imaging data, as well as physiological data and task-related behavioral data.
-An example hierarchy (for project Udall) is shown in \autoref{figure:udalldir}.
+An example hierarchy (for project Udall) is shown in \autoref{figure:udalldir}. We have recreated this directory structure in \texttt{\$MAKEPIPELINES/Udall}, without any actual MRI data, so that you can follow the structure. You can also look at \autoref{sec:practicum2} for a description of how to set up a similar directory structure for an actual data set.
 
 \begin{center}
 	\begin{figure}[h!]
@@ -112,12 +112,13 @@ An example hierarchy (for project Udall) is shown in \autoref{figure:udalldir}.
 This directory is typically protected so that only members of the project who are permitted by the Institutional Review Board to access the data may \texttt{cd} into the directory, using a specific group related to the project. The setgid bit \mymarginnote{?}{The \texttt{setgid} bit on a directory ensures that files created here assume the group to which the directory belongs, and not the group to which the person creating them belongs.} is set on the project directory and the file permissions are set by default to permit group read, write, and execute permission for each individual so that files people create within the directory substructure are accessible by others in the project. 
 
 
-
 The structure is set up for a longitudinal project, where each subject is imaged at separate time points (sessions). All subject data is stored under the directory subjects (under subdirectories corresponding to each session). However, because often it is convenient to conduct analyses on a single time point, we create a convenience directory at the top level (e.g., session3) which has symbolic links to all of the subjects' session 3 data. This can make it easier to perform subject-specific processing.
 
-Notice that in the project directory, we also keep scripts that we write to process the data, other data files, and miscellaneous support files for workflow (in the \texttt{lib/} subdirectory). Your naming conventions may differ and there may be more categories than we have, but it is important to decide upon some structure that everyone agrees upon for the project. This makes it much easier to find things.
+Notice that in the project directory, we keep scripts that we write to process the data in the \texttt{bin} directory. Although \texttt{bin} historically is where ``binary'' executable files are kept, the distinction between executable \bashn{} scripts and compiled executables is not terribly important. In this example we separate \texttt{tcl} scripts and \texttt{R} scripts to make things neater. 
 
-We find it useful to locate the results of some subject-specific processing (e.g. co-registration of files, subject-level DTI processing, subject-level task fMRI processing) in the subject/session directories. However, other types of analyses are more conveniently performed in directories (e.g. \texttt{freesurfer/}, \texttt{tbss/}) that are stored at the top level of the project.
+Other data files and miscellaneous support files for workflow are stored in the \texttt{lib/} subdirectory. Again, your naming conventions may differ and there may be more categories than we have, but it is important to decide upon some structure that everyone agrees upon for the project. This makes it much easier to find things.
+
+We find it useful to locate the results of some subject-specific processing (e.g. co-registration of files, subject-level DTI processing, subject-level task fMRI processing) in the subject/session directories. However, other types of single-subject (and group) analyses are more conveniently performed in directories (e.g. \texttt{freesurfer/}, \texttt{tbss/}) that are stored at the top level of the project.
 
 Data files that are collected from non-neuroimaging sources are usually kept in text (tab or comma-separated) form in the \texttt{data/} directory so that scripts can find and use them (e.g., to use the subject age or some cognitive variable as a regressor in an analysis). We have found it very useful to document, manage, and merge this data very carefully, including the important QA variables that describe whether or not a subject's scan should be included in analyses.
 
@@ -129,22 +130,21 @@ Finally, note that we have a directory labeled \texttt{incoming}. This is a scra
 Up until this point we have only seen little examples of makefiles that process subjects within a single directory. However, real studies include many subjects and many analyses; each analysis often produces hundreds of files per subject. Often, several researchers are trying to conduct different analyses on the same data set at the same time.
 
 % add reference to incoming makefile
-For these reasons, we use a collection of makefiles to manage a project. This section describes this basic recipe (which is a little complicated). You can also see this in \texttt{oasis-longitudinal-sample-small}. Typically the steps involving creating subject directories and links are done by a script or an ``incoming'' makefile at the time that the subject data appears from the scanner. Better, if you use an archival system that you can write programs to access (for example, XNAT) a script can create all the links and name files nicely for you (see \nameref{example:xnat}). %%% Note this is Karl's example
+For these reasons, we use a collection of makefiles to manage a project. This section describes this basic recipe (which is a little complicated). You can also see this recipe implemented in \texttt{Udall}. Typically the steps involving creating subject directories and links are done by a script or an ``incoming'' makefile at the time that the subject data appears from the scanner. Better, if you use an archival system that you can write programs to access (for example, XNAT) a script can create all the links and name files nicely for you (see \nameref{example:xnat}). %%% Note this is Karl's example
 
-This relies on the concept of a ``symbolic link.'' This is a file that points to another file or directory. If you remove the link, you will not remove the thing that it points to. However, if you remove the target of the link, the link won't work any more.
+This recipe relies on the concept of a ``symbolic link.'' This is a file that points to another file or directory. A symbolic link allows you to access a file or directory using a different pathname. If you remove the link, you will not remove the thing that it points to. However, if you remove the target of the link, the link won't work any more. 
 
 To create a symbolic link, use the \texttt{ln} command.
 \bashcmd{ln -s target linkname}
 
 \texttt{target} is the path of the file you're linking to, and \texttt{linkname} is the name of the new symbolic link.
 
-Target paths can either be absolute or relative, but they must be relative to their new location (in \texttt{linkname}). For example, using the directory structure in \autoref{figure:udalldir}, the command to create the link \texttt{session3/RPI001} might look something like this (run from \texttt{Udall/}:
-\bashcmd{ln -s subjects/RPI001/session3 subjects/RPI001}
+Target paths can either be absolute or relative, but they must be relative to their new location (in \texttt{linkname}). For example, using the directory structure in \autoref{figure:udalldir}, the command to create the link \texttt{session1/RC4101} would look like this (run from \texttt{Udall/session1}:
+\bashcmd{ln -s ../subjects/RC4101/session1 RC4101}
 
-Note that a symbolic link allows you to access a file or directory using a different pathname.
 
 \subsection{Defining the basic directory structure}
-Let us assume the project home (\texttt{PROJHOME}) is called \texttt{/project_space/Udall/}. There are three scans per individual. Let us also assume there are two subjects: RC4101 and RC4103. These are the directories that need to be in place. Note we organize the actual files by subject ID and scan session. However, to make processing at each cross-sectional point easier, we create directories with symbolic links to the correct subject/session directories. This flexibility helps in many ways to make cross-sectional and longitudinal analyses easier.
+Let us assume the project home (\texttt{PROJHOME}) is called \texttt{\$MAKEPIPELINES/Udall/}. There are three scans per individual. Let us also assume there are two subjects: RC4101 and RC4103. These are the directories that need to be in place. Note we organize the actual files by subject ID and scan session. However, to make processing at each cross-sectional point easier, we create directories with symbolic links to the correct subject/session directories. This flexibility helps in many ways to make cross-sectional and longitudinal analyses easier.
 
 All simple subject-specific processing is well-organized within the subject/session directories (for example, skull-stripping, possibly first level FEAT, DTI analysis, co-registrations). We normally run FreeSurfer in a separate directory, because it likes to put directories in a single place. Analyses that combine data across subjects or timepoints (e.g. TBSS) best go in separate directories.
 
@@ -175,17 +175,16 @@ All simple subject-specific processing is well-organized within the subject/sess
 \end{center}
 
 \subsection{Create the session-level makefiles}
-We will do all the subject-level processing from the \texttt{PROJHOME/sessionN/} directories. You will need to create a Makefile in \texttt{PROJHOME/session1}, \texttt{PROJHOME/session2}, and \texttt{PROJHOME/session3} whose only purpose is to run \maken{} within all the subject-level directories beneath it. 
-\autoref{make:seshlevel} shows an example session-level makefile.
+We will do all the subject-level processing from the \texttt{PROJHOME/sessionN/} directories. You will need to create a Makefile in \texttt{PROJHOME/session1}, \texttt{PROJHOME/session2}, and \texttt{PROJHOME/session3} whose only purpose is to run \maken{} within all the subject-level directories beneath it.  
+\autoref{make:seshlevel} shows the example session-level makefile (\texttt{Udall/subjects/makefile_session.mk}).
 
 \mymarginnote{?}{\textbf{\mypound}: the \maken{} comment character.}
 
 \begin{make}{Session-level Makefile}{make:seshlevel}
 	\# Top level makefile \\
-	\# make recursively all make targets in each subject directory.\\
+	\# make all will recursively make specified targets in each subject directory.\\
 	
-	\# Obtain a list of subject - here all directories of the form RC4 followed by three characters \\
-	SUBJECTS=\$(wildcard RC4????) \\
+	SUBJECTS=\$(wildcard RC4???) \\
 	
 	\maker{.PHONY}{all \$(SUBJECTS)} \\
 
@@ -195,58 +194,50 @@ We will do all the subject-level processing from the \texttt{PROJHOME/sessionN/}
 	\maker{\$(SUBJECTS)}{} \\
 	\tab \$(MAKE) --directory=\$@ \$(TARGET)  \\
 	
-	\maker{help}{}
-	\tab \$(usage)
 \end{make}
 
-Using the \texttt{@} before a command stops \maken{} from echoing the command before executing it.
+This Makefile obtains the list of subjects using a wildcard (so it expects to be in a directory where each subject has its own subdirectory). We will create symbolic links to this Makefile later.
+
+The name of the subject directory is declared to be a phony target, so even if it exists, \maken{} will try to rebuild it. The recipe to do this is the very last line, which calls \maken{} recursively within each subject directory. It also passes along a \texttt{TARGET} variable. If unspecified, this would be the first target in the subject specific makefile.
 
 \subsection{Creating the common subject-level makefile for each session}
-As we described, the session-level makefile only exists to call \maken{} within all the subdirectories (symbolic links) in each session. So, we need to create a makefile within each subdirectory. This would be incredibly redundant! In general, we try to minimize copying of makefile rules where ever possible. We create three files based on a modified version of \autoref{make:seshlevel}:
-
-\ttfamily\selectfont
-\begin{easylist}[itemize]
-	& PROJHOME/session1/makefile_common.mk
-	& PROJHOME/session2/makefile_common.mk
-	& PROJHOME/session3/makefile_common.mk
-\end{easylist}
-\normalfont
-
-Note that \autoref{make:subjlevel} sets a \texttt{SESSION} variable. In the example, it is set to ``2,'' but you will tailor this for each of your own sessions. It also sets a \texttt{SUBJECT} variable by setting the last part of the file path. This is useful for makefiles you write. If everyone agrees on setting these two variables, you can use them in makefiles that are written to be portable across projects.
-
-We include a little test rule here that merely echoes the subject variable. Most of the rules should normally come from makefiles that are established pipelines, that have been tested with this project (\texttt{process_incoming.mk} and \texttt{convert_dicoms.mk}). These are stored in \texttt{PROJHOME/lib/makefiles/} to make them easier to find and share across sessions.
+As we described, the session-level makefile only exists to call \maken{} within all the subdirectories (symbolic links) in each session. So, we need to create a makefile within each subdirectory. However, we expect that the only thing that is different about each session is session-specific processing, which can be controlled by a \texttt{SESSION} variable. We can create a single subject-specific makefile and set up symbolic links to it just like we intend to do with the session-level makefile. \autoref{make:subjlevel} is an example of a subject-level makefile that can be seen at \texttt{Udall/subjects/makefile_subject.mk}.
 
 \begin{make}{Subject-level makefile}{make:subjlevel}
-	\# This is the project home directory \\	
-	PROJHOME=/project_space/Udall \\
-	
-	\# Name the session CHANGE THIS FOR EACH SESSION \\	
-	SESSION=2 \\
-		
-	\# get subject id \\
-	subject=\$(notdir \$(shell pwd)) \\
-	
-	\# put your own rules here\\
-	
-	\maker{test}{}	\\
-	\tab @echo Testing that we are making \$(subject) \\
-	
-	\# rules from other libraries \\	
-	include \$(PROJHOME)/lib/makefiles/process_incoming.mk \\	
-	include \$(PROJHOME)/lib/makefiles/convert_dicoms.mk
+        SESSION=\$(shell pwd|egrep -o 'session[0-9]'|egrep -o '[0-9]')\\
+
+        subject=\$(shell pwd|egrep -o 'RC4[0-9][0-9][0-9]')\\
+        \maker{test}{}\\
+	         \tab @echo Testing that we are making \$(subject) from session \$(SESSION)\\
+
 \end{make}
 
+The subject-level makefile defines critical variables, such as the \texttt{SESSION}, which it obtains from the directory path, and the \texttt{subject} variable, which it also obtains from the directory path and a regular expression that matches the expected subject name. To set these variables we use the program \texttt{egrep}, which allows us to extract a specific pattern from the current working directory.
+
+The only rule is a little dummy rule (because we have no actual data in this test directory) that ensures we have set these variables directly. 
+
+\subsection{Creating links to the session-level makefile}
+Recall that the session-level makefile needs to be located within the directories \texttt{Udall/session1},\texttt{Udall/session2} and \texttt{Udall/session3}. We could just copy it there, but then if we modified it in one place we would have to remember to change it everywhere. This would probably cause inconsistencies at some point. 
+
+Instead, we create a symbolic link to \texttt{makefile_session.mk} from each session directory as follows:
+
+\begin{bash}{Creating symbolic links to the session-level makefile}{bash:session}
+ cd \$PROJHOME/Udall/session1\\
+ln -s ../subjects/makefile_session.mk Makefile\\
+\end{bash}
+
 \subsection{Creating links to subject-level makefile}
-The last step now is to create a symbolic link within each subject directory to the appropriate subject-level makefile. For example, within the directory \texttt{PROJHOME/session2/RC4101/}, we can type
-\bashcmd{ln -s /project_space/Udall/subjects/session2/makefile_common.mk Makefile}
+The last step now is to create a symbolic link within each subject directory to the appropriate subject-level makefile. For example, within the directory \texttt{subjects/RC4101/session1/}, we can type
+\bashcmd{ln -s ../../makefile_subject.mk Makefile}
 
 \subsection{Running analyses}
 Once these steps are completed, you can conduct single-subject processing for each session by changing directory to the correct location and issuing the specific \maken{} command. Here, we illustrate how to make the ``test'' target for all subjects within \texttt{session2/}.
 
 \begin{bash}{Making \texttt{test}}{bash:test}
-	cd /project_space/Udall/subjects/session2 \\
+	cd \$PROJHOME/Udall/subjects/session2 \\
 	make TARGET=test
 \end{bash}
+
 
 \section{Setting Important Variables}
 
