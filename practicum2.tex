@@ -99,15 +99,16 @@ use the program in the \texttt{visit1} directory (\texttt{makelinks}) to create 
 
 Take a look at the \texttt{makelinks} script, reprinted below. This script loops through all of the subject directories that have a first visit (visit1). It extracts the subject identifier from the directory name (\texttt{\$i}) by using the \texttt{egrep} command to find the bit of the name that matches the subject identifier pattern (\texttt{OAS2_[0-9]}). With this information, it can link the subject name to the directory. 
 
-\begin{lstlisting}[basicstyle=\ttfamily,frame=single,language=bash]
-#!/bin/bash
+\begin{bash}{Script to create symbolic links within a longitudinal
+    directory structure}{bash:links}
+\#!/bin/bash
 
-for i in ../subjects/*/visit1
-do
-	subject=`echo $i| egrep -o 'OAS2_[0-9]*'` 
-	ln -s $i $subject
-done
-\end{lstlisting}
+for i in ../subjects/*/visit1\\
+do\\
+\tab	subject=`echo \$i| egrep -o 'OAS2_[0-9]*'` \\
+\tab	ln -s \$i \$subject\\
+done\\
+\end{bash}
 
 \subsection{Recursive \maken{}}
 Now let's look at the Makefile (\texttt{visit1/Makefile}).  This is just a 

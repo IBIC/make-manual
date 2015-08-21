@@ -7,12 +7,12 @@ The code for this example is in \texttt{testsubject/lib/makefiles/QA.mk}, and it
 
 \setcounter{codehighlight}{0} % RESET THIS BEFORE EVERY LST LISTING
 \begin{lstlisting}
-		%*\lnote*NIPYPATH=/usr/local/anaconda/bin
-		FSL_DIR=/usr/share/fsl/5.0
+	%*\lnote*NIPYPATH=/usr/local/anaconda/bin
+	FSL_DIR=/usr/share/fsl/5.0
 
-		%*\lnote*.PHONY: TNSR MotionGraphs SkullstripQA QAReport
+	%*\lnote*.PHONY: TNSR MotionGraphs SkullstripQA QAReport
 
-		%*\lnote*qa:   $(call print-help, qa, Create QA report) TSNR MotionGraphs SkullstripQA QAreport
+	%*\lnote*qa:   $(call print-help, qa, Create QA report) TSNR MotionGraphs SkullstripQA QAreport
 \end{lstlisting}
 
 \noindent\lnum{1} As is customary in a makefile, we first define paths to scripts which we want to call on later on in the file. \\
@@ -45,7 +45,7 @@ The code for this example is in \texttt{testsubject/lib/makefiles/QA.mk}, and it
 		%*\lnote*$(PROJECT_HOME)/bin/R/MakingGraphs.Rscript  QA/images rest
 \end{lstlisting}
 
-\lnum{8} The \texttt{MakingGraphs.Rscript} is a R script that will generate 4 separate graphs for you: 
+\lnum{8} The \texttt{MakingGraphs.Rscript} is a R script that will generate 4 separate graphs for you: \\
 	\tab 1. A motion rotations graph showing rotations along the x/y/z planes.\\
 	\tab 2. A motion translations graph showing translations along the x/y/z planes.\\
 	\tab 3. A framewise displacement (FD) graph to show displacement in mm across acquired volumes.\\
@@ -91,14 +91,14 @@ Finally, to generate our QA HTML report, we use R Markdown. We do this by writin
 \lnum{12} In this line, we substitute pattern strings in the \texttt{fMRI.Rmd} file with variables that have been defined in the makefiles by using \texttt{sed}. SUBJECT, for instance, will be replaced with the \$(subject) variable defined in the main makefile \texttt{\$(PROJECT\_HOME)/test001/Makefile}. TASK will be replaced with `rest', since we are only interested in looking at the QA report for resting-state functional scans for now. We can define another variable called \texttt{task} if we have several types of runs that we want to generate QA reports for. Once the pattern strings have been substituted, the \texttt{fMRI.Rmd} file will be copied over to the \texttt{QA} directory and be renamed as \texttt{rest\_Preprocessing.Rmd}. \\
 \lnum{13} Now, R is called upon. This line tells R to load the `\texttt{rmarkdown}' library so that it can read the R Markdown syntax. R will then run \texttt{QA/rest\_Preprocessing.Rmd} to create your HTML report! \\
 
-To view the full report, check out \texttt{\$MAKEPIPELINES/testsubject/test001/QA/rest_Preprocessing_example.html}. 
+To view the full report, you can open the file \texttt{testsubject/test001/QA/rest_Preprocessing_example.html} in a browser.
+
 
 \begin{lstlisting}
 		clean_qa: 
 		rm -rf QA
 \end{lstlisting}
 
-
-As with other makefiles, we define a \texttt{clean} target specifically for QA. Since quality assurance is an intermediary step in the neuroimaging processing pipeline, we do not necessarily need to retain the images and reports once they have been checked through and the data has been further processed for analyses. 
+Finally, with other makefiles, we define a \texttt{clean} target specifically for QA. Since quality assurance is an intermediary step in the neuroimaging processing pipeline, we do not necessarily need to retain the QA images and reports once they have been checked.
 
 
