@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2015)
+This is BibTeX, Version 0.99d (TeX Live 2012/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: ibicMakeManual.aux
 A level-1 auxiliary file: chapter1.aux
@@ -10,12 +10,11 @@ A level-1 auxiliary file: practicum2.aux
 A level-1 auxiliary file: practicum3.aux
 A level-1 auxiliary file: practicum4.aux
 A level-1 auxiliary file: makefile-examples.aux
-A level-1 auxiliary file: appendix.aux
 The style file: apalike.bst
 Database file #1: references.bib
 You've used 5 entries,
             1935 wiz_defined-function locations,
-            523 strings with 5436 characters,
+            522 strings with 5436 characters,
 and the built_in function-call counts, 3139 in all, are:
 = -- 274
 > -- 245

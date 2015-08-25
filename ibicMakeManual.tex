@@ -14,15 +14,16 @@
 \usepackage[usenames,dvipsnames]{color} % adds colored text
 \usepackage[font=footnotesize]{caption}	% more control over figure captions
 \usepackage{xparse}		% nesting arguments wtihin environments
-\usepackage{underscore}	% better text underscores, defua
+\usepackage{underscore}	% better text underscores
 \usepackage{marginnote}	% better margin notes
 \usepackage{tabularx}	% more flexible tables
 \usepackage[table]{xcolor}	% alternating table colors
 \usepackage{todonotes}	% backend organization. Also for some reason necessary for tikz
 
 % Complex packages
+\usepackage{tikz}		% nice flowcharts and stuff
 \usepackage{tcolorbox} 	% frames
-\usepackage{listings} 	% allows for adding $ at the beginning of lines
+\usepackage{listings} 	% nice code formatting
 \usepackage{dirtree}	% pretty directory trees
 
 % Lists
@@ -35,7 +36,7 @@
 \usepackage[colorlinks=true]{hyperref} 	% allows hyperlinking % NEEDS TO BE LOADED LAST
 \hypersetup{citecolor=red}
 
-% underscore defaults to text mode over math mode
+% make underscore defaults to text mode over math mode
 \catcode`_=12 
 
 % Document information
@@ -55,7 +56,7 @@
 \newcommand\maken{\texttt{make}} % typeset 'make' always in monospace
 \newcommand\bashn{\texttt{bash}} % same for 'bash'
 
-\definecolor{textgray}{gray}{0.75}
+\definecolor{textgray}{gray}{0.75} 
 \makeatletter
 \newcommand{\onelbox}[2]{%
 	\setbox0=\hbox{#1}%
@@ -73,40 +74,14 @@
 \newcommand{\bashcmd}[1]{ \hfill\, \begin{minipage}[t]{\linewidth}  \hrule \vspace{0.5\baselineskip} \texttt{\small \$ #1} \vspace{0.5\baselineskip} \hrule \end{minipage} \vspace{0.5\baselineskip} }
 \newcommand{\makecmd}[1]{ \vspace{0.5\baselineskip} \onelbox{\texttt{\small #1}}{white} \vspace{0.5\baselineskip} }
 % Since these commands are embedded in floats, the nicest way to space them properly in the output
-% % is to make sure that there is a newline between the command and the text you want to follow the figure.
+%% is to make sure that there is a newline between the command and the text you want to follow the figure.
 
 % load languages for the listings class
-\lstloadlanguages{bash,make}
+\lstloadlanguages{bash, make}
 
-% DEFINE BASH MULTILINE ENVIRONMENT
-\makeatletter
-% define custom macro that expands to the language name
-% (for comparison purposes)
-\newcommand\langname@bash{}
-\def\langname@bash{bash}
-% define custom prompt
-\newcommand\prompt@bash{\$\ }
-% define a macro (initially empty) and insert it at the beginning of every paragraph
-\newcommand\addedToEveryPar@bash{}
-%\lst@AddToHook{EveryPar}{\addedToEveryPar@bash}
-% redefine the macro by the custom prompt, but only if the language in use
-% be `bash'
-\lst@AddToHook{PreInit}{%
-	\ifx\lst@language\langname@bash%
-	\let\addedToEveryPar@bash\prompt@bash%
-	\fi
-}
-\makeatother
-\lstnewenvironment{bashsession}[1][]{\lstset{language=bash,gobble=8,basicstyle=\small\ttfamily#1}}{}
-
+%% DEFINE BASH MULTILINE ENVIRONMENT
 \newenvironment{bash}[2] % 
 { \begin{samepage} \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip} \ttfamily } { \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip}  \caption{\captiontext} \label{\labelt} \end{figure} \end{samepage} } 
-
-% % This is rather unfortunate, but you can't nest \lstnewenvironment inside a \newenvironment so inorder to typset a block of bash code use :
-% % 	\begin{bash}\begin{bashsession}
-% %			multi-line
-% %			code
-% %		\end{bashsession}\end{bash}
 
 % DEFINE MAKE MULTILINE ENVIRONMENT
 \newenvironment{make}[2] %
@@ -119,11 +94,6 @@
 
 % tab for indenting in make environment
 \newcommand{\tab}{\hspace*{4em}}
-
-% DEFINE MAKE REALLY LONG INPUT
-\newenvironment{makefileread} %
-{ \pagestyle{empty}\small\ttfamily\setlength{\parindent}{0pt} } %\newgeometry{scale=0.85, centering}
-{ \pagestyle{ruled}\normalsize\normalfont\setlength{\parindent}{17pt} } %\restoregeometry\
 
 % Specify command for "--"
 % use this to specify bash long inputs (--) so they don't get swallowed up into hyphens.
@@ -138,7 +108,6 @@
 \newcommand*{\lnum}[1]{\tikz[baseline=(char.base)]{	\node[shape=rectangle,draw,inner sep=0.8pt, fill=black, text=white] (char) {\rmfamily\bfseries\scriptsize#1}; } }
 \newcommand*{\lnote}{\stepcounter{codehighlight}\llap{{\lnum{\thecodehighlight}}\hskip 1em}} %6em original
 
-
 % Change numbering
 \setsecnumdepth{chapter}	% only number chapters
 \maxtocdepth{subsection}	% put subsections in the table of contents
@@ -149,8 +118,8 @@
 \pagestyle{ruled}	% Graphics command
 \raggedbottom		% Allow more flexibility at the bottom of the page - helpful with lots of floats.
 
-%\def\hrulefill{\leavevmode\leaders\hrule height 2pt\hfill\kern\z@}
-\newcommand{\lmhrule}{{\color{gray!75} \rule{\textwidth}{2pt}}\\}
+% Fix the spacing inbetween III and Examples
+\cftsetindents{part}{0em}{2em}
 
 \begin{document}
 	
@@ -163,9 +132,10 @@
 			\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
 			{ \fontsize{30pt}{36pt} \selectfont Using GNU \textsc{make} for Neuroimaging Workflow\par }		% Title
 			\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
-			{\LARGE University of Washington} 																% University of Washington	
+			{\LARGE University of Washington} 																% University of Washington
 		\end{center}	
 	\end{vplace}
+		
 	
 	\frontmatter	% Define the front matter section of the document
 	
@@ -196,23 +166,31 @@
 		\noindent Part II will guide you through four \maken{} classes, using data available on the IBIC system. Each class is structured as a brief lecture followed by a practical designed to be completed as you read the chapter.
 		
 	\end{vplace}
+	
+	% change chapters to practicals
 	\renewcommand{\chaptername}{Practical}
 	\renewcommand{\chapterautorefname}{Practical}
+	
 	\include{practicum1}	% Overview of make
+	
 	\include{practicum2} 	% Make in context
+	
 	\include{practicum3} 	% Getting down and dirty
+	
 	\include{practicum4}	% Advanced topics & R markdown
 	
 	\part{Examples}
+	% change practicals to examples
 	\renewcommand{\chaptername}{Example}
 	\renewcommand{\chapterautorefname}{Example}
+	
 	\include{makefile-examples} % How to execute FreeSurfer using make
 	
 %	\include{documentation} % How to document makefiles
 	
 	\appendix
 	
-	\include{appendix}
+%	\include{appendix}
 	
 	\bibliographystyle{apalike}
 	\bibliography{references}

@@ -1,26 +1,24 @@
 \chapter{Getting Down and Dirty with \maken{}}
-\label{sec:practicum3}
+\label{practicum3}
 
 \section{Practical Example: Running QMON}
 As was mentioned in the previous practicum, we can determine how many processing units we have on our computer by calling up the system monitor. To do so, type \texttt{gkrellm} into the command line. As you will see, this software also allows us to monitor the status of CPUs, memory usage, and disk space. 
 
-If the number of jobs that you need to run exceeds the number of cores that you have, submitting jobs to the grid engine (explained in \hyperref[sec:gridengine]{Chapter 2}) might be a good idea. But how do we check whether the machines in the cluster we are interested in are available for batch processing? The \texttt{qmon} monitor is a graphical user interface that comes with the Sun Grid Engine software. It gives us the ability to track the status of machines in a cluster (and more besides, but you do not have to worry about that for now). 
+If the number of jobs that you need to run exceeds the number of cores that you have, submitting jobs to the grid engine (explained in \hyperref[sec:gridengine]{chapter 2}) might be a good idea. But how do we check whether the machines in the cluster we are interested in are available for batch processing? The \texttt{qmon} monitor is a graphical user interface that comes with the Sun Grid Engine software. It gives us the ability to track the status of machines in a cluster (and more besides, but you do not have to worry about that for now). 
 \mymarginnote{!}{A list of the clusters and machines available for use at IBIC can be found on the wiki.} 
 
 In order to run \texttt{qmon}, you need to be logged in to one of the cluster workstations. This can be done by initiating a secure shell session, as follows:
 \bashcmd{ssh -X <username>@broca.ibic.washington.edu} 
 
-Note that the \texttt{-X} flag is necessary to allow you to log in to the remote machine (e.g., \texttt{broca}) but forward graphical output to the computer that is managing your graphical display. Once you have answered the password prompt, type \texttt{qmon} into the command line. Of interest to us is the first button in the panel that appears -- Job Control. When you click on this, you will be able to see the number of jobs running on the cluster and the number of jobs in the queue, along with the username of the person who submitted those jobs. Ideally, you want to submit your jobs to the cluster when the cluster is free. 
+Note that the \texttt{-X} flag is necessary to allow you to log in to the remote machine (e.g., \texttt{broca}) but forward graphical output to the computer that is managing your graphical display. Once you have answered the password prompt, type \texttt{qmon} into the command line. Of interest to us is the first button in the panel: ``Job Control.'' When you click on this, you will be able to see the number of jobs running on the cluster and the number of jobs in the queue, along with the username of the person who submitted those jobs. Ideally, you want to submit your jobs to the cluster when the cluster is free. 
 
-However, this scenario does not necessarily always present itself. If you use \texttt{qmake}, you will get an error by default if the grid engine is busy. You can get around this by using the \texttt{-now no} options to \texttt{qmake}, which will cause it to wait until the grid engine is free. For more information on how to use the grid engine to run a parallel \maken{} workflow, refer to the \hyperref[sec:gridengine]{manual}, or \hyperref[sec:practicum2]{Practical 2} where we covered the use of \texttt{qmake}. 
+However, this scenario does not necessarily always present itself. If you use \texttt{qmake}, you will get an error by default if the grid engine is busy. You can get around this by using the \texttt{-now no} options to \texttt{qmake}, which will cause it to wait until the grid engine is free. For more information on how to use the grid engine to run a parallel \maken{} workflow, refer to the \hyperref[sec:gridengine]{manual}, or \hyperref[practicum2]{Practical 2} where we covered the use of \texttt{qmake}. 
 
 If you are primarily employing FSL tools with \maken, you can use \texttt{FSLPARALLEL} to submit jobs for parallel processing. Before running \maken, set up the following environment variable in your shell:
 \bashcmd{export FSLPARALLEL=true}
 
-
 Once you have done this, you may go ahead and use \texttt{make} \emph{without parallelization} to submit jobs to the grid engine. This calls up a script called \texttt{fsl_sub} that FSL uses to schedule and submit jobs in parallel in the way that some of its cluster aware tools, such as MELODIC, are capable of doing. Jobs parallelized using \texttt{FSLPARALLEL} will automatically be queued under ``Pending Jobs'' if the cluster workstations are busy processing other jobs. 
 
- 
 \section{Practical Example: A Test Subject}
 If you have not already, copy \texttt{testsubject} to your home directory as follows:
 \bashcmd{cp -r \$MAKEPIPELINES/testsubject \textasciitilde{}}
@@ -212,10 +210,10 @@ The script from \autoref{bash:script} would look like the rules below in a makef
 	
 \end{lstlisting}
 
-\lnum{3}When creating your makefile, you must specify your Project home. \\
-\indent\lnum{4}Be sure to tell \maken{} to use \bashn{} by setting the default shell. \\
-\indent\lnum{5}Define your phony variable which is a special target used to tell \maken{} which targets are not real files. \texttt{clean} is a common rule to remove unnecessary files, while \texttt{all} is a common rule to make all your other targets. \\
-\indent\lnum{6}Define \texttt{all} to include all your targets. \\
-\indent\lnum{7}Format your commands to take the form of "rules" to include a target and dependency. Every command following your [target:dependency] definition should be entered on a new line beginning with a TAB character. The target is your output and the dependency is your input (you can, however, have several targets and dependencies listed under a single rule). Remember to also use \texttt{;\textbackslash{}} at the end of each like in order to tell \maken{} to read each line separately, as in the example for creating transformation matrices. Here, we are using FSL FLIRT to create an output matrix called \texttt{T1_to_MNI.mat}. \\ 
-\indent\lnum{8}For motion correction, our expected output (i.e. target) is \texttt{rest_mc.nii.gz}, and our input (i.e. dependency) is \texttt{rest.nii.gz}. The last line tells \maken{} to run FSL mcflirt on \texttt{rest.nii.gz}. 
+\lnum{1}When creating your makefile, you must specify your project home. \\
+\indent\lnum{2}Be sure to tell \maken{} to use \bashn{} by setting the default shell. \\
+\indent\lnum{3}Define your phony variable which is a special target used to tell \maken{} which targets are not real files. \texttt{clean} is a common rule to remove unnecessary files, while \texttt{all} is a common rule to make all your other targets. \\
+\indent\lnum{4}Define \texttt{all} to include all your targets. \\
+\indent\lnum{5}Format your commands to take the form of "rules" to include a target and dependency. Every command following your [target:dependency] definition should be entered on a new line beginning with a TAB character. The target is your output and the dependency is your input (you can, however, have several targets and dependencies listed under a single rule). Remember to also use \texttt{;\textbackslash{}} at the end of each like in order to tell \maken{} to read each line separately, as in the example for creating transformation matrices. Here, we are using FSL FLIRT to create an output matrix called \texttt{T1_to_MNI.mat}. \\ 
+\indent\lnum{6}For motion correction, our expected output (i.e. target) is \texttt{rest_mc.nii.gz}, and our input (i.e. dependency) is \texttt{rest.nii.gz}. The last line tells \maken{} to run FSL mcflirt on \texttt{rest.nii.gz}. 
 

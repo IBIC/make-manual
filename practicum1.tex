@@ -1,8 +1,8 @@
-% Redefining this makes figure auto-labeling work, and the toc prettier.
-
 \chapter{Overview of \maken{}}
-Learning objectives: Obtain a conceptual understanding of \maken{}, understand the basic syntax of makefiles and pattern rules.
-\label{sec:practicum1}
+\label{practicum1}
+
+\textbf{Learning objectives:} Obtain a conceptual understanding of \maken{}, understand the basic syntax of makefiles and pattern rules.
+
 \section{Lecture: The Conceptual Example of Making Breakfast}
 
 \maken{} is a tool for implementing a workflow, or a sequence of steps that you need to execute. Probably the way that most of you have been implementing workflows up until this point is with some kind of program, possibly a shell script. The goal of this lecture and practicum is to motivate the reasons why you might want to move from a shell script to some language for better specifying workflow.
@@ -61,7 +61,7 @@ Note that there are no circular references in this graph! (Hence, it is called a
 
 \begin{make}{Using \maken{} to make a waffwich}{make:waffwich}
 	\maker{waffwich}{toastedwaffles berries PB} \\
-	\tab	spread peanut_buttter \dd on waffle \\
+	\tab spread peanut_buttter \dd on waffle \\
 	\tab arrange berries \dd on waffle \dd in squares \dd half \\
 	\tab cut waffle \\ 
 	\tab fold waffle \\

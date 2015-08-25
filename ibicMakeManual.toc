@@ -53,46 +53,41 @@
 \contentsline {subsection}{\texttt {make}{} keeps rebuilding targets}{32}{section*.75}
 \contentsline {subsection}{\texttt {make}{} doesn't rebuild things that it should}{32}{section*.76}
 \contentsline {chapter}{\chapternumberline {4}Recipes}{33}{chapter.1.4}
-\contentsline {subsection}{Obtaining a list of subjects}{33}{section*.77}
+\contentsline {section}{Obtaining a List of Subjects}{33}{section*.77}
 \contentsline {subsection}{Setting a variable that contains the subject id }{34}{section*.80}
-\contentsline {subsection}{Setting a conditional flag }{34}{section*.82}
-\contentsline {subsection}{Using a conditional flag}{35}{section*.85}
-\contentsline {subsection}{Conditional execution based on the environment}{35}{section*.87}
-\contentsline {subsection}{Conditional execution based upon the Linux version}{36}{section*.89}
+\contentsline {section}{Using Conditional Statements}{34}{section*.82}
+\contentsline {subsection}{Setting a conditional flag}{34}{section*.83}
+\contentsline {subsection}{Using a conditional flag}{35}{section*.86}
+\contentsline {subsection}{Conditional execution based on the environment}{35}{section*.88}
+\contentsline {subsection}{Conditional execution based on the Linux version}{36}{section*.90}
 \contentsline {part}{\partnumberline {II}Practicals}{38}{part.2}
 \contentsline {chapter}{\chapternumberline {1}Overview of \texttt {make}{}}{40}{chapter.2.1}
-\contentsline {section}{Lecture: The Conceptual Example of Making Breakfast}{40}{section*.92}
-\contentsline {section}{Practical Example: Skull-stripping}{42}{section*.96}
-\contentsline {subsection}{Manipulating a single subject}{42}{section*.97}
-\contentsline {subsection}{Pattern rules and multiple subjects}{44}{section*.99}
-\contentsline {subsection}{Phony targets}{46}{section*.103}
-\contentsline {subsection}{Secondary targets}{47}{section*.104}
-\contentsline {subsection}{\texttt {make clean}}{47}{section*.105}
+\contentsline {section}{Lecture: The Conceptual Example of Making Breakfast}{40}{section*.93}
+\contentsline {section}{Practical Example: Skull-stripping}{42}{section*.97}
+\contentsline {subsection}{Manipulating a single subject}{42}{section*.98}
+\contentsline {subsection}{Pattern rules and multiple subjects}{44}{section*.100}
+\contentsline {subsection}{Phony targets}{46}{section*.104}
+\contentsline {subsection}{Secondary targets}{47}{section*.105}
+\contentsline {subsection}{\texttt {make clean}}{47}{section*.106}
 \contentsline {chapter}{\chapternumberline {2}\texttt {make}{} in Context}{49}{chapter.2.2}
-\contentsline {section}{Lecture: Organizing Subject Directories}{49}{section*.107}
-\contentsline {section}{Practical Example: A More Realistic Longitudinal Directory Structure}{50}{section*.108}
-\contentsline {subsection}{Organizing Longitudinal Data}{50}{section*.109}
-\contentsline {subsection}{Recursive \texttt {make}{}}{52}{section*.111}
-\contentsline {subsection}{Running \texttt {make}{} over multiple subject directories}{53}{section*.114}
-\contentsline {subsection}{Running FreeSurfer}{54}{section*.115}
+\contentsline {section}{Lecture: Organizing Subject Directories}{49}{section*.108}
+\contentsline {section}{Practical Example: A More Realistic Longitudinal Directory Structure}{50}{section*.109}
+\contentsline {subsection}{Organizing Longitudinal Data}{50}{section*.110}
+\contentsline {subsection}{Recursive \texttt {make}{}}{52}{section*.112}
+\contentsline {subsection}{Running \texttt {make}{} over multiple subject directories}{53}{section*.115}
+\contentsline {subsection}{Running FreeSurfer}{54}{section*.116}
 \contentsline {chapter}{\chapternumberline {3}Getting Down and Dirty with \texttt {make}{}}{55}{chapter.2.3}
-\contentsline {section}{Practical Example: Running QMON}{55}{section*.116}
-\contentsline {section}{Practical Example: A Test Subject}{56}{section*.117}
-\contentsline {subsection}{Estimated total intracranial volume}{58}{section*.118}
-\contentsline {subsection}{Hippocampal volumes}{60}{section*.119}
-\contentsline {section}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{61}{section*.120}
+\contentsline {section}{Practical Example: Running QMON}{55}{section*.117}
+\contentsline {section}{Practical Example: A Test Subject}{56}{section*.118}
+\contentsline {subsection}{Estimated total intracranial volume}{58}{section*.119}
+\contentsline {subsection}{Hippocampal volumes}{60}{section*.120}
+\contentsline {section}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{61}{section*.121}
 \contentsline {chapter}{\chapternumberline {4}Advanced Topics \& Quality Assurance with R Markdown}{64}{chapter.2.4}
-\contentsline {section}{Creating a \texttt {make}{} help system}{64}{section*.122}
-\contentsline {section}{makefile Directory structure}{65}{section*.124}
-\contentsline {section}{The \texttt {clean} target}{66}{section*.125}
-\contentsline {section}{Defining macros}{67}{section*.126}
-\contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{67}{section*.127}
-\contentsline {part}{\partnumberline {III}Examples}{74}{part.3}
-\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{75}{chapter.3.1}
-\contentsline {section}{Running FreeSurfer}{76}{section*.132}
-\contentsline {section}{Testsubject FreeSurfer}{78}{section*.133}
-\contentsline {section}{Testsubject Main Makefile}{80}{section*.134}
-\contentsline {section}{Testsubject Transformations}{84}{section*.135}
-\contentsline {section}{Testsubject QA Makefile}{86}{section*.136}
-\contentsline {appendix}{\chapternumberline {A}Style Guide}{91}{appendix.A}
-\contentsline {chapter}{Bibliography}{94}{section*.138}
+\contentsline {section}{Creating a \texttt {make}{} help system}{64}{section*.123}
+\contentsline {section}{Makefile Directory structure}{65}{section*.125}
+\contentsline {section}{The \texttt {clean} target}{66}{section*.126}
+\contentsline {section}{Defining Macros}{67}{section*.127}
+\contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{67}{section*.128}
+\contentsline {part}{\partnumberline {III}Examples}{75}{part.3}
+\contentsline {chapter}{\chapternumberline {1}Makefile Examples}{76}{chapter.3.1}
+\contentsline {chapter}{Bibliography}{77}{section*.135}
