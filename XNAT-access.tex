@@ -1,0 +1,134 @@
+\Echapter{XNAT Access}{Karl Woelfer}
+\label{chap:XNAT}
+
+This is an example of how to use a Makefile to create and populate a project directory with images from an open dataset stored in an XNAT (eXtensible Neuroimaging Archive Toolkit) database, in this case from the NITRC (Neuroimaging Informatics Tools and Resources Clearinghouse) 1000 Functional Connectomes project image repository at \url{http://www.nitrc.org/ir}. 
+
+In order to run this pipeline you will need to have first created an individual user account on NITRC, at \url{http://www.nitrc.org/account/register.php}.
+
+To create the SUBJECTS file: From the NITRC Image Repository home page ``Search,'' choose Projects $\rightarrow$ 1000 Functional Connectomes. At the 1000 Functional Connectomes project home page, select Options $\rightarrow$ Spreadsheet to download a CSV file of the 1288 subjects \texttt{AnnArbor_sub00306 \ldots Taipei_sub91183}. Select a subset, or all, of the subjects from the first column of the downloaded spreadsheet, and save to a text file. This will be your \texttt{Subjects} input file that the Makefile will iterate through.
+
+In our example, the 23 Baltimore subjects were chosen, and the text file is named \texttt{Subjects_Baltimore}.
+
+The directory hierarchy that this Makefile creates under your project home, from which make is run, is shown in \autoref{xnat-dir}.
+
+\begin{figure}
+	\dirtree{%
+		.1 fcon_1000/.
+		.2 subjects/.
+		.3 Baltimore_sub17017/.
+		.4 visit1/.
+		.5 rest.nii.gz.
+		.5 T1_brain.nii.gz.
+		.5 T1.nii.gz.
+		.3 Baltimore_sub19738/.
+		.4 visit1/.
+		.5 rest.nii.gz.
+		.5 T1_brain.nii.gz.
+		.5 T1.nii.gz.
+		.3 \ldots.
+		.2 visit1/.
+		.3 Baltimore_sub17017/\DTcomment{A symlink to ../subjects/Balimtore_sub17017/visit1}.
+		.3 Baltimore_sub19738/.
+		.3 \ldots.
+	}
+	\caption{XNAT access directory structure.}
+	\label{xnat-dir}
+\end{figure}
+
+Note that here, the Makefile functions to enable parallel execution of \texttt{mkdir}, \texttt{curl}, and \texttt{ln} as well as tracking dependencies. 
+
+The code for this example is in \texttt{\$MAKEPIPELINES/fcon_1000/Makefile}. Sections are described as follows.
+
+\begin{lstlisting}
+	# Site hosting XNAT
+	%*\lnote*NITRC=http://www.nitrc.org/ir3
+	
+	%*\lnote*SHELL=/bin/bash
+	
+	# Obtain the list of subjects to retrieve from NITRC
+	%*\lnote*SUBJECTS = $(shell cat Subjects_Baltimore)
+
+	%*\lnote*.PHONY: clean all allT1 allT1_brain allrest allsymlinks
+\end{lstlisting}
+
+This portion of the Makefile defines key variables and targets. 
+
+\indent \lnum{1}We set the ``base name'' of the XNAT web site in a variable \texttt{NITRC}. This can be changed when using another XNAT repository, and the variable can be named accordingly. \\
+\indent \lnum{2} By default, \maken{} uses \texttt{/bin/sh} to interpret recipes. Sometimes this can cause confusion, because \texttt{sh} has only a subset of the functionality of \texttt{bash}. We set the \maken{} variable \texttt{SHELL} explicitly. \\
+\indent \lnum{3}The \texttt{SUBJECTS} variable will contain a list of the subject data we wish to download. The individual subject names will be used to create directory names. \\
+\indent \lnum{4}We define six targets that do not correspond to files, so these are denoted as phony targets.
+
+\begin{lstlisting}
+	%*\lnote*all: sessionid allT1 allT1_brain allrest allsymlinks
+	%*\lnote*allT1: $(SUBJECTS:%=subjects/%/visit1/T1.nii.gz)
+	%*\lnote*allT1_brain: $(SUBJECTS:%=subjects/%/visit1/T1_brain.nii.gz)
+	%*\lnote*allrest: $(SUBJECTS:%=subjects/%/visit1/rest.nii.gz)
+	%*\lnote*allsymlinks: $(SUBJECTS:%=visit1/%)
+\end{lstlisting}
+
+\indent \lnum{5} \texttt{all} is the default target, and simply defines the five dependencies. \\
+\indent \lnum{6} This is the formula for the first image file dependency, a T1 for each of the subjects. The pattern matching names each the \texttt{subjects/} subdirectories with the individual subject identifier. \\
+\indent \lnum{7} T1 skull-stripped is the second image file dependency. \\
+\indent \lnum{8} A resting -tate scan is the third image file dependency. \\
+\indent \lnum{9} The last thing the Makefile does is create a \texttt{visit1/} directory after the \texttt{subjects/} directory has been populated. Pattern matching here names each of the \texttt{visit1} subdirectories with one of the individual subject identifiers. Each \texttt{visit1/SUBJECT} will be a symbolic link to the actual \texttt{subjects/SUBJECTS/visit1/} directory.
+
+
+\begin{lstlisting}
+	# Get a single session ID, store in `sessionid' file
+	%*\lnote*sessionid: 
+		@echo -n "Username: " ;\
+		read username ;\
+		curl --user $$username $(NITRC)/REST/JSESSION > $@
+\end{lstlisting}
+
+\indent \lnum{10} Here we are using the client URL Request Library (\texttt{cURL}) to create a session with the XNAT server. The first line prompts for the user's name on the XNAT server, the second line reads and stores that in the variable \texttt{username}. With one single REST transaction, the \texttt{cURL} call on the following line, we authenticate with the XNAT server, entering a password only once, and saving the return value \texttt{SESSIONID} in a file named \texttt{sessionid}. This single session will persist for an hour.
+	
+\begin{lstlisting}	
+	# Download `1000 Functional Connectomes' subject data in NII.GZ format from NITRC
+	%*\lnote*subjects/%/visit1/T1.nii.gz:  | sessionid
+		# Create this subject's directory
+	%*\lnote*	mkdir -p `dirname $@`; \
+	%*\lnote*	curl --cookie JSESSIONID=`cat sessionid` $(NITRC)/data/projects/fcon_1000/subjects/$*/experiments/$*/scans/ALL/resources/NIfTI/files/scan_mprage_anonymized.nii.gz > $@
+
+\end{lstlisting}
+
+\indent \lnum{11} This and the two file download recipes that follow will have a dependency on the \texttt{sessionid} obtained from the preceding recipe. \\ 
+\indent \lnum{12} Pattern substitution with \texttt{SUBJECTS} will create the \texttt{subjects/} subdirectories that do not already exist with each of the subject identifiers in turn. The \texttt{dirname} shell command will result in this command making \texttt{visit1/} subdirectories which will hold the target file \texttt{T1.nii.gz} defined in the rule. \\
+\indent \lnum{13} This \texttt{cURL} command uses the \texttt{JSES}SIONID which was stored in the \texttt{sessionid} file. The URL defined here is specific to the location where scan data of interest is stored on the NITRC instance of XNAT. Note the pattern substitution with \texttt{SUBJECTS} in two places. The XNAT-stored file \texttt{scan_mprage_anonymized.nii.gz} is downloaded and saved under the local name \texttt{T1.nii.gz}.
+
+\begin{lstlisting}
+	%*\lnote*$subjects/%/visit1/T1_brain.nii.gz:  | sessionid
+		mkdir -p `dirname $@`; \
+		curl --cookie JSESSIONID=`cat sessionid` (NITRC)/data/projects/fcon_1000/subjects/$*/experiments/$*/scans/ALL/resources/NIfTI/files/scan_mprage_skullstripped.nii.gz > $@
+\end{lstlisting}
+
+\indent \lnum{14} This recipe also creates the \texttt{visit1/} subdirectory for each of the \texttt{SUBJECTS} in the list. The \texttt{cURL} command is identical to the one above except for the name of the scan data file of interest, in this case \texttt{scan_mprage_skullstripped.nii.gz}, which is saved as \texttt{T1_brain.nii.gz}.
+
+\begin{lstlisting}
+	%*\lnote*subjects/%/visit1/rest.nii.gz:  | sessionid
+		mkdir -p `dirname $@`; \
+		curl --cookie JSESSIONID=`cat sessionid` $(NITRC)/data/projects/fcon_1000/subjects/$*/experiments/$*/scans/ALL/resources/NIfTI/files/scan_rest.nii.gz > $@
+\end{lstlisting}
+
+\indent \lnum{15} This recipe will create the \texttt{visit1/} subdirectory if necessary for each of the \texttt{SUBJECTS} in the list. The \texttt{cURL} command is identical to the ones above except for the name of the scan data file of interest. Here \texttt{scan_rest.nii.gz} is saved as \texttt{rest.nii.gz}.
+
+
+\begin{lstlisting}
+	# Symbolic links from visit1 to the individual subject visit1 directories
+	%*\lnote*visit1/%:
+		ln -s ../subjects/$*/visit1 $@
+\end{lstlisting}
+
+\indent \lnum{16} This recipe populates the project top-level \texttt{visit1/} directory with symbolic links, pointers to the actual locations of the subjects' \texttt{visit1} data downloaded above. This enables an alternate way to access the subject data.
+
+\begin{lstlisting}
+	# Start over
+	clean:
+	# Remove all - subject directories, visit1 symbolic links, and JSESSIONID file
+	%*\lnote*	rm -rf subjects/*; \
+		rm -rf visit1/*; \
+		rm -f sessionid
+\end{lstlisting}
+
+\lnum{17} This \texttt{clean} recipe will delete all \texttt{subjects/} subdirectories, links in the \texttt{visit1/} directory, and the prior \texttt{sessionid}.
+
