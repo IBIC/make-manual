@@ -49,17 +49,17 @@
 %\renewcommand{\Authand}{ and }
 %\renewcommand{\Authands}{ and}
 
-\author{Mary K. Askren} 		%(\url{askren@uw.edu})}
-\author{Trevor K. McAllister-Day}	%(\url{tkmday@uw.edu})}
-\author{Natalie Koh}					%(\url{natkoh@uw.edu})}
-\author{Jennifer N. Dines} 	%(\url{jen.dines@gmail.com})}
-\author{Benjamin A. Korman}	%(\url{bkorman@uw.edu})}
-\author{Susan J. Melhorn}	%(\url{smelhorn@uw.edu})}
-\author{Dan J. Peterson} % djpeters@uw.edu
-\author{Melissa A. Reilly}	 	%(\url{mreilly@uw.edu})}
-\author{Karl A. Woelfer II} 	%(\url{kwoelfer@uw.edu})
-\author{Tom J. Grabowski Jr.} 		%(\url{tgrabow@uw.edu})}
-\author{Tara M. Madhyastha} 	%(\url{madhyt@uw.edu})}
+\author{Mary K. Askren\thanks{\url{askren@uw.edu}}} 
+\author{Trevor K. McAllister-Day}	
+\author{Natalie Koh}
+\author{Jennifer N. Dines} 	
+\author{Benjamin A. Korman}
+\author{Susan J. Melhorn}	
+\author{Dan J. Peterson} 
+\author{Melissa A. Reilly}
+\author{Karl A. Woelfer} 
+\author{Tom J. Grabowski Jr.} 
+\author{Tara M. Madhyastha\thanks{\url{madhyt@uw.edu}}} 
 
 \affil{\textbf{University of Washington, Seattle}}
 
@@ -141,7 +141,7 @@
 \cftsetindents{part}{0em}{2em}
 
 % Use this command to include authors in the examples section.
-\newcommand{\Echapter}[2]{\chapter[#1]{#1 \\ \normalfont \Large \textit{#2}}}
+\newcommand{\Echapter}[3]{\chapter[#1]{#1 \\ \normalfont \Large \textit{#2\footnote{\url{#3}}}}}
 
 \begin{document}
 	
