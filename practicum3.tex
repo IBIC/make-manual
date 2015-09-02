@@ -10,7 +10,9 @@ If the number of jobs that you need to run exceeds the number of cores that you 
 In order to run \texttt{qmon}, you need to be logged in to one of the cluster workstations. This can be done by initiating a secure shell session, as follows:
 \bashcmd{ssh -X <username>@broca.ibic.washington.edu} 
 
-Note that the \texttt{-X} flag is necessary to allow you to log in to the remote machine (e.g., \texttt{broca}) but forward graphical output to the computer that is managing your graphical display. Once you have answered the password prompt, type \texttt{qmon} into the command line. Of interest to us is the first button in the panel: ``Job Control.'' When you click on this, you will be able to see the number of jobs running on the cluster and the number of jobs in the queue, along with the username of the person who submitted those jobs. Ideally, you want to submit your jobs to the cluster when the cluster is free. 
+If you do not specify the \texttt{-X} flag, you will be able to log in to the remote machine, but graphical output (such as from \texttt{fslview} and \texttt{emacs}) will not show up on your graphical display. The \texttt{-X} flag forwards this output to the computer that is managing your graphical display. 
+
+Once you have answered the password prompt, type \texttt{qmon} into the command line. Of interest to us is the first button in the panel: ``Job Control.'' When you click on this, you will be able to see the number of jobs running on the cluster and the number of jobs in the queue, along with the username of the person who submitted those jobs. Ideally, you want to submit your jobs to the cluster when the cluster is free. 
 
 However, this scenario does not necessarily always present itself. If you use \texttt{qmake}, you will get an error by default if the grid engine is busy. You can get around this by using the \texttt{-now no} options to \texttt{qmake}, which will cause it to wait until the grid engine is free. For more information on how to use the grid engine to run a parallel \maken{} workflow, refer to the \hyperref[sec:gridengine]{manual}, or \hyperref[practicum2]{Practical 2} where we covered the use of \texttt{qmake}. 
 
@@ -67,7 +69,7 @@ Since running FIRST will take a little time, start it now and place it in the ba
 \bashcmd{make first \&}
 
 \subsection{Estimated total intracranial volume}
-Let's now turn our attention to the calculation of estimated total intracranial volume (etiv). This can be estimated by running FreeSurfer, but FreeSurfer takes a long time to run and had some difficulties with automatic processing of many of the subjects in the study that this mMkefile was modified from. 
+Let's now turn our attention to the calculation of estimated total intracranial volume (etiv). This can be estimated by running FreeSurfer, but FreeSurfer takes a long time to run and had some difficulties with automatic processing of many of the subjects in the study that this makefile was modified from. 
 
 One technique for estimating the total intracranial volume is simply
 to linearly register the brain to standard space (see http://enigma.ini.usc.edu). The transformation
@@ -101,7 +103,7 @@ This time, \maken{} will not try to recreate the skull-stripped file, because to
 To look at the contents of the file \texttt{eTIV.csv}, type:
 \bashcmd{cat eTIV.csv}
 
-Often, there are statistics that need to be collected for each subject. One way to go about this is to write a program that gathers the correct statistics for each individual, and then decided whether or not you want to call the program from within \maken{}. I find, however, that often I want to know what those numbers are while I am examining the output for a single individual, such as now. Thus, I normally create a little comma separated value (csv) file that contains the subject ID and whatever statistics I am interested in looking at. This way, I do not need to remember the commands to obtain the statistics I want (e.g. what NIfTI file should I be looking at? What command do I need to use to extract the right value?). This will also allow me to go to the ``top level'' directory that contains all the subjects within it and use \texttt{cat} to gather all the files into a single file for data analysis later on.
+Often, there are statistics that need to be collected for each subject. One way to go about this is to write a program that gathers the correct statistics for each individual, and then decide whether or not you want to call the program from within \maken{}. I find, however, that often I want to know what those numbers are while I am examining the output for a single individual, such as now. Thus, I normally create a little comma separated value (csv) file that contains the subject ID and whatever statistics I am interested in looking at. This way, I do not need to remember the commands to obtain the statistics I want (e.g. what NIfTI file should I be looking at? What command do I need to use to extract the right value?). This will also allow me to go to the ``top level'' directory that contains all the subjects within it and use \texttt{cat} to gather all the files into a single file for data analysis later on.
 
 As it is, I happen to know that this subject has a big head. And yet, the etiv file tells us that the scaling factor is approximately 0.6. This is, of course, a contrived example. But have a look at the skull-stripped image to see what went wrong. You will see that too
 much of the brain was removed, which may have occured because there is a lot of neck in the T1 image.
@@ -198,7 +200,7 @@ The script from \autoref{bash:script} would look like the rules below in a makef
 	
 	%*\lnote*all: xfm_dir/T1_to_MNI.mat rest_mc
 
-	%*\lnote*#Create transformation matrices and making 2mm MNI --> ANAT matrix
+	%*\lnote*#Create transformation matrices and 2mm MNI --> ANAT matrix
 	xfm_dir/T1_to_MNI.mat: T1_skstrip.nii.gz 
 		mkdir -p xfm_dir ;\
 		flirt -in T1_skstrip.nii.gz -ref /usr/share/fsl/data/standard/MNI152_T1_2mm_brain.nii.gz -omat xfm_dir/T1_to_MNI.mat

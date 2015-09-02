@@ -40,7 +40,7 @@ The first element of naming conventions is the subject identifier. This is usual
 
 \subsection{Filenames}
 
-File naming conventions begin with converted raw data (nifti files derived from the original DICOMs, for example), and continue on for each level of processing. We find it helpful to give these files specific names and then to perform subject-specific processing within the subject/session directory. The filenames for a recent active project are shown in \autoref{table:filenames}, where the subject ID is ``RPI001.''
+File naming conventions begin with converted raw data (nifti files derived from the original DICOMs, for example), and continue on for each level of processing. We find it helpful to give these files specific names and then to perform subject-specific processing within the subject/session directory. The filenames for a recent active project are shown in \autoref{table:filenames}, where the subject ID is ``RTI001.''
 
 \rowcolors*{2}{gray!50}{white} 	% alternating row coloing, starting on row 2 (ignore header)
 \def\arraystretch{1.2}	% with all the caps, this table gets a little crammed. 
@@ -49,19 +49,19 @@ File naming conventions begin with converted raw data (nifti files derived from 
 											% column 1 expands, and forces 2 to shrink and wrap
 		\rowcolor{gray!75}
 		\normalfont\textbf{Filename} 		& \textbf{Description} 	\\ \hline
-		RPI001_T1_brain.nii.gz				& Skull stripped T1 MPRAGE image 	\\  
-		RPI001_T1.nii.gz					& T1 MPRAGE image 					\\  
-		RPI001_read.nii.gz					& Reading task scan 				\\  
-		RPI001_read_rest.nii.gz				& Resting state scan for reading session	\\ 
-		RPI001_read_fMRIb0_phase.nii.gz		& $B_0$ Field map phase image for reading session\\
-		RPI001_read_fMRIb0_mag.nii.gz		& $B_0$ Field map magnitude image for reading session\\  
-		RPI001_read_fMRIb0_mag_brain.nii.gz & Skull stripped $B_0$  magnitude image \\  
-		RPI001_write.nii.gz					& Writing task scan 				\\  
-		RPI001_write_rest.nii.gz			& Resting state scan for writing session	\\  
-		RPI001_write_fMRIb0_phase.nii.gz	& $B_0$ Field map phase image for writing session\\
-		RPI001_write_fMRIb0_mag.nii.gz		& $B_0$ Field map magnitude image for writing session\\  
-		RPI001_write_fMRIb0_mag_brain.nii.gz	& Skull stripped $B_0$ magnitude image	\\ 
-		RPI001_DTI.nii.gz					& DTI image 						\\ 
+		RTI001_T1_brain.nii.gz				& Skull stripped T1 MPRAGE image 	\\  
+		RTI001_T1.nii.gz					& T1 MPRAGE image 					\\  
+		RTI001_read.nii.gz					& Reading task scan 				\\  
+		RTI001_read_rest.nii.gz				& Resting state scan for reading session	\\ 
+		RTI001_read_fMRIB0_phase.nii.gz		& $B_0$ Field map phase image for reading session\\
+		RTI001_read_fMRIB0_mag.nii.gz		& $B_0$ Field map magnitude image for reading session\\  
+		RTI001_read_fMRIB0_mag_brain.nii.gz & Skull stripped $B_0$  magnitude image \\  
+		RTI001_write.nii.gz					& Writing task scan 				\\  
+		RTI001_write_rest.nii.gz			& Resting state scan for writing session	\\  
+		RTI001_write_fMRIB0_phase.nii.gz	& $B_0$ Field map phase image for writing session\\
+		RTI001_write_fMRIB0_mag.nii.gz		& $B_0$ Field map magnitude image for writing session\\  
+		RTI001_write_fMRIB0_mag_brain.nii.gz	& Skull stripped $B_0$ magnitude image	\\ 
+		RTI001_DTI.nii.gz					& DTI image 						\\ 
 		bvecs.txt							& b-vectors for  DTI processing 	\\
 		bvals.txt 							& b-values for DTI processing\\ \hline
 	\end{tabularx}
@@ -174,7 +174,7 @@ All simple subject-specific processing is well-organized within the subject/sess
 	\end{figure}
 \end{center}
 
-\subsection{Create the session-level makefiles}
+\subsection{Creating the session-level makefiles}
 We will do all the subject-level processing from the \texttt{PROJHOME/sessionN/} directories. You will need to create a Makefile in \texttt{PROJHOME/session1}, \texttt{PROJHOME/session2}, and \texttt{PROJHOME/session3} whose only purpose is to run \maken{} within all the subject-level directories beneath it.  
 \autoref{make:seshlevel} shows the example session-level makefile (\texttt{Udall/subjects/makefile_session.mk}).
 
@@ -308,10 +308,10 @@ What about when the programs are installed in some default location, e.g. \textt
 In the case of simple scripts or statically linked programs, it is fairly easy to copy them into a project-specific bin directory, giving them names that indicate their versions. If you cannot do this, you need to check the version (if the program is kind enough to provide an option that will provide the version) or to check the date that the program was installed, to alert yourself to potential errors. It is useful to set variables for things like reference brains, templates, and so forth. 
 
 \subsection{Variable overrides}
-It is probably a good idea not to edit a makefile too much once it works. But sometimes, it is useful to reissue a command with different parameters. Target-specific variables may be specified in the makefile and overridden on the command line. In the example below, the default flags for FSL \texttt{bet} are specified as \texttt{-f .4 -B -S}.
+It is probably a good idea not to edit a makefile too much once it works. But sometimes, it is useful to reissue a command with different parameters. Target-specific variables may be specified in the makefile and overridden on the command line. In the example below, the default flags for FSL \texttt{bet} are specified as \texttt{-f .4 -B }.
 
 \begin{make}{Specifying BET flags in make}{make:betflags}
-	BETFLAGS = -f .3 -B -S\\
+	BETFLAGS = -f .4 -B \\
 	\maker{\%skstrip.nii.gz}{\%flair.nii.gz} \\
 	\tab bet \$< \$@ \$(BETFLAGS) \\
 \end{make}
@@ -356,6 +356,7 @@ This target is used to define files that are created as intermediate products by
 \subsubsection{.INTERMEDIATE}
 This target allows you to specify files that can be automatically deleted after the final targets are created. For example, during resting state preprocessing (\nameref{example:testsubjectresting}) you create many intermediate files during the process (e.g., the output of motion correction, despiking). These are useful to check for QA purposes but in the end you may not want to keep them. Specifying them as intermediate targets will delete them after completion of the pipeline.
 
-{\color{red} expand this section}
+If you specify targets as intermediate, but you leave \texttt{.SECONDARY} blank, intermediates are treated as secondary and are not deleted automatically.  However, if you delete them (e.g., in a \texttt{clean} target), they will not be recreated when you run make again so long as the targets depending on them already exist.
+
 
 

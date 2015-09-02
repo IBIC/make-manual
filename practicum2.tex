@@ -32,12 +32,17 @@ them again to answer new questions about longitudinal
 progression. However, this aspect of study design poses some
 challenges for naming conventions. 
 
-Because of the way that tools like XNAT like to organize data, we
+Different sites organize data in different ways. For example, the
+Waisman Brain Imaging Lab has a \href{http://brainimaging.waisman.wisc.edu/~oakes/teaching/directory_structure.html}{detailed description of their
+preferred data organization}. 
+Because our directory structure evolved from a large longitudinal
+study with cross-sectional and longitudinal analyses, we
 organize multiple visits for each subject as subdirectories under that
 subject's main data directory. However, this organization is highly
 inconvenient for processing with \maken{}.  
 
-These basic issues and the goal of minimizing complexity drive the directory structure described in this practical. 
+These basic issues and the goal of minimizing complexity drive the
+directory structure described in this practical.
 
 
 \section{Practical Example: A More Realistic Longitudinal Directory Structure}
@@ -72,7 +77,7 @@ Normally there are two types of processing that are performed for a
 study. The first are subject-level analyses --- in short, analyses that
 are completely independent of all the other subjects. The second are
 group-level analyses, or analyses that involve all the subjects
-data. In general, a good rule of thumb is that the results of
+data, or a subset of the subjects. In general, a good rule of thumb is that the results of
 subject-level analyses are best placed within the subject directories.
 
 Group-level analyses seem to be best found elsewhere in the project
@@ -178,7 +183,10 @@ You can specify to make how many CPUs to use. For example, if we specify the \te
 
 If you specify \texttt{make -j} without any options, it will use as many CPUS as  you have on your machine. This is great if all the work you have ``fits'' into the computing resources that are available. However, if it does not, you can use a computing cluster.
 
-In our environment, we use the Sun Grid Engine (SGE) to distribute jobs across machines that are ``clustered'' together. To run on a cluster, you need to be logged on one of the machines that is allowed to submit to the grid engine.\footnote{They are: \texttt{amygdala}, \texttt{broca}, \texttt{dentate}, \texttt{homunculus}, \texttt{pole}, \texttt{pons}, \texttt{precuneus}, and \texttt{triangularis}.} Once there, you can use the command:
+In our environment, we use the Sun Grid Engine (SGE) to distribute
+jobs across machines that are ``clustered'' together. To run on a
+cluster, you need to be logged on one of the machines that is allowed
+to submit to the grid engine.\footnote{In IBIC, they are:  \texttt{broca}, \texttt{dentate}, \texttt{homunculus}, \texttt{pole}, \texttt{pons}, \texttt{precuneus}, and \texttt{triangularis}.} Once there, you can use the command:
 \bashcmd{qmake -cwd -V -- -j 20 TARGET=skstrip}
 
 Here, we use \texttt{qmake} instead of \texttt{make} to interact with the grid engine. The \texttt{-cwd} flag says to run from the current working directory, and \texttt{-V} says to pass along all your environment variables. You will normally want to specify both of these flags. The \texttt{--} specifies to \texttt{qmake} that we are done specifying \texttt{qmake} flags and are now giving normal flags to \maken{}. For example, in this command we specify 20 jobs. 

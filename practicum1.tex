@@ -10,7 +10,7 @@
 A few elements of good workflow systems are:
 \begin{easylist}[itemize]
 	& Reproducibility, which a shell script can provide.
-	& Parallelism, which a shell script cannot describe.
+	& Parallelism, which a shell script cannot provide.
 	& Fault tolerance, which a shell script can absolutely not deal with. If there is a problem in subject nine of your 100-subject loop, subjects 10-100 will not even begin, even if nothing is wrong with them.
 \end{easylist}
 
@@ -260,7 +260,7 @@ What if you want to clean up your work? You've been deleting files by hand, but 
 
 Note that in the recipe, it's totally fine to use wildcards. Depending on how far along you got with your processing before you decide to clean and restart, not every file might have been created.  For this reason we typically use the \texttt{-f} flag for \texttt{rm}. This flag hides error messages from attempting to erase nonexistent files. 
 
-The convention of putting a target for \texttt{clean} is just a convention; you need to muster the discipline to add every new file that you create in a makefile to the clean target. More dangerous is the that sometimes to get a neuroimaging subject to a certain state, you need to do some handwork that would be expensive to recreate. For example, no one wants to blow away freesurfer directories after doing hand editing. 
+The convention of putting a target for \texttt{clean} is just a convention; you need to muster the discipline to add every new file that you create in a makefile to the clean target. More dangerous is that sometimes to get a neuroimaging subject to a certain state, you need to do some handwork that would be expensive to recreate. For example, no one wants to blow away freesurfer directories after doing hand editing. 
 
 For these reasons, we like the looser convention of \texttt{mostlyclean} or \texttt{archive} which means to remove things that can easily be regenerated, but to leave important partial products (e.g., your images converted from dicoms, freesurfer directories, final masks, and other things).
 

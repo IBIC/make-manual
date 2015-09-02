@@ -14,7 +14,7 @@
 \BOOKMARK [1][-]{section*.19}{Directory Structure}{chapter.1.2}% 14
 \BOOKMARK [1][-]{section*.21}{Setting up an Analysis Directory}{chapter.1.2}% 15
 \BOOKMARK [2][-]{section*.22}{Defining the basic directory structure}{section*.21}% 16
-\BOOKMARK [2][-]{section*.24}{Create the session-level makefiles}{section*.21}% 17
+\BOOKMARK [2][-]{section*.24}{Creating the session-level makefiles}{section*.21}% 17
 \BOOKMARK [2][-]{section*.26}{Creating the common subject-level makefile for each session}{section*.21}% 18
 \BOOKMARK [2][-]{section*.28}{Creating links to the session-level makefile}{section*.21}% 19
 \BOOKMARK [2][-]{section*.30}{Creating links to subject-level makefile}{section*.21}% 20

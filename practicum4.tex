@@ -73,7 +73,7 @@ While neuroimaging packages usually include QA tools of their own (such as FSL's
 
 Know that you may certainly create QA measures for each subject in your project and inspect these one-by-one in a previewer program -- but this may prove inconvenient and time-consuming. Since there usually are several things that have to be inspected during a quality assurance procedure, it is incredibly helpful to have images and data parameters or statistics displayed on a single page for each subject in a project. Alternatively, you may choose to look at a single aspect of your data and would like to concatenate a QA measure from all of your subjects into one report. This is where R Markdown comes in.
 
-R Markdown is an authoring format that allows us to generate reports from R (\url{http://rmarkdown.rstudio.com}). It is extremely versatile in that it can read HTML and bash code to generate HTML and PDF documents, or even interactive web applications. 
+R Markdown is an authoring format that allows us to generate reports using a simple markup language (\url{http://rmarkdown.rstudio.com}). It is extremely versatile in that it can incorporate code from multiple languages (including HTML, \bashn{}, \texttt{python} and \texttt{R} to generate HTML and PDF documents, or even interactive web applications. 
 
 Although QA measures can be fed into PDF documents or HTML pages, we at IBIC prefer to use the HTML format for a couple of reasons. For one, a HTML report gives us the ability to look at moving GIF images, which are useful when we want to view the collected brain scans as a time series. In addition, it circumvents the issue of pagination and allows us scroll seamlessly through all our images and statistics in a single page. PDFs, however, tend to be more cumbersome to use as images may be awkwardly split between pages and cause page breaks if they are not properly sized.
 
@@ -146,7 +146,7 @@ In R Markdown, the size of headers depend on the number of \mypound (hash) symbo
 
 Notice that HTML syntax is used to insert images into the report. Heights and widths of images can be specified as well. 
 
-Assuming we want to print out some information about the subject into the report, we can use \bashn{} within a R Markdown file to \texttt{grep} for the stuff we need or \texttt{cat} a value from a file. In the example above, we open the bash script portion of the file with three backticks and a curly bracket telling R that the following text is written in \bashn{} code. Here, we are asking R to \texttt{cat} the values from two text files that gives us the mean absolute and mean relative displacement in mm (see \texttt{cat} help if you are not familiar with its usage). These will then be printed out into our HTML report.
+Assuming we want to print out some information about the subject into the report, we can use \bashn{} within a R Markdown file to \texttt{grep} for the stuff we need or \texttt{cat} a value from a file. In the example above, we open the bash script portion of the file with three backticks and a curly bracket telling R that the following text is written in \bashn{} code. Here, we are asking \bashn{} to \texttt{cat} the values from two text files that gives us the mean absolute and mean relative displacement in mm (see \texttt{cat} help if you are not familiar with its usage). These will then be printed out into our HTML report.
 
 Once we have a \texttt{.Rmd} file ready, we want to tell \maken{} to create the HTML report for us. By doing so, we can parallelize the generation of QA reports. We do this by inserting a target such as the following into our QA makefile (which is fully documented in \autoref{example:testsubjectQA}):
 
@@ -167,7 +167,7 @@ The target is your HTML file, and the dependencies are your \texttt{.Rmd} file a
 	\end{center}
 \end{figure}
 
-The report in its entirety may be viewed in your Internet browser and can be found at \texttt{\$(PROJECT\_HOME)/test001/QA/rest\_Preprocessing\_example.html}. 
+Holy Bad Skullstripping! This is one of the many reasons why we do QA. The full report can be viewed in your favorite Internet browser and can be found at \texttt{\$(PROJECT\_HOME)/test001/QA/rest\_Preprocessing\_example.html}. 
  
 And that's it! 
 

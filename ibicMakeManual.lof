@@ -7,7 +7,7 @@
 \contentsline {figure}{\numberline {1.6}{\ignorespaces A makefile expressed in \texttt {bash}{}\relax }}{7}{figure.caption.13}
 \addvspace {10pt}
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Example of good file naming conventions\relax }}{11}{figure.caption.18}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces An example of a project directory.\relax }}{12}{figure.caption.20}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces An example of a project directory.\relax }}{13}{figure.caption.20}
 \contentsline {figure}{\numberline {2.3}{\ignorespaces A longitudinal analysis directory.\relax }}{15}{figure.caption.23}
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Session-level Makefile\relax }}{16}{figure.caption.25}
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Subject-level makefile\relax }}{16}{figure.caption.27}
@@ -45,11 +45,11 @@
 \contentsline {figure}{\numberline {1.7}{\ignorespaces Pattern-matching as a sieve\relax }}{45}{figure.caption.103}
 \contentsline {figure}{\numberline {1.8}{\ignorespaces \texttt {make clean}\relax }}{48}{figure.caption.107}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Script to create symbolic links within a longitudinal directory structure\relax }}{51}{figure.caption.111}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Script to create symbolic links within a longitudinal directory structure\relax }}{52}{figure.caption.111}
 \contentsline {figure}{\numberline {2.2}{\ignorespaces The \texttt {@} character hides commands\relax }}{52}{figure.caption.113}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Printing out the value of variables\relax }}{52}{figure.caption.114}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Printing out the value of variables\relax }}{53}{figure.caption.114}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{62}{figure.caption.122}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{63}{figure.caption.122}
 \addvspace {10pt}
 \contentsline {figure}{\numberline {4.1}{\ignorespaces \texttt {make}{}'s Help System\relax }}{65}{figure.caption.124}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{69}{figure.caption.129}
