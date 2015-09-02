@@ -86,7 +86,7 @@
 
 % DEFINE MAKE MULTILINE ENVIRONMENT
 \newenvironment{make}[2] %
-{ \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \begin{tcolorbox}[colback=white,boxrule=0.5pt,arc=4pt,left=6pt,right=6pt,boxsep=0pt,width=\textwidth] \ttfamily } { \normalfont \end{tcolorbox} \caption{\captiontext} \label{\labelt} \end{figure} }
+{ \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \begin{tcolorbox}[colback=white,boxrule=0.5pt,arc=4pt,left=6pt,right=6pt,boxsep=0pt,width=\textwidth] \raggedright \ttfamily } { \normalfont \end{tcolorbox} \caption{\captiontext} \label{\labelt} \end{figure} }
 % You must terminate lines in the make environment
 % To indent lines, use \tab
 

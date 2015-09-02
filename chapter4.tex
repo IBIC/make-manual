@@ -82,15 +82,44 @@ endif
 
 In our environment we strive to run the exact same image of the Linux operating system, with all the same software packages installed, on all computers. However, we often migrate workstations to the latest version of the operating system over a period of several months. Different groups time their upgrades to minimally disturb image processing. In one case, there was a particular AFNI program necessary for our resting state analysis that was only installed in the latest OS. So, we check the version of the OS in order to conditionally set the targets that the makefile will build (\autoref{make:linux}).
 
-The command \texttt{lsb_release -sc}  produces the codeword corresponding to the Linux version installed (here, precise), and this is what we check. The \texttt{@} before echo in the second all target indicates not to print the commands themselves to the screen, only the output of the commands, which improves readability.
-\begin{make}{Testing the Linux version to determine whether to proceed}{make:linux}
-RELEASE=\$(shell lsb_release -sc)\\
+%The command \texttt{lsb_release -sc}  produces the codeword corresponding to the Linux version installed (here, precise), and this is what we check. The \texttt{@} before echo in the second all target indicates not to print the commands themselves to the screen, only the output of the commands, which improves readability.
+%\begin{make}{Testing the Linux version to determine whether to proceed}{make:linux}
+%RELEASE=\$(shell lsb_release -sc)\\
+%
+%ifeq (\$(RELEASE),precise)\\
+%\maker{all}{processedrest_medn.nii.gz}\\
+%else\\
+%\maker{all}{} \\
+%\tab @echo ``The software to run this pipeline is only installed on'' \\
+%\tab @echo ``the newest version of the OS, 12.04'' \\
+%endif
+%\end{make}
 
-ifeq (\$(RELEASE),precise)\\
+On IBIC workstations, operating system information is recorded in \texttt{/etc/os-release}. (See \autoref{os-release}.)
+
+\begin{bash}{\texttt{/etc/os-release}}{os-release}
+	PRETTY_NAME="Debian GNU/Linux 7 (wheezy)"
+	NAME="Debian GNU/Linux"
+	VERSION_ID="7"
+	VERSION="7 (wheezy)"
+	ID=debian
+	ANSI_COLOR="1;31"
+	HOME_URL="http://www.debian.org/"
+	SUPPORT_URL="http://www.debian.org/support/"
+	BUG_REPORT_URL="http://bugs.debian.org/"
+\end{bash}
+
+\texttt{source} this file in order to save the strings to the given variables, which can then be read easily in \maken{}. For example, one could test if the newest version of Debian -- 7 (wheezy) -- is installed on the current workstation.
+
+\begin{make}{Testing the Linux version to determine whether to proceed}{make:linux}
+SHELL=/bin/bash \\
+RELEASE=\$(shell source /etc/os-release \&\& echo \$\$VERSION_ID)\\
+
+ifeq (\$(RELEASE),7)\\
 \maker{all}{processedrest_medn.nii.gz}\\
 else\\
 \maker{all}{} \\
 \tab @echo ``The software to run this pipeline is only installed on'' \\
-\tab @echo ``the newest version of the OS, 12.04'' \\
+\tab @echo ``the newest version of the OS, 7 (wheezy)'' \\
 endif
 \end{make}
