@@ -90,5 +90,6 @@
 \contentsline {section}{Incorporating R Markdown into \texttt {make}{}}{66}{section*.129}
 \contentsline {part}{\partnumberline {III}Examples}{74}{part.3}
 \contentsline {chapter}{\chapternumberline {1}Running FreeSurfer}{76}{chapter.3.1}
-\contentsline {chapter}{\chapternumberline {2}XNAT Access}{79}{chapter.3.2}
-\contentsline {chapter}{Bibliography}{82}{section*.137}
+\contentsline {chapter}{\chapternumberline {2}Distortion Correction with Conditionals}{79}{chapter.3.2}
+\contentsline {chapter}{\chapternumberline {3}XNAT Access}{83}{chapter.3.3}
+\contentsline {chapter}{Bibliography}{86}{section*.138}

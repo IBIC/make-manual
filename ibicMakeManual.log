@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.12.29)  2 SEP 2015 13:29
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.12.29)  2 SEP 2015 13:44
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1327,34 +1327,34 @@ LaTeX Warning: Label `' multiply defined.
 ) (./makefile-examples.aux))
 \openout1 = `ibicMakeManual.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 141.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 141.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 146.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 146.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 141.
-LaTeX Font Info:    ... okay on input line 141.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 141.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 146.
+LaTeX Font Info:    ... okay on input line 146.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 146.
 
 (/usr/share/texmf/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \microtypecontext on input line 141.
+LaTeX Info: Redefining \microtypecontext on input line 146.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1441,7 +1441,7 @@ Package marginnote Info: \pdfoutput not 0 and \pdflastxpos available.
 ABD: EveryShipout initializing macros
 \c@lstlisting=\count372
 \AtBeginShipoutBox=\box55
-Package hyperref Info: Link coloring ON on input line 141.
+Package hyperref Info: Link coloring ON on input line 146.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
@@ -1453,20 +1453,20 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 Redoing nameref's sectioning
 Redoing nameref's label
-LaTeX Info: Redefining \nameref on input line 141.
-LaTeX Info: Redefining \ref on input line 141.
-LaTeX Info: Redefining \pageref on input line 141.
-LaTeX Info: Redefining \nameref on input line 141.
+LaTeX Info: Redefining \nameref on input line 146.
+LaTeX Info: Redefining \ref on input line 146.
+LaTeX Info: Redefining \pageref on input line 146.
+LaTeX Info: Redefining \nameref on input line 146.
 (./ibicMakeManual.out) (./ibicMakeManual.out)
 \@outlinefile=\write6
 \openout6 = `ibicMakeManual.out'.
 
 
-<images/IBIClogo.png, id=352, 1897.0875pt x 763.85374pt>
+<images/IBIClogo.png, id=356, 1897.0875pt x 763.85374pt>
 File: images/IBIClogo.png Graphic file (type png)
 
 <use images/IBIClogo.png>
-Package pdftex.def Info: images/IBIClogo.png used on input line 148.
+Package pdftex.def Info: images/IBIClogo.png used on input line 153.
 (pdftex.def)             Requested size: 299.25pt x 120.48242pt.
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/30'.
@@ -1474,7 +1474,7 @@ Package microtype Info: Character `029' is missing
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./images/IBIClogo.png>]
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 160.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 165.
 
  (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1516,7 +1516,7 @@ LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10.95> not available
 1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.167 	\part{Manual}
+l.172 	\part{Manual}
                      [1
 
 
@@ -1697,7 +1697,7 @@ hin the di-rec-tory \T1/lmtt/m/n/10.95 subjects/RC4101/session1/\T1/lmr/m/n/10.
 95 (-20) ,
  []
 
-<images/make-output.png, id=691, 911.405pt x 187.70125pt>
+<images/make-output.png, id=697, 911.405pt x 187.70125pt>
 File: images/make-output.png Graphic file (type png)
 
 <use images/make-output.png>
@@ -2188,7 +2188,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 134--140
 LaTeX Warning: Reference `example:testsubjectQA' on page 71 undefined on input 
 line 151.
 
-<images/QAcropped.png, id=1024, 591.20876pt x 843.15pt>
+<images/QAcropped.png, id=1030, 591.20876pt x 843.15pt>
 File: images/QAcropped.png Graphic file (type png)
 
 <use images/QAcropped.png>
@@ -2241,11 +2241,26 @@ Package pdftex.def Info: images/QAcropped.png used on input line 165.
 ) (./freeSurfer-example.tex [76
 
 
-] [77]) [78] (./XNAT-access.tex [79
+] [77]) [78] (./distortion-correction.tex [79
 
 
-] [80]) [81]) (./ibicMakeManual.bbl)
-[82
+]
+
+Package caption Warning: \label without proper \caption on input line 60.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `toy-example' on page 80 undefined on input line 54.
+
+[80] [81]
+Underfull \hbox (badness 10000) in paragraph at lines 146--147
+
+ []
+
+) [82] (./XNAT-access.tex [83
+
+
+] [84]) [85]) (./ibicMakeManual.bbl) [86
 
 
 
@@ -2256,15 +2271,16 @@ Package pdftex.def Info: images/QAcropped.png used on input line 165.
 \tf@lof=\write8
 \openout8 = `ibicMakeManual.lof'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 215.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 215.
- (./ibicMakeManual.aux (./chapter1.aux) (./chapter2.aux) (./chapter3.aux)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 220.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 220.
+
+(./ibicMakeManual.aux (./chapter1.aux) (./chapter2.aux) (./chapter3.aux)
 (./chapter4.aux) (./practicum1.aux) (./practicum2.aux) (./practicum3.aux)
 (./practicum4.aux) (./makefile-examples.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 215.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 215.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 220.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 220.
 Package rerunfilecheck Info: File `ibicMakeManual.out' has not changed.
-(rerunfilecheck)             Checksum: 5EBD0EC34663AD7E35AF1CB8962B427B;6555.
+(rerunfilecheck)             Checksum: 42397510456F2732E1ABBF2DFC9F3FD3;6638.
 
 
 LaTeX Warning: There were undefined references.
@@ -2272,19 +2288,19 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 215.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 220.
  ) 
 Here is how much of TeX's memory you used:
- 29686 strings out of 493485
- 503149 string characters out of 3143525
- 797174 words of memory out of 3000000
- 31850 multiletter control sequences out of 15000+200000
- 120401 words of font info for 196 fonts, out of 3000000 for 9000
+ 29889 strings out of 493485
+ 506058 string characters out of 3143525
+ 943232 words of memory out of 3000000
+ 31949 multiletter control sequences out of 15000+200000
+ 117036 words of font info for 192 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 69i,12n,80p,1260b,1692s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dv
-ips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/shar
-e/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ma
+ 69i,12n,80p,1295b,1692s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dv
+ips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share
+/texmf/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ma
 thit.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/droid/droid-03.enc}{/us
 r/share/texlive/texmf-dist/fonts/enc/dvips/droid/droid-01.enc}</usr/share/texli
 ve/texmf-dist/fonts/type1/public/droid/DroidSans-Bold.pfb></usr/share/texlive/t
@@ -2297,16 +2313,15 @@ mr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fo
 nts/type1/public/lm/lmr6.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb><
 /usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/p
 ublic/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/sh
-are/texmf/fonts/type1/public/lm/lmro12.pfb></usr/share/texmf/fonts/type1/public
-/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy9.pfb></usr/share/te
-xmf/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf/fonts/type1/public/lm/lm
-tt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb></usr/share/texmf/f
-onts/type1/public/lm/lmtt9.pfb></usr/share/texmf/fonts/type1/public/lm/lmtti10.
-pfb>
-Output written on ibicMakeManual.pdf (88 pages, 1096364 bytes).
+are/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public
+/lm/lmsy9.pfb></usr/share/texmf/fonts/type1/public/lm/lmtk10.pfb></usr/share/te
+xmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/lm
+tt12.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt9.pfb></usr/share/texmf/fo
+nts/type1/public/lm/lmtti10.pfb>
+Output written on ibicMakeManual.pdf (92 pages, 1093515 bytes).
 PDF statistics:
- 1336 PDF objects out of 1440 (max. 8388607)
- 1203 compressed objects within 13 object streams
- 361 named destinations out of 1000 (max. 500000)
- 45772 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 1485 PDF objects out of 1728 (max. 8388607)
+ 1348 compressed objects within 14 object streams
+ 469 named destinations out of 1000 (max. 500000)
+ 43732 words of extra memory for PDF output out of 51595 (max. 10000000)
 
