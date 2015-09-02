@@ -54,32 +54,34 @@
 \BOOKMARK [2][-]{section*.90}{Conditional execution based on the Linux version}{section*.82}% 54
 \BOOKMARK [-1][-]{part.2}{Practicals}{}% 55
 \BOOKMARK [0][-]{chapter.2.1}{Overview of make}{part.2}% 56
-\BOOKMARK [1][-]{section*.93}{Lecture: The Conceptual Example of Making Breakfast}{chapter.2.1}% 57
-\BOOKMARK [1][-]{section*.97}{Practical Example: Skull-stripping}{chapter.2.1}% 58
-\BOOKMARK [2][-]{section*.98}{Manipulating a single subject}{section*.97}% 59
-\BOOKMARK [2][-]{section*.100}{Pattern rules and multiple subjects}{section*.97}% 60
-\BOOKMARK [2][-]{section*.104}{Phony targets}{section*.97}% 61
-\BOOKMARK [2][-]{section*.105}{Secondary targets}{section*.97}% 62
-\BOOKMARK [2][-]{section*.106}{make clean}{section*.97}% 63
+\BOOKMARK [1][-]{section*.94}{Lecture: The Conceptual Example of Making Breakfast}{chapter.2.1}% 57
+\BOOKMARK [1][-]{section*.98}{Practical Example: Skull-stripping}{chapter.2.1}% 58
+\BOOKMARK [2][-]{section*.99}{Manipulating a single subject}{section*.98}% 59
+\BOOKMARK [2][-]{section*.101}{Pattern rules and multiple subjects}{section*.98}% 60
+\BOOKMARK [2][-]{section*.105}{Phony targets}{section*.98}% 61
+\BOOKMARK [2][-]{section*.106}{Secondary targets}{section*.98}% 62
+\BOOKMARK [2][-]{section*.107}{make clean}{section*.98}% 63
 \BOOKMARK [0][-]{chapter.2.2}{make in Context}{part.2}% 64
-\BOOKMARK [1][-]{section*.108}{Lecture: Organizing Subject Directories}{chapter.2.2}% 65
-\BOOKMARK [1][-]{section*.109}{Practical Example: A More Realistic Longitudinal Directory Structure}{chapter.2.2}% 66
-\BOOKMARK [2][-]{section*.110}{Organizing Longitudinal Data}{section*.109}% 67
-\BOOKMARK [2][-]{section*.112}{Recursive make}{section*.109}% 68
-\BOOKMARK [2][-]{section*.115}{Running make over multiple subject directories}{section*.109}% 69
-\BOOKMARK [2][-]{section*.116}{Running FreeSurfer}{section*.109}% 70
+\BOOKMARK [1][-]{section*.109}{Lecture: Organizing Subject Directories}{chapter.2.2}% 65
+\BOOKMARK [1][-]{section*.110}{Practical Example: A More Realistic Longitudinal Directory Structure}{chapter.2.2}% 66
+\BOOKMARK [2][-]{section*.111}{Organizing Longitudinal Data}{section*.110}% 67
+\BOOKMARK [2][-]{section*.113}{Recursive make}{section*.110}% 68
+\BOOKMARK [2][-]{section*.116}{Running make over multiple subject directories}{section*.110}% 69
+\BOOKMARK [2][-]{section*.117}{Running FreeSurfer}{section*.110}% 70
 \BOOKMARK [0][-]{chapter.2.3}{Getting Down and Dirty with make}{part.2}% 71
-\BOOKMARK [1][-]{section*.117}{Practical Example: Running QMON}{chapter.2.3}% 72
-\BOOKMARK [1][-]{section*.118}{Practical Example: A Test Subject}{chapter.2.3}% 73
-\BOOKMARK [2][-]{section*.119}{Estimated total intracranial volume}{section*.118}% 74
-\BOOKMARK [2][-]{section*.120}{Hippocampal volumes}{section*.118}% 75
-\BOOKMARK [1][-]{section*.121}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{chapter.2.3}% 76
+\BOOKMARK [1][-]{section*.118}{Practical Example: Running QMON}{chapter.2.3}% 72
+\BOOKMARK [1][-]{section*.119}{Practical Example: A Test Subject}{chapter.2.3}% 73
+\BOOKMARK [2][-]{section*.120}{Estimated total intracranial volume}{section*.119}% 74
+\BOOKMARK [2][-]{section*.121}{Hippocampal volumes}{section*.119}% 75
+\BOOKMARK [1][-]{section*.122}{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}{chapter.2.3}% 76
 \BOOKMARK [0][-]{chapter.2.4}{Advanced Topics \046 Quality Assurance with R Markdown}{part.2}% 77
-\BOOKMARK [1][-]{section*.123}{Creating a make help system}{chapter.2.4}% 78
-\BOOKMARK [1][-]{section*.125}{Makefile Directory structure}{chapter.2.4}% 79
-\BOOKMARK [1][-]{section*.126}{The clean target}{chapter.2.4}% 80
-\BOOKMARK [1][-]{section*.127}{Defining Macros}{chapter.2.4}% 81
-\BOOKMARK [1][-]{section*.128}{Incorporating R Markdown into make}{chapter.2.4}% 82
+\BOOKMARK [1][-]{section*.124}{Creating a make help system}{chapter.2.4}% 78
+\BOOKMARK [1][-]{section*.126}{Makefile Directory structure}{chapter.2.4}% 79
+\BOOKMARK [1][-]{section*.127}{The clean target}{chapter.2.4}% 80
+\BOOKMARK [1][-]{section*.128}{Defining Macros}{chapter.2.4}% 81
+\BOOKMARK [1][-]{section*.129}{Incorporating R Markdown into make}{chapter.2.4}% 82
 \BOOKMARK [-1][-]{part.3}{Examples}{}% 83
 \BOOKMARK [0][-]{chapter.3.1}{Makefile Examples}{part.3}% 84
-\BOOKMARK [0][-]{section*.135}{Bibliography}{part.3}% 85
+\BOOKMARK [1][-]{section*.135}{Running FreeSurfer}{chapter.3.1}% 85
+\BOOKMARK [1][-]{section*.136}{Running XNAT access}{chapter.3.1}% 86
+\BOOKMARK [0][-]{section*.138}{Bibliography}{part.3}% 87

@@ -7,53 +7,54 @@
 \contentsline {figure}{\numberline {1.6}{\ignorespaces A makefile expressed in \texttt {bash}{}\relax }}{7}{figure.caption.13}
 \addvspace {10pt}
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Example of good file naming conventions\relax }}{11}{figure.caption.18}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces An example of a project directory.\relax }}{12}{figure.caption.20}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces An example of a project directory.\relax }}{13}{figure.caption.20}
 \contentsline {figure}{\numberline {2.3}{\ignorespaces A longitudinal analysis directory.\relax }}{15}{figure.caption.23}
 \contentsline {figure}{\numberline {2.4}{\ignorespaces Session-level Makefile\relax }}{16}{figure.caption.25}
 \contentsline {figure}{\numberline {2.5}{\ignorespaces Subject-level makefile\relax }}{16}{figure.caption.27}
 \contentsline {figure}{\numberline {2.6}{\ignorespaces Creating symbolic links to the session-level makefile\relax }}{17}{figure.caption.29}
-\contentsline {figure}{\numberline {2.7}{\ignorespaces Making \texttt {test}\relax }}{18}{figure.caption.32}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Making \texttt {test}\relax }}{17}{figure.caption.32}
 \contentsline {figure}{\numberline {2.8}{\ignorespaces Output of recursive make\relax }}{18}{figure.caption.33}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces Setting \texttt {\$(SHELL)}\relax }}{19}{figure.caption.37}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces Setting \texttt {\$(SHELL)}\relax }}{18}{figure.caption.37}
 \contentsline {figure}{\numberline {2.10}{\ignorespaces Running DTIPrep in make\relax }}{20}{figure.caption.43}
 \contentsline {figure}{\numberline {2.11}{\ignorespaces Controlling software version\relax }}{20}{figure.caption.44}
 \contentsline {figure}{\numberline {2.12}{\ignorespaces Specifying BET flags in make\relax }}{21}{figure.caption.46}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces A non-functional multi-line makefile\relax }}{25}{figure.caption.53}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces A now-functional multi-line makefile\relax }}{25}{figure.caption.54}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces A multi-line makefile using ``\texttt {\&\&\textbackslash }''\relax }}{25}{figure.caption.55}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces How not to name files\relax }}{25}{figure.caption.57}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces The wrong way to run two long tasks\relax }}{26}{figure.caption.59}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces The right way to run two long tasks\relax }}{26}{figure.caption.60}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Pattern-matching error handling\relax }}{32}{figure.caption.73}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces A non-functional multi-line makefile\relax }}{24}{figure.caption.53}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces A now-functional multi-line makefile\relax }}{24}{figure.caption.54}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces A multi-line makefile using ``\texttt {\&\&\textbackslash }''\relax }}{24}{figure.caption.55}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces How not to name files\relax }}{24}{figure.caption.57}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces The wrong way to run two long tasks\relax }}{25}{figure.caption.59}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces The right way to run two long tasks\relax }}{25}{figure.caption.60}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Pattern-matching error handling\relax }}{31}{figure.caption.73}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Obtaining a list of subjects from a file.\relax }}{33}{figure.caption.78}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Obtaining a list of subjects using a wildcard.\relax }}{34}{figure.caption.79}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Determining the subject name from the current working directory and a pattern.\relax }}{34}{figure.caption.81}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Setting a variable to determine whether a FLAIR image has been acquired.\relax }}{35}{figure.caption.84}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Setting a variable to indicate the study site.\relax }}{35}{figure.caption.85}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Testing the site variable to determine the name of the T1 image.\relax }}{36}{figure.caption.87}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Testing to see whether an environment variable is undefined\relax }}{36}{figure.caption.89}
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Testing the Linux version to determine whether to proceed\relax }}{37}{figure.caption.91}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Obtaining a list of subjects from a file.\relax }}{32}{figure.caption.78}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Obtaining a list of subjects using a wildcard.\relax }}{33}{figure.caption.79}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Determining the subject name from the current working directory and a pattern.\relax }}{33}{figure.caption.81}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Setting a variable to determine whether a FLAIR image has been acquired.\relax }}{34}{figure.caption.84}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Setting a variable to indicate the study site.\relax }}{34}{figure.caption.85}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Testing the site variable to determine the name of the T1 image.\relax }}{35}{figure.caption.87}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Testing to see whether an environment variable is undefined\relax }}{35}{figure.caption.89}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces \texttt {/etc/os-release}\relax }}{36}{figure.caption.91}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Testing the Linux version to determine whether to proceed\relax }}{36}{figure.caption.92}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Creating a waffwich\relax }}{41}{figure.caption.94}
-\contentsline {figure}{\numberline {1.2}{\ignorespaces How to make a waffwich\relax }}{42}{figure.caption.95}
-\contentsline {figure}{\numberline {1.3}{\ignorespaces Using \texttt {make}{} to make a waffwich\relax }}{42}{figure.caption.96}
-\contentsline {figure}{\numberline {1.4}{\ignorespaces Makefile as copied\relax }}{43}{figure.caption.99}
-\contentsline {figure}{\numberline {1.5}{\ignorespaces Pattern-matched Makefile\relax }}{44}{figure.caption.101}
-\contentsline {figure}{\numberline {1.6}{\ignorespaces Pattern-matched Makefile\relax }}{44}{figure.caption.102}
-\contentsline {figure}{\numberline {1.7}{\ignorespaces Pattern-matching as a sieve\relax }}{45}{figure.caption.103}
-\contentsline {figure}{\numberline {1.8}{\ignorespaces \texttt {make clean}\relax }}{48}{figure.caption.107}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Creating a waffwich\relax }}{40}{figure.caption.95}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces How to make a waffwich\relax }}{41}{figure.caption.96}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Using \texttt {make}{} to make a waffwich\relax }}{41}{figure.caption.97}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Makefile as copied\relax }}{42}{figure.caption.100}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Pattern-matched Makefile\relax }}{43}{figure.caption.102}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Pattern-matched Makefile\relax }}{43}{figure.caption.103}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Pattern-matching as a sieve\relax }}{44}{figure.caption.104}
+\contentsline {figure}{\numberline {1.8}{\ignorespaces \texttt {make clean}\relax }}{47}{figure.caption.108}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Script to create symbolic links within a longitudinal directory structure\relax }}{51}{figure.caption.111}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces The \texttt {@} character hides commands\relax }}{52}{figure.caption.113}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Printing out the value of variables\relax }}{52}{figure.caption.114}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Script to create symbolic links within a longitudinal directory structure\relax }}{50}{figure.caption.112}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces The \texttt {@} character hides commands\relax }}{51}{figure.caption.114}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Printing out the value of variables\relax }}{51}{figure.caption.115}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{62}{figure.caption.122}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces \texttt {resting-script} file\relax }}{61}{figure.caption.123}
 \addvspace {10pt}
-\contentsline {figure}{\numberline {4.1}{\ignorespaces \texttt {make}{}'s Help System\relax }}{65}{figure.caption.124}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{69}{figure.caption.129}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of a R Markdown File\relax }}{71}{figure.caption.130}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{72}{figure.caption.131}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces QA report in R Markdown\relax }}{73}{figure.caption.132}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces \texttt {make}{}'s Help System\relax }}{64}{figure.caption.125}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Using FSL's slicer to create a registration image\relax }}{68}{figure.caption.130}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Example of a R Markdown File\relax }}{70}{figure.caption.131}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Reading a .Rmd file in \texttt {make}{}\relax }}{71}{figure.caption.132}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces QA report in R Markdown\relax }}{72}{figure.caption.133}
 \addvspace {10pt}
