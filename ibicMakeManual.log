@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.12.29)  2 SEP 2015 13:26
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2014.12.29)  2 SEP 2015 13:29
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1462,26 +1462,26 @@ LaTeX Info: Redefining \nameref on input line 141.
 \openout6 = `ibicMakeManual.out'.
 
 
-<IBIClogo.png, id=352, 1897.0875pt x 763.85374pt>
-File: IBIClogo.png Graphic file (type png)
- <use IBIClogo.png>
-Package pdftex.def Info: IBIClogo.png used on input line 148.
+<images/IBIClogo.png, id=352, 1897.0875pt x 763.85374pt>
+File: images/IBIClogo.png Graphic file (type png)
+
+<use images/IBIClogo.png>
+Package pdftex.def Info: images/IBIClogo.png used on input line 148.
 (pdftex.def)             Requested size: 299.25pt x 120.48242pt.
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/30'.
 (microtype)             Ignoring protrusion settings for this character.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./IBIClogo.png>]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./images/IBIClogo.png>]
 LaTeX Font Info:    Try loading font information for T1+lmtt on input line 160.
 
-
-(/usr/share/texmf/tex/latex/lm/t1lmtt.fd
+ (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) (./ibicMakeManual.toc
+)
+(./ibicMakeManual.toc
 LaTeX Font Info:    Try loading font information for OT1+lmr on input line 1.
-
-(/usr/share/texmf/tex/latex/lm/ot1lmr.fd
+ (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Try loading font information for OML+lmm on input line 1.
@@ -1697,10 +1697,11 @@ hin the di-rec-tory \T1/lmtt/m/n/10.95 subjects/RC4101/session1/\T1/lmr/m/n/10.
 95 (-20) ,
  []
 
-<make-output.png, id=691, 911.405pt x 187.70125pt>
-File: make-output.png Graphic file (type png)
- <use make-output.png>
-Package pdftex.def Info: make-output.png used on input line 244.
+<images/make-output.png, id=691, 911.405pt x 187.70125pt>
+File: images/make-output.png Graphic file (type png)
+
+<use images/make-output.png>
+Package pdftex.def Info: images/make-output.png used on input line 244.
 (pdftex.def)             Requested size: 399.0pt x 82.17351pt.
 
 
@@ -1709,7 +1710,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [17]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <12> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 253.
- [18 <./make-output.png>] [19] [20]
+ [18 <./images/make-output.png>] [19] [20]
 
 LaTeX Warning: Reference `example:testsubject' on page 21 undefined on input li
 ne 325.
@@ -2187,20 +2188,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 134--140
 LaTeX Warning: Reference `example:testsubjectQA' on page 71 undefined on input 
 line 151.
 
-<QAcropped.png, id=1024, 591.20876pt x 843.15pt>
-File: QAcropped.png Graphic file (type png)
- <use QAcropped.png>
-Package pdftex.def Info: QAcropped.png used on input line 165.
+<images/QAcropped.png, id=1024, 591.20876pt x 843.15pt>
+File: images/QAcropped.png Graphic file (type png)
+
+<use images/QAcropped.png>
+Package pdftex.def Info: images/QAcropped.png used on input line 165.
 (pdftex.def)             Requested size: 354.72798pt x 505.8939pt.
- [71]
-[72 <./QAcropped.png>]) [73] [74
+ [71] [72 <./images/QAcropped.png>]) [73] [74
 
 
 ]
 \openout2 = `makefile-examples.aux'.
 
- (./makefile-examples.tex
-(./exampleSettings.tex [75
+
+(./makefile-examples.tex (./exampleSettings.tex [75
 
 ]
 *geometry* verbose mode - [ newgeometry ] result:
@@ -2240,11 +2241,11 @@ Package pdftex.def Info: QAcropped.png used on input line 165.
 ) (./freeSurfer-example.tex [76
 
 
-] [77]) [78]
-(./XNAT-access.tex [79
+] [77]) [78] (./XNAT-access.tex [79
 
 
-] [80]) [81]) (./ibicMakeManual.bbl) [82
+] [80]) [81]) (./ibicMakeManual.bbl)
+[82
 
 
 
@@ -2257,8 +2258,7 @@ Package pdftex.def Info: QAcropped.png used on input line 165.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 215.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 215.
-
-(./ibicMakeManual.aux (./chapter1.aux) (./chapter2.aux) (./chapter3.aux)
+ (./ibicMakeManual.aux (./chapter1.aux) (./chapter2.aux) (./chapter3.aux)
 (./chapter4.aux) (./practicum1.aux) (./practicum2.aux) (./practicum3.aux)
 (./practicum4.aux) (./makefile-examples.aux))
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 215.
@@ -2275,8 +2275,8 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 215.
  ) 
 Here is how much of TeX's memory you used:
- 29685 strings out of 493485
- 503058 string characters out of 3143525
+ 29686 strings out of 493485
+ 503149 string characters out of 3143525
  797174 words of memory out of 3000000
  31850 multiletter control sequences out of 15000+200000
  120401 words of font info for 196 fonts, out of 3000000 for 9000
@@ -2303,7 +2303,7 @@ xmf/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf/fonts/type1/public/lm/lm
 tt10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb></usr/share/texmf/f
 onts/type1/public/lm/lmtt9.pfb></usr/share/texmf/fonts/type1/public/lm/lmtti10.
 pfb>
-Output written on ibicMakeManual.pdf (88 pages, 1096049 bytes).
+Output written on ibicMakeManual.pdf (88 pages, 1096364 bytes).
 PDF statistics:
  1336 PDF objects out of 1440 (max. 8388607)
  1203 compressed objects within 13 object streams
