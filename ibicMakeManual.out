@@ -81,7 +81,6 @@
 \BOOKMARK [1][-]{section*.128}{Defining Macros}{chapter.2.4}% 81
 \BOOKMARK [1][-]{section*.129}{Incorporating R Markdown into make}{chapter.2.4}% 82
 \BOOKMARK [-1][-]{part.3}{Examples}{}% 83
-\BOOKMARK [0][-]{chapter.3.1}{Makefile Examples}{part.3}% 84
-\BOOKMARK [1][-]{section*.135}{Running FreeSurfer}{chapter.3.1}% 85
-\BOOKMARK [1][-]{section*.136}{Running XNAT access}{chapter.3.1}% 86
-\BOOKMARK [0][-]{section*.138}{Bibliography}{part.3}% 87
+\BOOKMARK [0][-]{chapter.3.1}{Running FreeSurfer}{part.3}% 84
+\BOOKMARK [0][-]{chapter.3.2}{XNAT Access}{part.3}% 85
+\BOOKMARK [0][-]{section*.137}{Bibliography}{part.3}% 86
