@@ -24,6 +24,8 @@
 
 % Complex packages
 \usepackage{tikz}		% nice flowcharts and stuff
+\usepackage{tikzpagenodes}
+\usetikzlibrary{positioning,calc}
 \usepackage{tcolorbox} 	% frames
 \usepackage{listings} 	% nice code formatting
 \usepackage{dirtree}	% pretty directory trees
@@ -52,11 +54,15 @@
 \author{Mary K. Askren\thanks{\url{askren@uw.edu}}} 
 \author{Trevor K. McAllister-Day}	
 \author{Natalie Koh}
-\author{Jennifer N. Dines} 	
+\author{Jennifer N. Dines}
+\author{Kristian Eschenburg}
 \author{Benjamin A. Korman}
 \author{Susan J. Melhorn}	
-\author{Dan J. Peterson} 
+\author{Daniel J. Peterson} 
+\author{Matthew R. Peverill}
+\author{Swati Rane}
 \author{Melissa A. Reilly}
+\author{Kelly Sambrook}
 \author{Karl A. Woelfer} 
 \author{Tom J. Grabowski Jr.} 
 \author{Tara M. Madhyastha\thanks{\url{madhyt@uw.edu}}} 
@@ -143,21 +149,27 @@
 % Use this command to include authors in the examples section.
 \newcommand{\Echapter}[3]{\chapter[#1]{#1 \\ \normalfont \Large \textit{#2\footnote{\url{#3}}}}}
 
+\definecolor{lemon}{HTML}{F5ECCE}
+
+
 \begin{document}
 	
 	% Cover page
 	
 	\thispagestyle{empty}
-	\begin{vplace}[0.7]
-		\begin{center}
-			\includegraphics[width=0.75\linewidth, natwidth=1890, natheight=761]{images/IBIClogo.png}				% IBIC logo
-			\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
-			{ \fontsize{30pt}{36pt} \selectfont Using GNU \textsc{make} for Neuroimaging Workflow\par }		% Title
-			\vspace{0.25in} \hrule \vspace{0.25in}															% vspace + hrule
-			{\LARGE University of Washington} 																% University of Washington
-		\end{center}	
-	\end{vplace}
+
+	\begin{tikzpicture}[remember picture,overlay]
+		\node[font=\fontsize{30pt}{36pt}\selectfont, align=center] (center) at (current page text area.center) 
+			{ Using GNU \textsc{make} for \\
+			Neuroimaging Workflow } ;
+		\node[above=of center,align=center] (above) {\includegraphics[width=0.75\textwidth]{images/IBIClogo.png}} ;
+		\node[font=\LARGE, below=of center,align=center] (below) { University of Washington } ;
 		
+		\draw
+		([xshift=-0.5\textwidth]$ (above.south)!0.5!(center.north) $ ) -- ++(\textwidth,0pt)
+		([xshift=-0.5\textwidth]$ (below.north)!0.5!(center.south) $ ) -- ++(\textwidth,0pt);  
+	\end{tikzpicture}
+
 	
 	\frontmatter	% Define the front matter section of the document
 	
@@ -180,6 +192,14 @@
 	\include{chapter4}  % Examples
 	
 	\part{Practicals}
+	
+	% Set up lst listing for the make environment.
+	% If we ever need a second lst listing, this will have to be set up differently.
+	\lstset{language=make,backgroundcolor=\color{lemon},
+		gobble=8,
+		basicstyle=\small\ttfamily,
+		breaklines=true,
+		escapeinside={\%*}{*}}
 	
 	\begin{vplace}[0.7]
 		

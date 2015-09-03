@@ -57,18 +57,29 @@ The information in \autoref{bash:waffwich} can alternatively be represented as a
 \label{tikz:waffle}
 \end{figure}
 
-Note that there are no circular references in this graph! (Hence, it is called an ``acyclic'' graph.) Also note that every arrow points in one direction (to what it depends upon). This is what makes this graph ``directed''. A graph like this is a very good way of describing a partially ordered sequence of steps.  However, drawing a graph is a really nasty way of writing a program, so we need a better syntax for making dependencies. The \maken{} recipe for a waffwich would look something like \autoref{make:waffwich}.
+Note that there are no circular references in this graph! (Hence, it is called an ``acyclic'' graph.) Also note that every arrow points in one direction (to what it depends upon). This is what makes this graph ``directed''. A graph like this is a very good way of describing a partially ordered sequence of steps.  However, drawing a graph is a really nasty way of writing a program, so we need a better syntax for making dependencies. The \maken{} recipe for a waffwich would look something like the example below.
 
-\begin{make}{Using \maken{} to make a waffwich}{make:waffwich}
-	\maker{waffwich}{toastedwaffles berries PB} \\
-	\tab spread peanut_buttter \dd on waffle \\
-	\tab arrange berries \dd on waffle \dd in squares \dd half \\
-	\tab cut waffle \\ 
-	\tab fold waffle \\
-	
-	\maker{toastedwaffle}{waffle} \\
-	\tab toast waffle
-\end{make}
+%\begin{make}{Using \maken{} to make a waffwich}{make:waffwich}
+%	\maker{waffwich}{toastedwaffles berries PB} \\
+%	\tab spread peanut_butter \dd on waffle \\
+%	\tab arrange berries \dd on waffle \dd in squares \dd half \\
+%	\tab cut waffle \\ 
+%	\tab fold waffle \\
+%	
+%	\maker{toastedwaffle}{waffle} \\
+%	\tab toast waffle
+%\end{make}
+
+\begin{lstlisting}
+	waffwich: toastedwaffles berries BP
+		spread PB --on waffle
+		arrange berries --on waffle --in squares --half
+		cut waffle
+		fold waffle
+		
+	toastedwaffle: waffle
+		toast waffle
+\end{lstlisting}
 
 We must note: makefiles are not linear, unlike shell scripts. \texttt{toastedwaffle} needs to be created before \texttt{waffwich}, but does not need to appear before it in the script. \maken{} will search for the targets that it needs to create in whatever order it needs to find them.
 
@@ -93,13 +104,21 @@ The first command reorients the image and the second performs the skull strippin
 
 Open the makefile (\texttt{Makefile})that came with the directory with an editor. You should see the following:
 
-\begin{make}{Makefile as copied}{p1:1}
-	\maker{OAS2_0_T1_skstrip.nii.gz}{OAS2_0001_T1.nii.gz} \\
-	\tab bet OAS2_0001_T1.nii.gz OAS2_0001_T1_skstrip.nii.gz \\
-	
-	\maker{OAS2_0001_T1.nii.gz}{OAS2_0001_raw.nii.gz}\\
-	\tab fslreorient2std OAS2_0001_raw.nii.gz OAS2_0001_T1.nii.gz
-\end{make}
+%\begin{make}{Makefile as copied}{p1:1}
+%	\maker{OAS2_0_T1_skstrip.nii.gz}{OAS2_0001_T1.nii.gz} \\
+%	\tab bet OAS2_0001_T1.nii.gz OAS2_0001_T1_skstrip.nii.gz \\
+%	
+%	\maker{OAS2_0001_T1.nii.gz}{OAS2_0001_raw.nii.gz}\\
+%	\tab fslreorient2std OAS2_0001_raw.nii.gz OAS2_0001_T1.nii.gz
+%\end{make}
+
+\begin{lstlisting}
+	OAS2_0_T1_skstrip.nii.gz: OAS2_0001_T1.nii.gz
+		bet OAS2_0001_T1.nii.gz OAS2_0001_T1_skstrip.nii.gz
+		
+	OAS2_0001_T1.nii.gz: OAS2_0001_raw.nii.gz
+		fslreorient2std OAS2_0001_raw.nii.gz OAS2_0001_T1.nii.gz
+\end{lstlisting}
 
 Play around with this. What happens when you execute \texttt{make} from the command line? What is it really doing?
 
@@ -124,29 +143,45 @@ dependencies.\mymarginnote{!}{Patterns can be matched anywhere in the
   filename, not just at the beginning.} However, what do you do in the
 recipe when you don't know the actual names of the file you're
 presently working with? The \texttt{\%} won't work there. However, the
-symbol \texttt{\$*} does, as you can see in \autoref{p1:star}. 
+symbol \texttt{\$*} does, as you can see in the next example.
 
-\begin{make}{Pattern-matched Makefile}{p1:star}
-	\maker{\%_T1_skstrip.nii.gz}{\%_T1.nii.gz} \\
-	\tab bet \$*_T1.nii.gz \$*_T1_skstrip.nii.gz \\
-	
-	\maker{\%_T1.nii.gz}{\%_raw.nii.gz}\\
-	\tab fslreorient2std \$*_raw.nii.gz \$*_T1.nii.gz
-\end{make}
+%\begin{make}{Pattern-matched Makefile}{p1:star}
+%	\maker{\%_T1_skstrip.nii.gz}{\%_T1.nii.gz} \\
+%	\tab bet \$*_T1.nii.gz \$*_T1_skstrip.nii.gz \\
+%	
+%	\maker{\%_T1.nii.gz}{\%_raw.nii.gz}\\
+%	\tab fslreorient2std \$*_raw.nii.gz \$*_T1.nii.gz
+%\end{make}
+
+\begin{lstlisting}
+	%_T1_skstrip.nii.gz: %_T1.nii.gz
+		bet $*_T1.nii.gz $*_T1_skstrip.nii.gz
+		
+	%_T1.nii.gz: %_raw.nii.gz
+		fslreorient2std $*_raw.nii.gz $*_T1.nii.gz
+\end{lstlisting}
 
 Using the \texttt{\$*} to stand in for patterns can get visually ugly. One common
 shortcut is to use the automatic variable \texttt{\$@} to replace the
 target, and \texttt{\$<} for the first dependency.
 
 
-Using these new variables, our code can now be written as in \autoref{p1:2}.
-\begin{make}{Pattern-matched Makefile}{p1:2}
-	\maker{\%_T1_skstrip.nii.gz}{\%_T1.nii.gz} \\
-	\tab bet \$< \$@ \\
-	
-	\maker{\%_T1.nii.gz}{\%_raw.nii.gz}\\
-	\tab fslreorient2std \$< \$@
-\end{make}
+Using these new variables, our code can now be written as in this example.
+%\begin{make}{Pattern-matched Makefile}{p1:2}
+%	\maker{\%_T1_skstrip.nii.gz}{\%_T1.nii.gz} \\
+%	\tab bet \$< \$@ \\
+%	
+%	\maker{\%_T1.nii.gz}{\%_raw.nii.gz}\\
+%	\tab fslreorient2std \$< \$@
+%\end{make}
+
+\begin{lstlisting}
+	%_T1_skstrip.nii.gz: %_T1.nii.gz
+		bet $< $@
+		
+	%_T1.nii.gz: %_raw.nii.gz
+		fslreorient2std $< $@
+\end{lstlisting}
 
 
 But try executing \texttt{make} now, with just those rules. (If you are completely lost now, look at the file \texttt{Makefile.1} to see what your makefile should look like). You should
@@ -207,7 +242,10 @@ Great, but how do you specify that you want to build all of these
 subjects? You can create a phony target (best placed at the top) that
 specifies all of the targets you really want to make. It is called a
 phony target because it does not refer to an actual file.
-\makecmd{\maker{skstrip}{OAS2_0001_T1_skstrip.nii.gz OAS2_0002_T1_skstrip.nii.gz}}
+\begin{lstlisting}
+	skstrip: OAS2_0001_T1_skstrip.nii.gz OAS2_0002_T1_skstrip.nii.gz
+\end{lstlisting}
+%\makecmd{\maker{skstrip}{OAS2_0001_T1_skstrip.nii.gz OAS2_0002_T1_skstrip.nii.gz}}
 
 Add as many subjects as you're patient enough to type and execute
 \bashcmd{make skstrip}
@@ -218,22 +256,37 @@ as copying the rule multiple times. Thankfully, there are a lot of
 ways to create lists of variables, shell commands, wildcards, and most
 other things you might think of. Conveniently, there is a file called
 \texttt{subjects} in this directory. We can get a list of subjects by
-using the following \maken{} command.  
-\makecmd{SUBJECTS=\$(shell cat  subjects)}
+using the following \maken{} command. 
+\begin{lstlisting}
+	SUBJECTS=$(shell cat subjects)
+\end{lstlisting} 
+%\makecmd{SUBJECTS=\$(shell cat  subjects)}
 
-Now we can write a target for skullstripping.
-\makecmd{\maker{skstrip}{\$(SUBJECTS:=_T1_skstrip.nii.gz)}}
+Now we can write a target for skull-stripping.
+\begin{lstlisting}
+	skstrip: $(SUBJECTS:=_T1_skstrip.nii.gz)
+\end{lstlisting}
+%\makecmd{\maker{skstrip}{\$(SUBJECTS:=_T1_skstrip.nii.gz)}}
 
 You also now must notify \maken{} to tell it that \texttt{skstrip} is not a real  file. Do this by using the following statement:
-\makecmd{\maker{.PHONY}{skstrip}}
+\begin{lstlisting}
+	.PHONY: skstrip
+\end{lstlisting}
+%\makecmd{\maker{.PHONY}{skstrip}}
 
 The pattern substitution for changing subjects to files comes from Section 8.2 of the GNU \maken{} manual. You can look up the other options, but the basic function of this command is to add the affix \texttt{_T1_skstrip.nii.gz} to each item in \texttt{SUBJECTS}. 
 
 The command uses the more general syntax, which can be used to remove parts of names before adding your new affix.
-\makecmd{\$(var:suffix=replacement)}
+\begin{lstlisting}
+	$(var:suffix=replacement)
+\end{lstlisting}
+%\makecmd{\$(var:suffix=replacement)}
 
 As an esoteric example, this command could be used to replace all the final 5s with the string ``five.''
-\makecmd{\$(SUBJECTS:5=five)}
+\begin{lstlisting}
+	$(SUBJECTS:5=five)
+\end{lstlisting}
+%\makecmd{\$(SUBJECTS:5=five)}
 
 \maken{} should now fail and tell you that there is no rule to make the target \texttt{OAS2_00five_T1.nii.gz}.
 
@@ -242,10 +295,16 @@ As an esoteric example, this command could be used to replace all the final 5s w
 Now if you type \maken{} here it is going to go through and do everything, if there's anything to do. But it's easier to see the point of secondary targets if you use the \texttt{-n} flag for \maken{}, which asks \maken{} to tell you what it's going to do, without actually doing it.\footnote{Trevor likes to use \texttt{make <cmd> -n}, which makes it easier to hit $\uparrow$ and remove the flag without any annoying arrowing around.} It's puzzling, isn't it, that all the T1 files are deleted? What's wrong here?
 
 Because we explicitly asked for the skull-stripped brains, \maken{} figured out it needed to make the T1 brains. This is an \emph{implicit} call. \maken, once it has finished running, goes back and erases anything that was implicitly created. This is a good thing, or a weird thing, depending on how you look at it. You can specify to \maken{} to keep those intermediary targets by adding it to the \texttt{.SECONDARY} target, like so:
-\makecmd{\maker{.SECONDARY}{\$(SUBJECTS:=T1.nii.gz)}}
+\begin{lstlisting}
+	.SECONDARY: $(SUBJECTS:=T1.nii.gz)
+\end{lstlisting}
+%\makecmd{\maker{.SECONDARY}{\$(SUBJECTS:=T1.nii.gz)}}
 
 An alternative method is to pass any targets you want to keep to the phony variable.
-\makecmd{\maker{skstrip}{\$(SUBJECTS:=_T1_skstrip.nii.gz) \$(SUBJECTS:=_T1_skstrip.nii.gz)}}
+\begin{lstlisting}
+	skstrip: $(SUBJECTS:=_T1_skstrip.nii.gz) $(SUBJECTS=_T1_skstrip.nii.gz)
+\end{lstlisting}
+%\makecmd{\maker{skstrip}{\$(SUBJECTS:=_T1_skstrip.nii.gz) \$(SUBJECTS:=_T1_skstrip.nii.gz)}}
 
 This is a little easier to interpret, as well. It also provides the advantage of allowing \maken{} to realize when an intermediary target needs to be remade. For example, if you erased only a T1 image (perhaps to rerun \texttt{bet}), and told it to \texttt{make skstrip}, it would look and see that all the \texttt{T1_brain} images are newer than the raw images, and therefore, no change needs to be made. While this problem could be solved by also removing the \texttt{T1_brain} image, that's more work and we want to do as little of that as possible.
 
@@ -253,10 +312,15 @@ This is a little easier to interpret, as well. It also provides the advantage of
 
 What if you want to clean up your work? You've been deleting files by hand, but with phony targets, you don't have to. A common thing is to create a target called \texttt{clean}, which removes everything that the makefile created to bring the directory to its original state.
 
-\begin{make}{\texttt{make clean}}{p1:clean}
-	\maker{clean}{}\\
-	\tab rm -f *_T1.nii.gz *_T1_brain.nii.gz
-\end{make}
+%\begin{make}{\texttt{make clean}}{p1:clean}
+%	\maker{clean}{}\\
+%	\tab rm -f *_T1.nii.gz *_T1_brain.nii.gz
+%\end{make}
+
+\begin{lstlisting}
+	clean:
+		rm -f *_T1.nii.gz *_T1_brain.nii.gz
+\end{lstlisting}
 
 Note that in the recipe, it's totally fine to use wildcards. Depending on how far along you got with your processing before you decide to clean and restart, not every file might have been created.  For this reason we typically use the \texttt{-f} flag for \texttt{rm}. This flag hides error messages from attempting to erase nonexistent files. 
 
@@ -265,6 +329,9 @@ The convention of putting a target for \texttt{clean} is just a convention; you 
 For these reasons, we like the looser convention of \texttt{mostlyclean} or \texttt{archive} which means to remove things that can easily be regenerated, but to leave important partial products (e.g., your images converted from dicoms, freesurfer directories, final masks, and other things).
 
 Do not forget to add \texttt{clean}, \texttt{mostlyclean} and any other phony targets that you find useful to your list of phony targets:
-\makecmd{\maker{.PHONY}{skstrip clean}}
+\begin{lstlisting}
+	.PHONY: skstrip clean
+\end{lstlisting}
+%\makecmd{\maker{.PHONY}{skstrip clean}}
 
 Compare your final makefile to the finished version in \texttt{Makefile.2} and you are done with the first practical.

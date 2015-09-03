@@ -8,17 +8,26 @@ To go about creating this help system, you need to create a separate ``help'' ma
 \bashcmd{cd ~/testsubject/test001}
 
 Let the variable \$(PROJECT_HOME) represent the pathway to your \texttt{testsubject} directory. You can set this variable in top-level makefile.
-\makecmd{PROJECT_HOME=/yourhomedirectory/testsubject}
+\begin{lstlisting}
+	PROJECT_HOME=/yourhomedirectory/testsubject
+\end{lstlisting}
+%\makecmd{PROJECT_HOME=/yourhomedirectory/testsubject}
 
 Open up \texttt{Makefile} in an editor. You will notice that one of first few lines at the top of the file asks \maken{} to include a makefile called \texttt{help_system.mk}; this is the ``help'' makefile that we alluded to earlier. The \texttt{include} directive tells \maken{} to read other makefiles before continuing with the execution of other things in the current makefile.    
 
 As you scroll down, you will see that some of the targets are followed by a \texttt{call} command before their dependencies. For instance, look at the line:
-\makecmd{robex: \$(call print-help,robex,Alternate skull stripping with ROBEX) T1.nii.gz}
+\begin{lstlisting}
+	robex: $(call print-help,robex,Alternate skull stripping with ROBEX) T1.nii.gz
+\end{lstlisting}
+%\makecmd{robex: \$(call print-help,robex,Alternate skull stripping with ROBEX) T1.nii.gz}
 
 This tells \maken{} to return the target \texttt{robex} along with its description when \texttt{print-help} is called (\texttt{print-help} is defined in \texttt{help_system.mk}, as we will see later). Other targets such as \texttt{freesurferskstrip} and \texttt{etiv} also make calls to \texttt{print-help}.
 
 Now, have a look at \texttt{\$(PROJECT_HOME)/lib/makefiles/help_system.mk}.
-\makecmd{help: ; @echo \$(if \$(need-help),,Type \`{}\$(MAKE)\$(dash-f) help\'{} to get help)} % what is happening here?
+\begin{lstlisting}
+	help: ; @echo $(if $(need-help),,Type `$(MAKE)$(dash-f) help` to get help)
+\end{lstlisting}
+%\makecmd{help: ; @echo \$(if \$(need-help),,Type \`{}\$(MAKE)\$(dash-f) help\'{} to get help)} % what is happening here?
 
 This line tells \maken{} to echo the fellowing when you type \maken{} into the command line.
 \begin{bash}{\maken{}'s Help System}{}
@@ -33,13 +42,21 @@ We will not reproduce the details of how \texttt{help_system.mk} works in this p
 \section{Makefile Directory structure}
 Oftentimes, there are several people working on processing different types of data from a project and this calls for several makefiles. Or, you may wish to split up a processing pipeline into various parts as we have in our Makefile example. In the main makefile \texttt{Makefile} from the \texttt{\$(PROJECT_HOME)/test001} directory -- and this was mentioned earlier -- you should have noticed that several other makefiles were included. 
 
-\makecmd{
-include \$(PROJECT_HOME)/lib/makefiles/help_system.mk \\
-include \$(PROJECT_HOME)/lib/makefiles/resting.mk \\
-include \$(PROJECT_HOME)/lib/makefiles/xfm.mk \\
-include \$(PROJECT_HOME)/lib/makefiles/fcconnectivity.mk \\
-include \$(PROJECT_HOME)/lib/makefiles/QA.mk 
-}
+\begin{lstlisting}
+	include $(PROJECT_HOME)/lib/makefiles/help_system.mk \\
+	include $(PROJECT_HOME)/lib/makefiles/resting.mk \\
+	include $(PROJECT_HOME)/lib/makefiles/xfm.mk \\
+	include $(PROJECT_HOME)/lib/makefiles/fcconnectivity.mk \\
+	include $(PROJECT_HOME)/lib/makefiles/QA.mk 
+\end{lstlisting}
+
+%\makecmd{
+%include \$(PROJECT_HOME)/lib/makefiles/help_system.mk \\
+%include \$(PROJECT_HOME)/lib/makefiles/resting.mk \\
+%include \$(PROJECT_HOME)/lib/makefiles/xfm.mk \\
+%include \$(PROJECT_HOME)/lib/makefiles/fcconnectivity.mk \\
+%include \$(PROJECT_HOME)/lib/makefiles/QA.mk 
+%}
 
 Here, we see that there are makefiles for:
 \begin{easylist}[enumerate]

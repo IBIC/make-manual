@@ -36,13 +36,6 @@ As I am sure you have noticed, this is a much simplified structure as compared t
 While there is no strict convention dictating the manner in which you should organize your project directory, it is good practice to set up a directory tree structure that clearly separates the various parts of your projects from one another. In most cases, a \texttt{bin/} directory stores executables and scripts that have been written for the project. The \texttt{lib/} directory, on the other hand, typically holds makefiles used for the project (although in some IBIC project directories, a \texttt{templates/} directory is used for this purpose instead). The \texttt{testsubject/} directory in this example stores a single subject's processed data.
 
 Now, \texttt{cd} into the \texttt{test001/} directory and have a look at the top-level makefile. In the first section of the makefile (prior to the listing of the various targets and dependencies), I have set two conditionals to check whether we have a FLAIR and T1 image. While this may not useful when we are dealing with a single subject, you will find that it makes processing a large number of subjects much easier. What the two conditionals are doing is that they are asking shell to go into a subject directory and look for files called `\texttt{00_NOFLAIR}' and `\texttt{00_NOT1}'. For this to work, you will need to create these files beforehand in the subject directories of subjects whom you know do not have these images. This is relatively easy to do and makes processing less of a pain. It will also help you to debug \maken{}, which is likely to break when it finds that it is missing dependencies that do not exist.  
-
-\definecolor{lemon}{HTML}{F5ECCE}
-\lstset{language=make,backgroundcolor=\color{lemon},
-	gobble=8,
-	basicstyle=\small\ttfamily,
-	breaklines=true,
-	escapeinside={\%*}{*}}
 	
 If a file `\texttt{00_NOT1}' is found, a FALSE boolean is returned, and \maken{} will not make targets that require a T1 image as a dependency. This is specified in the next conditional:
 \begin{lstlisting}

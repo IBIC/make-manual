@@ -140,10 +140,14 @@ By now, you might be getting really tired of seeing the same \texttt{fslreorient
 will echo the commands that it executes to the terminal. If you would
 like it to stop doing that, you can tell it not to do that by
 prepending the \texttt{@} character to each line.
-\begin{make}{The \texttt{@} character hides commands}{}
-\maker{\%\_T1\_skstrip.nii.gz}{\%\_T1.nii.gz}\\
-  \tab @bet \$< \$@
-\end{make}
+\begin{lstlisting}
+	%_T1_skstrip.nii.gz: %_T1.nii.gz
+		@bet $< $@
+\end{lstlisting}
+%\begin{make}{The \texttt{@} character hides commands}{}
+%\maker{\%\_T1\_skstrip.nii.gz}{\%\_T1.nii.gz}\\
+%  \tab @bet \$< \$@
+%\end{make}
 
 Now go find the same subject via the subject subtree:
 \bashcmd{cd ~/oasis-longitudinal-sample-small/subjects/visit1/OAS2_0001/visit1}
@@ -155,11 +159,14 @@ directory path is different in each place.
 There is a useful little rule defined in the GNUMake Cookbook (Chapter
 2, p. 44) that may be useful for checking that you have set variables correctly. Add the following lines to the subject-level makefile.
 
-
-\begin{make}{Printing out the value of variables}{}
-\maker{print-\%}{}\\
-\tab @echo \$* = \$(\$*)
-\end{make}
+\begin{lstlisting}
+	print- %:
+		@echo $* = $($*)
+\end{lstlisting}
+%\begin{make}{Printing out the value of variables}{}
+%\maker{print-\%}{}\\
+%\tab @echo \$* = \$(\$*)
+%\end{make}
 
 Now if you type: \bashcmd{make print-subject} \\
 You can see the value that the variable \texttt{subject} is set to. Note that even if you place this new rule at the very top of the makefile, it will not execute this rule by default. It will fall through to the next non-pattern rule. This is one of the ways in which pattern rules (implicit rules) differ subtly from explicit rules. 
