@@ -1,5 +1,5 @@
 \chapter{Getting Down and Dirty with \maken{}}
-\label{practicum3}
+\label{sec:practicum3}
 
 \section{Practical Example: Running QMON}
 As was mentioned in the previous practicum, we can determine how many processing units we have on our computer by calling up the system monitor. To do so, type \texttt{gkrellm} into the command line. As you will see, this software also allows us to monitor the status of CPUs, memory usage, and disk space. 
@@ -188,25 +188,23 @@ The script from \autoref{bash:script} would look like the rules below in a makef
 \begin{lstlisting}
 	%*\lnote*PROJECT_HOME=/mnt/home/username/testsubject/testsubject
 	%*\lnote*SHELL=/bin/bash
-	
+\end{lstlisting}
+\lnum{1}When creating your makefile, you must specify your project home. \\
+\indent\lnum{2}Be sure to tell \maken{} to use \bashn{} by setting the default shell. \\	
+
+\begin{lstlisting}
 	%*\lnote*.PHONY = all clean	
 	
 	%*\lnote*all: xfm_dir/T1_to_MNI.mat rest_mc
 
-	%*\lnote*#Create transformation matrices and 2mm MNI --> ANAT matrix
-	xfm_dir/T1_to_MNI.mat: T1_skstrip.nii.gz 
+	%*\lnote*xfm_dir/T1_to_MNI.mat: T1_skstrip.nii.gz 
 		mkdir -p xfm_dir ;\
 		flirt -in T1_skstrip.nii.gz -ref /usr/share/fsl/data/standard/MNI152_T1_2mm_brain.nii.gz -omat xfm_dir/T1_to_MNI.mat
 
-	%*\lnote*#Motion Correction
-	rest_mc.nii.gz: rest.nii.gz
+	%*\lnote*rest_mc.nii.gz: rest.nii.gz
 		mcflirt -plots rest_mc.par -in rest.nii.gz -out rest_mc -rmsrel -rmsabs
-
-	
 \end{lstlisting}
 
-\lnum{1}When creating your makefile, you must specify your project home. \\
-\indent\lnum{2}Be sure to tell \maken{} to use \bashn{} by setting the default shell. \\
 \indent\lnum{3}Define your phony variable which is a special target used to tell \maken{} which targets are not real files. \texttt{clean} is a common rule to remove unnecessary files, while \texttt{all} is a common rule to make all your other targets. \\
 \indent\lnum{4}Define \texttt{all} to include all your targets. \\
 \indent\lnum{5}Format your commands to take the form of "rules" to include a target and dependency. Every command following your [target:dependency] definition should be entered on a new line beginning with a TAB character. The target is your output and the dependency is your input (you can, however, have several targets and dependencies listed under a single rule). Remember to also use \texttt{;\textbackslash{}} at the end of each like in order to tell \maken{} to read each line separately, as in the example for creating transformation matrices. Here, we are using FSL FLIRT to create an output matrix called \texttt{T1_to_MNI.mat}. \\ 

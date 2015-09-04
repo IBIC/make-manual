@@ -1,15 +1,15 @@
 %\section{Distortion Correction with Conditionals}
-\Echapter{Distortion Correction with Conditionals}{Dan Peterson}{djpeters@uw.edu}
+\Echapter{Distortion Correction with Conditionals}{Daniel J. Peterson}{djpeters@uw.edu}
 
-In this example, we will use a makefile to apply the appropriate distortion correction procedure automatically, utilizing conditionals.
+In this example, we will use a makefile to apply the appropriate distortion correction procedure automatically, using conditionals in \maken{}.
 
 First, a bit of background: The most common way to take a series of MRI images as quickly as possible is to use what is called an ``echo-planar imaging readout,'' or ``EPI.'' A drawback that comes with this rapid acquisition is that EPI images are prone to distortions due to an uneven magnetic field. Sometimes these distortions are called ``susceptibility-induced distortions,'' because it is the differing magnetic susceptibility of tissue, bone, and air that causes the magnetic field to be uneven. Fortunately, since these distortions are constant and predictable within an imaging session, they can be un-done.
 
 We will consider two ways of undoing these distortions, each requiring at least one extra image to be acquired. The first method is to acquire an image of the uneven magnetic field, called a ``fieldmap.'' This image contains a map of the deviation from the main magnetic field, in radians/sec (the resonance frequency of the water protons is directly proportional to the strength of the magnetic field as per the Larmor equation: $\omega=\gamma B _{0}$). To do this we will use a tool called \texttt{fugue}, which is distributed as part of FSL. \texttt{fugue} will convert this fieldmap into a nonlinear warp, and then we can apply that warp to undo the susceptibility-induced distortions. The other method is to acquire an additional image with the EPI readout going in the other direction, meaning that the direction of the susceptibility-induced distortion will be reversed. We can then use a tool called \texttt{topup} (also from FSL), that will warp two images with opposite distortions towards each other, until they meet in the middle. We can then apply this computed warp to the rest of our data.
 
-These are two different procedures that require different sets of files (an acquisition parameters fire for \texttt{topup} and a fieldmap for \texttt{fugue}), but can be part of an otherwise similar pipeline. We can use \maken{} to sense which procedure to use based on what files are present, and assemble the appropriate prerequisites.
+These are two different procedures that require different sets of files (an acquisition parameters file for \texttt{topup} and a fieldmap for \texttt{fugue}), but can be part of an otherwise similar pipeline. We can use \maken{} to sense which procedure to use based on what files are present, and assemble the appropriate prerequisites.
 
-In order to be very clear about the behavior of \maken{}, below is an example of a ``toy'' makefile, which does not call any real programs, and can operate on empty ``dummy'' files. When debugging and developing makefiles it can be useful to write such simplified makefiles, and run them with \maken{}\texttt{-n}.
+To help understand the behavior of \maken{}, below is an example of a ``toy'' makefile, which does not call any real programs, and can operate on empty ``dummy'' files. When debugging and developing makefiles it can be useful to write such simplified makefiles, and run them with \maken{}\texttt{-n}.
 
 \begin{lstlisting}
 	%*\lnote*SDC_METHOD = $(shell if [ -f fieldmap ] ; then echo FUGUE; \
@@ -71,12 +71,7 @@ Here's the full Makefile:
 	MAKEPIPELINES=/project_space/makepipelines
 	endif
 
-	# Uncomment and set this to be the location of FSL in your environment
-	# FSL_DIR=/usr/share/fsl/5.0
-
-	# Set this to be 1 if you intend to parallelize using make. Otherwise
-	# eddy will use all cores available on your machine. 
-	# export OMP_NUM_THREADS=1
+        FSL_DIR=/usr/share/fsl/5.0
 
 	PROJECT_DIR=$(MAKEPIPELINES)/dti_suceptibility_correction
 
@@ -84,7 +79,6 @@ Here's the full Makefile:
 	                    elif [ -f acqparams.txt ] ; then echo TOPUP; \
 	                    else echo FALSE ; fi)
 
-	#for some reason fslval returns a trailing space, which tr deletes
 	NUM_DIFFUSION_VOLS =$(shell fslval raw_diffusion.nii.gz dim4 | tr -d '\040\011\012\015')
 
 	# default is 4
@@ -98,30 +92,22 @@ Here's the full Makefile:
 
 	.PHONY: clean tensor
 
-	# just motion-correct using eddy
-	# creates a dummy acqparams and index file (eddy requires that you supply them), then deletes them
 	mec_diffusion.nii.gz: raw_diffusion.nii.gz bval bvec brain_mask.nii.gz
 		echo "0 1 0 0.072" > temp_acqparams.txt ;\
 		for i in `seq 1 $(NUM_DIFFUSION_VOLS)`; do echo 1 >> temp_index.txt ; done ;\
 		eddy --imain=raw_diffusion.nii.gz --mask=brain_mask.nii.gz --index=temp_index.txt --acqp=temp_acqparams.txt --bvecs=bvec --bvals=bval --out=mec_diffusion --niter=$(EDDY_ITERATIONS) --verbose  ;\
 		rm temp_acqparams.txt temp_index.txt
 
-	# suceptibility distortion correction with topup from a blip-up, blip-down acquisition
-	# 	take the two B0s out of the diffusion dataset
-	# 	run topup to estimate suceptibility distortions using the two B0s
 	topup_results_movpar.txt: raw_diffusion.nii.gz acqparams.txt
 		fslroi raw_diffusion.nii.gz S0_images.nii.gz 0 2 ;\
 		topup --imain=S0_images --datain=acqparams.txt --config=$(PROJECT_DIR)/lib/b02b0_$(TOPUP_MODE).cnf --out=topup_results --fout=field_est --iout=unwarped_S0_images --verbose
 
 	ifeq ($(SDC_METHOD),TOPUP)
-
-	# using eddy, simultaneously correct for motion and apply the result from topup
 	sdc_mec_diffusion.nii.gz: raw_diffusion.nii.gz topup_results_movpar.txt index.txt
 		eddy --imain=raw_diffusion.nii.gz --mask=brain_mask --acqp=acqparams.txt --index=index.txt --bvecs=bvec --bvals=bval --topup=topup_results --out=sdc_mec_diffusion.nii.gz --niter=$(EDDY_ITERATIONS) --verbose
 
 	else ifeq ($(SDC_METHOD),FUGUE)
 
-	# use fugue to correct a dataset for suceptibility distortions that has already been corrected for moton and eddy currents
 	sdc_mec_diffusion.nii.gz: mec_diffusion.nii.gz fieldmap.nii.gz
 		fugue --loadfmap=fieldmap.nii.gz --dwell=$(ECHO_SPACING) -i mec_diffusion.nii.gz -u sdc_mec_diffusion.nii.gz --unwarpdir=$(UNWARP_DIRECTION) -v
 
@@ -129,17 +115,11 @@ Here's the full Makefile:
 	$(error ERROR: neither fieldmap for FUGUE nor acquisition parameter file for TOPUP were found)
 	endif
 
-	# solve tensor from fully corrected data set
 	tensor: sdc_mec_diffusion.nii.gz brain_mask.nii.gz bvec bval
 		dtifit -k sdc_mec_diffusion.nii.gz -r bvec -b bval -m brain_mask -o dti
 
 clean:
 		rm -f dti_* sdc_mec_diffusion.* mec_diffusion.* S0_images* field_est.nii.gz topup_results* unwarped_S0_images.nii.gz
-
-	# Left as as excercise to the reader:
-	# - unwarp brain mask
-	# - coregister fieldmap to DTI
-	# - adjust bvecs for motion correction
 
 \end{lstlisting}
 

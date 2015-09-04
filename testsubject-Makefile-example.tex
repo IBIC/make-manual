@@ -55,7 +55,7 @@ can override them by setting them.
 \lnum{3} It is useful to have a variable to refer to the
 subject. Here, we simply obtain the subject from the last part of the
 directory name. This won't work for more complicated linking
-structures as described in \autoref{sec:practicum2}. 
+structures as described in \nameref{sec:practicum2}. 
 
 \lnum{4} We include lots of other makefiles that we need. This keeps
 this makefile short and readable. 
@@ -92,7 +92,7 @@ for the T1).
 
 \lnum{8} Here we modify the target \texttt{all} depending on whether
 or not the subject has a T1 image. We also use the help system
-described in \autoref{sec:practicum4} to document what this target
+described in \nameref{sec:practicum4} to document what this target
 does. 
 
 
@@ -132,7 +132,7 @@ are phony, they can be created at any time and will always overwrite
 \end{lstlisting}
 
 We estimate intracranial volume (ICV) using the ENIGMA protocol (as described in
-\autoref{sec:practicum3}). This approach calculates the inverse 
+\nameref{sec:practicum3}). This approach calculates the inverse 
 determinant of the linear transformation of the T1 image to standard
 space. This is a scaling factor that we can multiply the volume of the
 standard space brain by to obtain an estimated ICV volume. 
@@ -202,7 +202,7 @@ These are rules to run FLEX, a program for white matter hyperintensity
 quantification from FLAIR images. This example comes from a multi-site
 study where not all subjects obtained a viable FLAIR scan. If they do
 have a FLAIR scan, we bias correct, skull strip, and process the data
-using the program \texttt{sb_flex}.  elsewhere). The volume of white
+using the program \texttt{sb_flex}.  The volume of white
 matter hyperintensities (absolute volume and percent of skull stripped
 brain) are written to \texttt{wmhstats.csv}. If we don't have a FLAIR
 scan, there is nothing to do. You may not have FLEX installed on your
@@ -213,7 +213,7 @@ system in which case you can disregard this part of the makefile.
 	 archive:
 		rm -rf flair_bc_*
 		rm -rf flair_skstrip_axcor* flair_skstrip_flf_* flair_skstrip_WMT*
-		rm -rf *~ \#* brain_to_std.nii.gz flair_skstrip.hdr flair_skstrip.img
+		rm -rf *~ \\#* brain_to_std.nii.gz flair_skstrip.hdr flair_skstrip.img
 
 	 clean:  $(call print-help,clean,Clean up everything from all makefiles) clean_rest clean_qa clean_transform clean_fcconnectivity
 		rm -rf flair_skstrip* flair_pve* flair_restore* *~ wmhstats.csv eTIV.csv brain_to_std* flair_mixeltype.nii.gz T1_skstrip_mask.nii.gz first-L_Hipp* first-R_Hipp* T1_to_std_sub* T1_skstrip.nii.gz hippo.csv first*
