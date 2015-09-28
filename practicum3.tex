@@ -1,25 +1,27 @@
 \chapter{Getting Down and Dirty with \maken{}}
 \label{sec:practicum3}
 
+\textbf{Learning objectives:} Understand how to write a simple makefile for a single subject pipeline.
+
 \section{Practical Example: Running QMON}
-As was mentioned in the previous practicum, we can determine how many processing units we have on our computer by calling up the system monitor. To do so, type \texttt{gkrellm} into the command line. As you will see, this software also allows us to monitor the status of CPUs, memory usage, and disk space. 
+As we mentioned in the previous practical, we can determine how many processing units we have on our computer by running the system monitor. To do so, type \texttt{gkrellm} into the command line. \mymarginnote{!}{You may have a different system monitor installed at your site. Ask your system administrator.} As you will see, this software also allows us to monitor the status of CPUs, memory usage, and disk space. 
 
 If the number of jobs that you need to run exceeds the number of cores that you have, submitting jobs to the grid engine (explained in \hyperref[sec:gridengine]{chapter 2}) might be a good idea. But how do we check whether the machines in the cluster we are interested in are available for batch processing? The \texttt{qmon} monitor is a graphical user interface that comes with the Sun Grid Engine software. It gives us the ability to track the status of machines in a cluster (and more besides, but you do not have to worry about that for now). 
 \mymarginnote{!}{A list of the clusters and machines available for use at IBIC can be found on the wiki.} 
 
-In order to run \texttt{qmon}, you need to be logged in to one of the cluster workstations. This can be done by initiating a secure shell session, as follows:
+To run \texttt{qmon}, you need to be logged in to one of the cluster workstations. This can be done by initiating a secure shell session, as follows:
 \bashcmd{ssh -X <username>@broca.ibic.washington.edu} 
 
 If you do not specify the \texttt{-X} flag, you will be able to log in to the remote machine, but graphical output (such as from \texttt{fslview} and \texttt{emacs}) will not show up on your graphical display. The \texttt{-X} flag forwards this output to the computer that is managing your graphical display. 
 
-Once you have answered the password prompt, type \texttt{qmon} into the command line. Of interest to us is the first button in the panel: ``Job Control.'' When you click on this, you will be able to see the number of jobs running on the cluster and the number of jobs in the queue, along with the username of the person who submitted those jobs. Ideally, you want to submit your jobs to the cluster when the cluster is free. 
+Once you have entered your password at the prompt, type \texttt{qmon} into the command line. Of interest to us is the first button in the panel: ``Job Control.'' When you click on this, you will be able to see the number of jobs running on the cluster and the number of jobs in the queue, along with the username of the person who submitted those jobs. Ideally, you want to submit your jobs to the cluster when the cluster is free. 
 
 However, this scenario does not necessarily always present itself. If you use \texttt{qmake}, you will get an error by default if the grid engine is busy. You can get around this by using the \texttt{-now no} options to \texttt{qmake}, which will cause it to wait until the grid engine is free. For more information on how to use the grid engine to run a parallel \maken{} workflow, refer to the \hyperref[sec:gridengine]{manual}, or \hyperref[practicum2]{Practical 2} where we covered the use of \texttt{qmake}. 
 
 If you are primarily employing FSL tools with \maken, you can use \texttt{FSLPARALLEL} to submit jobs for parallel processing. Before running \maken, set up the following environment variable in your shell:
 \bashcmd{export FSLPARALLEL=true}
 
-Once you have done this, you may go ahead and use \texttt{make} \emph{without parallelization} to submit jobs to the grid engine. This calls up a script called \texttt{fsl_sub} that FSL uses to schedule and submit jobs in parallel in the way that some of its cluster aware tools, such as MELODIC, are capable of doing. Jobs parallelized using \texttt{FSLPARALLEL} will automatically be queued under ``Pending Jobs'' if the cluster workstations are busy processing other jobs. 
+Once you have done this, you may go ahead and use \texttt{make} \emph{without parallelization} to submit jobs to the grid engine. This calls  a script called \texttt{fsl_sub} that FSL uses to schedule and submit jobs in parallel in the way that some of its cluster aware tools, such as MELODIC, are capable of doing. Jobs parallelized using \texttt{FSLPARALLEL} will automatically be queued under ``Pending Jobs'' if the cluster workstations are busy processing other jobs. 
 
 \section{Practical Example: A Test Subject}
 If you have not already, copy \texttt{testsubject} to your home directory as follows:
@@ -30,8 +32,11 @@ This copy will take a few minutes, depending on what kind of file systems you ar
 Go into this directory and look at its contents.
 \bashcmd{cd testsubject; ls}
 
-You will see three subdirectories: \texttt{bin/}, \texttt{lib/} and \texttt{test001/}. 
-As I am sure you have noticed, this is a much simplified structure as compared to the longitudinal directory structure that we looked at last week. For this example, I have eliminated the individual subject subdirectories (because there is only one) and the symbolic links (because there is only one timepoint). This will allow us to focus on the makefile structure for multiple types of analyses. 
+You will see four subdirectories: \texttt{bin/}, \texttt{lib/},
+\texttt{test001/} and \texttt{freesurfer}. 
+As I am sure you have noticed, this is a much simplified structure as
+compared to the longitudinal directory structure that we looked at in
+the previous practical. For this example, I have eliminated the individual subject subdirectories (because there is only one) and the symbolic links (because there is only one timepoint). This will allow us to focus on the makefile structure for multiple types of analyses. 
 
 While there is no strict convention dictating the manner in which you should organize your project directory, it is good practice to set up a directory tree structure that clearly separates the various parts of your projects from one another. In most cases, a \texttt{bin/} directory stores executables and scripts that have been written for the project. The \texttt{lib/} directory, on the other hand, typically holds makefiles used for the project (although in some IBIC project directories, a \texttt{templates/} directory is used for this purpose instead). The \texttt{testsubject/} directory in this example stores a single subject's processed data.
 
@@ -50,15 +55,15 @@ If a file `\texttt{00_NOT1}' is found, a FALSE boolean is returned, and \maken{}
 \lnum{1}If the variable HAVET1 returns TRUE, \maken{} will make the targets listed in \texttt{all}.\\
 \indent\lnum{2}If the variable HAVE1 returns FALSE, \maken{} will echo to your screen that the subject is missing a T1 image.
 
-Test out this conditional by making a 00_NOT1 file in the \texttt{testsubject} directory like so:
+Test out this conditional by making a \texttt{00_NOT1} file in the \texttt{testsubject} directory like so:
 \bashcmd{touch 00_NOT1; make -n}
 
 You will find that \maken{} will tell you that the subject is missing a T1 image and that there is nothing to do.
 
 Remove \texttt{00_NOT1} and try running \maken{} again. You can see that \maken{} is now running our edited version of the first script, to conform to the Enigma protocol \citep[see][]{Stein2012}. 
-The protocol may be viewed online at: \url{http://enigma.ini.usc.edu/protocols/imaging-protocols/hippocampal-segmentation-through-first/}
+The \href{http://enigma.ini.usc.edu/protocols/imaging-protocols/hippocampal-segmentation-through-first/}{protocol may be viewed online.}
 
-Since running FIRST will take a little time, start it now and place it in the background:
+Because running FIRST will take a little time, start it now and place it in the background:
 \bashcmd{make first \&}
 
 \subsection{Estimated total intracranial volume}
@@ -85,7 +90,7 @@ For example, to tar up a directory called \texttt{mydirectory} into an archive c
 To untar this archive that you have just created, type:
 \bashcmd{tar xvf \textasciitilde{}/archive.tar}
 
-How can we ``trick'' \maken{} into not recreating this skull-stripped file? An easy way here is simply to \texttt{touch} the skull-stripped file, like so:
+How can we ``trick'' \maken{} into not recreating this skull-stripped file? An easy way is simply to \texttt{touch} the skull-stripped file, like so:
 \bashcmd{touch T1_skstrip.nii.gz}
 
 Once you have done this, go ahead and make etiv:
@@ -134,14 +139,14 @@ Run it and you can see the output. Then, delete the directory, \texttt{slicesdir
 
 \section{Implementing a Resting State Pipeline: Converting a Shell Script into a Makefile}
 
-In the \texttt{testsubject/} directory, you will find a bash script called \texttt{resting-script}. The goal for this part of the practicum is to convert that shell script into a makefile. 
+In the \texttt{testsubject/test001} directory, you will find a bash script called \texttt{resting-script}. The goal for this part of the practical is to convert that shell script into a makefile. 
 
 A few things that are worth taking note of: 
 \begin{easylist}[enumerate]
 	& Note that the shell script assumes it will never be re-run again and simply calls \texttt{mkdir xfm_dir}. If this directory already exists, however, you will get an error. To avoid this, add a \texttt{-p} flag to the command \texttt{mkdir}. This allows it to create the specified directory if it does not exist, but to not give an error otherwise. This is especially useful in makefiles that create deep directory structures.
 	& Many FSL commands (and other neuroimaging commands) automatically add file extensions such as \texttt{.nii.gz} to the input files if you do not append them. However, a makefile will not do this. Therefore, when converting commands from a script, you need to make sure that you don't take such shortcuts in a makefile. A good rule of thumb is to specify all extensions in your targets.  
 	& The decision whether to make something a multi-line recipe, a shell script of its own, or a short recipe is a little arbitrary. If I think that I want to do something often on a command line, I make it into a short shell script and call it from a makefile. In this example, despiking with AFNI is short enough that it can fit into a recipe.
-	& However, anything complicated that constitutes a pipeline in itself is better coded from the beginning as a makefile. Not only does this allow parallelism and fault tolerance at a fine granularity, but you can see that it is easy to ask someone for commands to do registrations or obtain a skull-strip from FreeSurfer. Makefile commands can easily be shared, updated, and replaced with the latest methods. Instead of using FSL FLIRT for registration, try editing your makefile such that registration is done with \texttt{epi_reg} instead. 
+	& However, anything complicated that constitutes a pipeline in itself is better coded from the beginning as a makefile. Not only does this allow parallelism and fault tolerance at a fine granularity, but you can see that it is easy to ask someone for commands to do registrations or obtain a skull-strip from FreeSurfer. Makefile commands can easily be shared, updated, and replaced with the latest methods. Instead of using FSL FLIRT for registration, try editing your makefile such that registration is done with \texttt{epi_reg}. 
 	& Note that \texttt{3dDespike} is an AFNI program that has been compiled to use all the cores in a machine. You will want to turn that off because you will do the parallelization yourself; this can be achieved by entering the following line in a makefile: \texttt{export OMP_NUM_THREADS=1}
 \end{easylist}
 
@@ -190,7 +195,7 @@ The script from \autoref{bash:script} would look like the rules below in a makef
 	%*\lnote*SHELL=/bin/bash
 \end{lstlisting}
 \lnum{1}When creating your makefile, you must specify your project home. \\
-\indent\lnum{2}Be sure to tell \maken{} to use \bashn{} by setting the default shell. \\	
+\lnum{2}Be sure to tell \maken{} to use \bashn{} by setting the default shell. \\	
 
 \begin{lstlisting}
 	%*\lnote*.PHONY = all clean	
@@ -207,6 +212,6 @@ The script from \autoref{bash:script} would look like the rules below in a makef
 
 \indent\lnum{3}Define your phony variable which is a special target used to tell \maken{} which targets are not real files. \texttt{clean} is a common rule to remove unnecessary files, while \texttt{all} is a common rule to make all your other targets. \\
 \indent\lnum{4}Define \texttt{all} to include all your targets. \\
-\indent\lnum{5}Format your commands to take the form of "rules" to include a target and dependency. Every command following your [target:dependency] definition should be entered on a new line beginning with a TAB character. The target is your output and the dependency is your input (you can, however, have several targets and dependencies listed under a single rule). Remember to also use \texttt{;\textbackslash{}} at the end of each like in order to tell \maken{} to read each line separately, as in the example for creating transformation matrices. Here, we are using FSL FLIRT to create an output matrix called \texttt{T1_to_MNI.mat}. \\ 
-\indent\lnum{6}For motion correction, our expected output (i.e. target) is \texttt{rest_mc.nii.gz}, and our input (i.e. dependency) is \texttt{rest.nii.gz}. The last line tells \maken{} to run FSL mcflirt on \texttt{rest.nii.gz}. 
+\indent\lnum{5}Format your commands to take the form of "rules" to include a target and dependency. Every command following your [target:dependency] definition should be entered on a new line beginning with a TAB character. The target is your output and the dependency is your input (you can, however, have several targets and dependencies listed under a single rule). Remember to also use \texttt{;\textbackslash{}} at the end of each line to tell \maken{} to read each line separately, as in the example for creating transformation matrices. Here, we are using FSL FLIRT to create an output matrix called \texttt{T1_to_MNI.mat}. \\ 
+\indent\lnum{6}For motion correction, our expected output (i.e. target) is \texttt{rest_mc.nii.gz}, and our input (i.e. dependency) is \texttt{rest.nii.gz}. The last line tells \maken{} to run FSL \texttt{mcflirt} on \texttt{rest.nii.gz}. 
 

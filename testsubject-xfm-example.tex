@@ -8,7 +8,7 @@ The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/lib/makefile
 
 \setcounter{codehighlight}{0} % RESET THIS BEFORE EVERY LST LISTING
 \begin{lstlisting}
-	.PHONY=clean_transform tranforms 
+	.PHONY=clean_transform transforms 
 
 	transforms:  $(call print-help,xfm,Create resting state to MNI transformations) xfm_dir xfm_dir/MNI_to_rest.mat
 \end{lstlisting}
@@ -26,7 +26,7 @@ The second target, \texttt{xfm}, uses the \texttt{print-help} call introduced in
 \end{lstlisting}
 
 \lnum{1} We define a target to create a directory, \texttt{xfm_dir},
-to hold all of our transformations. This handy because it allows us to
+to hold all of our transformations. This is handy because it allows us to
 reuse transformations for other analyses. We know that
 the registrations saved here will be checked. 
 

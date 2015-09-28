@@ -1,12 +1,14 @@
 \chapter{\maken{} in Context}
 \label{sec:practicum2}
 
-Learning objectives: Organize a subject directory, run make in parallel, convert a shell script to a makefile.
+\textbf{Learning objectives:} Organize a subject directory, run make
+in parallel.
+
 \section{Lecture: Organizing Subject Directories}
 
 In practice, a project will involve multiple subjects, each with
 several types of scans. One could imagine a universal standard where
-every nifti file contained information about where it came from and
+every NIfTI file contained information about where it came from and
 what information it contained, and all neuroimaging programs
 understood how to read and interpret this information. We could dump
 all of our files into a database and extract exactly what we
@@ -84,10 +86,7 @@ Group-level analyses seem to be best found elsewhere in the project
 directory, either as a subdirectory within a specific timepoint or organized at the top
 level.
 
-Create the directory \texttt{visit1/} within your copy of \texttt{oasis-longitudinal-sample-small}. 
-\bashcmd{mkdir visit1}
-
-Now \texttt{cd} into it:
+Change into the directory \texttt{visit1/} within your copy of \texttt{oasis-longitudinal-sample-small}:
 \bashcmd{cd visit1}
 
 What we want to do is create the symbolic links for each subject's first visit here. 
@@ -95,15 +94,15 @@ What we want to do is create the symbolic links for each subject's first visit h
 You can do one link by hand:
 \bashcmd{ln -s ../subjects/OAS2_0001/visit1 OAS2_0001}
 
-This command symbolically links the directory \texttt{../subjects/visit1/OAS2_0001} to the original directory \texttt{../subjects/OAS2_0001/visit1}. 
+This command creates a symbolic link called \texttt{OAS2_0001} to the original directory \texttt{../subjects/OAS2_0001/visit1}. 
 \mymarginnote{!}{Your \texttt{ls} command may be aliased to something pleasing, in which case you might see slightly different behavior than described here.} 
 Now, if you enter \texttt{ls -l} into the command line while remaining in the \texttt{visit1} directory, you will notice that the subdirectory \texttt{OAS2_0001} is symbolically linked, as indicated by an arrow, to the original target directory. You can also check whether a file or directory is linked by using the \texttt{ls -F} shorthand command, which indicates symbolic links with an\@ symbol. The command \texttt{ls -L} dereferences the symbolic links so that you can view information for the original target file or directory itself.
 
 You can also create symbolic links in bulk. To do so, remove the link that you have just created and
-use the program in the \texttt{visit1} directory (\texttt{makelinks}) to create all the subject links for visit1. 
+use the program in the \texttt{visit1} directory (\texttt{makelinks}) to create all the subject links for \texttt{visit1}. 
 \mymarginnote{!}{The current directory won't be in your PATH, so make sure to call it with \texttt{./makelinks}.}
 
-Take a look at the \texttt{makelinks} script, reprinted below. This script loops through all of the subject directories that have a first visit (visit1). It extracts the subject identifier from the directory name (\texttt{\$i}) by using the \texttt{egrep} command to find the bit of the name that matches the subject identifier pattern (\texttt{OAS2_[0-9]}). With this information, it can link the subject name to the directory. 
+Take a look at the \texttt{makelinks} script in \autoref{bash:links}. This script loops through all of the subject directories that have a first visit (visit1). It extracts the subject identifier from the directory name (\texttt{\$i}) by using the \texttt{egrep} command to find the bit of the name that matches the subject identifier pattern (\texttt{OAS2_[0-9]}). With this information, it can link the subject name to the directory. 
 
 \begin{bash}{Script to create symbolic links within a longitudinal
     directory structure}{bash:links}
@@ -122,7 +121,7 @@ top-level ``driver'' makefile for each of the subjects. All it does is
 create a symbolic link, if necessary, to the subject-level makefile,
 and then it goes in and calls \maken{} in every subdirectory.
 
-Do you know why is the subject target a phony target? The reason is
+Do you know why the subject target is a phony target? The reason is
 that we want \maken{} to be triggered within the subject directory every
 time we call it.
 
@@ -156,7 +155,7 @@ Type \texttt{make} and see that it works. Part of this magic is that we set
 the subject variable correctly, even though where it appears in a
 directory path is different in each place.
 
-There is a useful little rule defined in the GNUMake Cookbook (Chapter
+There is a useful little rule defined in the GNU Make Book (Chapter
 2, p. 44) that may be useful for checking that you have set variables correctly. Add the following lines to the subject-level makefile.
 
 \begin{lstlisting}
@@ -201,7 +200,12 @@ Here, we use \texttt{qmake} instead of \texttt{make} to interact with the grid e
 As an optional exercise, here you might want to set up the same directory structure for \texttt{visit2/} and build everything from scratch in parallel.
 
 \subsection{Running FreeSurfer}
-Now let us look at an example of a subject-level analysis that we typically don't run within the subject directories. FreeSurfer \citep[see][]{Desikan2006968, Fischl01012004, Fischl2004S69} is a program that we use for cortical and subcortical parcellation. It itself is a complicated neuroimaging pipeline that is built using \maken{}. It likes to put all subject directories for an analysis in one directory, which makes it difficult to enforce the subject-level structure described. But in general, it is much wiser to work around what the programs want to do than to reorganize their output in ways that might break when the software is updated! This is our approach.
+Now let us look at an example of a subject-level analysis that we
+typically don't run within the subject directories. FreeSurfer
+\citep[see][]{Desikan2006968, Fischl01012004, Fischl2004S69} is a
+program that we use for cortical and subcortical parcellation. It
+itself is a complicated neuroimaging pipeline that can use \maken{} to
+drive it. It likes to put all subject directories for an analysis in one directory, which makes it difficult to enforce the subject-level structure described. But in general, it is much wiser to work around what the programs want to do than to reorganize their output in ways that might break when the software is updated! This is our approach.
 
 The FreeSurfer example is documented in \nameref{example:freesurfer}. 
 

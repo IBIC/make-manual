@@ -15,9 +15,12 @@ The code for this example is in \texttt{testsubject/lib/makefiles/QA.mk}, and it
 	%*\lnote*qa:   $(call print-help, qa, Create QA report) TSNR MotionGraphs SkullstripQA QAreport
 \end{lstlisting}
 
-\noindent\lnum{1} As is customary in a makefile, we first define paths to scripts which we want to call on later on in the file. \\
+\noindent\lnum{1} As is customary in a makefile, we first define paths
+to locations that we want to refer to later on. \\
 \lnum{2} Here, our phony targets are targets that are not actual files.\\
-\lnum{3} This line tells the \maken{} help system what to do when you are unsure of what this makefile does. In this instance, it will print out the purpose of this makefile if any of the phony targets are given with the help flag attached. See \nameref{sec:practicum4} for more information about the help system. \\
+\lnum{3} This line tells the \maken{} help system what to do when you
+are unsure of what this makefile does. Here, it will print out what
+the \texttt{qa} target does (i.e., create a QA report). See \nameref{sec:practicum4} for more information about the help system. \\
 
 \begin{lstlisting}
 	%*\lnote*TSNR: QA/images/rest_tsdiffana.gif

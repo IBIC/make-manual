@@ -14,7 +14,8 @@ A few elements of good workflow systems are:
 	& Fault tolerance, which a shell script can absolutely not deal with. If there is a problem in subject nine of your 100-subject loop, subjects 10-100 will not even begin, even if nothing is wrong with them.
 \end{easylist}
 
-We will start with a conceptual example of the difference between shell scripts and \maken{}. \maken{} is organized into code blocks called ``recipes,'' so for our conceptual example, we will create a ``waffwich'', a delicious\footnote{So I'm told.} breakfast food that one can eat with one hand on the way to the bus stop. We can create a pseudocode  \mymarginnote{!}{\textbf{Pseudocode} does not follow any real programming syntax} example of how to make a waffwich (\autoref{bash:waffwich}).
+We will start with a conceptual example of the difference between
+shell scripts and \maken{}. \maken{}  organizes code into blocks called ``recipes,'' so for our conceptual example, we will create a ``waffwich'', a delicious\footnote{So I'm told.} breakfast food that one can eat with one hand on the way to the bus stop. We can create a pseudocode  \mymarginnote{!}{\textbf{Pseudocode} does not follow any real programming syntax} example of how to make a waffwich (\autoref{bash:waffwich}).
 \begin{bash}{Creating a waffwich}{bash:waffwich}
 	for person in a b c \\
 	do \\
@@ -81,7 +82,8 @@ Note that there are no circular references in this graph! (Hence, it is called a
 		toast waffle
 \end{lstlisting}
 
-We must note: makefiles are not linear, unlike shell scripts. \texttt{toastedwaffle} needs to be created before \texttt{waffwich}, but does not need to appear before it in the script. \maken{} will search for the targets that it needs to create in whatever order it needs to find them.
+We must note: makefiles are not linear, unlike shell
+scripts. \texttt{toastedwaffle}\footnote{Indeed, two instances of a toastedwaffle} needs to be created before \texttt{waffwich}, but does not need to appear before it in the script. \maken{} will search for the targets that it needs to create in whatever order it needs to find them.
 
 However, we've reached the point where we have to leave this conceptual example because \maken{} is aware of whether something exists or not, and whether it has to make it. It does this by assuming that the target and dependencies are files, and by checking the dates on those files. There are many exceptions to this; but let's accept this simplification for the moment, and move on to a real example with files.
 
@@ -104,16 +106,8 @@ The first command reorients the image and the second performs the skull strippin
 
 Open the makefile (\texttt{Makefile})that came with the directory with an editor. You should see the following:
 
-%\begin{make}{Makefile as copied}{p1:1}
-%	\maker{OAS2_0_T1_skstrip.nii.gz}{OAS2_0001_T1.nii.gz} \\
-%	\tab bet OAS2_0001_T1.nii.gz OAS2_0001_T1_skstrip.nii.gz \\
-%	
-%	\maker{OAS2_0001_T1.nii.gz}{OAS2_0001_raw.nii.gz}\\
-%	\tab fslreorient2std OAS2_0001_raw.nii.gz OAS2_0001_T1.nii.gz
-%\end{make}
-
 \begin{lstlisting}
-	OAS2_0_T1_skstrip.nii.gz: OAS2_0001_T1.nii.gz
+	OAS2_0001_T1_skstrip.nii.gz: OAS2_0001_T1.nii.gz
 		bet OAS2_0001_T1.nii.gz OAS2_0001_T1_skstrip.nii.gz
 		
 	OAS2_0001_T1.nii.gz: OAS2_0001_raw.nii.gz
@@ -268,7 +262,10 @@ Now we can write a target for skull-stripping.
 \end{lstlisting}
 %\makecmd{\maker{skstrip}{\$(SUBJECTS:=_T1_skstrip.nii.gz)}}
 
-You also now must notify \maken{} to tell it that \texttt{skstrip} is not a real  file. Do this by using the following statement:
+You must tell \maken{} that \texttt{skstrip} is not a real
+file.\footnote{Otherwise, if someone were to create a file named
+\texttt{skstrip} in this the directory, the makefile would stop
+working as expected.} Do this by using the following statement:
 \begin{lstlisting}
 	.PHONY: skstrip
 \end{lstlisting}
@@ -300,7 +297,8 @@ Because we explicitly asked for the skull-stripped brains, \maken{} figured out 
 \end{lstlisting}
 %\makecmd{\maker{.SECONDARY}{\$(SUBJECTS:=T1.nii.gz)}}
 
-An alternative method is to pass any targets you want to keep to the phony variable.
+An alternative method is explicitly add targets you want to keep to
+the phony target.
 \begin{lstlisting}
 	skstrip: $(SUBJECTS:=_T1_skstrip.nii.gz) $(SUBJECTS=_T1_skstrip.nii.gz)
 \end{lstlisting}
@@ -310,7 +308,8 @@ This is a little easier to interpret, as well. It also provides the advantage of
 
 \subsection{\texttt{make clean}}
 
-What if you want to clean up your work? You've been deleting files by hand, but with phony targets, you don't have to. A common thing is to create a target called \texttt{clean}, which removes everything that the makefile created to bring the directory to its original state.
+What if you want to clean up your work? You've been deleting files by
+hand, but with phony targets, you don't have to. A common approach is to create a target called \texttt{clean}, which removes everything that the makefile created to bring the directory to its original state.
 
 %\begin{make}{\texttt{make clean}}{p1:clean}
 %	\maker{clean}{}\\
@@ -324,9 +323,9 @@ What if you want to clean up your work? You've been deleting files by hand, but 
 
 Note that in the recipe, it's totally fine to use wildcards. Depending on how far along you got with your processing before you decide to clean and restart, not every file might have been created.  For this reason we typically use the \texttt{-f} flag for \texttt{rm}. This flag hides error messages from attempting to erase nonexistent files. 
 
-The convention of putting a target for \texttt{clean} is just a convention; you need to muster the discipline to add every new file that you create in a makefile to the clean target. More dangerous is that sometimes to get a neuroimaging subject to a certain state, you need to do some handwork that would be expensive to recreate. For example, no one wants to blow away freesurfer directories after doing hand editing. 
+The convention of putting a target for \texttt{clean} is just a convention; you need to muster the discipline to add every new file that you create in a makefile to the clean target. More dangerous is that sometimes to get a neuroimaging subject to a certain state, you need to do some handwork that would be expensive to recreate. For example, no one wants to blow away FreeSurfer directories after doing hand editing. 
 
-For these reasons, we like the looser convention of \texttt{mostlyclean} or \texttt{archive} which means to remove things that can easily be regenerated, but to leave important partial products (e.g., your images converted from dicoms, freesurfer directories, final masks, and other things).
+For these reasons, we like the looser convention of \texttt{mostlyclean} or \texttt{archive} which means to remove things that can easily be regenerated, but to leave important partial products (e.g., your images converted from dicoms, FreeSurfer directories, final masks, and other things).
 
 Do not forget to add \texttt{clean}, \texttt{mostlyclean} and any other phony targets that you find useful to your list of phony targets:
 \begin{lstlisting}

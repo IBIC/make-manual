@@ -1,4 +1,4 @@
-\Echapter{Seed-based Functional Connectivity Analysis}{Susan J. Melhorn}{smelhorn@uw.edu}
+\Echapter{Seed-based Functional Connectivity Analysis I}{Susan J. Melhorn}{smelhorn@uw.edu}
 \label{example:fcconnectivity}
 This is an example of how to use a makefile to execute a
 single-subject seed-based functional connectivity analysis. Here, the network of interest is the salience network with a 4mm sphere in the right insula as the seed region (\texttt{seedrins4.nii.gz}). Note the seed region mask has already been created based on the literature (\cite{seely2008,lee2014}).
@@ -12,7 +12,7 @@ using FSL's FEAT (\texttt{feat}) program.
 %Seeley WW, Crawford R, Rascovsky K, Kramer JH, Weiner M, Miller BL, et al. Frontal paralimbic network atrophy in very mild behavioral variant frontotemporal dementia. Arch Neurol 2008;65:249-55. 
 
 The code for this example is in \texttt{testsubject/lib/fcconnectivity.mk}.
-Note that \texttt{PROJECT_HOME, FSL_DIR, STD_BRAIN subject} are all set elsewhere, but are needed.
+Note that \texttt{PROJECT_HOME, FSL_DIR, STD_BRAIN subject} are all set elsewhere, but are needed.  This example builds upon the other processing pipelines in place for \texttt{testsubject}.
 
 \begin{lstlisting}
 	.PHONY: Connectivity clean_fcconnectivity

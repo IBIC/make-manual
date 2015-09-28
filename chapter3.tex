@@ -10,20 +10,20 @@ There are a few key things to remember when setting running \maken{} in parallel
 \subsection{Each line in a recipe is, by default, executed in its own shell}
 
 This means that any variables you set in one line won't be ``remembered'' by the next line, and so on. The best thing to do is to put all lines of a recipe on the same line, by ending each of them with a semicolon and a backslash (\texttt{;\textbackslash}). Similarly, when debugging a recipe in a parallel makefile gone wrong, look first for a situation where you have forgotten to put all lines of a recipe on the same line. For example, the recipe shown in \autoref{make:fail} will not work as intended, not matter what, because the first line of this recipe is not remembered by the second, and \texttt{brain.volume.txt} will be empty.
-\begin{make}{A non-functional multi-line makefile}{make:fail}
+\begin{make}{A non-functional multi-line recipe}{make:fail}
 	set foo=\`{}fslmaths brain.nii.gz -V | awk '{print \$\$2}'\`{} \\
 	cat \$\$foo > brain.volume.txt
 \end{make}
 
 
 Instead, write the script as shown in \autoref{make:failfix}. Note the \texttt{;\textbackslash} in red connects the two lines.
-\begin{make}{A now-functional multi-line makefile}{make:failfix}
+\begin{make}{A now-functional multi-line recipe}{make:failfix}
 	set foo=\`{}fslmaths brain.nii.gz -V | awk '{print \$\$2}'\`{} \texttt{{\color{red} ;\textbackslash}} \\
 	cat \$\$foo > brain.volume.txt
 \end{make}
 
 You can also use \texttt{\&\&}, a \texttt{bash} operator that executes the next command only if the previous command was successful\footnote{In other words, has exited with an exit status (\texttt{\$?}) of ``0.''}. For example:
-\begin{make}{A multi-line makefile using ``\texttt{\&\&\textbackslash}''}{make:ampersandfix}
+\begin{make}{A multi-line recipe using ``\texttt{\&\&\textbackslash}''}{make:ampersandfix}
 	set foo=\`{}fslmaths brain.nii.gz -V | awk '{print \$\$2}'\`{} \&\&\textbackslash\\
 	cat \$\$foo > brain.volume.txt
 \end{make}
@@ -38,7 +38,7 @@ It is very tempting to do something like the following, or the previous example,
 	do something \dd now \dd with foo.out
 \end{make}
 
-This will work great sequentially; first \texttt{foo.out} is created and then it is used. You have attended to rule \mypound 1 and the commands will be executed together in one shell. But consider what happens when four processors run this recipe independently, in the same directory. Whichever recipe completes first will overwrite \texttt{foo.out}. This could happen at any time, so it is entirely possible that process A writes \texttt{foo.out} just in time for process B to use it. Meanwhile, process C can come along and rewrite it again. You see the point. The best way to avoid this problem, no matter how the makefile is used, is to create temporary files (like \texttt{foo.out}) that include a unique identifier, such as a subject identifier. For longitudinal analysis we play it safe and always use a timepoint identifier as well. Thus, whether you conduct your analysis using one subdirectory per subject or in a single directory for the entire analysis, you can take the recipe you have written and use it without modification. Another approach is to create unique temporary names using the \texttt{mktemp} program and delete them when you are finished. 
+This will work great sequentially; first \texttt{foo.out} is created and then it is used. You have attended to rule \mypound 1 and the commands will be executed together in one shell. But consider what happens when four processors run this recipe independently, in the same directory. Whichever recipe completes first will overwrite \texttt{foo.out}. This could happen at any time, so it is entirely possible that process A writes \texttt{foo.out} just in time for process B to use it. Meanwhile, process C can come along and rewrite it again. You see the point. The best way to avoid this problem, no matter how the makefile is used, is to always create temporary files (like \texttt{foo.out}) that include a unique identifier.  Alternately, you could use a subject identifier to form the name. For longitudinal analysis we play it safe and often use a timepoint identifier as well. Thus, whether you conduct your analysis using one subdirectory per subject or in a single directory for the entire analysis, you can take the recipe you have written and use it without modification. Another approach is to create unique temporary names using the \texttt{mktemp} program and delete them when you are finished. 
 
 Many neuroimaging software packages use the convention that files within a subject-specific directory that contains a subject identifier can have the same names. In that case, just go with it: They have done that in part to avoid this confusion while running the software in parallel on a shared filesystem.
 
@@ -74,7 +74,7 @@ You have to be careful not to start a lot more jobs than you have cores, other w
 
 Now you will execute the four cores simultaneously. This will work well if no one else is using your machine to run jobs. For this reason, you may want to specify that \maken{} should use fewer cores than available so that you can still get good response time on the machine. 
 
-Recall that \maken{} will die when it obtains an error. When running jobs in parallel, \maken{} can encounter an error that much faster. If one job dies, all the rest will be stopped. This is rarely the behavior you want, because typically each job is independent of the others. To tell make not to give up when the going gets tough, use the \texttt{-k} (keep going!) flag.
+Recall that \maken{} will die when it encounters an error. When running jobs in parallel, \maken{} can encounter an error that much faster. If one job dies, all the rest will be stopped. This is rarely the behavior you want, because typically each job is independent of the others. To tell make not to give up when the going gets tough, use the \texttt{-k} (keep going!) flag.
 \bashcmd{make -j 4 -k}
 
 \section{Using the grid engine}
@@ -132,7 +132,7 @@ You can also place the flag at the end of the command. This way, it is easy to h
 The \texttt{-n} flag shows what commands will be executed without executing them. This is very handy for debugging problems, as it tells you what make is actually programmed to do. Remember, computers do exactly what you tell them.
 
 \subsection{Use the trace option in \maken{} 4.1}
-Debugging is such an issue that the latest version of GNU \maken{}, version 4.1, has tracing functionality to show you what is going on. Even if your system does not have this installed, you can download it and run it with the \texttt{--trace} option. Note that there are some subtle differences between \maken{} versions. For a thorough desciption of version differences and more debugging options, see \citation{GnuMakeBook}. %%% need to add this to the bibliobraphy
+Debugging is such an issue that the latest version of GNU \maken{}, version 4.1, has tracing functionality to show you what is going on. Even if your system does not have this installed, you can download it and run it with the \texttt{--trace} option. Note that there are some subtle differences between \maken{} versions. For a thorough desciption of version differences and more debugging options, see \citep{GnuMakeBook}. %%% need to add this to the bibliobraphy
 
 \subsection{Check for line continuation}
 
@@ -167,7 +167,7 @@ If you get this error while trying to save a makefile (using \texttt{emacs}, whi
 
 A more subtle problem occurs when your makefile works the first time, but it also ``works'' the second time \ldots and the third \ldots and so on. In other words, it keeps rebuilding targets even when they do not ``need'' to be rebuilt. This means that \maken{} examines the dependencies of the target, decides that they are newer than the target (or that the target does not exist) and executes the recipe.
 
-This cycle never stops if, somewhere, a target is specified that is never actually created (and that is not marked as phony). This is easy to do, for example, when trying to execute more complex neuroimaging pipelines (such as those provided by FSL) that create entire directories of files with specific naming conventions. Check that the commands that keep re-executing really create the targets that would indicate that the command has completed. For example, when running \texttt{feat} with a configuration file, the name of the output directory is specified in the configuration file. This must be the same as the target in the Makefile, or it will never be satisfied.
+This cycle never stops if, somewhere, a target is specified that is never actually created (and that is not marked as phony). This is easy to do, for example, when trying to execute more complex neuroimaging pipelines (such as those provided by FSL) that create entire directories of files with specific naming conventions. Check that the commands that keep re-executing really create the targets that would indicate that the command has completed. For example, when running \texttt{feat} with a configuration file, the name of the output directory is specified in the configuration file. This must be the same as the target in the makefile, or it will never be satisfied.
 
 \subsection{\maken{} doesn't rebuild things that it should}
 

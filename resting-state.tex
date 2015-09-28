@@ -2,24 +2,46 @@
 \label{example:restingstate}
 This is an example of how to use a makefile to preprocess functional resting state data. The pipeline incorporates typical preprocessing steps taken when preparing resting state data for analysis. This example includes motion and slice time acquisition correction, brain extraction, signal despiking, spatial smoothing and the calculation and removal of nuisance variables.
 
-The code for this example is in \texttt{testsubject/lib/makefiles}. 
+The code for this example is in \texttt{testsubject/lib/makefiles/resting.mk}. 
 
 \setcounter{codehighlight}{0} % RESET THIS BEFORE EVERY LST LISTING
 \begin{lstlisting}
-	%*\lnote*PROJHOME=$$MAKEPIPELINES/testsubject
-	SUBJECTS_DIR=$(PROJHOME)/freesurfer
-	SCRIPTpath=$(PROJHOME)/bin
+	%*\lnote*cwd=$(shell pwd)
+
+	SUBJECTS_DIR=$(PROJECT_HOME)/freesurfer
+	SCRIPTpath=$(PROJECT_HOME)/bin
+
+	FREESURFER_HOME=/usr/local/freesurfer/stable5_3
+
 	%*\lnote*HWHM=3
 	TR=2
 	SLICEORDER='ascending'
 	NPC=5
 	PCTVAR=0
+	erosionfactor=1
 \end{lstlisting}
 
-\lnum{1} In any script or makefile, it is a good idea to set working directory variables early on to ease the script writing process and to avoid later confusion.  In this pipeline we have set a path variable for our subject subdirectory \texttt{PROJHOME} as well as for the subdirectory that is home to the FreeSurfer pipeline's output \texttt{SUBJECTS\_DIR}. In addition, we have set the variable \texttt{SCRIPTpath} to the subdirectory home of additional scripts that will be called during various preprocessing steps. \lnum{2} Besides directory variables, it is helpful for us to set processing-relevant variables which can be used throughout the pipeline. Included here are  variables for the half-width-half-maximum (\texttt{HWHM}) kernel size needed for spatially smoothing the resting state data, the time of repetition (\texttt{TR}) needed for slice time correction, as well as the number of principal components (\texttt{NPC}) and percent variance (\texttt{PCTVAR}) needed when using principal component analysis to calculate regressors for nuisance variables. Including these variables in the Makefile also makes it easy to extract them for inclusion in a generated QA report.
+\lnum{1} In any script or makefile, it is a good idea to set working
+directory variables early on to ease the script writing process and to
+avoid later confusion.  In this pipeline we have set a path variable
+for our subject subdirectory \texttt{cwd} as well as for the
+subdirectory that is home to the FreeSurfer pipeline's output
+\texttt{SUBJECTS\_DIR}. In addition, we have set the variable
+\texttt{SCRIPTpath} to the subdirectory home of additional scripts
+that will be called during various preprocessing steps. \lnum{2}
+Besides directory variables, it is helpful for us to set
+processing-relevant variables which can be used throughout the
+pipeline. Included here are variables for the half-width-half-maximum
+(\texttt{HWHM}) kernel size needed for spatially smoothing the resting
+state data, the time of repetition (\texttt{TR}) needed for slice time
+correction, as well as the number of principal components
+(\texttt{NPC}) and percent variance (\texttt{PCTVAR}) needed when
+using principal component analysis to calculate regressors for
+nuisance variables. Including these variables in the Makefile also
+makes it easy to extract them for inclusion in a generated QA report.
 
 \begin{lstlisting}
-	%*\lnote*.PHONY: all rest_dir Freesurfer_test regressors Run_aCompCor postregression clean_rest
+	%*\lnote*.PHONY: rest  Freesurfer_test regressors Run_aCompCor postregression clean_rest
 	.SECONDARY:
 \end{lstlisting}
 
@@ -30,7 +52,7 @@ The code for this example is in \texttt{testsubject/lib/makefiles}.
 The \texttt{.PHONY} target \texttt{rest} is used here to easily invoke all preprocessing steps of the pipeline. This is the target we would use to completely preprocess a subject. It is documented using the help system (see \autoref{sec:practicum4}) and depends upon all preprocessing targets, described below.
 
 \begin{lstlisting}
-	%*\lnote*rest_dir: rest.nii.gz 
+	%*\lnote*rest_dir/rest.nii.gz: rest.nii.gz 
 		%*\lnote*echo "Setting up resting-state specific directory" 
 		mkdir -p rest_dir ;\
 		if [ ! -h rest_dir/rest.nii.gz ];\
