@@ -1,0 +1,397 @@
+\Echapter{Seed-based Functional Connectivity Analysis II}{Matthew Peverill}{mrpev@uw.edu}
+\label{example:fcconnectivity2}
+This is an example of how to use \texttt{make} to preprocess and
+analyze resting state fMRI data and conduct a group-level seed-based
+functional connectivity
+analysis. The fMRI data is motion corrected using Nipype
+\citep{nipype2011} and then skull stripped and smoothed using FSL
+\citep{jenkinson2012fsl} standard utilities. FreeSurfer is used to
+structurally define a region of interest (ROI - for the purpose of
+this example, the right superior frontal gyrus)) specific to each
+subject which is then registered to the functional
+image.\footnote{This is a very large seed! However, this is just an
+  example.} \texttt{fslmeants} is used to extract a timeseries of
+activity in this ROI which is entered as a regressor in FSL along with
+nuisance regressors corresponding to motion outliers, rigid body
+movement, and white matter and CSF fluctuations to correct for
+noise. A simple quality assurance (QA) report is generated for
+registration and ROI extraction using an HTML template.
+
+The code for this example is in \texttt{\$MAKEPIPELINES/tapping}, in
+multiple files described below.
+
+\section{Group Level Makefile - \texttt{tapping/Makefile}}
+\begin{lstlisting}
+	%*\lnote*SUBJECTS = $(wildcard TappingSubj?)
+	.PHONY: makefiles all $(SUBJECTS) resting-gfeat
+	
+	all: makefiles $(SUBJECTS) resting-gfeat
+	
+	$(SUBJECTS):
+	%*\lnote*	$(MAKE) --directory=$@ subject-resting
+
+	%*\lnote*makefiles: $(SUBJECTS:%=%/Makefile)
+	
+	$(SUBJECTS:%=%/Makefile): lib/resting/subject.mk
+	%*\lnote*	ln -s $$PWD/$< $@
+	
+	resting-gfeat: resting.gfeat/cope1.feat/stats/cope1.nii.gz
+	
+	%*\lnote*resting.gfeat/cope1.feat/stats/cope1.nii.gz: lib/resting/Tapping_SecondLevel.fsf $(SUBJECTS)
+		rm -rf /project_space/makepipelines/tapping/resting.gfeat ;\
+		feat $<
+\end{lstlisting}
+
+The group level Makefile in the project parent allows for recursive make of all subjects in the project. 
+
+\lnum{1}The variable \texttt{SUBJECTS} is set to a wildcard which captures all folders named \texttt{TappingSubj} followed by a single character (this would need to be modified for more than nine subjects - likely by expanding all subject numbers to two digit format and adding a second \texttt{?}). 
+
+\lnum{2}This recipe provides the definition that \texttt{make (subject)} should execute \texttt{make subject-resting} within each subject's folder after a subject-level \texttt{Makefile} has been generated.
+
+\lnum{3}The \texttt{makefiles} phony target uses \texttt{make}'s substitution reference syntax to expand the list of subjects in to a list of subject level makefiles. 
+
+\lnum{4}Another recipe provides rules to generate the makefiles enumerated in \lnum{3}. 
+
+\lnum{5}The final recipe executes group-level feat according to the
+template \texttt{lib/resting/Tapping_SecondLevel.fsf}, generating the
+final results of the analysis. For convenience, this recipe can be run by typing \texttt{make resting-gfeat}.
+
+\section{Subject Level Makefile - \texttt{tapping/lib/resting/subject.mk}}
+The subject-level \texttt{Makefile} is stored in \texttt{lib/resting/}, but a symbolic link pointing to it is generated in every subject directory. This makefile sets up necessary environment variables and then imports all component makefiles. The code executes exactly as if everything were in one makefile, but separating the code by procedure makes the code more readable.
+\begin{lstlisting}
+	.PHONY: prept1 clean printall
+	.SECONDARY:
+	
+	ifeq "$(origin MAKEPIPELINES)" "undefined"
+	MAKEPIPELINES=/project_space/makepipelines
+	endif
+	
+	SHELL = /bin/bash
+	%*\lnote*subject=$(shell pwd|egrep -o 'TappingSubj[0-9]*')
+	
+	projdir=$(MAKEPIPELINES)/tapping/
+	%*\lnote*SUBJECTS_DIR=$(projdir)/freesurfer
+	SCRIPTpath=$(projdir)/bin
+	
+	%*\lnote*FSL_DIR=/usr/share/fsl/5.0/bin
+	AFNIpath=/usr/lib/afni/bin
+	
+	TR=2.5
+\end{lstlisting}
+When we run \texttt{make} within a subject directory, the program reads \texttt{Makefile} first. Because of this, we can set environment variables once in this file and they will carry over to all included files. This section should be carefully reviewed when moving the code to a new environment.
+
+\lnum{6}Here, the \texttt{subject} variable is set to the subject directory name.
+
+\lnum{7}FreeSurfer's \texttt{SUBJECTS_DIR} variable should be set for the users environment. 
+
+\lnum{8}Paths to the local installation of FSL and AFNI are set here. Later references to programs provided by these packages use these variables to provide a path so that the pipeline can be flexibly executed with different package versions.
+
+\begin{lstlisting}
+	%*\lnote*include $(projdir)/lib/resting/Preprocess.mk
+	include $(projdir)/lib/resting/Regressors.mk
+	include $(projdir)/lib/resting/timeseries.mk
+	include $(projdir)/lib/resting/feat.mk
+	include $(projdir)/lib/resting/qa.mk
+	
+	%*\lnote*subject-resting: prept1 prepfunc regressors timeseries feat qa-all
+	
+	%*\lnote*clean-resting:
+		rm -rf resting memprage ;\
+		rm -f QA-report.html
+	
+	%*\lnote*tidy-resting:
+		rm -fv resting/* ;\
+		rm -fv memprage/* ;\
+		rm -rf resting/timeseries
+	
+	%*\lnote*print-%:
+		@echo $* = $($*)
+\end{lstlisting}
+
+\lnum{9}Here we import child makefiles which contain all of the code necessary to execute the analysis. 
+
+\lnum{10}The phony target \texttt{subject-resting} depends on all components of the analysis, providing one target to execute the entire workflow for this subject. This is the target referenced in the group-level makefile.
+
+\lnum{11}The \texttt{clean-resting} target removes all files created by the pipeline, returning the subject folder to a pre-run state.
+
+\lnum{12}The \texttt{tidy-resting} target allows for the removal of working files only and retains feat output. 
+
+\lnum{13}The \texttt{print-\%} target is provided for debugging purposes, eg. \texttt{make print-subject} will return the value of the \texttt{subject} environment variable.
+
+\section{Preprocessing - \texttt{tapping/lib/resting/Preprocess.mk}}
+\begin{lstlisting}
+	.PHONY= prept1 prept1-qa prepfunc prepfunc-qa
+	
+	prept1: memprage/T1_brain.nii.gz
+	
+	%*\lnote*memprage/T1.nii.gz: MPRAGE_S2.nii.gz
+	%*\lnote*	mkdir -p memprage && \
+		$(FSL_DIR)/bin/fslreorient2std $< $@
+
+	%*\lnote*memprage/T1_brain.nii.gz: memprage/T1.nii.gz
+		$(FSL_DIR)/bin/bet $< $@
+		
+	%*\lnote*memprage/T1_brain_mask.nii.gz: memprage/T1_brain.nii.gz
+		$(FSL_DIR)/bin/fslmaths $< -bin $@
+\end{lstlisting}
+
+This code provides basic preprocessing of the T1 structural image. In preprocessing, each image is generated from the prior image, so the makefile reads much as a \texttt{bash} script would with each line proceeding from the last, save that dependency and target shortcuts are substituted for filenames.
+
+\lnum{14}\texttt{T1.nii.gz} is generated by orienting the scanner output image to FSL's preferred orientation using \texttt{fslreorient2std}.
+
+\lnum{15}The '\texttt{\&\& \textbackslash}' syntax at line ends causes \texttt{bash} to stop and make to return a failure for the recipe if the preceding command fails (otherwise all commands are executed and only the success or failure of the last executed command is considered when \texttt{make} reports whether the recipe ran successfully). This saves time by skipping programs that cannot succeed and makes the cause of a failure more clear, since the last error message presented to the user will be from the command that first failed instead of from a program that failed as a consequence.
+
+\lnum{16}Skull stripping is accomplished with \texttt{bet}.
+
+\lnum{17}A mask of the skull stripped brain is generated with \texttt{fslmaths}.
+
+\begin{lstlisting}
+	prepfunc: xfm_dir/T1_to_Resting.mat resting/Resting_ssmooth.nii.gz xfm_dir/fs_to_Resting.mat
+	
+	resting/Resting_orient.nii.gz: Resting.nii.gz
+		mkdir -p resting && \
+		$(FSL_DIR)/bin/fslreorient2std $< $@
+
+	%*\lnote*resting/Resting_mc.nii.gz: resting/Resting_orient.nii.gz
+		python $(SCRIPTpath)/4dRegister.py --inputs $< --tr $(TR) --slice_order 'ascending' && \
+		 mv resting/Resting_orient_mc.nii.gz $@
+	
+	%*\lnote*resting/Resting.par: resting/Resting_mc.nii.gz
+		mv resting/Resting_orient.par $@
+
+	%*\lnote*resting/Resting_brain.nii.gz: resting/Resting_mc.nii.gz
+		$(FSL_DIR)/bin/fslroi $^ resting/Resting_vol0 0 1 && \
+		$(FSL_DIR)/bin/bet resting/Resting_vol0 resting/Resting_vol0 -f 0.3 && \
+		$(FSL_DIR)/bin/fslmaths resting/Resting_vol0 -bin resting/Resting_vol0 && \
+		$(FSL_DIR)/bin/fslmaths $^ -mas resting/Resting_vol0 $@ && \
+		rm resting/Resting_vol0.nii.gz
+
+	%*\lnote*resting/Resting_ssmooth.nii.gz: resting/Resting_brain.nii.gz
+		$(FSL_DIR)/bin/susan $^ -1.0 3 3 1 0 $@	
+\end{lstlisting}
+This code provides basic preprocessing of the functional resting state image.
+
+\lnum{18}A python script, \texttt{4dRegister.py}, is called which outputs both the motion corrected image and a \texttt{.par} file containing 6 motion regressors.
+
+\lnum{19}Although the par file is created by \texttt{4dRegister.py}, a separate recipe allows us to rename the file and, importantly, allows for the execution of later recipes which depend on the \texttt{.par} file.
+
+\lnum{20}\texttt{fslroi} is used to extract the first volume (time point) of the four dimensional functional image. \texttt{bet} Is used to skull-strip the image and a binarized mask is generated and applied using \texttt{fslmaths}.
+
+\lnum{21}Smoothing is applied with \texttt{susan} to produce the final preprocessed image.
+
+\begin{lstlisting}
+	%*\lnote*xfm_dir/Resting_to_T1.mat: resting/Resting_brain.nii.gz memprage/T1.nii.gz memprage/T1_brain.nii.gz
+		mkdir -p xfm_dir && \
+		$(FSL_DIR)/bin/fslroi $< resting/resting_vol0 0 1 && \
+		$(FSL_DIR)/bin/epi_reg --epi=resting/resting_vol0 --t1=$(word 2,$^) --t1brain=$(word 3,$^) --out=xfm_dir/`basename $@ .mat`
+	
+	%*\lnote*xfm_dir/Resting_to_T1.nii.gz: xfm_dir/Resting_to_T1.mat
+	
+	xfm_dir/T1_to_Resting.mat: xfm_dir/Resting_to_T1.mat
+		$(FSL_DIR)/bin/convert_xfm -omat $@ -inverse $^
+	
+	%*\lnote*$(SUBJECTS_DIR)/$(subject)/mri/aparc+aseg.mgz: | memprage/T1.nii.gz
+		source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh && \
+		export SUBJECTS_DIR=$(SUBJECTS_DIR) && \
+		/usr/local/freesurfer/stable5_3/bin/recon-all -i $< -subjid $(subject) -all && \
+		touch $(SUBJECTS_DIR)/$(subject)
+	
+	%*\lnote*xfm_dir/fs_to_T1.mat: $(SUBJECTS_DIR)/$(subject)/mri/aparc+aseg.mgz memprage/T1.nii.gz
+		mkdir -p xfm_dir && \
+		source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh && \
+		export SUBJECTS_DIR=$(SUBJECTS_DIR) && \
+		tkregister2 --mov $(SUBJECTS_DIR)/$(subject)/mri/orig.mgz --targ $(word 2,$^) --noedit --regheader --reg xfm_dir/fs_to_T1.dat --fslregout xfm_dir/fs_to_T1_init.mat && \
+		mri_convert $(SUBJECTS_DIR)/$(subject)/mri/orig.mgz $(SUBJECTS_DIR)/$(subject)/mri/orig.nii.gz && \
+		$(FSL_DIR)/bin/flirt -ref $(word 2,$^) -in $(SUBJECTS_DIR)/$(subject)/mri/orig.nii.gz -init xfm_dir/fs_to_T1_init.mat -omat $@
+	
+	%*\lnote*xfm_dir/fs_to_Resting.mat: xfm_dir/fs_to_T1.mat xfm_dir/T1_to_Resting.mat
+		$(FSL_DIR)/bin/convert_xfm -concat $(word 2, $^) -omat $@ $<
+\end{lstlisting}
+
+This code creates registrations between functional, structural, and standard space as well as brain segmentation using FreeSurfer.
+
+\lnum{22}Registration is created from functional to structural space.
+
+\lnum{23}Although the recipe above creates both \texttt{.mat} and \texttt{.nii.gz} files created by \texttt{epi_reg}, later recipes depending on \texttt{Resting_to_T1.nii.gz} will fail unless we add this empty recipe referring back to the rule for the \texttt{.mat} file. Although it is possible to simply make these later recipes depend on the \texttt{.mat} file despite using the \texttt{.nii.gz} file, the workflow is both more readable and easier to debug if we indicate the relationship between the two files here and reference either file as called for later.
+
+\lnum{24}Here FreeSurfer is called to segment the brain, with the recipe targeting a label file which is generated at the end of \texttt{recon-all}. The '\texttt{|}' (pipe) symbol here indicates that \texttt{T1.nii.gz}  is an 'order only' dependency, which means that \texttt{recon-all} will not be re-run if \texttt{T1.nii.gz} is newer than \texttt{aparc+aseg.mgz}. The purpose here being that FreeSurfer is often run separately from individual analyses, and it may be undesirable for the pipeline to re-run \texttt{recon-all} each time the code generating \texttt{T1.nii.gz} is changed. Other applications may be better served with a normal dependency, in which case the pipe can be omitted.
+
+\lnum{25}Here the FreeSurfer image is registered on to the T1 structural image. \texttt{tkregister2} is used to generate an initial affine registration matrix. The final registration is generated by \texttt{flirt}, using \texttt{tkregister2}'s matrix as a starting point so as to avoid local minima.
+
+\lnum{26}Registration from FreeSurfer to functional space is generated by concatenating \texttt{fs_to_T1.mat} with \texttt{T1_to_Resting.mat} using \texttt{convert_xfm}.
+
+\section{Generation of Nuisance Regressors - \texttt{tapping/lib/resting/Regressors.mk}}
+\begin{lstlisting}
+	.PHONY: regressors
+	regressors: resting/wm.txt resting/csf.txt resting/nuisance_regressors.txt
+	
+	%*\lnote*resting/dvars_regressors: resting/Resting_brain.nii.gz
+		$(SCRIPTpath)/motion_outliers -i $^ -o $@ --dvars -s resting/dvars_vals --nomoco && \
+		rm resting/dvars_vals && \
+		touch $@
+	
+	%*\lnote*resting/fd_regressors: resting/Resting_brain.nii.gz resting/Resting.par
+		$(SCRIPTpath)/motion_outliers -i $^ -o $@ --fd -s resting/fd_vals -c resting/Resting.par --nomoco --thresh=3 && \
+		rm resting/fd_vals && \
+		touch $@
+	
+	%*\lnote*resting/all_outliers.txt: resting/dvars_regressors resting/fd_regressors
+		cat resting/dvars_spike_vols | $(SCRIPTpath)/transpose > resting/alloutliers_nsort.txt && \
+		cat resting/fd_spike_vols | $(SCRIPTpath)/transpose >> resting/alloutliers_nsort.txt && \
+		sort -nu resting/alloutliers_nsort.txt > $@ && \
+		rm resting/alloutliers_nsort.txt
+	
+	%*\lnote*resting/outlier_regressors.txt: resting/Resting_orient.nii.gz resting/all_outliers.txt
+		vols=`fslval $< dim4` && \
+		echo "vols is $$vols" && \
+		python ${SCRIPTpath}/SinglePointGenerator.py -i $(word 2,$^) -v $$vols -o $@ -p resting/resting_percent_outliers.txt
+\end{lstlisting}
+
+This code generates motion outlier regressors in feat compatible syntax.
+
+\lnum{27}-\lnum{28}FSL's \texttt{motion_outliers} script is called to generate lists of motion outliers using two separate metrics (RMS intensity difference of volume N to volume N+1 and frame displacement, respectively - see (cite:power_spurious_2012)). A separate regressor is generated for each outlier.
+
+\lnum{29}The resulting two regressor files are transposed (rotated) and sorted numerically, effectively sorting the outlier volumes by time (duplicates from the two sources will appear next to each other).
+
+\lnum{30}The python script \texttt{SinglePointGenerator.py} then extracts unique outliers and returns them in standard column format.
+
+\begin{lstlisting}
+	%*\lnote*fs_wm_mask.nii.gz: $(SUBJECTS_DIR)/$(subject)/mri/aparc+aseg.mgz
+		source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh && \
+		export SUBJECTS_DIR=$(SUBJECTS_DIR) && \
+		mri_binarize --i $< --o $@ --erode 1 --wm
+	
+	%*\lnote*resting/wm.txt: fs_wm_mask.nii.gz resting/Resting_mc.nii.gz xfm_dir/T1_to_Resting.mat
+		$(FSL_DIR)/bin/flirt -ref $(word 2,$^) -in $< -out wm.nii.gz  -applyxfm -init $(word 3,$^) && \
+		$(FSL_DIR)/bin/fslmaths wm.nii.gz -thr .5 wm.nii.gz && \
+		$(FSL_DIR)/bin/fslmeants -i $(word 2,$^) -o  $@ -m wm.nii.gz
+	
+	%*\lnote*fs_ventricles_mask.nii.gz: $(SUBJECTS_DIR)/$(subject)/mri/aparc+aseg.mgz
+		source /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh && \
+		export SUBJECTS_DIR=$(SUBJECTS_DIR) && \
+		mri_binarize --i $< --o $@ --erode 1 --ventricles
+	
+	%*\lnote*resting/csf.txt: fs_ventricles_mask.nii.gz resting/Resting_mc.nii.gz xfm_dir/T1_to_Resting.mat
+		$(FSL_DIR)/bin/flirt  -ref $(word 2,$^) -in $(word 1,$^) -out `dirname $@`/`basename $@ .txt`.nii.gz  -applyxfm -init $(word 3,$^) && \
+		$(FSL_DIR)/bin/fslmaths `dirname $@`/`basename $@ .txt`.nii.gz -thr .5 `dirname $@`/`basename $@ .txt`.nii.gz && \
+		$(FSL_DIR)/bin/fslmeants -i $(word 2,$^) -o  $@ -m `dirname $@`/`basename $@ .txt`.nii.gz
+	
+	%*\lnote*resting/nuisance_regressors.txt: resting/csf.txt resting/wm.txt resting/Resting.par resting/outlier_regressors.txt resting/Resting_brain.nii.gz
+		paste $(word 1,$^) $(word 2,$^) $(word 3,$^) $(word 4,$^) > $@
+\end{lstlisting}
+Here we generate noise correction regressors from signal in white matter and CSF regions. 
+
+\lnum{31}A binarized mask of FreeSurfer's white matter volume is generated in the first recipe. 
+
+\lnum{32}The mask from \lnum{31}is then put in to functional space using \texttt{flirt} and binarized again to remove any gray areas generated during registration. Finally, \texttt{fslmeants} is used to generate a timeseries containing outliers in WM activity. 
+
+\lnum{33}-\lnum{34}The same procedure used above is repeated with FreeSurfer's CSF volume.
+
+\lnum{35}To generate the final nuisance regressors file to be input to \texttt{feat}, \texttt{paste} is used to combine the three outlier regressor files with the rigid body motion regressors generated in preprocessing.
+
+\section{ROI Timeseries Extraction - \texttt{lib/resting/timeseries.mk}}
+\begin{lstlisting}
+	.PHONY: timeseries
+	
+	timeseries: resting/timeseries/ctx-rh-superiorfrontal.txt resting/timeseries/r-sfg-mask.nii.gz
+	
+	resting/timeseries/ctx-rh-superiorfrontal.txt: resting/Resting_ssmooth.nii.gz resting/timeseries/r-sfg-mask.nii.gz
+	%*\lnote*	fslmeants -i $< -m $(word 2, $^) -o $@
+	
+	%*\lnote*resting/timeseries/r-sfg-mask.nii.gz: resting/timeseries/ctx-rh-superiorfrontal.nii resting/Resting_ssmooth.nii.gz xfm_dir/fs_to_Resting.mat
+		flirt -in $< -applyxfm -init $(word 3, $^) -out resting/timeseries/rsfg-funcspace.nii.gz -paddingsize 0.0 -interp trilinear -ref $(word 2, $^) && \
+		fslmaths resting/timeseries/rsfg-funcspace.nii.gz -bin $@ && \
+		rm resting/timeseries/rsfg-funcspace.nii.gz
+	
+	%*\lnote*$(SUBJECTS_DIR)/$(subject)/register.dat: $(SUBJECTS_DIR)/$(subject)/mri/aparc+aseg.mgz
+		tkregister2 --mov $(SUBJECTS_DIR)/$(subject)/mri/T1.mgz --noedit --s $(subject) --regheader --reg $@
+	
+	%*\lnote*$(SUBJECTS_DIR)/$(subject)/labels2/aparc+aseg-in-rawavg.mgz: $(SUBJECTS_DIR)/$(subject)/register.dat
+		mkdir -p $(SUBJECTS_DIR)/$(subject)/labels2/ ;\
+		mri_label2vol --seg $(SUBJECTS_DIR)/$(subject)/mri/aparc+aseg.mgz --reg $(SUBJECTS_DIR)/$(subject)/register.dat --o $@ --temp $(SUBJECTS_DIR)/$(subject)/mri/aparc+aseg.mgz
+	
+	%*\lnote*resting/timeseries/ctx-rh-superiorfrontal.nii: $(SUBJECTS_DIR)/$(subject)/labels2/aparc+aseg-in-rawavg.mgz
+		mkdir -p resting/timeseries && \
+		mri_binarize --i $(SUBJECTS_DIR)/$(subject)/labels2/aparc+aseg-in-rawavg.mgz --match 2028 --o resting/timeseries/ctx-rh-superiorfrontal.nii
+\end{lstlisting}
+Here a mask of the ROI (Right SFG) is generated from FreeSurfer and registered to functional space; a timeseries of activity in the ROI is then generated using FSL. The recipes are written roughly in the reverse order they are run, starting with the desired endpoint and working backwards through all required dependencies. \texttt{make} will execute them in the desired order according to the dependency structure.
+
+\lnum{36}The \texttt{fslmeants} command generates a timeseries of average activation from the preprocessed resting image within the area defined by the specified mask file.
+
+\lnum{37}The registered mask file is generated by applying the registration matrix transforming FreeSurfer to functional space generated in \lnum{26} to the mask of the ROI generated with FreeSurfer. The mask must be binarized using \texttt{fslmaths}, as registration will generate non-binary values around the edges of the mask. The non-binarized mask is then removed.
+
+\lnum{38}An image indexed by FreeSurfer's aseg and aparc atlases is generated using \texttt{mri_label2vol}.
+
+\lnum{39}The (unregistered) FreeSurfer mask for the ROI is generated from the labeled volume by using \texttt{mri_binarize} to isolate image voxels whose value matches the relevant FreeSurfer label (the index value for the \texttt{ctx-rh-superiorfrontal} area is 2028 - see \texttt{FreeSurferColorLUT.txt} in your FreeSurfer install directory for a list of volume labels).
+
+\section{First Level Analysis - \texttt{lib/resting/fsl.mk}}
+\begin{lstlisting}
+	.PHONY: feat
+	.SECONDARY:
+	
+	%*\lnote*feat: resting/Resting.feat/stats/cope1.nii.gz
+	
+	%*\lnote*resting/Resting.feat/stats/cope1.nii.gz: resting/Resting.fsf resting/Resting_ssmooth.nii.gz resting/nuisance_regressors.txt $(FSL_DIR)/data/standard/MNI152_T1_2mm_brain.nii.gz resting/timeseries/ctx-rh-superiorfrontal.txt
+		rm -rf resting/Resting.feat && \
+		$(FSL_DIR)/bin/feat resting/Resting.fsf
+	
+	%*\lnote*resting/Resting.fsf: $(projdir)/lib/resting/Tapping_FirstLevel.fsf resting/Resting_ssmooth.nii.gz
+		sed -e 's/SUBJECT/$(subject)/g' $< > $@
+\end{lstlisting}
+Here a template \texttt{.fsf} file is copied from the \texttt{lib} directory and \texttt{feat} is run. Because there is only one functional run per subject, only the subject number need be substituted when copying the template.
+\lnum{41}\texttt{feat} Creates many files, but as the first cope is the one we are most interested in (and will only generate if the program runs successfully), it is listed as the recipe target. Therefor the phony target amounts to an alias, as there is only one dependency.
+
+\lnum{42}First, any previous runs of \texttt{fsl} are removed - otherwise \texttt{fsl} will continually create new directories when \texttt{feat} is rerun, leading to inconsistent file structures between subjects and breaking the \texttt{make} dependency structure. To execute the analysis, \texttt{feat} is simply called on the fsf file. 
+
+\lnum{43}The fsf file is generated per subject in this recipe by using \texttt{sed} to copy a template while substituting the subject number for the text \texttt{SUBJECT} in the original. If further by-subject customization is needed, the \texttt{-e} flag can be provided to perform additional substitutions.
+
+\section{Quality Assurance Reports - \texttt{lib/resting/qa.mk}}
+\begin{lstlisting}
+	.PHONY=qa-all prept1-qa prepfunc-qa timeseries-qa
+	
+	qa-all: prept1-qa prepfunc-qa timeseries-qa QA-report.html
+	
+	QA-report.html: ../lib/resting/subject_QA_report.html
+	%*\lnote*	sed -e 's/SUBJECTNUMBER/$(subject)/g' $< > $@
+	
+	prept1-qa: memprage/QA/images/T1_brain.png
+	
+	%*\lnote*memprage/QA/images/rendered_T1_brain.nii.gz: memprage/T1.nii.gz memprage/T1_brain_mask.nii.gz
+		mkdir -p `dirname $@` && \
+		$(FSL_DIR)/bin/overlay 1 1 $(word 1,$^) -a $(word 2,$^) 1 10 $@
+	
+	%*\lnote*memprage/QA/images/T1_brain.png: memprage/QA/images/rendered_T1_brain.nii.gz
+		$(SCRIPTpath)/slices memprage/QA/images/rendered_T1_brain.nii.gz -o $@
+
+	prepfunc-qa: resting/QA/images/Resting_ssmooth_mid_animation.gif resting/QA/images/resting_to_T1.png
+	
+	%*\lnote*resting/QA/images/Resting_ssmooth_mid_animation.gif: resting/Resting_ssmooth.nii.gz
+		mkdir -p `dirname $@` && \
+		$(SCRIPTpath)/functional_movies.sh $< `dirname $@`
+	
+	%*\lnote*resting/QA/images/resting_to_T1.png: xfm_dir/Resting_to_T1.nii.gz memprage/T1_brain.nii.gz
+		mkdir -p `dirname $@` && \
+		$(SCRIPTpath)/sliceappend.sh -1 $(word 1,$^) -2 $(word 1,$^) -o $@ -s
+	
+	timeseries-qa: resting/QA/images/rendered_r-sfg-mask.png
+	
+	%*\lnote*resting/QA/images/rendered_r-sfg-mask.nii.gz: resting/Resting_brain.nii.gz resting/timeseries/r-sfg-mask.nii.gz
+		mkdir -p `dirname $@` && \
+		$(FSL_DIR)/bin/overlay 1 1 $(word 1,$^) -a $(word 2,$^) 1 10 $@
+	
+	%*\lnote*resting/QA/images/rendered_r-sfg-mask.png: resting/QA/images/rendered_r-sfg-mask.nii.gz
+		$(SCRIPTpath)/slices $< -o $@
+\end{lstlisting}
+A simple quality assurance (QA) report is generated per subject from an \texttt{.html} template.
+
+\lnum{44}The template is copied from the lib directory using \texttt{sed} to substitute the appropriate subject number. Because filenames are preserved within subjects and relative paths are used in the html code to indicate paths to qa images, no other substitutions are necessary.
+
+\lnum{45}The FSL utility \texttt{overlay} is used to generate an image of the skull-stripped structural image in red overlaying the original T1, allowing for visual inspection of the quality of the skull strip.
+
+\lnum{46}The \texttt{slices} script generates an image of several slices of the above overlay volume for easy visual inspection. As elsewhere, these steps could be written in a single recipe, but separating in to smaller recipes allows for cleaner code and easier debugging.
+
+\lnum{47}The \texttt{functional_movies.sh} script creates an animated \texttt{.gif} file displaying slices of the functional volume animated over time. This allows for visual inspection of gross movement and other imaging artifacts.
+
+\lnum{48}The \texttt{sliceappend.sh} script allows for the inspection of registration by presenting an outline of one image on top of a second image to which it has been registered on one row of slices and the reverse on the next.
+
+\lnum{49-50}The same method as was used for the inspection of skull stripping is used to inspect the quality of the ROI extraction.
