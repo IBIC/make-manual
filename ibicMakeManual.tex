@@ -96,6 +96,14 @@
 }
 \makeatother
 
+% Part image
+\makeatletter
+% define a user command to choose the image
+% this command also creates an internal command to insert the image
+\newcommand{\partimage}[2][]{\gdef\@partimage{\includegraphics[#1]{#2}}}
+\renewcommand{\printparttitle}[1]{\parttitlefont #1\vfil\@partimage\vfil}
+\makeatother
+
 % ONE-LINE environments
 % $ is automatically added to the bash prompt.
 % % \hfill\, forces the minipage onto a new line. Don't ask.
@@ -155,6 +163,7 @@
 \definecolor{lemon}{HTML}{F5ECCE}
 
 
+
 \begin{document}
 	
 	% Cover page
@@ -185,6 +194,7 @@
         \newpage	
 	\mainmatter		% The actual content
 	
+        \partimage{images/ohbm.jpg}
 	\part{Manual}
 	
 	\include{chapter1}	% Introduction to make
