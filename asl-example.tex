@@ -110,7 +110,7 @@ In this segment of code, we motion correct the ASL data using MCFLIRT in FSL. Be
 		rm temp.nii.gz
 \end{lstlisting}
 
-In this section, we compute absolute values of CBF. \lnum{4} The \texttt{surround_subtraction.sh} script evaluates the dimensions of the ASL data (rows, columns, slices) and calls the MATLAB script via \texttt{run_Surround_Subtraction.sh}. \lnum{5} CBF is computed in ml/100gm/min, using ASL white paper MRM 73:102 (2015)
+In this section, we compute absolute values of CBF. \lnum{4} The \texttt{surround_subtraction.sh} script evaluates the dimensions of the ASL data (rows, columns, slices) and calls the MATLAB script via \texttt{run_Surround_Subtraction.sh}. \lnum{5} CBF is computed in ml/100gm/min, using ASL white paper MRM 73:102 (2015). 
 
 \begin{lstlisting}
 	${SUBJECT}_CBF_MNI.nii.gz: ${SUBJECT}_M0.nii.gz ${SUBJECT}_CBF.nii.gz
@@ -133,24 +133,24 @@ would combine the two transformation matrices to register the CBF map
 to MNI space.
 
 \begin{lstlisting}
-	QA/ASL.gif:${SUBJECT}_CBF_MNI.nii.gz
+	QA/ASL.png:${SUBJECT}_CBF_MNI.nii.gz
 		mkdir -p ${PROJECT_HOME}/QA;\
-		${FSL_PATH}/slicer $< -i 0 150 -a QA/ASL.gif;\
-		mv QA/ASL.gif QA/ASL.png;\
+		${FSL_PATH}/slicer $< -i 0 150 -a QA/ASL.png;\
 		${FSL_PATH}/fslmaths ${STD_BRAIN2mm_GM} -thr 130 temp;\
 		${FSL_PATH}/fslmaths $< -mas temp temp;\
-		gm_cbf=`${FSL_PATH}/fslstats -t temp -M`;\
+		
+		gm_cbf=`${FSL_PATH}/fslstats -t temp -M';\
 		echo $$gm_cbf;\
 		echo "---" > QA/ASL_QA.Rmd;\
 		echo "output: html_document" >>QA/ASL_QA.Rmd;\
 		echo "---" >> QA/ASL_QA.Rmd;\
 		echo "# ASL QA" >> QA/ASL_QA.Rmd;\
-		echo '<img src="../QA/ASL.png" width=900px; />' >> QA/ASL_QA.Rmd;\
+		echo `<img src="../QA/ASL.png" width=900px; />' >> QA/ASL_QA.Rmd;\
 		echo        >> QA/ASL_QA.Rmd;\
-		%*\lnote*echo  'Typical GM CBF = 49(2) ml/100gm/min'  >> QA/ASL_QA.Rmd;\
+		%*\lnote*echo  `Typical GM CBF = 49(2) ml/100gm/min'  >> QA/ASL_QA.Rmd;\
 		echo        >> QA/ASL_QA.Rmd;\
-		echo  'This subject, GM CBF = '$$gm_cbf >> QA/ASL_QA.Rmd;\
-		%*\lnote*R -e 'library("knitr");knitr::knit2html("QA/ASL_QA.Rmd","QA/ASL_QA.html")'
+		echo  `This subject, GM CBF = '$$gm_cbf >> QA/ASL_QA.Rmd;\
+		%*\lnote*R -e `library("knitr");knitr::knit2html("QA/ASL_QA.Rmd","QA/ASL_QA.html")'
 
 \end{lstlisting}
 

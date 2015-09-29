@@ -10,6 +10,7 @@ The code for this example is in \texttt{testsubject/lib/makefiles/methodsgenerat
 \begin{lstlisting}
 	%*\lnote*rs_parsource=$(wildcard parrecs/*REST*.PAR)
 	t1_parsource=$(wildcard parrecs/*MPRAGE*.PAR)
+	
 	%*\lnote*rs_framewisedisplacement=0
 	rs_accelerationfactor=0
 	t1_shotinterval=0
@@ -22,6 +23,7 @@ This makefile begins by \lnum{1} searching for and selecting the PAR source file
 \begin{lstlisting}
 	%*\lnote*.PHONY: provenance clean_provenance
 	.SECONDARY:
+	
 	%*\lnote*provenance: $(call print-help,provenance,"Automatically generate a methods section") provenancedir provenance/parameter_table.csv provenance/Methods_Generator.html
 \end{lstlisting}
 
@@ -44,12 +46,12 @@ This makefile begins by \lnum{1} searching for and selecting the PAR source file
 		echo "Creating methods section html file" ;\
 		cd provenance ;\
 		cp $(PROJECT_HOME)/lib/Rmd/Methods_Generator.Rmd . ;\
-		Rscript -e 'library("rmarkdown");rmarkdown::render("Methods_Generator.Rmd")'
+		Rscript -e `library("rmarkdown");rmarkdown::render("Methods_Generator.Rmd")'
 \end{lstlisting}
 
 Using the \texttt{parameter_table.csv} file created in the previous step,  an R script is called to incorporate the necessary parameter values into a model methods section R Markdown (.Rmd) file. One thing that is a little frustrating about R Markdown is that it will look for files in the directory in which it is located. This is why we first copy it to the \texttt{provenance} subdirectory. The R Markdown file then looks for the CSV file in the current working directory, with no need to pass paths back and forth between programs. 
 
-The outputted methods section HTML file can be viewed in any web browser. Figure \autoref{fig:methods} shows the R Markdown code that is processed (on the left) to generate the HTML report (on the right). The R Markdown code is very simple. The first ``chunk'' of code reads in the CSV file and uses the short variable names to construct a variety of variables for the value of the parameter, its full name, and the units. These are accessed in the text description of the protocol with the syntax \texttt{`r variablename`}. For more information about how to write reports with R Markdown, see their excellent \href{http://rmarkdown.rstudio.com}{documentation}. 
+The outputted methods section HTML file can be viewed in any web browser. Figure \autoref{fig:methods} shows the R Markdown code that is processed (on the left) to generate the HTML report (on the right). The R Markdown code is very simple. The first ``chunk'' of code reads in the CSV file and uses the short variable names to construct a variety of variables for the value of the parameter, its full name, and the units. These are accessed in the text description of the protocol with the syntax \texttt{`r variablename'}. For more information about how to write reports with R Markdown, see their excellent \href{http://rmarkdown.rstudio.com}{documentation}. 
 
 \begin{lstlisting}
 	clean_provenance:

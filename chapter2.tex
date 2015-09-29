@@ -241,7 +241,7 @@ Once these steps are completed, you can conduct single-subject processing for ea
 This should generate output similar to that shown in \autoref{fig:recursivemake}, showing that \maken{} goes in to each of the subject directories and creates the \texttt{test} target.
 
 \begin{figure}[h]
-	\includegraphics[width=\textwidth]{images/make-output.png}
+	\includegraphics[width=\textwidth]{images/make-output.eps}
 	\caption{Output of recursive make}
 	\label{fig:recursivemake}
 \end{figure}
@@ -250,7 +250,7 @@ This should generate output similar to that shown in \autoref{fig:recursivemake}
 
 \maken{} uses variables to control a lot of aspects of its own behavior. We describe only a few here; see the \href{http://www.gnu.org/software/make/manual/}{GNU Make manual} for the full list. However, it also allows you to set variables so that you can avoid unnecessary changes to makefiles when you move them to different projects. This is very important, because after going through the hassle of writing a makefile for an analysis once, we would like to reuse as much of it as possible for subsequent studies. It is reasonable to change the recipes to reflect the most appropriate scientific methods or new versions of software, but it's not fun to have to play with naming conventions, etc. We discuss some of the best practices we have found for using variables to improve portability.
 
-\subsection{Variables that control \maken's Behavior}
+\subsection{Variables that control \maken{}'s Behavior}
 
 \subsubsection{\texttt{SHELL}}
 By default the shell used by make recipes is \texttt{/bin/sh}.  This shell is one of many that you can use interactively in Linux or MacOS, but it probably is not what you are using interactively (because it lacks nice editing capabilities and is less usable than other shells). Here, we set the default shell to \texttt{/bin/bash}, the same as what we use interactively, so that we can be sure when we test something at the command line that it will work similarly in a Makefile.

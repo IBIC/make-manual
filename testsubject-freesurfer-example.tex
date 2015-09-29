@@ -1,8 +1,7 @@
 \section{Testsubject FreeSurfer}
 \label{example:freesurfer}
 
-This is an example of how to use a makefile to execute FreeSurfer in a
-cross-sectional context (in contrast to
+This is an example of how to use a makefile to execute FreeSurfer in a cross-sectional context (in contrast to
 \nameref{example:freesurfer}), which describes a longitudinal pipeline.  In addition, here we use FreeSurfer to
 create a brain mask for skull stripping.
 
@@ -37,7 +36,8 @@ to override the default location of these files.
 
 	export SHELL=/bin/bash
 
-	%*\lnote*outputstats=$(SUBJECTS:%=%/mri/aparc+aseg.mgz) $(SUBJECTS:%=%/mri/brainmask.mgz) $(SUBJECTS:%=%/mri/brainmask.nii.gz)
+	%*\lnote*outputstats=$(SUBJECTS:%=%/mri/aparc+aseg.mgz) $(SUBJECTS:%=%/mri/brainmask.mgz)
+		$(SUBJECTS:%=%/mri/brainmask.nii.gz)
 
 	%*\lnote*inputdirs = $(SUBJECTS:%=%)
 
@@ -48,7 +48,7 @@ to override the default location of these files.
 
 This portion of the Makefile defines key variables and targets. 
 \lnum{1} We make use of the help system described in
-\nameref{sec:practicum4}
+\nameref{sec:practicum4}. 
 \lnum{2} There is only one subject here, so for clarity we simply
 write it out. However, in real life you would have many subjects, and
 obtain them through a wildcard or from a file (see
@@ -71,22 +71,6 @@ The \texttt{all} and \texttt{freesurfer} targets here are documented
 using the help system. 
 
 \begin{lstlisting}
-	 setup: $(call print-help,setup,Setup subject directories) $(inputdirs) 
-
-	%:  $(PROJHOME)/%/T1.nii.gz 
-		mkdir -p $@/mri/orig; \
-		cp $^ $@/mri/orig; \
-		cd $@/mri/orig; \
-		mri_convert *nii.gz 001.mgz 
-\end{lstlisting}
-
-The \texttt{setup} target depends upon the T1 image in the subject
-directory (here, in \texttt{\$PROJHOME}). It creates a FreeSurfer
-style subject directory, copies the file there, and converts it to
-NIfTI format. 
-
-
-\begin{lstlisting}
 	%/mri/brainmask.mgz: %
 		subj=$* ;\
 		export FREESURFER_SETUP=$(FREESURFER_SETUP) ;\
@@ -95,8 +79,8 @@ NIfTI format.
 		source $$FREESURFER_SETUP ;\
 		export SUBJECTS_DIR=$(SUBJECTS_DIR) ;\
 		recon-all  -subjid  $${subj} -multistrip -autorecon1 ;\
-		height=`cat $${subj}/mri/optimal_preflood_height` ;\
-		if [[ $$height == 05 ]]; then max=$$(( $$height + 5 )); WATERSHED_PREFLOOD_HEIGHTS=`echo $$height $$max`; else min=$$(( $$height - 5 )); max=$$(( $$height + 5 )); WATERSHED_PREFLOOD_HEIGHTS=`echo $$min $$height $$max`; fi ;\
+		height=`cat $${subj}/mri/optimal_preflood_height' ;\
+		if [[ $$height == 05 ]]; then max=$$(( $$height + 5 )); WATERSHED_PREFLOOD_HEIGHTS=`echo $$height $$max'; else min=$$(( $$height - 5 )); max=$$(( $$height + 5 )); WATERSHED_PREFLOOD_HEIGHTS=`echo $$min $$height $$max'; fi ;\
 		export WATERSHED_PREFLOOD_HEIGHTS ;\
 		recon-all -s $${subj} -multistrip -clean-bm -gcut
 \end{lstlisting}
@@ -112,6 +96,14 @@ this approach when we are processing subjects one at a time after they
 have been scanned.
 
 \begin{lstlisting}
+	%/mri/brainmask.nii.gz: %/mri/brainmask.mgz
+		export FREESURFER_SETUP=$(FREESURFER_SETUP) ;\
+		source $$FREESURFER_SETUP ;\
+		mri_convert $< $@
+\end{lstlisting}
+This rule converts the brain mask from \texttt{mgz} format to NIfTI format.
+
+\begin{lstlisting}
 	%/mri/aparc+aseg.mgz:  %/mri/brainmask.mgz 
 		subj=$* ;\
 		export FREESURFER_SETUP=$(FREESURFER_SETUP) ;\
@@ -125,15 +117,22 @@ This rule finishes the remaining stages of
 (the result of the previous rule).
 
 \begin{lstlisting}
-	%/mri/brainmask.nii.gz: %/mri/brainmask.mgz
-		export FREESURFER_SETUP=$(FREESURFER_SETUP) ;\
-		source $$FREESURFER_SETUP ;\
-		mri_convert $< $@
+	 setup: $(call print-help,setup,Setup subject directories) $(inputdirs) 
+
+	%:  $(PROJHOME)/%/T1.nii.gz 
+		mkdir -p $@/mri/orig; \
+		cp $^ $@/mri/orig; \
+		cd $@/mri/orig; \
+		mri_convert *nii.gz 001.mgz 
 \end{lstlisting}
-This rule converts the brain mask from \texttt{mgz} format to NIfTI format.
+
+The \texttt{setup} target depends upon the T1 image in the subject
+directory (here, in \texttt{\$PROJHOME}). It creates a FreeSurfer
+style subject directory, copies the file there, and converts it to
+NIfTI format. 
 
 \begin{lstlisting}
-qa: $(call print-help,qa, Run QA - do this interactively with screensaver shut off) $(inputdirs:%=QA/%)
+	qa: $(call print-help,qa, Run QA - do this interactively with screensaver shut off) $(inputdirs:%=QA/%)
 
 QA/%: %
 	source $(FREESURFER_SETUP) ;\

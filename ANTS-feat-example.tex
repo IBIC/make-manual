@@ -3,7 +3,7 @@
 
 This is an example of using Advanced Normalization Tools (ANTs)\citep{ants}
 registration with FSL Feat. ANTs provides a superior nonlinear
-registration from the T1 to MNI brain than FSL's \texttt{fnirt}
+registration from the T1 to MNI brain compared to FSL's \texttt{fnirt}
 command, so we use it here in conjunction with FSL's \texttt{epi-reg}
 to replace the functional to standard space registrations created by
 FEAT with those created by ANTs. 
@@ -38,7 +38,7 @@ specify your location for ANTs.
 		$(MAKE) --directory=$@ $(TARGET)
 \end{lstlisting}
 
-There are two subjects in this directory that require the same
+The code for this makefile can be found at \texttt{\$MAKEPIPELINES/ANTsreg/Makefile}. There are two subjects in this directory that require the same
 subject-level processing. Of course, in a real study there would be
 many more. This group level makefile is a driver that will
 recursively call targets defined the subject-level makefiles. See
@@ -74,28 +74,31 @@ specified to programs.
 
 	%*\lnote*ANTSpath=/usr/local/ANTs-2.1.0-rc3/bin/
 
+	%*\lnote*BLOCKS= TappingBlock1 TappingBlock2
+
 	%*\lnote*FSLDIR=/usr/share/fsl/5.0/
 
 	STD_BRAIN=$(FSLDIR)/data/standard/MNI152_T1_2mm_brain.nii.gz
 	STD=$(FSLDIR)/data/standard/MNI152_T1_2mm.nii.gz
-
-	%*\lnote*BLOCKS= TappingBlock1 TappingBlock2
 \end{lstlisting}
 
 Here we define a number of variables that are used by other
-makefiles. \lnum{1} ANTs exploits multiple cores to speed up
+makefiles. \\
+\lnum{1} ANTs exploits multiple cores to speed up
 execution. However, if we are running this pipeline across many
 subjects using \maken{}, we disable this parallelism by setting the
-variable \texttt{OMP_NUM_THREADS} to be one. \lnum{2} This is where
+variable \texttt{OMP_NUM_THREADS} to be one. \\
+\lnum{2} This is where
 ANTs is located on our systems. It is unlikely that ANTs is in the
-same directory on your system, so you will have to edit this line.
+same directory on your system, so you will have to edit this line.\\
 \lnum{3} Similarly, the location of FSL may be different on your
 system. Check the location of \texttt{FSLDIR} on your system and
 uncomment it as shown in this example. Note that if FSL is in a
 different location on your system, you will have to edit the Feat template files, located in
-\texttt{ANTsreg/templates}. \lnum{4} We set a variable
+\texttt{ANTsreg/templates}. \\
+\lnum{4} We set a variable
 called \texttt{BLOCKS} to the names of the fMRI tapping task
-runs. This saves some typing later.
+runs. This saves some typing later.\\
 
 \begin{lstlisting}
 	antsreg: PrepSubject Feat
@@ -107,8 +110,8 @@ runs. This saves some typing later.
 \end{lstlisting}
 The main target here, \texttt{antsreg}, creates some basic
 registrations (defined by the \texttt{PrepSubject} target in the
-\texttt{Prep.mk} makefile) and then runs Feat, creating ANTs
-registrations in the Feat directories (target \texttt{Feat} defined in
+\texttt{Prep.mk} makefile) and then runs FEAT, creating ANTs
+registrations in the FEAT directories (target \texttt{Feat} defined in
 the \texttt{Feat.mk} makefile). These makefiles are stored in the
 \texttt{lib} directory and are included by the subject-level makefile.
 
@@ -196,7 +199,8 @@ path to \texttt{epi_reg}.
 
 	%*\lnote*xfm_dir/%_to_mni_epireg_ants.nii.gz: Tapping/%_brain_vol0.nii.gz $(STD_BRAIN) MPRAGE/T1_brain.nii.gz xfm_dir/%_to_T1_ras.txt xfm_dir/T1_to_mni_Warp.nii.gz
 		export ANTSPATH=$(ANTSpath) ;\
-		$(ANTSpath)/WarpImageMultiTransform 3 Tapping/$*_brain_vol0.nii.gz $@ -R $(STD_BRAIN) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/$*_to_T1_ras.txt
+		$(ANTSpath)/WarpImageMultiTransform 3 Tapping/$*_brain_vol0.nii.gz $@ \
+		-R $(STD_BRAIN) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/$*_to_T1_ras.txt
 \end{lstlisting}
 Now comes the moment where we combine the T1 to standard space
 registration that we made with ANTs with the functional to T1
@@ -266,11 +270,11 @@ DOF (degrees of freedom) files that would normally be created by Feat.
 	FirstLevelFeats: $(patsubst %,Tapping/%.feat/stats/cope4.nii.gz, $(BLOCKS))
 
 	Tapping/%.feat/stats/cope4.nii.gz: $(patsubst %,Tapping/%_brain.nii.gz, TappingBlock1 TappingBlock2)
-		rm -rf `echo $@ | awk -F "/" '{print $$1"/"$$2}'` ;\
-		NBVOLS=`fslval $(word 1,$^) dim4` ;\
+		rm -rf `echo $@ | awk -F "/" `{print $$1"/"$$2}'' ;\
+		NBVOLS=`fslval $(word 1,$^) dim4' ;\
 		RUN=$* ;\
-		RUN_NUM=`echo $${RUN} | sed -e 's/TappingBlock//g'` ;\
-		sed -e 's|SUBDIR|$(SUBJECT_DIR)|g' -e "s/NB/$${NBVOLS}/g" -e "s/RUN/$${RUN_NUM}/g" -e "s/SUBJECT/$(subject)/g" $(Tapping_FEAT1_TEMPLATE) > Tapping/$*.fsf ;\
+		RUN_NUM=`echo $${RUN} | sed -e `s/TappingBlock//g'' ;\
+		sed -e `s|SUBDIR|$(SUBJECT_DIR)|g' -e "s/NB/$${NBVOLS}/g" -e "s/RUN/$${RUN_NUM}/g" -e "s/SUBJECT/$(subject)/g" $(Tapping_FEAT1_TEMPLATE) > Tapping/$*.fsf ;\
 		feat Tapping/$*.fsf ;\
 
 \end{lstlisting}
@@ -288,7 +292,7 @@ running Feat.
 
 	%*\lnote*define make-cope
 	Tapping/%.feat/reg_standard/stats/$(notdir $(1)): Tapping/%.feat/stats/$(notdir $(1)) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/%_to_T1_ras.txt
-		mkdir -p `dirname $$@` ;\
+		mkdir -p %*\`{}*dirname $$@%*\`{}* ;\
 		export ANTSPATH=$(ANTSpath) ;\
 		$(ANTSpath)/WarpImageMultiTransform 3 $$(word 1,$$^) $$@ -R $(STD_BRAIN) $$(word 2,$$^) $$(word 3,$$^) $$(word 4,$$^)
 	endef
@@ -333,10 +337,36 @@ The argument to \texttt{eval} is expanded twice: first by
 This is long and a little tricky but it does the job.
 
 \begin{lstlisting}
+	Tapping/%.feat/reg_standard/example_func.nii.gz: Tapping/%.feat/example_func.nii.gz xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/%_to_T1_ras.txt
+		mkdir -p %*\`{}*dirname $@%*\`{}*;
+		$(ANTSpath)/WarpImageMultiTransform 3 Tapping/$*.feat/example_func.nii.gz $@ -R $(STD_BRAIN) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/$*_to_T1_ras.txt
+
+	Tapping/%.feat/reg_standard/mean_func.nii.gz: Tapping/%.feat/mean_func.nii.gz xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/%_to_T1_ras.txt
+		mkdir -p %*\`{}*dirname $@%*\`{}*;
+		$(ANTSpath)/WarpImageMultiTransform 3 Tapping/$*.feat/mean_func.nii.gz $@ -R $(STD_BRAIN) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/$*_to_T1_ras.txt
+
+	Tapping/%.feat/reg_standard/mask.nii.gz: Tapping/%.feat/mask.nii.gz xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/%_to_T1_ras.txt
+		mkdir -p %*\`{}*dirname $@%*\`{}*;
+		$(ANTSpath)/WarpImageMultiTransform 3 Tapping/$*.feat/mask.nii.gz $@ -R $(STD_BRAIN) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/$*_to_T1_ras.txt
+
+	Tapping/%.feat/reg/standard.nii.gz: xfm_dir/T1_to_mni_Warp.nii.gz
+		mkdir -p %*\`{}*dirname $@%*\`{}*;
+		cp $< $@
+
+	Tapping/%.feat/reg/example_func2standard.mat: $(TEMPLATES)/selfreg.mat
+		mkdir -p %*\`{}*dirname $@%*\`{}*;
+		cp $< $@
+\end{lstlisting}
+There are a variety of files that need to be registered using ANTs
+that can easily be specified using implicit rules parameterized by the
+block name. We do not need to use \texttt{eval} to create these rules;
+we can just write them. 
+
+\begin{lstlisting}
 	define make-tdof 
 	Tapping/%.feat/reg_standard/stats/$(notdir $(1)): Tapping/%.feat/stats/cope1.nii.gz Tapping/%.feat/stats/dof 
 		mkdir -p Tapping/$$*.feat/reg_standard/stats ;\
-		fslmaths Tapping/$$*.feat/stats/cope1.nii.gz -mul 0 -add `cat Tapping/$$*.feat/stats/dof` $$@
+		fslmaths Tapping/$$*.feat/stats/cope1.nii.gz -mul 0 -add %*\`{}*cat Tapping/$$*.feat/stats/dof%*\`{}* $$@
 	endef 
 
 	$(foreach c,$(allupdatetdof),$(eval $(call make-tdof,$c))) 
@@ -348,33 +378,6 @@ cope with the degrees of freedom of the analysis in all voxels.  The
 parameterized recipe takes the dof filename as an argument, uses the \texttt{call}
 function create a \maken{} recipe for each dof file, and then use 
 \texttt{eval} to have \maken{} evaluate these new rules!
-
-
-\begin{lstlisting}
-	Tapping/%.feat/reg_standard/example_func.nii.gz: Tapping/%.feat/example_func.nii.gz xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/%_to_T1_ras.txt
-		mkdir -p `dirname $@`;
-		$(ANTSpath)/WarpImageMultiTransform 3 Tapping/$*.feat/example_func.nii.gz $@ -R $(STD_BRAIN) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/$*_to_T1_ras.txt
-
-	Tapping/%.feat/reg_standard/mean_func.nii.gz: Tapping/%.feat/mean_func.nii.gz xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/%_to_T1_ras.txt
-		mkdir -p `dirname $@`;
-		$(ANTSpath)/WarpImageMultiTransform 3 Tapping/$*.feat/mean_func.nii.gz $@ -R $(STD_BRAIN) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/$*_to_T1_ras.txt
-
-	Tapping/%.feat/reg_standard/mask.nii.gz: Tapping/%.feat/mask.nii.gz xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/%_to_T1_ras.txt
-		mkdir -p `dirname $@`;
-		$(ANTSpath)/WarpImageMultiTransform 3 Tapping/$*.feat/mask.nii.gz $@ -R $(STD_BRAIN) xfm_dir/T1_to_mni_Warp.nii.gz xfm_dir/T1_to_mni_Affine.txt xfm_dir/$*_to_T1_ras.txt
-
-	Tapping/%.feat/reg/standard.nii.gz: xfm_dir/T1_to_mni_Warp.nii.gz
-		mkdir -p `dirname $@`;
-		cp $< $@
-
-	Tapping/%.feat/reg/example_func2standard.mat: $(TEMPLATES)/selfreg.mat
-		mkdir -p `dirname $@`;
-		cp $< $@
-\end{lstlisting}
-There are a variety of files that need to be registered using ANTs
-that can easily be specified using implicit rules parameterized by the
-block name. We do not need to use \texttt{eval} to create these rules;
-we can just write them. 
 
 \begin{lstlisting}
 	SecondLevelFeats: Tapping/Tapping_FixedFX.gfeat/cope4.feat/stats/zstat4.nii.gz

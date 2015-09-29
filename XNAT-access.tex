@@ -20,10 +20,8 @@ determine what files to download.
 In our example, we selected 23 Baltimore subjects, saved in the file \texttt{Subjects_Baltimore}.
 To recreate this file you can do the following. From the NITRC Image Repository home page ``Search,'' choose Projects $\rightarrow$ 1000 Functional Connectomes. At the 1000 Functional Connectomes project home page, select Options $\rightarrow$ Spreadsheet to download a CSV file of the 1288 subjects \texttt{AnnArbor_sub00306 \ldots Taipei_sub91183}. Select a subset, or all, of the subjects from the first column of the downloaded spreadsheet, and save to a text file. 
 
-The directory hierarchy that this Makefile creates under your project
-home, from which \maken{} is run, is shown in \autoref{xnat-dir}. Note
-that this Makefile assumes that the directory \texttt{visit1} 
-already exists.
+The directory hierarchy that this Makefile creates under your project home, from which \maken{} is run, is shown in \autoref{fig:xnat-dir}. Note
+that this Makefile assumes that the directory \texttt{visit1} already exists.
 
 \begin{figure}
 	\dirtree{%
@@ -45,14 +43,14 @@ already exists.
 		.3 Baltimore_sub19738/.
 		.3 \ldots.
 	}
-	\caption{XNAT access directory structure.}
-	\label{xnat-dir}
+		\caption{XNAT access directory structure.}
+			\label{fig:xnat-dir}
 \end{figure}
 
 
 \begin{lstlisting}
 	# Site hosting XNAT
-	%*\lnote*NITRC=http://www.nitrc.org/ir3
+	%*\lnote*NITRC=http://www.nitrc.org/ir
 	
 	%*\lnote*SHELL=/bin/bash
 	
@@ -71,7 +69,6 @@ This portion of the Makefile defines key variables and targets.
 
 \begin{lstlisting}
 	%*\lnote*all: sessionid allT1 allT1_brain allrest allsymlinks
-
 	%*\lnote*allT1: $(SUBJECTS:%=subjects/%/visit1/T1.nii.gz)
 	%*\lnote*allT1_brain: $(SUBJECTS:%=subjects/%/visit1/T1_brain.nii.gz)
 	%*\lnote*allrest: $(SUBJECTS:%=subjects/%/visit1/rest.nii.gz)

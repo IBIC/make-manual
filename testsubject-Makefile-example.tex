@@ -31,6 +31,7 @@ The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/test001/Make
 	include $(PROJECT_HOME)/lib/makefiles/xfm.mk 
 	include $(PROJECT_HOME)/lib/makefiles/fcconnectivity.mk 
 	include $(PROJECT_HOME)/lib/makefiles/QA.mk 
+	include $(PROJECT_HOME)/lib/makefiles/methodsgenerator.mk
 
 	%*\lnote*export OMP_NUM_THREADS=1 
 
@@ -150,8 +151,8 @@ for every one that we intend to pass to the shell.
 		$(PROJECT_HOME)/bin/run_first_all_edit -s "L_Hipp,R_Hipp"  -d -i T1.nii.gz -o first
 
 	 hippo.csv: first_all_fast_firstseg.nii.gz 
-		rh=`fslstats $< -u 54 -l 52 -V|awk '{print $$2}'` ;\
-		lh=`fslstats $< -u 18 -l 16 -V|awk '{print $$2}'` ;\
+		rh=`fslstats $< -u 54 -l 52 -V|awk `{print $$2}'' ;\
+		lh=`fslstats $< -u 18 -l 16 -V|awk `{print $$2}'' ;\
 		echo $$lh $$rh > hippo.csv
 \end{lstlisting}
 
@@ -192,9 +193,9 @@ reason you could not write a separate program to gather them all.
 
 	 wmhstats.csv: flair_skstrip_flwmt_lesions.hdr flair_skstrip_renamed.nii.gz
 		@echo Writing wmhstats.csv 
-		tot=`fslstats  flair_skstrip_renamed.nii.gz -V | awk '{print $$2}'`; \
-		wmh=`fslstats  flair_skstrip_flwmt_lesions.hdr -u 2 -V | awk '{print $$2}'` ; \
-		per=`echo $$wmh $$tot | awk '{print ($$1/$$2)*100}'` ; \
+		tot=`fslstats  flair_skstrip_renamed.nii.gz -V | awk `{print $$2}''; \
+		wmh=`fslstats  flair_skstrip_flwmt_lesions.hdr -u 2 -V | awk `{print $$2}'' ; \
+		per=`echo $$wmh $$tot | awk `{print ($$1/$$2)*100}'' ; \
 		echo  $(subject)", "$$wmh", " $$per >> $@ 
 \end{lstlisting}
 
@@ -213,9 +214,9 @@ system in which case you can disregard this part of the makefile.
 	 archive:
 		rm -rf flair_bc_*
 		rm -rf flair_skstrip_axcor* flair_skstrip_flf_* flair_skstrip_WMT*
-		rm -rf *~ \\#* brain_to_std.nii.gz flair_skstrip.hdr flair_skstrip.img
+		rm -rf *~ \#* brain_to_std.nii.gz flair_skstrip.hdr flair_skstrip.img
 
-	 clean:  $(call print-help,clean,Clean up everything from all makefiles) clean_rest clean_qa clean_transform clean_fcconnectivity
+	 clean:  $(call print-help,clean,Clean up everything from all makefiles) clean_rest clean_qa clean_transform clean_fcconnectivity clean_provenance
 		rm -rf flair_skstrip* flair_pve* flair_restore* *~ wmhstats.csv eTIV.csv brain_to_std* flair_mixeltype.nii.gz T1_skstrip_mask.nii.gz first-L_Hipp* first-R_Hipp* T1_to_std_sub* T1_skstrip.nii.gz hippo.csv first*
 \end{lstlisting}
 

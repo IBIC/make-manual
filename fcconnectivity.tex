@@ -11,8 +11,8 @@ using FSL's FEAT (\texttt{feat}) program.
 %Lee SE, Khazenzon AM, et al. Altered network connectivity in frontotemporal dementia with C9orf72 hexanucleotide repeat expansion. Brain 2014;137:3047-3060.
 %Seeley WW, Crawford R, Rascovsky K, Kramer JH, Weiner M, Miller BL, et al. Frontal paralimbic network atrophy in very mild behavioral variant frontotemporal dementia. Arch Neurol 2008;65:249-55. 
 
-The code for this example is in \texttt{testsubject/lib/fcconnectivity.mk}.
-Note that \texttt{PROJECT_HOME, FSL_DIR, STD_BRAIN subject} are all set elsewhere, but are needed.  This example builds upon the other processing pipelines in place for \texttt{testsubject}.
+The code for this example is in \texttt{testsubject/lib/makefiles/fcconnectivity.mk}.
+Note that the variables \texttt{PROJECT_HOME, FSL_DIR, STD_BRAIN, and subject} are all set elsewhere, but are needed.  This example builds upon the other processing pipelines in place for \texttt{testsubject}.
 
 \begin{lstlisting}
 	.PHONY: Connectivity clean_fcconnectivity
@@ -77,9 +77,9 @@ needed by the \texttt{.fsf} file used to run \texttt{feat}.
 
 \begin{lstlisting}
 	fcconnectivity_dir/$(subject).feat/stats/FZT1.nii.gz: fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz rest_dir/rest_ssmooth.nii.gz rest_dir/rest_nuisance_regressors.txt 
-		NBVOLS=`fslval rest_dir/rest_ssmooth.nii.gz dim4`;\
-		NBNUISANCE=`awk '{print NF}' rest_dir/rest_nuisance_regressors.txt |head -1` ;\
-		SD=`echo "sqrt($$NBVOLS-$$NBNUISANCE-3)" | bc -l` ;\
+		NBVOLS=`fslval rest_dir/rest_ssmooth.nii.gz dim4';\
+		NBNUISANCE=%*\`{}*awk `{print NF}' rest_dir/rest_nuisance_regressors.txt |head -1%*\`{}* ;\
+		SD=%*\`{}*echo "sqrt($$NBVOLS-$$NBNUISANCE-3)" | bc -l%*\`{}* ;\
 		echo $$SD ;\
 		fslmaths fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz -div $$SD fcconnectivity_dir/$(subject).feat/stats/FZT1.nii.gz 
 		

@@ -15,7 +15,7 @@ The code for this example is in \texttt{testsubject/lib/makefiles/resting.mk}.
 
 	%*\lnote*HWHM=3
 	TR=2
-	SLICEORDER='ascending'
+	SLICEORDER=`ascending'
 	NPC=5
 	PCTVAR=0
 	erosionfactor=1
@@ -94,6 +94,7 @@ Our first preprocessing step once a resting state-specific subdirectory has been
 		echo "Renaming output, zipping it and deleting unnecessary despike files" ;\
 		%*\lnote*mv despike.nii rest_dir/rest_despike.nii ;\
 		mv spikiness.nii rest_dir/rest_spikiness.nii ;\
+		rm -rf rest_dir/rest_despike.nii.gz rest_dir/rest_spikiness.nii.gz ;\
 		gzip rest_dir/rest_despike.nii ;\
 		gzip rest_dir/rest_spikiness.nii ;\
 		rm -f despike+orig* ;\
@@ -147,6 +148,7 @@ Our first preprocessing step once a resting state-specific subdirectory has been
 
 	rest_dir/rest_csf.nii.gz: rest_dir/fs_csf_mask.nii.gz rest_dir/rest_despike.nii.gz xfm_dir/freesurfer_to_rest.mat
 		flirt  -ref $(word 2,$^) -in $(word 1,$^) -out $@ -applyxfm -init $(word 3,$^) ;\
+		fslmaths $@ -thr .3 -bin $@
 \end{lstlisting}
 
 \lnum{14} The target \texttt{regressors} is included here for ease of use if one wanted to specifically create or recreate binarized masks from FreeSurfer's white matter and ventricle segmentations. \lnum{15} We binarize and extract white matter and ventricle masks. \lnum{16} We register the despiked resting state data to the white matter and CSF masks using  FSL's FLIRT.  Note that in the recipe the \texttt{\$(word \#, \$\^{})} refers to a dependency in the dependency list. The first dependency may be referenced in the recipe as \texttt{\$(word 1, \$\^{})}, the second \texttt{\$(word 2, \$\^{})}, and so forth.
@@ -195,12 +197,18 @@ Once we have registered the despiked resting state data to the white matter and 
 		echo "/PPheights " `cat $(word 3, $^)` >> rest_dir/rest_regressors.feat.mat ;\
 		echo "/Matrix" >> rest_dir/rest_regressors.feat.mat ;\
 		cat $(word 2, $^) >> rest_dir/rest_regressors.feat.mat ;\
-		reglist="1"; for i in `seq 2 $$npc`; do reglist=`echo $$reglist`,$$i; done ;\
-		echo $$reglist ;\
-		fsl_regfilt -i  rest_dir/rest_ssmooth.nii.gz -d rest_dir/rest_regressors.feat.mat -f $$reglist -o $@
+		fsl_regfilt -i  rest_dir/rest_ssmooth.nii.gz -d rest_dir/rest_regressors.feat.mat  -f `seq -s, 1 1 $$npc` -o $@
+		
+	%*\lnote*rest_dir/rest_outliers_dvars_vals.txt: rest_dir/rest_mc.nii.gz
+			$(PROJECT_HOME)/bin/motion_outliers -i $^ -o rest_dir/rest_outliers_dvars.txt \
+			-s rest_outliers_dvars_vals.txt --dvars --nomoco
+		
+	rest_dir/rest_outliers_fd_vals.txt: rest.nii.gz
+			$(PROJECT_HOME)/bin/motion_outliers -i $^ -o rest_dir/rest_outliers_fd.txt \
+			-s rest_outliers_fd_vals.txt --fd
 \end{lstlisting}
 
-Once the nuisance regressors have been calculated and combined into a single file, the next step is to remove them from the data. \lnum{21} This portion of the pipeline may be called specifically using the target \texttt{postregression}. \lnum{22} To regress out nuisance variables, we create a little FEAT design matrix and run \texttt{fsl_regfilt}. We calculate the range of the included nuisance regressors using the R script \texttt{rangeArray.R}. \lnum{23} Finally, we denoise the data by regressing out the nuisance regressors using simple ordinary least squares regression with FSL.
+Once the nuisance regressors have been calculated and combined into a single file, the next step is to remove them from the data. \lnum{21} This portion of the pipeline may be called specifically using the target \texttt{postregression}. \lnum{22} To regress out nuisance variables, we create a little FEAT design matrix and run \texttt{fsl_regfilt}. We calculate the range of the included nuisance regressors using the R script \texttt{rangeArray.R}. \lnum{23} Finally, we denoise the data by regressing out the nuisance regressors using simple ordinary least squares regression with FSL. \lnum{24} It may also be helpful to create text files listing motion outlier volumes based on dvars (RMS intensity differences in images between timepoints) or framewise displacement (fd). 
 
 \begin{lstlisting}
 	clean_rest:
