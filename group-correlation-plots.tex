@@ -50,17 +50,20 @@ After specifying the path to the FSL directory, we prepare some variables to hel
 		mkdir -p MASKS ;\
 		mkdir -p CLUSTERS ;\
 		
-		%*\lnote*for COPE in $(ALLCOPES); do \
-			%*\lnote*Zs=%*\`{}*ls $${COPE} | grep ^cluster_mask_zstat | wc -l%*\`{}* ;\
-			WHICHZ=%*\`{}*seq 1 1 $${Zs}%*\`{}* ;\
-			for CM in $${WHICHZ}; do \
-			  %*\lnote*CNUM=%*\`{}*fslstats $${COPE}/cluster_mask_zstat$${CM}.nii.gz -R | awk `{ print $$2 }'%*\`{}* ;\
-				for VAL in %*\`{}*seq -w 01 01 $${CNUM%%.*}%*\`{}*; do \
-					$(FSL_DIR)/bin/fslmaths $${COPE}/cluster_mask_zstat$${CM}.nii.gz -thr $${VAL} -uthr $${VAL} -bin MASKS/$${COPE%.*}_z$${CM}_m$${VAL}.nii.gz ;\
-					$(FSL_DIR)/bin/fslmaths $${COPE}/thresh_zstat$${CM}.nii.gz -mas MASKS/$${COPE%%.*}_z$${CM}_m$${VAL}.nii.gz CLUSTERS/$${COPE%.*}_z$${CM}_m$${VAL}.nii.gz ;\
-				done ;\
+	%*\lnote*for COPE in $(ALLCOPES); do \
+		%*\lnote*Zs=%*\`{}*ls $${COPE} | grep ^cluster_mask_zstat | wc -l%*\`{}* ;\
+		WHICHZ=%*\`{}*seq 1 1 $${Zs}%*\`{}* ;\
+		for CM in $${WHICHZ}; do \
+		  %*\lnote*CNUM=%*\`{}*fslstats $${COPE}/cluster_mask_zstat$${CM}.nii.gz -R | awk `{ print $$2 }'%*\`{}* ;\
+		  	for VAL in %*\`{}*seq -w 01 01 $${CNUM%%.*}%*\`{}*; do \
+				$(FSL_DIR)/bin/fslmaths $${COPE}/cluster_mask_zstat$${CM}.nii.gz \
+				-thr $${VAL} -uthr $${VAL} -bin MASKS/$${COPE%.*}_z$${CM}_m$${VAL}.nii.gz ;\
+				$(FSL_DIR)/bin/fslmaths $${COPE}/thresh_zstat$${CM}.nii.gz \
+				-mas MASKS/$${COPE%%.*}_z$${CM}_m$${VAL}.nii.gz \
+				CLUSTERS/$${COPE%.*}_z$${CM}_m$${VAL}.nii.gz ;\
 			done ;\
 		done ;\
+	done ;\
 		
 		echo "$(NUMMASKS) masks found for $(GF)!";\
 		touch .readyforfq
@@ -101,11 +104,15 @@ In the beginning of the file we define the variables we will need. We define our
 		rm -rf $(SUBDIR)/$(SUB)_2BACK_firstlevel.feat/fq*
 	
 	%*\lnote*define query
-	$(SUBDIR)/$(SUB)_2BACK_firstlevel.feat/fq_$(GF)_$(1)/report.txt: $(HOMEDIR)/$(GF).gfeat/.readyforfq
+	$(SUBDIR)/$(SUB)_2BACK_firstlevel.feat/fq_$(GF)_$(1)/report.txt: 
+	$(HOMEDIR)/$(GF).gfeat/.readyforfq
 		if [ -d $(SUBDIR)/$(SUB)_2BACK_firstlevel.feat/fq_$(GF)_$(1) ]; then rm \
 		-rf $(SUBDIR)/$(SUB)_2BACK_firstlevel.feat/fq_$(GF)_$(1); fi ;\
-		$(FSL_DIR)/bin/featquery 1 $(SUBDIR)/$(SUB)_2BACK_firstlevel.feat 1 stats/zstat`echo $(1) | cut -c 5` fq_$(GF)_$(1) $(HOMEDIR)/$(GF).gfeat/MASKS/$(1).nii.gz ;\
-		echo "%*\`{}*cat $(SUBDIR)/$(SUB)_2BACK_firstlevel.feat/fq_$(GF)_$(1)/report.txt | awk `{print $$$$6}'%*\`{}*" ;\
+		$(FSL_DIR)/bin/featquery 1 $(SUBDIR)/$(SUB)_2BACK_firstlevel.feat 1 \
+		stats/zstat`echo $(1) | cut -c 5` fq_$(GF)_$(1) \
+		$(HOMEDIR)/$(GF).gfeat/MASKS/$(1).nii.gz ;\
+		echo "%*\`{}*cat $(SUBDIR)/$(SUB)_2BACK_firstlevel.feat/fq_$(GF)_$(1)/report.txt \
+		| awk `{print $$$$6}'%*\`{}*" ;\
 		
 	endef
 	
@@ -151,19 +158,20 @@ There are only a few variables we need for completing the "group2" target, which
 	FQresults_EVs: .readyforfq
 		NUMEV=%*\`{}*cat design.mat | awk `/NumWaves/ {print $$2}'%*\`{}* ;\
 		%*\lnote*for EV in %*\`{}*seq 1 1 $${NUMEV}%*\`{}*; do \
-			echo -ne "%*\`{}*cat design.fsf | grep "set fmri(evtitle$${EV})" | awk `{print $$3}'%*\`{}*," >> FQresults_EVs ;\
+			echo -ne "%*\`{}*cat design.fsf | grep "set fmri(evtitle$${EV})" | \
+			awk `{print $$3}'%*\`{}*," >> FQresults_EVs ;\
 		done ;\
 		echo >> FQresults_EVs ;\
 		%*\lnote*cat design.mat | tail -n $(INPUTNUM) >> design2.mat ;\
 		NUMEV=%*\`{}*cat design.mat | awk `/NumWaves/ {print $$2}'%*\`{}* ;\
 		%*\lnote*for c in %*\`{}*seq 1 1 $${NUMEV}%*\`{}*; do \
 		 	while read line; do \
-					SN=`echo $${line} | awk -v i="$${c}" '{print $$i}'` ;\
-					EXP=`echo $${line} | awk -v i="$${c}" '{print $$i}' | awk -F 'e' '{print $$2}'` ;\
-					BASE=`echo $${line} | awk -v i="$${c}" '{print $$i}' | awk -F 'e' '{print $$1}'` ;\
-					%*\lnote*NUM=`echo "scale=1; $${BASE}*(10^$${EXP##*+}.0)" | bc` ;\
-					echo "$${SN} ---> $${NUM}" ;\
-					sed -i "s/$${SN}/$${NUM}/g" design2.mat ;\
+				SN=`echo $${line} | awk -v i="$${c}" '{print $$i}'` ;\
+				EXP=`echo $${line} | awk -v i="$${c}" '{print $$i}' | awk -F `e' `{print $$2}'` ;\
+				BASE=`echo $${line} | awk -v i="$${c}" '{print $$i}' | awk -F `e' `{print $$1}'` ;\
+				%*\lnote*NUM=`echo "scale=1; $${BASE}*(10^$${EXP##*+}.0)" | bc` ;\
+				echo "$${SN} ---> $${NUM}" ;\	
+				sed -i "s/$${SN}/$${NUM}/g" design2.mat ;\
 			done < design2.mat ;\
 		done ;\
 		sed -i `s/\t/,/g' design2.mat ;\
@@ -180,7 +188,8 @@ In a perfect world, this is where this recipe would end; however, FEAT stores th
 	
 	FQresults_$(1): .readyforfq
 		echo "$(1)" > temp_$(1) ;\
-		for i in $(INPUTShack); do echo %*\`{}*cat $$$${i}/fq_$(GF)_$(1)/report.txt | awk `{print $$$$6}'%*\`{}* >> temp_$(1); done ;\
+		for i in $(INPUTShack); do echo %*\`{}*cat $$$${i}/fq_$(GF)_$(1)/report.txt | \
+		awk `{print $$$$6}'%*\`{}* >> temp_$(1); done ;\
 		mv temp_$(1) FQresults_$(1)
 		
 	endef
@@ -232,8 +241,10 @@ The \texttt{rplots} target will create a directory to house some of the images w
 		echo "<img src="PLOTS/$(1).png" alt="$(1).png">" >> $$$${HTML} ;\
 		echo "<img src="PLOTS/$(1)_brain.png" alt="$(1)_brain.png" width="60%">" >> $$$${HTML} ;\
 		echo "<br><br><table width="100%"><tr>" >> $$$${HTML} ;\
-		HOCORT=%*\`{}*$(FSL_DIR)/bin/atlasquery -a "Harvard-Oxford Cortical Structural Atlas (Lateralized)" -m CLUSTERS/$(1)%*\`{}* ;\
-		echo "<td valign="top"><p align="left">Harvard-Oxford Cortical Structural Atlas:<br><small>%*\`{}*echo $$$${HOCORT} | sed -e 's/[0-9] /<br>/g'`</small></p></td>" >> $$$${HTML} ;\
+		HOCORT=%*\`{}*$(FSL_DIR)/bin/atlasquery \
+		-a "Harvard-Oxford Cortical Structural Atlas (Lateralized)" \
+		-m CLUSTERS/$(1)%*\`{}* ;\
+		echo "<td valign="top"><p align="left">Harvard-Oxford Cortical Structural Atlas:<br><small>%*\`{}*echo $$$${HOCORT} | sed -e `s/[0-9] /<br>/g'%*\`{}*</small></p></td>" >> $$$${HTML} ;\
 		HOSUBCORT=%*\`{}*$(FSL_DIR)/bin/atlasquery -a "Harvard-Oxford Subcortical Structural Atlas" -m CLUSTERS/$(1)%*\`{}* ;\
 		echo "<td valign="top"><p align="left">Harvard-Oxford Subcortical Structural Atlas:<br><small>`echo $$$${HOSUBCORT} | sed -e %*\`{}*s/[0-9] /<br>/g'%*\`{}*</small></p></td>" >> $$$${HTML} ;\
 		CEREBELL=%*\`{}*$(FSL_DIR)/bin/atlasquery -a "Cerebellar Atlas in MNI152 space after normalization with FLIRT" -m CLUSTERS/$(1)%*\`{}* ;\
@@ -258,7 +269,7 @@ The final \texttt{FQreport.html} file is built from a number of smaller pieces, 
 		echo "<head>" >> $${REPORT} ;\
 		echo "<title>$(GF).gfeat</title>" >> $${REPORT} ;\
 		echo "</head>" >> $${REPORT} ;\
-		echo "<body bgcolor="#000000"><font face="Arial" color="#ffffff">" >> \
+		echo "<body bgcolor="%*\#*000000"><font face="Arial" color="%*\#*ffffff">" >> \
 		$${REPORT} ;\
 		echo "<center>" >> $${REPORT} ;\
 		echo "<p>Scatter plots depicting the relationship between brain activity and behavioral measures are provided for descriptive purposes only</p>" >> $${REPORT} ;\

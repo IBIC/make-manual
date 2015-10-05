@@ -27,7 +27,7 @@ the \texttt{qa} target does (i.e., create a QA report). See \nameref{sec:practic
 
 	QA/images/%_tsdiffana.gif: rest.nii.gz
 		%*\lnote*mkdir -p QA/images ;\
-		%*\lnote*pngout=`echo $@|sed 's/gif/png/g'` ;\
+		%*\lnote*pngout= %*\`{}*echo $@|sed `s/gif/png/g'%*\`{}* ;\
 		%*\lnote*$(NIPYPATH)/nipy_tsdiffana --out-file $$pngout $< ;\
 		convert $$pngout $@ ;\
 		rm -f $$pngout
@@ -62,11 +62,13 @@ the \texttt{qa} target does (i.e., create a QA report). See \nameref{sec:practic
 
 	QA/images/T1_skstrip.gif: T1.nii.gz T1_skstrip_mask.nii.gz
 		mkdir -p QA/images ;\
-		%*\lnote*$(FSL_DIR)/bin/overlay 1 1 $< -a $(word 2,$^) 1 10 rendered_T1_brain.nii.gz ;\
-		%*\lnote*$(PROJECT_HOME)/bin/slices rendered_T1_brain.nii.gz -o `dirname $@`/`basename $@ .gif`.png ;\
-		%*\lnote*convert `dirname $@`/`basename $@ .gif`.png -resize 500 $@ ;\
+		%*\lnote*$(FSL_DIR)/bin/overlay 1 1 $< -a $(word 2,$^) 1 10 \
+		rendered_T1_brain.nii.gz ;\
+		%*\lnote*$(PROJECT_HOME)/bin/slices rendered_T1_brain.nii.gz \
+		-o %*\`{}*dirname $@%*\`{}*/%*\`{}*basename $@ .gif%*\`{}*.png ;\
+		%*\lnote*convert %*\`{}*dirname $@%*\`{}*/%*\`{}*basename $@ .gif%*\`{}*.png -resize 500 $@ ;\
 		rm rendered_T1_brain.nii.gz ;\
-		rm `dirname $@`/`basename $@ .gif`.png
+		rm %*\`{}*dirname $@%*\`{}*/%*\`{}*basename $@ .gif%*\`{}*.png
 
 \end{lstlisting}
 
@@ -82,8 +84,10 @@ To ensure that our skull-strip does not remove too much of the brain or too litt
 	QAreport: QA/rest_Preprocessing.html 
 
 	QA/rest_Preprocessing.html: $(PROJECT_HOME)/lib/Rmd/fMRI.Rmd TSNR MotionGraphs SkullstripQA
-		%*\lnote*sed -e 's/SUBJECT/$(subject)/g' -e 's/TASK/rest/g' $(word 1,$^) > QA/rest_Preprocessing.Rmd ;\
-		%*\lnote*R -e 'library("rmarkdown");rmarkdown::render("QA/rest_Preprocessing.Rmd")' ;\
+		%*\lnote*sed -e `s/SUBJECT/$(subject)/g' -e `s/TASK/rest/g' $(word 1,$^) > \
+		QA/rest_Preprocessing.Rmd ;\
+		%*\lnote*R -e `library("rmarkdown"); \
+		rmarkdown::render("QA/rest_Preprocessing.Rmd")' ;\
 		rm -f QA/rest_Preprocessing.Rmd QA/rest_Preprocessing.md
 \end{lstlisting}
 

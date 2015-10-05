@@ -7,8 +7,6 @@ create a brain mask for skull stripping.
 
 The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/freesurfer/Makefile}.
 
-NOTE- THIS DOES NOT QUITE MATCH THE FILE - MUST MAKE CONSISTENT.
-
 \setcounter{codehighlight}{0} % RESET THIS BEFORE EVERY LST LISTING
 
 \begin{lstlisting}
@@ -80,7 +78,10 @@ using the help system.
 		export SUBJECTS_DIR=$(SUBJECTS_DIR) ;\
 		recon-all  -subjid  $${subj} -multistrip -autorecon1 ;\
 		height=`cat $${subj}/mri/optimal_preflood_height' ;\
-		if [[ $$height == 05 ]]; then max=$$(( $$height + 5 )); WATERSHED_PREFLOOD_HEIGHTS=`echo $$height $$max'; else min=$$(( $$height - 5 )); max=$$(( $$height + 5 )); WATERSHED_PREFLOOD_HEIGHTS=`echo $$min $$height $$max'; fi ;\
+		if [[ $$height == 05 ]]; then max=$$(( $$height + 5 )); \
+		WATERSHED_PREFLOOD_HEIGHTS=`echo $$height $$max'; \
+		else min=$$(( $$height - 5 )); max=$$(( $$height + 5 )); \
+		WATERSHED_PREFLOOD_HEIGHTS=`echo $$min $$height $$max'; fi ;\
 		export WATERSHED_PREFLOOD_HEIGHTS ;\
 		recon-all -s $${subj} -multistrip -clean-bm -gcut
 \end{lstlisting}
@@ -132,11 +133,12 @@ style subject directory, copies the file there, and converts it to
 NIfTI format. 
 
 \begin{lstlisting}
-	qa: $(call print-help,qa, Run QA - do this interactively with screensaver shut off) $(inputdirs:%=QA/%)
+	qa: $(call print-help,qa, Run QA - do this interactively with screensaver \
+		shut off) $(inputdirs:%=QA/%)
 
-QA/%: %
-	source $(FREESURFER_SETUP) ;\
-	$(QA_TOOLS)/recon_checker -s $*
+	QA/%: %
+		source $(FREESURFER_SETUP) ;\
+		$(QA_TOOLS)/recon_checker -s $*
 \end{lstlisting}
 
 We run the FreeSurfer QA tools to generate images that we can put into

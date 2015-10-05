@@ -55,7 +55,7 @@ The code for this example is in \texttt{oasis-longitudinal-example-small/freesur
 
 
 \begin{lstlisting}
-freesurfer: $(inputdirs:%=%/mri/aparc+aseg.mgz)
+	freesurfer: $(inputdirs:%=%/mri/aparc+aseg.mgz)
 
 	%*\lnote*%.t$(SESSION)/mri/aparc+aseg.mgz: $(PROJHOME)/subjects/%/visit$(SESSION)/mpr-1.nifti.nii.gz
         	rm -rf `dirname $@`/IsRunning.*

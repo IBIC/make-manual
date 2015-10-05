@@ -17,16 +17,23 @@ Note that the variables \texttt{PROJECT_HOME, FSL_DIR, STD_BRAIN, and subject} a
 \begin{lstlisting}
 	.PHONY: Connectivity clean_fcconnectivity
 
-	Connectivity: $(call print-help,Connectivity,"Perform subject-level seed-based connectivity analysis") fcconnectivity_dir/Rins_in_func.nii.gz fcconnectivity_dir/Rins_ts.txt fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz fcconnectivity_dir/$(subject).feat/stats/FZT1.nii.gz
+	Connectivity: $(call print-help,Connectivity,"Perform subject-level seed-based connectivity analysis") \
+	fcconnectivity_dir/Rins_in_func.nii.gz fcconnectivity_dir/Rins_ts.txt \
+	fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz \
+	fcconnectivity_dir/$(subject).feat/stats/FZT1.nii.gz
 
 	%*\lnote*fcconnectivity_dir/Rins_in_func.nii.gz: $(PROJECT_HOME)/lib/fcconnectivity/seedrins4.nii.gz xfm_dir/MNI_to_rest.mat rest_dir/rest_ssmooth.nii.gz
 		mkdir -p fcconnectivity_dir ;\
-		flirt -in $(PROJECT_HOME)/lib/fcconnectivity/seedrins4.nii.gz -ref rest_dir/rest_ssmooth.nii.gz -applyxfm -init xfm_dir/MNI_to_rest.mat -out $@ ;\
+		flirt -in $(PROJECT_HOME)/lib/fcconnectivity/seedrins4.nii.gz \
+		-ref rest_dir/rest_ssmooth.nii.gz -applyxfm \
+		-init xfm_dir/MNI_to_rest.mat -out $@ ;\
 		fslmaths $@  -bin $@ 
 	
-	%*\lnote*fcconnectivity_dir/Rins_ts.txt: fcconnectivity_dir/Rins_in_func.nii.gz rest_dir/rest_ssmooth.nii.gz
-		mkdir -p `dirname $@` ;\
-		fslmeants -i rest_dir/rest_ssmooth.nii.gz -o $@ -m fcconnectivity_dir/Rins_in_func.nii.gz
+	%*\lnote*fcconnectivity_dir/Rins_ts.txt: fcconnectivity_dir/Rins_in_func.nii.gz 
+				rest_dir/rest_ssmooth.nii.gz
+		mkdir -p %*\`{}*dirname $@ %*\`{}* ;\
+		fslmeants -i rest_dir/rest_ssmooth.nii.gz -o $@ \
+		-m fcconnectivity_dir/Rins_in_func.nii.gz
 
 \end{lstlisting}
 
@@ -40,8 +47,9 @@ masked functional connectivity data.
 
 \begin{lstlisting}
 	%*\lnote*fcconnectivity_dir/fcconnectivity.fsf: $(PROJECT_HOME)/lib/fcconnectivity/fcconnectivityTEMPLATE.fsf
-		pipelines=`echo $(MAKEPIPELINES)|sed 's/\//\\\\\//g'`;\
-		sed -e 's/SUBJECT/$(subject)/g' -e 's/MAKEPIPELINES/'$$pipelines'/g'  $< > $@
+		pipelines=%*\`{}*echo $(MAKEPIPELINES)|sed `s/\//\\\\\//g'%*\`{}*;\
+		sed -e `s/SUBJECT/$(subject)/g' \
+		-e `s/MAKEPIPELINES/'$$pipelines'/g'  $< > $@
 \end{lstlisting}
 This step relies on a template \texttt{.fsf} file created using the
 \texttt{Feat} graphical user interface. We set this up for the first
@@ -67,7 +75,9 @@ each subject. We set the pipelines variable just to escape the slashes
 If you like, after you run this step, you can open up the newly
 created \texttt{.fsf} file to see the settings that are described above.
 \begin{lstlisting}		
-	fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz: rest_dir/rest_ssmooth.nii.gz rest_dir/rest_nuisance_regressors.txt fcconnectivity_dir/Rins_ts.txt fcconnectivity_dir/fcconnectivity.fsf 
+	fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz: 
+	rest_dir/rest_ssmooth.nii.gz rest_dir/rest_nuisance_regressors.txt \
+	fcconnectivity_dir/Rins_ts.txt fcconnectivity_dir/fcconnectivity.fsf 
 		feat fcconnectivity_dir/fcconnectivity.fsf 
 \end{lstlisting}
 
@@ -76,12 +86,16 @@ rule that don't appear anywhere else in the recipe. However, they are
 needed by the \texttt{.fsf} file used to run \texttt{feat}.
 
 \begin{lstlisting}
-	fcconnectivity_dir/$(subject).feat/stats/FZT1.nii.gz: fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz rest_dir/rest_ssmooth.nii.gz rest_dir/rest_nuisance_regressors.txt 
+	fcconnectivity_dir/$(subject).feat/stats/FZT1.nii.gz: 
+	fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz \
+	rest_dir/rest_ssmooth.nii.gz rest_dir/rest_nuisance_regressors.txt 
 		NBVOLS=`fslval rest_dir/rest_ssmooth.nii.gz dim4';\
-		NBNUISANCE=%*\`{}*awk `{print NF}' rest_dir/rest_nuisance_regressors.txt |head -1%*\`{}* ;\
+		NBNUISANCE=%*\`{}*awk `{print NF}' rest_dir/rest_nuisance_regressors.txt \
+		|head -1%*\`{}* ;\
 		SD=%*\`{}*echo "sqrt($$NBVOLS-$$NBNUISANCE-3)" | bc -l%*\`{}* ;\
 		echo $$SD ;\
-		fslmaths fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz -div $$SD fcconnectivity_dir/$(subject).feat/stats/FZT1.nii.gz 
+		fslmaths fcconnectivity_dir/$(subject).feat/stats/zstat1.nii.gz \
+		-div $$SD fcconnectivity_dir/$(subject).feat/stats/FZT1.nii.gz 
 		
 \end{lstlisting}
 

@@ -41,7 +41,9 @@ including makefile, as do the rules to create the file \texttt{T1_skstrip.nii.gz
 
 	xfm_dir/rest_to_T1.mat: rest_dir/rest_mc_vol0.nii.gz T1_skstrip.nii.gz
 		mkdir -p xfm_dir ;\
-		%*\lnote*epi_reg --epi=rest_dir/rest_mc_vol0.nii.gz --t1=T1.nii.gz --t1brain=T1_skstrip.nii.gz --out=xfm_dir/rest_to_T1
+		%*\lnote*epi_reg --epi=rest_dir/rest_mc_vol0.nii.gz --t1=T1.nii.gz \
+		--t1brain=T1_skstrip.nii.gz --out=xfm_dir/rest_to_T1
+		
 \end{lstlisting}
 
 These rules use FSL's \texttt{epi_reg} program to register the resting
@@ -61,7 +63,8 @@ rule.
 		convert_xfm -omat $@ -inverse $<
 
 	xfm_dir/MNI_to_rest.mat:  xfm_dir/T1_to_rest.mat xfm_dir/MNI_to_T1.mat
-		convert_xfm -omat xfm_dir/MNI_to_rest.mat -concat xfm_dir/T1_to_rest.mat  xfm_dir/MNI_to_T1.mat
+		convert_xfm -omat xfm_dir/MNI_to_rest.mat \
+		-concat xfm_dir/T1_to_rest.mat  xfm_dir/MNI_to_T1.mat
 \end{lstlisting}
 We obtain the T1 to resting matrix by inverting the resting to T1
 matrix, and similarly for the MNI to T1 matrix. Finally, these

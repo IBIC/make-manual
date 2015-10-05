@@ -49,7 +49,7 @@ installed and make sure that it is correct. If we do not specify the
 version of the programs that we run in a makefile, \maken{} will use
 the individual's \texttt{PATH} variable to find them. Because
 different people may have different \texttt{PATH} variables, this will
-result in unpredictable results (the opposite of reprodicibility!)
+result in unpredictable results (the opposite of reproducibility!)
 Recall that \maken{} inherits variables from your environment, and you
 can override them by setting them.
 
@@ -106,7 +106,9 @@ does.
 
 	freesurferskstrip: $(call print-help,freesurferskullstrip, Alternate skull stripping with FreeSurfer) $(PROJECT_HOME)/freesurfer/$(subject)/mri/brain.mgz
 		subj=$(subject) ;\
-		mri_vol2vol --mov $(PROJECT_HOME)/freesurfer/$${subj}/mri/brain.mgz --targ $(PROJECT_HOME)/freesurfer/$${subj}/mri/rawavg.mgz --regheader --o brain-in-rawavg.mgz ;\
+		mri_vol2vol --mov $(PROJECT_HOME)/freesurfer/$${subj}/mri/brain.mgz \
+		--targ $(PROJECT_HOME)/freesurfer/$${subj}/mri/rawavg.mgz \
+		--regheader --o brain-in-rawavg.mgz ;\
 		mri_convert brain-in-rawavg.mgz brain-in-rawavg.nii.gz ;\
 		fslreorient2std brain-in-rawavg.nii.gz T1_skstrip.nii.gz ;\
 \end{lstlisting}
@@ -128,7 +130,8 @@ are phony, they can be created at any time and will always overwrite
 		flirt -in $< -ref $(STD_BRAIN) -omat $@ -out brain_to_std.nii.gz
 
 	eTIV.csv: brain_to_std.mat
-		%*\lnote*etiv=`$(PROJECT_HOME)/bin/mat2det brain_to_std.mat | awk '{print $$2 }'` ;\
+		%*\lnote*etiv=`$(PROJECT_HOME)/bin/mat2det brain_to_std.mat \
+		| awk '{print $$2 }'` ;\
 		echo  $(subject)","$$etiv > $@
 \end{lstlisting}
 
@@ -138,7 +141,7 @@ determinant of the linear transformation of the T1 image to standard
 space. This is a scaling factor that we can multiply the volume of the
 standard space brain by to obtain an estimated ICV volume. 
 
-\lnum{9} note that when calling the \texttt{mat2det} script and
+\lnum{9} Note that when calling the \texttt{mat2det} script and
 echoing the results to a file, we need two dollar signs (\texttt{\$\$})
 for every one that we intend to pass to the shell.  
 
@@ -194,7 +197,8 @@ reason you could not write a separate program to gather them all.
 	 wmhstats.csv: flair_skstrip_flwmt_lesions.hdr flair_skstrip_renamed.nii.gz
 		@echo Writing wmhstats.csv 
 		tot=`fslstats  flair_skstrip_renamed.nii.gz -V | awk `{print $$2}''; \
-		wmh=`fslstats  flair_skstrip_flwmt_lesions.hdr -u 2 -V | awk `{print $$2}'' ; \
+		wmh=`fslstats  flair_skstrip_flwmt_lesions.hdr -u 2 -V \
+		| awk `{print $$2}'' ; \
 		per=`echo $$wmh $$tot | awk `{print ($$1/$$2)*100}'' ; \
 		echo  $(subject)", "$$wmh", " $$per >> $@ 
 \end{lstlisting}
@@ -217,7 +221,10 @@ system in which case you can disregard this part of the makefile.
 		rm -rf *~ \#* brain_to_std.nii.gz flair_skstrip.hdr flair_skstrip.img
 
 	 clean:  $(call print-help,clean,Clean up everything from all makefiles) clean_rest clean_qa clean_transform clean_fcconnectivity clean_provenance
-		rm -rf flair_skstrip* flair_pve* flair_restore* *~ wmhstats.csv eTIV.csv brain_to_std* flair_mixeltype.nii.gz T1_skstrip_mask.nii.gz first-L_Hipp* first-R_Hipp* T1_to_std_sub* T1_skstrip.nii.gz hippo.csv first*
+		rm -rf flair_skstrip* flair_pve* flair_restore* *~ wmhstats.csv eTIV.csv \
+		brain_to_std* flair_mixeltype.nii.gz T1_skstrip_mask.nii.gz \
+		first-L_Hipp* first-R_Hipp* T1_to_std_sub* \
+		T1_skstrip.nii.gz hippo.csv first*
 \end{lstlisting}
 
 Finally, we define two targets to help us clean up. The first target,
