@@ -36,7 +36,7 @@ By using the command \texttt{grep} and a pattern to identify the subject identif
 
 \subsection{Setting a conditional flag}
 
-Sometimes we wish to process data only if we have the correct file (or files). By design or by accident, it may be that a certain scan was not acquired or is not of sufficient quality to process. Here, we have created a file \texttt{00_NOFLAIR} for each subject data directory that is missing a Fluid Attenuated Inversion Recovery (FLAIR) scan sequence. We set a variable called \texttt{HAVEFLAIR} that we can later use to ``comment out'' commands that would fail miserably if the basis files do not exist (\autoref{make:conditional}). To see this in use, see \texttt{testsubject/test001/Makefile}, described in \hyperref[sec:practicum3]{practical 3}.
+Sometimes we wish to process data only if we have the correct file (or files). By design or by accident, it may be that a certain scan was not acquired or is not of sufficient quality to process. Here, we have created a file \texttt{00_NOFLAIR} for each subject data directory that is missing a Fluid Attenuated Inversion Recovery (FLAIR) scan sequence. We set a variable called \texttt{HAVEFLAIR} that we can later use to ``comment out'' commands that would fail miserably if the basis files do not exist (\autoref{make:conditional}). To see this in use, see \texttt{testsubject/test001/Makefile}, described in \hyperref[sec:practicum3]{Practical 3}.
 
 \begin{make}{Setting a variable to determine whether a FLAIR image has been acquired.}{make:conditional}
 HAVEFLAIR = \$(shell if [ -f 00_NOFLAIR ] ; then echo false; else echo true; fi)
@@ -44,7 +44,7 @@ HAVEFLAIR = \$(shell if [ -f 00_NOFLAIR ] ; then echo false; else echo true; fi)
 
 We could also just look for the FLAIR image and decide that if it isn't there, we shouldn't try to process it (not throwing an error). With hundreds of subjects, however, it takes a lot of time to cross reference the master spreadsheet to check whether the file is missing by design or whether it did not get copied correctly. Making little marker files such as \texttt{00\_NOFLAIR} (which can contain missing data codes and reasons for the missing data) helps a lot to avoid re-checking.  
 
-Another example is a multisite study that occurs at several sites, each with different scanners. We may want to set a site variable that we can use to perform conditional processing (for example, adjusting for different sequence flags). Here, we create a site file called \texttt{00\_XX}, where the XX is a two letter code for the specific site. The site variable is then set to \texttt{00\_XX} (Figure~\ref{make:site}).
+Another example is a multisite study that occurs at several sites, each with different scanners. We may want to set a site variable that we can use to perform conditional processing (for example, adjusting for different sequence flags). Here, we create a site file called \texttt{00\_XX}, where the XX is a two letter code for the specific site. The site variable is then set to \texttt{00\_XX} (\autoref{make:site}).
 
 \begin{make}{Setting a variable to indicate the study site.}{make:site}
 SITE = \$(shell echo 00\_??)

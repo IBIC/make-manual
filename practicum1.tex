@@ -311,14 +311,9 @@ This is a little easier to interpret, as well. It also provides the advantage of
 What if you want to clean up your work? You've been deleting files by
 hand, but with phony targets, you don't have to. A common approach is to create a target called \texttt{clean}, which removes everything that the makefile created to bring the directory to its original state.
 
-%\begin{make}{\texttt{make clean}}{p1:clean}
-%	\maker{clean}{}\\
-%	\tab rm -f *_T1.nii.gz *_T1_brain.nii.gz
-%\end{make}
-
 \begin{lstlisting}
 	clean:
-		rm -f *_T1.nii.gz *_T1_brain.nii.gz
+		rm -f *_T1.nii.gz *_T1_skstrip.nii.gz
 \end{lstlisting}
 
 Note that in the recipe, it's totally fine to use wildcards. Depending on how far along you got with your processing before you decide to clean and restart, not every file might have been created.  For this reason we typically use the \texttt{-f} flag for \texttt{rm}. This flag hides error messages from attempting to erase nonexistent files. 

@@ -4,8 +4,16 @@ This is an example of how to use a makefile to automatically generate a methods 
 
 We do this in two steps. First, important parameters are written to a comma-separated value (CSV) file. These are extracted from wherever appropriate for the study using a \bashn{} shell script. For example, versions of tools such as FSL and AFNI can be obtained from the system. Imaging acquisition parameters can be obtained from the PAR file (a Philips human-readable parameter file), or the DICOMs, or any other exported parameter specification file appropriate to your study. Parameters that are used in the processing pipelines themselves can be obtained from those makefiles. After the CSV file is complete, we render an R Markdown file that loads those values and generates an HTML report. We include PubMed links to references in the R Markdown file so that, if necessary, the links can be used to import bibliographic records into bibliographic software databases. 
 
-The code for this example is in \texttt{testsubject/lib/makefiles/methodsgenerator.mk}.  This example builds upon the other processing pipelines in place for \texttt{testsubject}, \texttt{dti_susceptibility_correction}, and \texttt{ASLTestsubject}. It describes the resting state processing pipeline in \nameref{example:restingstate}, the DTI susceptibility-correction pipeline in \nameref{example:dti}, and the ASL processing pipeline in \nameref{example:asl}.
+The code for this example is in \texttt{testsubject/lib/makefiles/methodsgenerator.mk}.  This example builds upon the other processing pipelines in place for \texttt{testsubject}, \texttt{dti_susceptibility_correction}, and \texttt{ASLTestsubject}. It describes the resting state processing pipeline in \nameref{example:restingstate}, the DTI susceptibility-correction pipeline in \nameref{chap:dti}, and the ASL processing pipeline in \nameref{chap:asl}.
 
+\begin{lstlisting}
+	%*\lnote*rs_parsource=$(wildcard parrecs/*REST*.PAR)
+	t1_parsource=$(wildcard parrecs/*MPRAGE*.PAR)
+	dti_parsource=$(wildcard parrecs/*DTI*.PAR)
+	asl_parsource=$(wildcard parrecs/*ASL*.PAR)
+\end{lstlisting}
+
+This makefile begins by \lnum{1} searching for and selecting the PAR source files from which the makefile will acquire the majority of the generated methods section's parameter values. Because the naming conventions for the PAR files do not often follow a specific pattern, we use a wildcard to search for a string we are sure will be in the file name. 
 
 \begin{lstlisting}
 	%*\lnote*rs_framewisedisplacement="\#"
@@ -19,9 +27,9 @@ The code for this example is in \texttt{testsubject/lib/makefiles/methodsgenerat
 	asl_M0_repetitiontime="\#"
 \end{lstlisting}
 
-This makefile begins by \lnum{1} searching for and selecting the PAR source files from which the makefile will acquire the majority of the generated methods section's parameter values. Because the naming conventions for the PAR files do not often follow a specific pattern, we use a wildcard to search for a string we are sure will be in the file name. \lnum{2} Not all of the necessary parameter values are available in PAR files, so there are few parameters that must be set (by replacing the #'s specified for these values). Here we wish to report framewise displacement and acceleration factor used during resting-state data acquisition as well as the shot interval during the T1 anatomical scan acquisition along with parameters important for diffusion tensor imaging (DTI) and arterial spin labeling (ASL) processing. This makefile currently reports parameters important to resting-state, DTI, and ASL data and preprocessing but may be expanded to include other MRI techniques as well (e.g. voxel-based morphometry and susceptibility-weighted imaging).
 
-\newpage
+\lnum{2} Not all of the necessary parameter values are available in PAR files, so there are few parameters that must be set (by replacing the \#'s specified for these values). Here we wish to report framewise displacement and acceleration factor used during resting-state data acquisition as well as the shot interval during the T1 anatomical scan acquisition along with parameters important for diffusion tensor imaging (DTI) and arterial spin labeling (ASL) processing. This makefile currently reports parameters important to resting-state, DTI, and ASL data and preprocessing but may be expanded to include other MRI techniques as well (e.g. voxel-based morphometry and susceptibility-weighted imaging).
+
 
 \begin{lstlisting}
 	%*\lnote*.PHONY: provenance clean_provenance
@@ -55,7 +63,7 @@ This makefile begins by \lnum{1} searching for and selecting the PAR source file
 
 Using the \texttt{parameter_table.csv} file created in the previous step, an R script is called to incorporate the necessary parameter values into a model methods section R Markdown (.Rmd) file. One thing that is a little frustrating about R Markdown is that it will look for files in the directory in which it is located. This is why we first copy it to the \texttt{provenance} subdirectory. The R Markdown file then looks for the CSV file in the current working directory, with no need to pass paths back and forth between programs. 
 
-The outputted methods section HTML file can be viewed in any web browser. Figure \autoref{fig:methods} shows the R Markdown code that is processed (on the left) to generate the HTML report (on the right). The R Markdown code is very simple. The first ``chunk'' of code reads in the CSV file and uses the short variable names to construct a variety of variables for the value of the parameter, its full name, and the units. These are accessed in the text description of the protocol with the syntax \texttt{`r variablename'}. For more information about how to write reports with R Markdown, see their excellent \href{http://rmarkdown.rstudio.com}{documentation}. 
+The outputted methods section HTML file can be viewed in any web browser. \autoref{fig:methods} shows the R Markdown code that is processed (on the left) to generate the HTML report (on the right). The R Markdown code is very simple. The first ``chunk'' of code reads in the CSV file and uses the short variable names to construct a variety of variables for the value of the parameter, its full name, and the units. These are accessed in the text description of the protocol with the syntax \texttt{`r variablename'}. For more information about how to write reports with R Markdown, see their excellent \href{http://rmarkdown.rstudio.com}{documentation}. 
 
 \begin{lstlisting}
 	clean_provenance:
