@@ -130,7 +130,7 @@ Finally, note that we have a directory labeled \texttt{incoming}. This is a scra
 Up until this point we have only seen little examples of makefiles that process subjects within a single directory. However, real studies include many subjects and many analyses; each analysis often produces hundreds of files per subject. Often, several researchers are trying to conduct different analyses on the same data set at the same time.
 
 % add reference to incoming makefile
-For these reasons, we use a collection of makefiles to manage a project. This section describes this basic recipe (which is a little complicated). You can also see this recipe implemented in \texttt{Udall}. Typically the steps involving creating subject directories and links are done by a script or an ``incoming'' makefile at the time that the subject data appears from the scanner. Better, if you use an archival system that you can write programs to access (for example, XNAT) a script can create all the links and name files nicely for you (see \nameref{chap:xnat}). %%% Note this is Karl's example
+For these reasons, we use a collection of makefiles to manage a project. This section describes this basic recipe (which is a little complicated). You can also see this recipe implemented in \texttt{Udall}. Typically the steps involving creating subject directories and links are done by a script or an ``incoming'' makefile at the time that the subject data appears from the scanner. Better, if you use an archival system that you can write programs to access (for example, XNAT) a script can create all the links and name files nicely for you (see \nameref{chap:XNAT}). %%% Note this is Karl's example
 
 This recipe relies on the concept of a ``symbolic link.'' This is a file that points to another file or directory. A symbolic link allows you to access a file or directory using a different pathname. If you remove the link, you will not remove the thing that it points to. However, if you remove the target of the link, the link won't work any more. 
 
@@ -234,7 +234,7 @@ The last step now is to create a symbolic link within each subject directory to 
 Once these steps are completed, you can conduct single-subject processing for each session by changing directory to the correct location and issuing the specific \maken{} command. Here, we illustrate how to make the ``test'' target for all subjects within \texttt{session2/}.
 
 \begin{bash}{Making \texttt{test}}{bash:test}
-	cd \$PROJHOME/Udall/subjects/session2 \\
+	cd \$PROJHOME/Udall/session2 \\
 	make TARGET=test
 \end{bash}
 
@@ -261,7 +261,7 @@ By default the shell used by make recipes is \texttt{/bin/sh}.  This shell is on
 	export SHELL
 \end{make}
 
-Note that \texttt{SHELL} is accessed \texttt{\$(SHELL)}, as are all \maken{} variables. 
+Note that a \maken{} variable is accessed within \maken{} by prefixing it with a \$ sign and surrounding it with parentheses. Therefore, \texttt{SHELL} is accessed within \maken{} as \texttt{\$(SHELL)}.
 
 \subsubsection{\texttt{TARGET}}
 In the strategy that we outline for organizing makefiles and conducting subject-level analyses, we run \maken{} recursively (i.e., within the subject directories) from the session-level directory. To do this very generally, we call make from the session-level by specifying the TARGET, or what it should ``make'' within the subject directory. You do not need to do this within the subject directory itself. For example:
@@ -281,7 +281,7 @@ We think it makes life easier to set this variable to the list of subjects in th
 Often makefiles are intended to process a single subject. In this case, it is useful to set a subject variable to be the subject identifier.
 
 \subsubsection{\texttt{SESSION}}
-When subject data is collected at multiple time points, it is useful to set at \texttt{SESSION} variable that can be used to locate the correct subject files. 
+When subject data is collected at multiple time points, it is useful to set a \texttt{SESSION} variable that can be used to locate the correct subject files. 
 
 \subsection{Other important variables}
 Ultimately, when it comes time to publish, it is important to state what version of the different software packages you have used. This means that you need to make it difficult to accidentally run a job with a different version of the software. For example, consider this rule to run \texttt{DTIPrep}, a program for eddy correction, motion correction, and removal of noise from DTI images. % TO DO: cite DTIPrep
@@ -299,7 +299,7 @@ A practical way to control for this is to specify the location of the program (i
 	DTIPREPHOME=/usr/local/DTIPrep_1.1.1_linux64/DTIPrep \\
 	
 	\maker{dtiprep/\$(subject)_dwi_QCReport.txt}{dtiprep\$(subject)_dwi.nhdr} \\
-	\tab DTIPrep \dd DWINrrdFile \$< -p dtiprep/default.xml \dd default \dd check \dd outputFolder dtiprep/ \\	
+	\tab \$(DTIPREPHOME)/DTIPrep \dd DWINrrdFile \$< -p dtiprep/default.xml \dd default \dd check \dd outputFolder dtiprep/ \\	
 \end{make}
 
 What about when the programs are installed in some default location, e.g. \texttt{/usr/local/bin/}, with no version information? In our installation, this occurs frequently when using other workflow scripts that express pipelines more complicated than what might reasonably be put into a makefile.
