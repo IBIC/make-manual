@@ -1,0 +1,271 @@
+\documentclass[oneside,11pt]{memoir}
+
+% Fonts
+\usepackage[T1]{fontenc}	% better output encoding
+\usepackage{textcomp}		% For ASCII diacritics
+\usepackage{lmodern}		% Latin Modern instad of CM
+%\usepackage{inconsolata}	% better monospaced font
+\usepackage[defaultsans]{droidsans} % straight quotes
+\usepackage{microtype}		% fix the little things % comes after any fonts
+
+% basics
+\usepackage[textwidth=0.65\paperwidth]{geometry}	% Adjust margins
+\usepackage{graphicx}	% now you can add pretty pictures
+\usepackage{url} 		% makes urls look nicer
+\usepackage[usenames,dvipsnames]{color} % adds colored text
+\usepackage[font=footnotesize]{caption}	% more control over figure captions
+\usepackage{xparse}		% nesting arguments wtihin environments
+\usepackage{underscore}	% better text underscores
+\usepackage{marginnote}	% better margin notes
+\usepackage{tabularx}	% more flexible tables
+\usepackage[table]{xcolor}	% alternating table colors
+\usepackage{todonotes}	% backend organization. Also for some reason necessary for tikz
+\usepackage{authblk} % author block
+
+% Complex packages
+\usepackage{tikz}		% nice flowcharts and stuff
+\usepackage{tikzpagenodes}
+\usetikzlibrary{positioning,calc}
+\usepackage{tcolorbox} 	% frames
+\usepackage{listings} 	% nice code formatting
+\usepackage{dirtree}	% pretty directory trees
+
+% Lists
+\usepackage[ampersand]{easylist}	% Nicer syntax for creating lists
+\usepackage{paralist}	% Allows inline lists %
+% For citations using Bibtex
+\usepackage{natbib}
+
+% Hyperref
+\usepackage[colorlinks=true]{hyperref} 	% allows hyperlinking % NEEDS TO BE LOADED LAST
+\hypersetup{citecolor=red}
+
+% make underscore defaults to text mode over math mode
+\catcode`_=12 
+
+% Document information
+
+\title{Using GNU \texttt{make} for Neuroimaging Workflow}
+
+%\renewcommand{\Authsep}{ and }
+%\renewcommand{\Authand}{ and }
+%\renewcommand{\Authands}{ and}
+
+\author{Mary K. Askren\thanks{\url{askren@uw.edu}}} 
+\author{Trevor K. McAllister-Day}	
+\author{Natalie Koh}
+\author{Zo\'e Mestre}
+\author{Jennifer N. Dines}
+%\author{Kristian Eschenburg}
+\author{Benjamin A. Korman}
+\author{Susan J. Melhorn}	
+\author{Daniel J. Peterson} 
+\author{Matthew Peverill}
+\author{Swati D. Rane}
+\author{Melissa A. Reilly}
+\author{Maya A. Reiter}
+\author{Kelly A. Sambrook}
+\author{Karl A. Woelfer} 
+\author{Xiaoyan Qin}
+\author{Thomas J. Grabowski} 
+\author{Tara M. Madhyastha\thanks{\url{madhyt@uw.edu}}} 
+
+\affil{\textbf{University of Washington, Seattle}}
+
+
+% Set up the margins and the mymarginnote command
+\setlrmargins{*}{*}{1}
+\setmarginnotes{0.25in}{1in}{0.5in}
+\checkandfixthelayout
+
+\newcommand{\mymarginnote}[2]{\marginpar{{\small \sffamily \selectfont\fbox{\textbf{#1}} #2}}} % custom margin notes
+
+% Code display commands
+\newcommand\maken{\texttt{make}} % typeset 'make' always in monospace
+\newcommand\bashn{\texttt{bash}} % same for 'bash'
+
+\definecolor{textgray}{gray}{0.75} 
+\makeatletter
+\newcommand{\onelbox}[2]{%
+	\setbox0=\hbox{#1}%
+	\setlength{\@tempdima}{\dimexpr\wd0+13pt}%
+	\begin{tcolorbox}[colback=#2,boxrule=0.5pt,arc=4pt,
+		left=6pt,right=6pt,top=6pt,bottom=6pt,boxsep=0pt,width=\textwidth]
+		#1
+	\end{tcolorbox}
+}
+\makeatother
+
+% Part image
+\makeatletter
+% define a user command to choose the image
+% this command also creates an internal command to insert the image
+\newcommand{\partimage}[2][]{\gdef\@partimage{\includegraphics[#1]{#2}}}
+\renewcommand{\printparttitle}[1]{\parttitlefont #1\vfil\@partimage\vfil}
+\makeatother
+
+% ONE-LINE environments
+% $ is automatically added to the bash prompt.
+% % \hfill\, forces the minipage onto a new line. Don't ask.
+\newcommand{\bashcmd}[1]{ \hfill\, \begin{minipage}[t]{\linewidth}  \hrule \vspace{0.5\baselineskip} \texttt{\small \$ #1} \vspace{0.5\baselineskip} \hrule \end{minipage} \vspace{0.5\baselineskip} }
+\newcommand{\makecmd}[1]{ \vspace{0.5\baselineskip} \onelbox{\texttt{\small #1}}{white} \vspace{0.5\baselineskip} }
+% Since these commands are embedded in floats, the nicest way to space them properly in the output
+%% is to make sure that there is a newline between the command and the text you want to follow the figure.
+
+% load languages for the listings class
+\lstloadlanguages{bash, make}
+
+%% DEFINE BASH MULTILINE ENVIRONMENT
+\newenvironment{bash}[2] % 
+{ \begin{samepage} \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip} \ttfamily } { \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip}  \caption{\captiontext} \label{\labelt} \end{figure} \end{samepage} } 
+
+% DEFINE MAKE MULTILINE ENVIRONMENT
+\newenvironment{make}[2] %
+{ \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \begin{tcolorbox}[colback=white,boxrule=0.5pt,arc=4pt,left=6pt,right=6pt,boxsep=0pt,width=\textwidth] \raggedright \ttfamily } { \normalfont \end{tcolorbox} \caption{\captiontext} \label{\labelt} \end{figure} }
+% You must terminate lines in the make environment
+% To indent lines, use \tab
+
+% use \maker to create recipes
+\newcommand{\maker}[2]{\textcolor{blue}{#1}:\enspace#2}
+
+% tab for indenting in make environment
+\newcommand{\tab}{\hspace*{4em}}
+
+% Specify command for "--"
+% use this to specify bash long inputs (--) so they don't get swallowed up into hyphens.
+% No space follows by default
+\newcommand{\dd}{-{}-} 
+
+% This is a better-looking #, I think
+\newcommand{\mypound}{\protect\scalebox{0.8}{\protect\raisebox{0.4ex}{\#}}}
+
+% % SOURCE CODE HIGHLIGHTING
+\newcounter{codehighlight}
+\newcommand*{\lnum}[1]{\tikz[baseline=(char.base)]{	\node[shape=rectangle,draw,inner sep=0.8pt, fill=black, text=white] (char) {\rmfamily\bfseries\scriptsize#1}; } }
+\newcommand*{\lnote}{\stepcounter{codehighlight}\llap{{\lnum{\thecodehighlight}}\hskip 1em}} %6em original
+
+% Change numbering
+\setsecnumdepth{chapter}	% only number chapters
+\maxtocdepth{subsection}	% put subsections in the table of contents
+\makeatletter
+\@addtoreset{chapter}{part}	% reset the chapter counter at each part
+\makeatother
+
+\pagestyle{ruled}	% Graphics command
+\raggedbottom		% Allow more flexibility at the bottom of the page - helpful with lots of floats.
+
+% Fix the spacing inbetween III and Examples
+\cftsetindents{part}{0em}{2em}
+
+% Use this command to include authors in the examples section.
+\newcommand{\Echapter}[3]{\chapter[#1]{#1 \\ \normalfont \Large \textit{#2\footnote{\url{#3}}}}}
+
+\definecolor{lemon}{HTML}{F5ECCE}
+
+
+
+\begin{document}
+	
+	% Cover page
+	
+	\thispagestyle{empty}
+
+	\begin{tikzpicture}[remember picture,overlay]
+		\node[font=\fontsize{30pt}{36pt}\selectfont, align=center] (center) at (current page text area.center) 
+			{ Using GNU \textsc{make} for \\
+			Neuroimaging Workflow } ;
+		\node[above=of center,align=center] (above) {\includegraphics[width=0.75\textwidth]{../images/IBIClogo.png}} ;
+		\node[font=\LARGE, below=of center,align=center] (below) { University of Washington } ;
+		
+		\draw
+		([xshift=-0.5\textwidth]$ (above.south)!0.5!(center.north) $ ) -- ++(\textwidth,0pt)
+		([xshift=-0.5\textwidth]$ (below.north)!0.5!(center.south) $ ) -- ++(\textwidth,0pt);  
+	\end{tikzpicture}
+
+	
+	\frontmatter	% Define the front matter section of the document
+	
+	\maketitle		% Title page
+	
+	\texttt{Branch: folder-reorg}
+	
+    \newpage
+    
+	\tableofcontents
+	
+    \newpage	
+    
+	\listoffigures
+    
+    \newpage	
+	
+	\mainmatter		% The actual content
+	
+    \partimage[width=2in]{../images/ohbm.jpg}
+	\part{Manual}
+	
+	\cleardoublepage
+	\input{../chapters/chapter1}	% Introduction to make
+	
+	\cleardoublepage
+	\input{../chapters/chapter2}	% Running make in context
+	
+	\cleardoublepage
+	\input{../chapters/chapter3}	% Running make in parallel
+	
+	\cleardoublepage
+	\input{../chapters/chapter4}  % Examples
+	
+	\part{Practicals}
+	
+	% Set up lst listing for the make environment.
+	% If we ever need a second lst listing, this will have to be set up differently.
+	\lstset{language=make,backgroundcolor=\color{lemon},
+		gobble=8,
+		basicstyle=\small\ttfamily,
+		breaklines=true,
+		escapeinside={\%*}{*}}
+	
+	\begin{vplace}[0.7]
+		
+		\thispagestyle{empty}
+		\large
+		\noindent Part II will guide you through four \maken{} classes, using data available on the IBIC system and on NITRC. Each class is structured as a brief lecture followed by a practical designed to be completed as you read the chapter.
+		Note that in Practicals and in Examples, Makefiles are printed with a yellow background so that they can easily be identified. 
+		
+	\end{vplace}
+	
+	% change chapters to practicals
+	\renewcommand{\chaptername}{Practical}
+	\renewcommand{\chapterautorefname}{Practical}
+	
+	\cleardoublepage
+	\input{../practica/practicum1}	% Overview of make
+	
+	\cleardoublepage
+	\input{../practica/practicum2} 	% Make in context
+	
+	\cleardoublepage
+	\input{../practica/practicum3} 	% Getting down and dirty
+	
+	\cleardoublepage
+	\input{../practica/practicum4}	% Advanced topics & R markdown
+	
+	\part{Examples}
+	
+	% change practicals to examples
+	\renewcommand{\chaptername}{Example}
+	\renewcommand{\chapterautorefname}{Example}
+	
+	\input{../examples/makefile-examples} % How to execute FreeSurfer using make
+	
+%	\include{documentation} % How to document makefiles
+	
+%	\appendix	
+%	\include{style-guide}
+	
+	\cleardoublepage
+	\bibliographystyle{apalike}
+	\bibliography{../references}
+	
+\end{document}

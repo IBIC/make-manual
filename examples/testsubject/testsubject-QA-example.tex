@@ -38,7 +38,7 @@ the \texttt{qa} target does (i.e., create a QA report). See \nameref{sec:practic
 \lnum{6} The variable \texttt{pngout} is defined to take the filename of your target and substitute \texttt{gif} with \texttt{png}.\\
 \lnum{7} Subsequently, the code calls the script \texttt{nipy\_tsdiffana} which is located in the directory \texttt{\$(NIPYPATH)} you defined earlier.\\ The python script will generate a \texttt{png} image comprised of 4 graphs showing the scaled variance, slice-by-slice variance, scaled mean voxel intensity and the max/mean/min slice variation of your resting-state time series, as seen in the image below. \\
 
-\includegraphics[scale=0.5]{images/QAtsdiffana.png}
+\includegraphics[scale=0.5]{../images/QAtsdiffana.png}
 
 \begin{lstlisting}
 	MotionGraphs: QA/images/rest_MotionGraphRotations.gif 
@@ -54,8 +54,8 @@ the \texttt{qa} target does (i.e., create a QA report). See \nameref{sec:practic
 	\tab 4. A signal intensity (DVARS) graph to show signal intensity across acquired volumes.\\
 	To understand the usage of an R script, it is usually necessary to look at the code itself. In this line, the R script called with the output directory \texttt{QA/images} as the first argument, followed by the prefix \texttt{rest} to be used for naming the output images.\\
 
-\includegraphics[scale=0.3]{images/QAmotion1.png}
-\includegraphics[scale=0.3]{images/QAmotion2.png}
+\includegraphics[scale=0.3]{../images/QAmotion1.png}
+\includegraphics[scale=0.3]{../images/QAmotion2.png}
 
 \begin{lstlisting}
 	SkullstripQA: QA/images/T1_skstrip.gif
@@ -78,7 +78,7 @@ To ensure that our skull-strip does not remove too much of the brain or too litt
 \lnum{10} FSL \texttt{slices} is a script that calls the FSL tool \texttt{slicer} to create an image consisting of 3 axial, 3 sagittal and 3 coronal slices. Here, we feed it the \texttt{rendered\_T1\_brain.nii.gz} file that we want FSL \texttt{slices} to use. The output will be a file called \texttt{QA/images/T1\_skstrip.png}. Instead of typing out the full name of the file, however, we simply provide the directory name and basename of our target and replace \texttt{.gif} with \texttt{.png}. \\
 \lnum{11} Following this, we convert our PNG image into a GIF image, using ImageMagick's \texttt{convert} that performs the conversion and resizes the image.\footnote{This step was necessary in earlier versions of R Markdown that had trouble including PNG images, but may not be necessary for you.}\\
 
-\includegraphics[scale=0.4]{images/QAskullstrip.png}
+\includegraphics[scale=0.4]{../images/QAskullstrip.png}
 
 \begin{lstlisting}
 	QAreport: QA/rest_Preprocessing.html 

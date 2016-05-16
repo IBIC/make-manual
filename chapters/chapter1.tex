@@ -1,0 +1,137 @@
+\chapter[Introduction to \maken{}]{A Conceptual Introduction to \maken{} for Neuroimaging Workflow}
+\label{chap:intro}
+	
+This guide is intended for scientists working with neuroimaging data (especially a lot of it) who would like to spend less time on workflow and more time on science. The principles of automation and parallelization, taken from computer science, can easily be applied to neuroimaging to make certain parts of the analysis go quickly so that the computer can do what it's best at. This kind of automation supports reproducible science (or at the very least, allows you to rerun your analysis extremely quickly with a variant of the processing stream, or on a new dataset).
+	
+Over the last few years we have developed neuroimaging workflows using \maken, a program from the 1970s that was originally used to describe how to compile and link complicated software packages. It is an amazing program that is still in use today. It is fairly easily repurposed to describe neuroimaging workflows, where you specify how you ``make'' one file, which can depend on several other files, using some set of commands. Once you have expressed these ``rules'' or ``recipes'' in a file (a Makefile), you actually have a fully parallelizable program, which allows you to run the Makefile over as many cores as you have (or on a Sun Grid Engine). This has been done before: FreeSurfer incorporates \maken{} into their pipeline ``behind the scenes.''  We have developed many examples of neuroimaging pipelines in multiple domains that are written using \maken{}.
+	
+Modern tools for neuroimaging workflow (nipype, LONIPipeline) incorporate data provenance (e.g., information about how and when the results were generated), wrappers for arguments so that you do not need to worry about all the different calling conventions of programs, and generation of flow graphs. However, \maken{} allows expression of neuroimaging workflow with only the programming concepts of parallelism and variables. Being able to incorporate programs from many different packages without wrapping them saves time and effort.  T.\,M.\,M. has taught several undergraduates, graduates, and staff to use it to develop, debug, and execute pipelines. These students have contributed examples to this manual. It is simple enough that the basic concepts can be understood by non-programmers. This results in more time teaching and doing neuroimaging than teaching (and doing) programming.
+	
+\section{Conventions Used in This Manual}
+	
+By convention, actual commands or filenames will be typeset in fixed-width (monospaced) font (for example, \texttt{ls}, \texttt{make}, FSL's \texttt{bet}, and \texttt{flirt}.) Makefile examples will also be typeset in monospaced font.
+	
+Commands to be executed in a shell (we assume \bashn{} throughout this manual) are written on a line beginning with a dollar sign (\$) \mymarginnote{!}{You do not type the \$ to execute \bashn{} commands; it stands for the prompt.}and displayed between two horizontal lines, as follows:	
+\bashcmd{echo Hello World!}	
+	
+Examples of commands from Makefiles are shown in an outlined box with no special prompt character:
+\makecmd{This is a make command.}
+Additionally, recipes are easily identified by their opening syntax, where the recipe target is usually rendered in blue (see \autoref{make:syntax} or \autoref{make:recipe1}).	
+	
+Data for the lab practicals and examples documented in this manual are available from NITRC. We will assume that you have downloaded them into some location on your own machines (e.g. \texttt{~makepipelines}) and will refer to these files directly. To run the example makefiles, you must set an environment variable, \texttt{MAKEPIPELINES} to the location of this directory (see \nameref{part:examples}). If you are at IBIC you may find these examples on \texttt{/project_space/makepipelines}.%%% MUST PUT NAME HERE
+
+Throughout this manual we assume a UNIX style environment (e.g., Linux or MacOS) with common neuroimaging packages installed. All examples have been tested on Debian Wheezy using GNU Make 3.81. Please let us know of problems or typos, as this manual is a work in progress.
+	
+\section{Quick Start Example}
+\mymarginnote{!}{Recipes in \maken{} need to begin with a TAB character. Not eight spaces, not nine, but exactly one TAB character.}
+	
+A makefile is a text file created in your favorite text editor (e.g., \texttt{txtedit}, \texttt{emacs}, \texttt{vi}, \texttt{gedit} -- \emph{not} Office or OpenOffice). By convention, it is typically called ``Makefile'' or ``foo.mk'' (i.e., it has a .mk extension). It is like a little program that is run by the program \maken{}, in the same way that a shell script is program run by the program \texttt{/bin/bash}.
+	
+A makefile contains commands that describe how to create files from other files (for example, a skull-stripped image is created from the raw T1 image, or a T1 to standard space registration matrix is created from a standard space skull-stripped brain and a T1 skull-stripped brain).
+	
+These commands take the form of ``rules'' that look like those in \autoref{make:syntax}.
+	
+\begin{make}{Basic \maken{} syntax. }{make:syntax}
+	\maker{target}{dependencies} \\
+	\tab \begin{minipage}[t]{\linewidth-4em} {\color{gray} Shell commands to create target from dependencies (a recipe), beginning with a [TAB] character.} \end{minipage}
+\end{make}
+	
+This may be best understood by example. \autoref{make:recipe1} is a simple makefile that executes FSL's \texttt{bet} command to skull-strip a T1 NIfTI file.
+	
+\begin{make}{A very basic \maken{} recipe.}{make:recipe1}
+	\maker{s001\_T1\_skstrip.nii.gz}{s001\_T1.nii.gz} \\
+	\tab bet s001_T1.nii.gz s001_T1_skstrip.nii.gz -R
+\end{make}
+	
+In \autoref{make:recipe1} the target file is \texttt{s001_T1_skstrip.nii.gz}, which ``depends'' on \texttt{s001_T1.nii.gz}. More specifically, to ``depend on'' something means that \begin{inparaenum}[\itshape a)\upshape] \item it cannot be created unless the dependency exits, and \item it must be recreated if the dependency exists, but is newer than the target. \end{inparaenum}
+	
+The ``recipe'' is the \texttt{bet} command that creates the skull-stripped image from the T1 image. This executes in a shell, just as if you were typing it in the terminal.
+	
+If this rule is saved inside a file called \texttt{Makefile} in the same directory as \texttt{s001_T1.nii.gz}, then you can create the target as follows:	
+\bashcmd{make s001_T1_skstrip.nii.gz}
+	
+Alternatively, in this instance, you could call:
+\bashcmd{make}	
+	
+If you specify a target as an argument to make, it will create that target. If you do not, \maken{} will build the first target in the file. In this case, they are the same.
+	
+\section{A More Realistic Example}
+	
+In the example above, we specified exactly what file to create and what file it depended upon. However, in neuroimaging analyses we normally have many subjects and want to do the same things for all of them. It would be a royal pain to type in every rule to create every file explicitly, although it would work. Instead we can use the concepts of variables and patterns to help us. 
+A variable is a name that is used to store other things. You can set a variable to something and then refer to it later. Figure~\autoref{fig:makevars} lists the syntax for common \maken{} variables. A pattern is a substring of text that can appear in different names, and is denoted using \texttt{\%}.
+Suppose we have a directory that contains the T1 images from 100 subjects with identifiers s001 through s100. The T1 images are named \texttt{s001_T1.nii.gz}, \texttt{s002_T1.nii.gz} and so on. This makefile will allow you to skull strip all of them (and on as many processors as you can get a hold of (see \nameref{chap:parallel}) but I'm getting ahead of myself here).
+	
+\begin{figure}[h!]
+	\begin{center}
+		\begin{tabular}{ r l }
+			\texttt{\$@}	& is the target. \\
+			\texttt{\$<}	& is the first dependency. \\
+			\texttt{\$(VAR)}& is a \maken{} variable.
+		\end{tabular}
+	\end{center}	
+	\caption{Automatic \maken{} variables}
+        \label{fig:makevars}
+\end{figure}
+
+The first two lines in \autoref{make:recipe2} set variables for Make. Yes, the syntax is icky but it is well explained in the GNU \maken{} manual. We will summarize here. The first variable is assigned to the result of a ``wildcard'' operation that expands to all files with the pattern \texttt{s???_T1.nii.gz}. If you are not familiar with wildcards, if you do a directory listing of that same pattern, it will match all files that begin with an ``s,'' are followed by exactly three characters, and then ``_T1.nii.gz.'' In other words, the \texttt{T1files} variable is set to be all T1 files belonging to those subjects in the current directory.
+	
+\begin{make}{A more realistic example}{make:recipe2}
+	T1files=\$(wildcard s???_T1.nii.gz) \\
+	T1skullstrip=\$(T1files:\%_T1.nii.gz=\%_T1_skstrip.nii.gz) \\
+	\maker{all}{\$(T1skullstrip)} \\
+		
+	\maker{\%_T1_skstrip.nii.gz}{\%_T1.nii.gz}\\
+	\tab bet \$< \$@ -R
+\end{make}
+	
+The second variable is set using pattern substitution on the list of T1 files, substituting the file ending (\texttt{_T1.nii.gz}) for a new file ending (\texttt{_T1_skstrip.nii.gz}) to create the list of target files. Note that the percent sign (\texttt{\%}) matches the subject identifier. It is necessary to use the percent sign to match only the subject identifier (and not the subject identifier plus the following underscore, or some other extension) when matching parts of file names in this way. 
+	
+We have now introduced a new type of rule (\texttt{make all}) which has no recipe. Make will look for a file called \texttt{all} and this file will not exist. It will then try to create all the things that \texttt{all} depends on (and those files, the skull stripped images, don't exist either). So it will then take names of each skull stripped file, one by one, and look for a rule to make it. When it has done that, it will execute the (nonexistent) recipe to make target \texttt{all} and be finished. Because the file \texttt{all} still does not exist (by intention), trying to make the target will always result in trying to make all the skull stripped files.
+	
+This brings us to the final rule. The percent sign in the target matches the same text in the dependency. This target matches the name of each of the skull stripped files desired by target all. So one by one, they will be created. In the recipe for the final rule, we have used a shorthand of \maken{} to refer to both the dependency that triggered the rule (\texttt{\$<}) and the target (\texttt{\$@}). We do this because since the rule is generic, we do not know exactly what target we are making. However, we could also write out the variables (as seen in \autoref{make:recipe3}).
+	
+\begin{make}{An expansion of \autoref{make:recipe2}}{make:recipe3}
+	\maker{\%_T1_skstrip.nii.gz}{\%_T1.nii.gz} \\
+	\tab bet \$*_T1.nii.gz \$*_T1_skstrip.nii.gz -R
+\end{make}
+	
+In this version of the rule, we use the notation \texttt{\$*} to refer to what was matched in the target/dependency by \texttt{\%}. If the previous version looked to you like a sneeze, this may be more readable.
+	
+Now you can run this makefile in many ways. As before, to create a specific file, you can type:	
+\bashcmd{make s001_T1_skstrip.nii.gz}
+	
+To do everything, you can type: \texttt{make all} or just \maken{}.
+	
+Suppose you do this and later find that the T1 for subject 036 was not properly cropped and reoriented. You regenerate this T1 image from the dicoms and put it in this directory. Now if you type make again, it will regenerate the file \texttt{s036_T1_skstrip.nii.gz}, because the skull strip is now older than the original T1 image. Suppose you acquire four more subjects. If you dump their T1 images into this directory following the same naming convention and type \maken{}, off you go.
+
+This probably seems like an enormous amount of effort to go to for some skull stripping. However, the benefit becomes clearer as the complexity of the pipelines increases.
+	
+\section{What is the Difference Between a Makefile and a Shell Script?}
+	
+This is a really good question. A makefile is basically a specialized program that is good at expressing how X depends upon Y and how to create it. The recipes in a makefile are indeed little shell scripts, adding to the confusion. By making these dependencies explicit, you enable the computer to execute as many of the recipes as it can at once, finishing the work as quickly as possible. It allows the computer to pick right back up if there is a crash or error that  causes the job to die somewhere in the middle. It allows you, the scientist, to decide that you want to change some step three-quarters of the way down and redo everything that depends upon that step. However, \maken{} will do no more work than it has to. It will not rebuild anything that does not depend on anything you have changed, however indirectly. And magically, once you have made dependencies explicit, you never need to remember what needs to be updated following a change. The computer will do it for you. 
+	
+Shell scripts are more general programs that can do all sorts of things, but inherently do them one at a time. For example, the shell script that is the equivalent to \autoref{make:recipe2} could be written something like \autoref{bash:makefile}.
+	
+\begin{bash}{A makefile expressed in \bashn{}}{bash:makefile}
+	\#!/bin/bash \\
+	for i in s???_T1.nii.gz \\
+	do \\
+	name=\`{}basename \$i .nii.gz\`{} \\
+	bet \$i \${name}_skstrip.nii.gz -R \\
+	done
+\end{bash}
+	
+There is nothing in this script to explicitly tell the computer that each individual T1 image can be processed independently of the others; the order does not matter. So if you are on a multicore computer that can execute many processes at once, you could not exploit this parallelism with this shell script. Furthermore, you can see that to add a few subjects or redo a few subjects, you will need to edit the script to avoid rerunning everyone. 
+	
+If you have ever found yourself writing a shell script to do a large batch job, and then commenting out some of the subject identifiers to redo the few that need redoing, then commenting out some other parts and adding new lines to the program, and so forth, you are dealing with the problems that \maken{} can help with. If you are not convinced, see \nameref{practicum1} for a more detailed explanation of how \maken{} works. 
+
+\section{Additional Resources For Learning About \maken{}}
+The focus of this manual is on structuring neuroimaging projects using \maken{}. These additional books and manuals will be extremely helpful for learning about \maken{} more generally.
+
+GNU Make Manual, Free Software Foundation. Last updated Oct 5, 2014. \href{http://www.gnu.org/software/make/manual/}{Link to manual.} Although this manual is for version 4.1, which is a somewhat newer version than we use in our examples, most of the information here is the same. This is an excellent reference for the syntax of \maken{} and its functionality. 
+\\
+
+Managing Projects with GNU Make, Third Edition by Robert Mecklenburg. Nov 2004. \href{http://www.oreilly.com/openbook/make3/book/index.csp}{Link to open book content.} This O'Reilly book covers a lot of basics but in a readable form for someone trying to manage a large scale project. Information about directory structures is probably less relevant for neuroimaging applications. 
+\\
+
+The GNU Make Book by John Graham-Cumming. April 2015. \href{https://www.nostarch.com/gnumake}{Link to purchase.} This book has an enormous amount of useful advanced information, including details describing differences between different versions of \maken{}, many approaches to debugging, and the help system that we use in our examples. 
