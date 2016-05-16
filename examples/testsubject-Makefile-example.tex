@@ -1,0 +1,240 @@
+\section{Testsubject Main Makefile}
+\label{example:testsubjectmakefile}
+
+This is an example of a subject-specific makefile that includes
+pipelines (written using \maken{}) that have been developed by several people to process different types of
+subject-level MRI data. Because there is only one subject in
+this example, this subject specific makefile is not a symbolic link,
+as it is in the \texttt{oasis-longitudinal-sample-small} directory. 
+
+The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/test001/Makefile}. 
+
+\setcounter{codehighlight}{0} % RESET THIS BEFORE EVERY LST LISTING
+\begin{lstlisting}
+	%*\lnote*.PHONY = etiv fast flex robex freesurferskullstrip 
+
+	%*\lnote*FSL_DIR=/usr/share/fsl/5.0 
+
+	STD_BRAIN=$(FSL_DIR)/data/standard/MNI152_T1_2mm.nii.gz 
+
+	ifeq "$(origin MAKEPIPELINES)" "undefined"
+	MAKEPIPELINES=/project_space/makepipelines 
+	endif 
+
+	%*\lnote*t1subj := $(shell pwd) 
+	subject := $(notdir $(t1subj)) 
+
+	PROJECT_HOME=$(MAKEPIPELINES)/testsubject/
+
+	%*\lnote*include $(PROJECT_HOME)/lib/makefiles/help_system.mk 
+	include $(PROJECT_HOME)/lib/makefiles/resting.mk 
+	include $(PROJECT_HOME)/lib/makefiles/xfm.mk 
+	include $(PROJECT_HOME)/lib/makefiles/fcconnectivity.mk 
+	include $(PROJECT_HOME)/lib/makefiles/QA.mk 
+	include $(PROJECT_HOME)/lib/makefiles/methodsgenerator.mk
+
+	%*\lnote*export OMP_NUM_THREADS=1 
+
+	SHELL=/bin/bash 
+
+	%*\lnote*FLEXPATH=$(PROJECT_HOME)/bin/wmprogram/sb/cross_platform/scripts
+
+\end{lstlisting}
+
+\lnum{1} We begin by specifying our phony targets. These will be
+defined later. 
+\lnum{2} This line that sets \texttt{FSL_DIR} will be commented out in
+your makefile, but you should find out where your version of FSL is
+installed and make sure that it is correct. If we do not specify the
+version of the programs that we run in a makefile, \maken{} will use
+the individual's \texttt{PATH} variable to find them. Because
+different people may have different \texttt{PATH} variables, this will
+result in unpredictable results (the opposite of reproducibility!)
+Recall that \maken{} inherits variables from your environment, and you
+can override them by setting them.
+
+\lnum{3} It is useful to have a variable to refer to the
+subject. Here, we simply obtain the subject from the last part of the
+directory name. This won't work for more complicated linking
+structures as described in \nameref{sec:practicum2}. 
+
+\lnum{4} We include lots of other makefiles that we need. This keeps
+this makefile short and readable. 
+
+\lnum{5} Certain programs do their own parallelization on computers
+with multiple processing elements (cores). To turn this off, we
+override the environment variable \texttt{OMP_NUM_THREADS}. This
+allows us to use the \texttt{-j} flag to \maken{} to parallelize
+execution of the entire makefile.
+
+\lnum{6} FLEX is a program for white matter hyperintensity
+quantification that we use for this project. This variable simply
+specifies its location. If you do not have it installed you just won't
+be able to run that part of the processing. It is not mandatory. 
+
+\begin{lstlisting}
+	 %*\lnote*FLAIR = $(shell if [ -f 00_NOFLAIR ] ; then echo false; else echo true; fi)
+
+	 HAVET1 = $(shell if [ -f 00_NOT1 ] ; then echo false; else echo true; fi)
+
+	 %*\lnote*ifeq ($(HAVET1),true)
+	 %*\lnote*all: $(call print-help,all,Do skull stripping, etiv, HC volume calculation) T1_skstrip.nii.gz first etiv
+	 else
+	 all:  $(call print-help,all,Do skull stripping, etiv, HC volume calculation)
+		@echo "Subject is missing T1 - nothing to do here."
+	 endif
+\end{lstlisting}
+
+\lnum{7} In large and complicated studies, a certain type of image may
+be missing, but this does not stop us from processing all the data
+that we have. Here, we test for a FLAIR acquisition by looking for a
+marker file in the directory called \texttt{00_NOFLAIR} (and similarly
+for the T1). 
+
+\lnum{8} Here we modify the target \texttt{all} depending on whether
+or not the subject has a T1 image. We also use the help system
+described in \nameref{sec:practicum4} to document what this target
+does. 
+
+
+\begin{lstlisting}
+	T1_skstrip.nii.gz: T1.nii.gz 
+		bet $< $@ -B
+
+	robex: $(call print-help,robex,Alternate skull stripping with ROBEX) T1.nii.gz 
+		$(PROJECT_HOME)/bin/ROBEX/runROBEX.sh T1.nii.gz T1_skstrip.nii.gz
+
+	freesurferskstrip: $(call print-help,freesurferskullstrip, Alternate skull stripping with FreeSurfer) $(PROJECT_HOME)/freesurfer/$(subject)/mri/brain.mgz
+		subj=$(subject) ;\
+		mri_vol2vol --mov $(PROJECT_HOME)/freesurfer/$${subj}/mri/brain.mgz \
+		--targ $(PROJECT_HOME)/freesurfer/$${subj}/mri/rawavg.mgz \
+		--regheader --o brain-in-rawavg.mgz ;\
+		mri_convert brain-in-rawavg.mgz brain-in-rawavg.nii.gz ;\
+		fslreorient2std brain-in-rawavg.nii.gz T1_skstrip.nii.gz ;\
+\end{lstlisting}
+
+We have rules in this makefile for three methods of skull
+stripping. The default is simply to call \texttt{bet} with the bias
+correction option (which worked well on the data for the study this
+makefile was modeled after). However, when this method did not work
+well, we tried alternative methods using ROBEX and FreeSurfer. Note
+that because the targets \texttt{robex} and \texttt{freesurferskstrip}
+are phony, they can be created at any time and will always overwrite
+\texttt{T1_skstrip.nii.gz}. 
+
+
+\begin{lstlisting}
+	etiv: $(call print-help, etiv, Estimation of ICV using enigma protocol) eTIV.csv
+
+	brain_to_std.mat brain_to_std.nii.gz: T1_skstrip.nii.gz 
+		flirt -in $< -ref $(STD_BRAIN) -omat $@ -out brain_to_std.nii.gz
+
+	eTIV.csv: brain_to_std.mat
+		%*\lnote*etiv=`$(PROJECT_HOME)/bin/mat2det brain_to_std.mat \
+		| awk '{print $$2 }'` ;\
+		echo  $(subject)","$$etiv > $@
+\end{lstlisting}
+
+We estimate intracranial volume (ICV) using the ENIGMA protocol (as described in
+\nameref{sec:practicum3}). This approach calculates the inverse 
+determinant of the linear transformation of the T1 image to standard
+space. This is a scaling factor that we can multiply the volume of the
+standard space brain by to obtain an estimated ICV volume. 
+
+\lnum{9} Note that when calling the \texttt{mat2det} script and
+echoing the results to a file, we need two dollar signs (\texttt{\$\$})
+for every one that we intend to pass to the shell.  
+
+
+
+\begin{lstlisting}
+	 first: first_all_fast_firstseg.nii.gz T1.nii.gz hippo.csv
+
+	 first_all_fast_firstseg.nii.gz : T1.nii.gz
+		$(PROJECT_HOME)/bin/run_first_all_edit -s "L_Hipp,R_Hipp"  -d -i T1.nii.gz -o first
+
+	 hippo.csv: first_all_fast_firstseg.nii.gz 
+		rh=`fslstats $< -u 54 -l 52 -V|awk `{print $$2}'' ;\
+		lh=`fslstats $< -u 18 -l 16 -V|awk `{print $$2}'' ;\
+		echo $$lh $$rh > hippo.csv
+\end{lstlisting}
+
+We run FSL FIRST to calculate hippocampal volumes. We put these into a
+comma separated value file to make it easy to remember how to extract
+these numbers from the \texttt{first_all_fast_firstseg.nii.gz} and
+check them (or include them in a QA report) although there is no
+reason you could not write a separate program to gather them all.
+
+
+\begin{lstlisting}
+	 ifeq ($(FLAIR),true)
+	 flex: $(call print-help,flex, Run flex for white matter hyperintensity quantification) flair.nii.gz flair_skstrip.hdr flair_skstrip_flwmt_lesions.hdr wmhstats.csv
+
+	 flair_restore.nii.gz: flair.nii.gz
+		fast -B -o flair -t 2 $<
+
+	 flair_skstrip.nii.gz: flair_restore.nii.gz
+		bet $< $@ -R
+
+	 flair_skstrip.hdr: flair_skstrip.nii.gz 
+		fslchfiletype ANALYZE $< $@
+
+	 flair_skstrip_flwmt_lesions.hdr: flair_skstrip.hdr
+		@echo "Flex processing " $< 
+		$(FLEXPATH)/sb_flex -fl $< 
+
+	 flair_skstrip_renamed.nii.gz: flair_skstrip.nii.gz
+		cp $< $@
+
+	 flair_wmh_mask.nii.gz: flair_skstrip_flwmt_lesions.hdr
+		fslmaths $< -uthr 1 $@
+
+	 else
+	 flex:
+		@echo No FLAIR, nothing to do
+	 endif
+
+	 wmhstats.csv: flair_skstrip_flwmt_lesions.hdr flair_skstrip_renamed.nii.gz
+		@echo Writing wmhstats.csv 
+		tot=`fslstats  flair_skstrip_renamed.nii.gz -V | awk `{print $$2}''; \
+		wmh=`fslstats  flair_skstrip_flwmt_lesions.hdr -u 2 -V \
+		| awk `{print $$2}'' ; \
+		per=`echo $$wmh $$tot | awk `{print ($$1/$$2)*100}'' ; \
+		echo  $(subject)", "$$wmh", " $$per >> $@ 
+\end{lstlisting}
+
+These are rules to run FLEX, a program for white matter hyperintensity
+quantification from FLAIR images. This example comes from a multi-site
+study where not all subjects obtained a viable FLAIR scan. If they do
+have a FLAIR scan, we bias correct, skull strip, and process the data
+using the program \texttt{sb_flex}.  The volume of white
+matter hyperintensities (absolute volume and percent of skull stripped
+brain) are written to \texttt{wmhstats.csv}. If we don't have a FLAIR
+scan, there is nothing to do. You may not have FLEX installed on your
+system in which case you can disregard this part of the makefile.
+
+
+\begin{lstlisting}
+	 archive:
+		rm -rf flair_bc_*
+		rm -rf flair_skstrip_axcor* flair_skstrip_flf_* flair_skstrip_WMT*
+		rm -rf *~ \#* brain_to_std.nii.gz flair_skstrip.hdr flair_skstrip.img
+
+	 clean:  $(call print-help,clean,Clean up everything from all makefiles) clean_rest clean_qa clean_transform clean_fcconnectivity clean_provenance
+		rm -rf flair_skstrip* flair_pve* flair_restore* *~ wmhstats.csv eTIV.csv \
+		brain_to_std* flair_mixeltype.nii.gz T1_skstrip_mask.nii.gz \
+		first-L_Hipp* first-R_Hipp* T1_to_std_sub* \
+		T1_skstrip.nii.gz hippo.csv first*
+\end{lstlisting}
+
+Finally, we define two targets to help us clean up. The first target,
+\texttt{archive}, is intended to remove files that we don't need when
+we intend to "tidy up". What we remove here is very subjective and
+dependent upon the needs of the researchers. 
+
+The second target, \texttt{clean} is intended to remove everything
+from all makefiles to clean up everything. Note that \texttt{clean}
+depends upon targets such as \texttt{clean_transform} and
+\texttt{clean_rest} that are defined in the makefiles we have included
+at the beginning. 
+

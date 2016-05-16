@@ -1,0 +1,156 @@
+\section{Testsubject FreeSurfer}
+\label{example:freesurfer}
+
+This is an example of how to use a makefile to execute FreeSurfer in a cross-sectional context (in contrast to
+\nameref{example:freesurfer}), which describes a longitudinal pipeline.  In addition, here we use FreeSurfer to
+create a brain mask for skull stripping.
+
+The code for this example is in \texttt{\$MAKEPIPELINES/testsubject/freesurfer/Makefile}.
+
+\setcounter{codehighlight}{0} % RESET THIS BEFORE EVERY LST LISTING
+
+\begin{lstlisting}
+	ifeq "$(origin MAKEPIPELINES)" "undefined"
+	MAKEPIPELINES=/project_space/makepipelines
+	endif
+
+	PROJHOME=$(MAKEPIPELINES)/testsubject 
+\end{lstlisting}
+
+This first section of the code looks to see if the environment variable
+\texttt{MAKEPIPELINES} is set. This allows people who are not at IBIC
+to override the default location of these files.
+
+\begin{lstlisting}
+	%*\lnote*include $(PROJHOME)/lib/makefiles/help_system.mk 
+
+	%*\lnote*SUBJECTS=test001 
+
+	export SUBJECTS_DIR=$(PROJHOME)/freesurfer 
+	export FREESURFER_SETUP = /usr/local/freesurfer/stable5_3/SetUpFreeSurfer.sh 
+	export RECON_ALL = /usr/local/freesurfer/stable5_3/bin/recon-all 
+	export TKMEDIT = /usr/local/freesurfer/stable5_3/bin/tkmedit 
+	QA_TOOLS=/usr/local/freesurfer/QAtools_v1.1 
+
+	export SHELL=/bin/bash
+
+	%*\lnote*outputstats=$(SUBJECTS:%=%/mri/aparc+aseg.mgz) $(SUBJECTS:%=%/mri/brainmask.mgz)
+		$(SUBJECTS:%=%/mri/brainmask.nii.gz)
+
+	%*\lnote*inputdirs = $(SUBJECTS:%=%)
+
+	.PHONY: all clean qa freesurfer
+
+	.SECONDARY: $(inputdirs) $(outputstats)
+\end{lstlisting}
+
+This portion of the Makefile defines key variables and targets. 
+\lnum{1} We make use of the help system described in
+\nameref{sec:practicum4}. 
+\lnum{2} There is only one subject here, so for clarity we simply
+write it out. However, in real life you would have many subjects, and
+obtain them through a wildcard or from a file (see
+\nameref{subsec:subjectlist}).
+\lnum{3} We use pattern substitution to specify all of the output
+targets we wish to create. These are the \texttt{aparc+aseg.mgz} file,
+the \texttt{brainmask.mgz} file, and the brainmask converted to NIfTI
+format (\texttt{brainmask.nii.gz}). Note that all of these files are
+designated as SECONDARY targets so that they are not deleted at the end!
+\lnum{4} We also use pattern substitution to set up the input directories.
+
+
+\begin{lstlisting}
+	 all: $(call print-help,all,Setup directories, Run Freesurfer, and Run QA) setup freesurfer qa
+
+	 freesurfer: $(call print-help,freesurfer,Run FreeSurfer) $(outputstats)
+\end{lstlisting}
+
+The \texttt{all} and \texttt{freesurfer} targets here are documented
+using the help system. 
+
+\begin{lstlisting}
+	%/mri/brainmask.mgz: %
+		subj=$* ;\
+		export FREESURFER_SETUP=$(FREESURFER_SETUP) ;\
+		export WATERSHED_PREFLOOD_HEIGHTS='05 15 25 35' ;\
+		rm -rf $${subj}/scripts/IsRunning.* ;\
+		source $$FREESURFER_SETUP ;\
+		export SUBJECTS_DIR=$(SUBJECTS_DIR) ;\
+		recon-all  -subjid  $${subj} -multistrip -autorecon1 ;\
+		height=`cat $${subj}/mri/optimal_preflood_height' ;\
+		if [[ $$height == 05 ]]; then max=$$(( $$height + 5 )); \
+		WATERSHED_PREFLOOD_HEIGHTS=`echo $$height $$max'; \
+		else min=$$(( $$height - 5 )); max=$$(( $$height + 5 )); \
+		WATERSHED_PREFLOOD_HEIGHTS=`echo $$min $$height $$max'; fi ;\
+		export WATERSHED_PREFLOOD_HEIGHTS ;\
+		recon-all -s $${subj} -multistrip -clean-bm -gcut
+\end{lstlisting}
+
+This rule creates the brain mask (in .mgz format). We use the
+\texttt{-multistrip} flag to \texttt{recon-all} which allows us to try
+multiple preflood heights, trying different thresholds
+automatically. Then \texttt{recon-all} is continued using the optimal
+height. Note that this approach will begin a separate process
+for each preflood height (e.g., four processes). This makes it a bit
+hard to run this pipeline on many brains in parallel. Normally, we use
+this approach when we are processing subjects one at a time after they
+have been scanned.
+
+\begin{lstlisting}
+	%/mri/brainmask.nii.gz: %/mri/brainmask.mgz
+		export FREESURFER_SETUP=$(FREESURFER_SETUP) ;\
+		source $$FREESURFER_SETUP ;\
+		mri_convert $< $@
+\end{lstlisting}
+This rule converts the brain mask from \texttt{mgz} format to NIfTI format.
+
+\begin{lstlisting}
+	%/mri/aparc+aseg.mgz:  %/mri/brainmask.mgz 
+		subj=$* ;\
+		export FREESURFER_SETUP=$(FREESURFER_SETUP) ;\
+		source $$FREESURFER_SETUP ;\
+		export SUBJECTS_DIR=$(SUBJECTS_DIR) ;\
+		recon-all -s $${subj} -autorecon2 -autorecon3 
+\end{lstlisting}
+
+This rule finishes the remaining stages of
+\texttt{recon-all}. It depends upon the brain mask being generated
+(the result of the previous rule).
+
+\begin{lstlisting}
+	 setup: $(call print-help,setup,Setup subject directories) $(inputdirs) 
+
+	%:  $(PROJHOME)/%/T1.nii.gz 
+		mkdir -p $@/mri/orig; \
+		cp $^ $@/mri/orig; \
+		cd $@/mri/orig; \
+		mri_convert *nii.gz 001.mgz 
+\end{lstlisting}
+
+The \texttt{setup} target depends upon the T1 image in the subject
+directory (here, in \texttt{\$PROJHOME}). It creates a FreeSurfer
+style subject directory, copies the file there, and converts it to
+NIfTI format. 
+
+\begin{lstlisting}
+	qa: $(call print-help,qa, Run QA - do this interactively with screensaver \
+		shut off) $(inputdirs:%=QA/%)
+
+	QA/%: %
+		source $(FREESURFER_SETUP) ;\
+		$(QA_TOOLS)/recon_checker -s $*
+\end{lstlisting}
+
+We run the FreeSurfer QA tools to generate images that we can put into
+our own reports. One problem with QA is that the images cannot be
+generated in parallel in batch. We include a warning in the help
+system that they should be generated interactively without a
+screensaver. 
+
+\begin{lstlisting}
+clean:
+	echo rm -rf $(inputdirs)
+\end{lstlisting}
+
+Finally, we define a \texttt{clean} target to remove all processing
+results. 

@@ -1,0 +1,212 @@
+\chapter{\maken{} in Context}
+\label{sec:practicum2}
+
+\textbf{Learning objectives:} Organize a subject directory, run make
+in parallel.
+
+\section{Lecture: Organizing Subject Directories}
+
+In practice, a project will involve multiple subjects, each with
+several types of scans. One could imagine a universal standard where
+every NIfTI file contained information about where it came from and
+what information it contained, and all neuroimaging programs
+understood how to read and interpret this information. We could dump
+all of our files into a database and extract exactly what we
+wanted. We wouldn't need to use something as archaic as \maken{} because
+we could specify dependencies based on the products of certain
+processing steps, no matter what they were called.
+
+If you can't imagine this, that's totally fine, because it's a very
+long way off and won't look like that when it's here. Right now, we
+need to work with UNIX file naming conventions to do our processing.
+
+Therefore, selecting good naming conventions for files and for
+directories is key. \maken{} specifically depends upon naming
+conventions so that people can keep track of what programs and steps
+were used to generate what projects. See \nameref{chap:context} for examples of good file naming conventions and typical project directory structures. 
+
+% It's ok here to reprint modified info from Chapter 2 
+
+Many of our studies are longitudinal. Even if they don't start out
+that way, if you are trying to study a developmental or degenerative
+disease, and you scan subjects once, it is often beneficial to scan
+them again to answer new questions about longitudinal
+progression. However, this aspect of study design poses some
+challenges for naming conventions. 
+
+Different sites organize data in different ways. For example, the
+Waisman Brain Imaging Lab has a \href{http://brainimaging.waisman.wisc.edu/~oakes/teaching/directory_structure.html}{detailed description of their
+preferred data organization}. 
+Because our directory structure evolved from a large longitudinal
+study with cross-sectional and longitudinal analyses, we
+organize multiple visits for each subject as subdirectories under that
+subject's main data directory. However, this organization is highly
+inconvenient for processing with \maken{}.  
+
+These basic issues and the goal of minimizing complexity drive the
+directory structure described in this practical.
+
+
+\section{Practical Example: A More Realistic Longitudinal Directory Structure}
+
+\subsection{Organizing Longitudinal Data}
+
+Follow along with this example. Copy directory 
+\newline\texttt{\$MAKEPIPELINES/oasis-longitudinal-sample-small/} \\
+to your home directory using the following command:
+\bashcmd{cp -r \$MAKEPIPELINES/oasis-longitudinal-sample-small/ ~}
+
+This is a very small subset of the OASIS data set (\texttt{http://www.oasis-brains.org}), which consists of a
+longitudinal sample of structural images. There are several T1 images
+taken at each scan session, and several visits that occurred a year or
+more apart. I have reduced the size of this directory by taking only one of the T1 images
+for each person, for each visit, and only of a small sample of
+subjects.
+
+Look at the directory structure of \texttt{subjects/}. A useful command to do this is called \texttt{find}. For example, if you are in the \texttt{subjects} directory you can type:
+\bashcmd{find .}
+
+You can see that as we have discussed, each subject has one to five
+separate sessions. The data for each session (here, only a single
+MPRAGE) is stored under each session directory. I realize that
+creating a directory to store what is right now a single scan seems a
+bit like overkill, but in a real study there would be several types of
+scans in each session directory. Here, to focus on the directory
+organization and how to call make recursively, we are only looking at
+one type of scan.
+
+Normally there are two types of processing that are performed for a
+study. The first are subject-level analyses --- in short, analyses that
+are completely independent of all the other subjects. The second are
+group-level analyses, or analyses that involve all the subjects
+data, or a subset of the subjects. In general, a good rule of thumb is that the results of
+subject-level analyses are best placed within the subject directories.
+
+Group-level analyses seem to be best found elsewhere in the project
+directory, either as a subdirectory within a specific timepoint or organized at the top
+level.
+
+Change into the directory \texttt{visit1/} within your copy of \texttt{oasis-longitudinal-sample-small}:
+\bashcmd{cd visit1}
+
+What we want to do is create the symbolic links for each subject's first visit here. 
+
+You can do one link by hand:
+\bashcmd{ln -s ../subjects/OAS2_0001/visit1 OAS2_0001}
+
+This command creates a symbolic link called \texttt{OAS2_0001} to the original directory \texttt{../subjects/OAS2_0001/visit1}. 
+\mymarginnote{!}{Your \texttt{ls} command may be aliased to something pleasing, in which case you might see slightly different behavior than described here.} 
+Now, if you enter \texttt{ls -l} into the command line while remaining in the \texttt{visit1} directory, you will notice that the subdirectory \texttt{OAS2_0001} is symbolically linked, as indicated by an arrow, to the original target directory. You can also check whether a file or directory is linked by using the \texttt{ls -F} shorthand command, which indicates symbolic links with an\@ symbol. The command \texttt{ls -L} dereferences the symbolic links so that you can view information for the original target file or directory itself.
+
+You can also create symbolic links in bulk. To do so, remove the link that you have just created and
+use the program in the \texttt{visit1} directory (\texttt{makelinks}) to create all the subject links for \texttt{visit1}. 
+\mymarginnote{!}{The current directory won't be in your PATH, so make sure to call it with \texttt{./makelinks}.}
+
+Take a look at the \texttt{makelinks} script in \autoref{bash:links}. This script loops through all of the subject directories that have a first visit (visit1). It extracts the subject identifier from the directory name (\texttt{\$i}) by using the \texttt{egrep} command to find the bit of the name that matches the subject identifier pattern (\texttt{OAS2_[0-9]}). With this information, it can link the subject name to the directory. 
+
+\begin{bash}{Script to create symbolic links within a longitudinal
+    directory structure}{bash:links}
+\#!/bin/bash
+
+for i in ../subjects/*/visit1\\
+do\\
+\tab	subject=`echo \$i| egrep -o 'OAS2_[0-9]*'` \\
+\tab	ln -s \$i \$subject\\
+done\\
+\end{bash}
+
+\subsection{Recursive \maken{}}
+Now let's look at the Makefile (\texttt{visit1/Makefile}).  This is just a 
+top-level ``driver'' makefile for each of the subjects. All it does is
+create a symbolic link, if necessary, to the subject-level makefile,
+and then it goes in and calls \maken{} in every subdirectory.
+
+Do you know why the subject target is a phony target? The reason is
+that we want \maken{} to be triggered within the subject directory every
+time we call it.
+
+Create the symbolic links to the subject-level makefile as follows:
+\bashcmd{make Makefile}
+
+Do you know why we use the \texttt{\$PWD} variable to create the link?
+If we used a relative path to the target file, what would happen when
+we go to the subject directory?
+
+Let us see how this works. Look at the subject-level makefile (\texttt{Makefile.subdir}). Go into
+a subject directory and run \texttt{make}.
+
+By now, you might be getting really tired of seeing the same \texttt{fslreorient2std} and \texttt{bet} commands. \maken{}, by default,
+will echo the commands that it executes to the terminal. If you would
+like it to stop doing that, you can tell it not to do that by
+prepending the \texttt{@} character to each line.
+\begin{lstlisting}
+	%_T1_skstrip.nii.gz: %_T1.nii.gz
+		@bet $< $@
+\end{lstlisting}
+%\begin{make}{The \texttt{@} character hides commands}{}
+%\maker{\%\_T1\_skstrip.nii.gz}{\%\_T1.nii.gz}\\
+%  \tab @bet \$< \$@
+%\end{make}
+
+Now go find the same subject via the subject subtree:
+\bashcmd{cd ~/oasis-longitudinal-sample-small/subjects/visit1/OAS2_0001/visit1}
+
+Type \texttt{make} and see that it works. Part of this magic is that we set
+the subject variable correctly, even though where it appears in a
+directory path is different in each place.
+
+There is a useful little rule defined in the GNU Make Book (Chapter
+2, p. 44) that may be useful for checking that you have set variables correctly. Add the following lines to the subject-level makefile.
+
+\begin{lstlisting}
+	print- %:
+		@echo $* = $($*)
+\end{lstlisting}
+%\begin{make}{Printing out the value of variables}{}
+%\maker{print-\%}{}\\
+%\tab @echo \$* = \$(\$*)
+%\end{make}
+
+Now if you type: \bashcmd{make print-subject} \\
+You can see the value that the variable \texttt{subject} is set to. Note that even if you place this new rule at the very top of the makefile, it will not execute this rule by default. It will fall through to the next non-pattern rule. This is one of the ways in which pattern rules (implicit rules) differ subtly from explicit rules. 
+
+\subsection{Running \maken{} over multiple subject directories}
+Now that we have verified that the individual makefile works, we can
+go to the \texttt{visit1} directory and process all the
+subjects. First, go back and edit the subject-level makefile to remove
+the \texttt{@} characters in front of the commands so that they are
+printed.
+
+From within the \texttt{visit1/} directory, type:
+\bashcmd{make -n TARGET=skstrip}
+
+Note that what this is doing is (recursively) going into each subject directory and calling \maken{}. It will do this whether or not there is anything to do within the subject directory, because each subject directory has no dependencies. However, because we have specified the \texttt{-n} flag, it prints out what commands it will perform without actually executing them.
+
+We can do this work in parallel. Bring up a system monitor (\texttt{gkrellm} is installed on the IBIC systems). See how many processing units you have and how busy they are. Note these numbers and get familiar with the configuration of the computers that you have in the lab. In general, each job will require a certain amount of memory and can use at maximum one CPU. A safe calculation for most things is that you can normally run as many jobs at one time on a computer as you have CPUs. This is a huge oversimplification but it will suffice for now. 
+
+You can specify to make how many CPUs to use. For example, if we specify the \texttt{ -j} flag with an argument of 2 (processors), we can parallelize execution of \maken{} over two CPUs. 
+\bashcmd{make -j 2 TARGET=skstrip}
+
+If you specify \texttt{make -j} without any options, it will use as many CPUS as  you have on your machine. This is great if all the work you have ``fits'' into the computing resources that are available. However, if it does not, you can use a computing cluster.
+
+In our environment, we use the Sun Grid Engine (SGE) to distribute
+jobs across machines that are ``clustered'' together. To run on a
+cluster, you need to be logged on one of the machines that is allowed
+to submit to the grid engine.\footnote{In IBIC, they are:  \texttt{broca}, \texttt{dentate}, \texttt{homunculus}, \texttt{pole}, \texttt{pons}, \texttt{precuneus}, and \texttt{triangularis}.} Once there, you can use the command:
+\bashcmd{qmake -cwd -V -- -j 20 TARGET=skstrip}
+
+Here, we use \texttt{qmake} instead of \texttt{make} to interact with the grid engine. The \texttt{-cwd} flag says to run from the current working directory, and \texttt{-V} says to pass along all your environment variables. You will normally want to specify both of these flags. The \texttt{--} specifies to \texttt{qmake} that we are done specifying \texttt{qmake} flags and are now giving normal flags to \maken{}. For example, in this command we specify 20 jobs. 
+
+As an optional exercise, here you might want to set up the same directory structure for \texttt{visit2/} and build everything from scratch in parallel.
+
+\subsection{Running FreeSurfer}
+Now let us look at an example of a subject-level analysis that we
+typically don't run within the subject directories. FreeSurfer
+\citep[see][]{Desikan2006968, Fischl01012004, Fischl2004S69} is a
+program that we use for cortical and subcortical parcellation. It
+itself is a complicated neuroimaging pipeline that can use \maken{} to
+drive it. It likes to put all subject directories for an analysis in one directory, which makes it difficult to enforce the subject-level structure described. But in general, it is much wiser to work around what the programs want to do than to reorganize their output in ways that might break when the software is updated! This is our approach.
+
+The FreeSurfer example is documented in \nameref{example:freesurfer}. 
+
+% For complete FreeSurfer references, add these: Fischl26092000, FischlLiuDale, FischlSalat2002, HBM:HBM10, Jovicich2006436, Kuperberg2003, Rosas12032002, Salat2004, Segonne20041060, dale:99, fischl:99, han:06, sledzijdenbos1998, spf2007, reuter:robreg10, reuter:bias11, reuter:long12
