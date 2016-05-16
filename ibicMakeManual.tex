@@ -187,14 +187,19 @@
 	
 	\maketitle		% Title page
 	
-        \newpage
+    \newpage
+    
 	\tableofcontents
-        \newpage	
+	
+    \newpage	
+    
 	\listoffigures
-        \newpage	
+    
+    \newpage	
+	
 	\mainmatter		% The actual content
 	
-        \partimage{images/ohbm.jpg}
+    \partimage[width=2in]{images/ohbm.jpg}
 	\part{Manual}
 	
 	\include{chapter1}	% Introduction to make
@@ -246,10 +251,11 @@
 
 %	\include{documentation} % How to document makefiles
 	
-	\appendix
+%	\appendix
 	
 %	\include{appendix}
 	
+	\cleardoublepage
 	\bibliographystyle{apalike}
 	\bibliography{references}
 	
