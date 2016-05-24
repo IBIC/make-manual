@@ -44,7 +44,7 @@ File naming conventions begin with converted raw data (NIfTI files derived from 
 
 \rowcolors*{2}{gray!50}{white} 	% alternating row coloing, starting on row 2 (ignore header)
 \def\arraystretch{1.2}	% with all the caps, this table gets a little crammed. 
-\begin{figure}[h!]
+\begin{figure}[!ht]
 	\begin{tabularx}{\linewidth}{ >\ttfamily l X } % >\ttfamily applies monospaced font to column 1
 											% column 1 expands, and forces 2 to shrink and wrap
 		\rowcolor{gray!75}
@@ -78,7 +78,7 @@ Typically, we create a directory for each project. Within that project directory
 An example hierarchy (for project Udall) is shown in \autoref{figure:udalldir}. We have recreated this directory structure in \texttt{\$MAKEPIPELINES/Udall}, without any actual MRI data, so that you can follow the structure. You can also look at \autoref{sec:practicum2} for a description of how to set up a similar directory structure for an actual data set.
 
 \begin{center}
-	\begin{figure}[h!]
+	\begin{figure}[!ht]
 		\dirtree{%
 			.1 /project_space/Udall.
 			.2 bin\DTcomment{Holds \bashn{} scripts written for this project}.
@@ -222,8 +222,8 @@ Recall that the session-level makefile needs to be located within the directorie
 Instead, we create a symbolic link to \texttt{makefile_session.mk} from each session directory as follows:
 
 \begin{bash}{Creating symbolic links to the session-level makefile}{bash:session}
- cd \$PROJHOME/Udall/session1\\
-ln -s ../subjects/makefile_session.mk Makefile\\
+cd \$PROJHOME/Udall/session1\\
+ln -s ../subjects/makefile_session.mk Makefile
 \end{bash}
 
 \subsection{Creating links to subject-level makefile}

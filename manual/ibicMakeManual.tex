@@ -117,11 +117,11 @@
 
 %% DEFINE BASH MULTILINE ENVIRONMENT
 \newenvironment{bash}[2] % 
-{ \begin{samepage} \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip} \ttfamily } { \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip}  \caption{\captiontext} \label{\labelt} \end{figure} \end{samepage} } 
+{ \begin{samepage} \begin{figure}[!ht] \def\captiontext{#1} \def\labelt{#2} \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip} \ttfamily } { \vspace{0.5\baselineskip} \hrule \vspace{0.5\baselineskip}  \caption{\captiontext} \label{\labelt} \end{figure} \end{samepage} } 
 
 % DEFINE MAKE MULTILINE ENVIRONMENT
 \newenvironment{make}[2] %
-{ \begin{figure}[h!] \def\captiontext{#1} \def\labelt{#2} \begin{tcolorbox}[colback=white,boxrule=0.5pt,arc=4pt,left=6pt,right=6pt,boxsep=0pt,width=\textwidth] \raggedright \ttfamily } { \normalfont \end{tcolorbox} \caption{\captiontext} \label{\labelt} \end{figure} }
+{ \begin{figure}[!ht] \def\captiontext{#1} \def\labelt{#2} \begin{tcolorbox}[colback=white,boxrule=0.5pt,arc=4pt,left=6pt,right=6pt,boxsep=0pt,width=\textwidth] \raggedright \ttfamily } { \normalfont \end{tcolorbox} \caption{\captiontext} \label{\labelt} \end{figure} }
 % You must terminate lines in the make environment
 % To indent lines, use \tab
 
@@ -172,7 +172,7 @@
 
 	\begin{tikzpicture}[remember picture,overlay]
 		\node[font=\fontsize{30pt}{36pt}\selectfont, align=center] (center) at (current page text area.center) 
-			{ Using GNU \textsc{make} for \\
+			{ Using GNU \textsc{Make} for \\
 			Neuroimaging Workflow } ;
 		\node[above=of center,align=center] (above) {\includegraphics[width=0.75\textwidth]{../images/IBIClogo.png}} ;
 		\node[font=\LARGE, below=of center,align=center] (below) { University of Washington } ;
@@ -187,8 +187,14 @@
 	
 	\maketitle		% Title page
 	
-	\texttt{Branch: folder-reorg}
+	\noindent \textbf{Resources}
 	
+	\begin{easylist}[itemize]
+		& \href{https://www.ibic.washington.edu/wiki/pages/viewpage.action?title=Using+GNU+Make+for+Neuroimaging+Workflow&spaceKey=public}{Manual page on the IBIC wiki}
+		& \href{http://journal.frontiersin.org/article/10.3389/fninf.2016.00002/full}{Frontiers in Neuroinformatics paper}
+		& \href{http://www.nitrc.org/projects/makepipelines/}{NITRC resources repository}
+	\end{easylist}
+		
     \newpage
     
 	\tableofcontents
