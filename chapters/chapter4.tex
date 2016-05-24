@@ -98,15 +98,15 @@ In our environment we strive to run the exact same image of the Linux operating 
 On IBIC workstations, operating system information is recorded in \texttt{/etc/os-release}. (See \autoref{os-release}.)\mymarginnote{!}{Not all systems use this file. Ask your system administrator what program or file to use if you cannot find it.}
 
 \begin{bash}{\texttt{/etc/os-release}}{os-release}
-	PRETTY_NAME="Debian GNU/Linux 7 (wheezy)"
-	NAME="Debian GNU/Linux"
-	VERSION_ID="7"
-	VERSION="7 (wheezy)"
-	ID=debian
-	ANSI_COLOR="1;31"
-	HOME_URL="http://www.debian.org/"
-	SUPPORT_URL="http://www.debian.org/support/"
-	BUG_REPORT_URL="http://bugs.debian.org/"
+	PRETTY_NAME="Debian GNU/Linux 7 (wheezy)" \\
+	NAME="Debian GNU/Linux" \\
+	VERSION_ID="7" \\ 
+	VERSION="7 (wheezy)" \\
+	ID=debian \\ 
+	ANSI_COLOR="1;31" \\
+	HOME_URL="http://www.debian.org/" \\
+	SUPPORT_URL="http://www.debian.org/support/" \\
+	BUG_REPORT_URL="http://bugs.debian.org/" 
 \end{bash}
 
 \texttt{source} this file in order to save the strings to the given variables, which can then be read easily in \maken{}. For example, one could test if the newest version of Debian -- 7 (wheezy) -- is installed on the current workstation.
@@ -119,7 +119,6 @@ ifeq (\$(RELEASE),7)\\
 \maker{all}{processedrest_medn.nii.gz}\\
 else\\
 \maker{all}{} \\
-\tab @echo ``The software to run this pipeline is only installed on'' \\
-\tab @echo ``the newest version of the OS, 7 (wheezy)'' \\
+\tab @echo ``The software to run this pipeline is only installed on the newest version of the OS, 7 (wheezy)'' \\
 endif
 \end{make}

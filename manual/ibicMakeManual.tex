@@ -165,6 +165,15 @@
 
 
 \begin{document}
+		
+	% Set up lst listing for the make environment.
+	% If we ever need a second lst listing, this will have to be set up differently.
+	\lstset{language=make,backgroundcolor=\color{lemon},
+		gobble=8,
+		basicstyle=\small\ttfamily,
+		breaklines=true,
+		escapeinside={\%*}{*}}
+
 	
 	% Cover page
 	
@@ -223,15 +232,7 @@
 	\input{../chapters/chapter4}  % Examples
 	
 	\part{Practicals}
-	
-	% Set up lst listing for the make environment.
-	% If we ever need a second lst listing, this will have to be set up differently.
-	\lstset{language=make,backgroundcolor=\color{lemon},
-		gobble=8,
-		basicstyle=\small\ttfamily,
-		breaklines=true,
-		escapeinside={\%*}{*}}
-	
+
 	\begin{vplace}[0.7]
 		
 		\thispagestyle{empty}
