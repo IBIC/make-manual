@@ -125,6 +125,100 @@ There is nothing in this script to explicitly tell the computer that each indivi
 	
 If you have ever found yourself writing a shell script to do a large batch job, and then commenting out some of the subject identifiers to redo the few that need redoing, then commenting out some other parts and adding new lines to the program, and so forth, you are dealing with the problems that \maken{} can help with. If you are not convinced, see \nameref{practicum1} for a more detailed explanation of how \maken{} works. 
 
+\section{Make Built-In Functions}
+
+\maken{} contains a number of built in functions that take the general form:
+
+\makecmd{\$({\color{blue}cmd} \ldots)}
+
+These functions can be read about in \href{https://www.gnu.org/software/make/manual/html_node/Functions.html#Functions}{section 8 of the GNU Make Manual}, but we will detail some of the more convenient functions here as well.
+
+\subsection{The \texttt{shell} and \texttt{wildcard} Functions}
+
+The \texttt{shell} and \texttt{wildcard} functions allows acces to the shell outside of \maken{}, they can be thought of as performing command expansion outside of the makefile (e.g. with the \texttt{`cat foo`} or \texttt{\$(cat foo)} syntaxes). We often use the \texttt{shell} function to identify subject names, for example:
+
+\makecmd{\$({\color{blue}shell} cat subjects.txt)}
+
+\texttt{wildcard} can be used in a similar manner. It performs wildcard expansion much in the same way as the \texttt{bash} shell. If all your subjects had a six-digit identifier of the form that started with \texttt{12-}, the \texttt{wildcard} function could be used in the following manner to identify your subjects:
+
+\makecmd{\$({\color{blue}wildcard} \$(PROJECT_DIR)/subjects/12????)}
+
+In most cases, using \texttt{12*} would be synonymous, but would include \textit{any} file beginning with \texttt{12-}, for example, \texttt{129999.backup}. For this reason, we recommend being most explicit and using question marks over an asterisk.
+
+\subsection{Text and Filename Manipulation}
+
+There are several functions designed for manipulating filenames, whose name, arguments, and description are given in \autoref{fig:maketextfunc}.
+
+\begin{figure}[!ht]
+	\begin{tabularx}{\textwidth}{>{\ttfamily\color{blue}}l >{\ttfamily}l X}
+		dir & name(s) & Equivalent to \texttt{\$ dirname name}. \\
+		notdir & name(s) & Removes everything up to, and including, the final \texttt{/}. \\
+		suffix & name(s) & Extracts the suffix (including the period). \\
+		basename & names(s) & Equivalent to \texttt{\$ basename name} \\
+		addsuffix & suffix,name(s) & Appends \texttt{suffix} to all \texttt{name(s)}. \\
+		addprefix & prefix,name(s) & Appends \texttt{prefix} to all \texttt{name(s)}. \\
+		join & list1,list2 & Joins elements from lists pairwise. \\
+		realpath & name(s) & For each file, returns the absolute canonical name. Returns empty string on failure. \\
+		abspath & name(s) & For reach file, return canonical name. Does not resolve symlinks, and accepts non-extant files. \\
+	\end{tabularx}
+	\caption{\maken{} filename manipulation functions\label{fig:maketextfunc}}
+\end{figure}
+
+Additionally, \maken{} provides functionality for manipulating strings in other ways.
+
+One function that is handy for manipulating files with the same basename but different extensions is \texttt{subst} (for ``substitute''). For example, if one script outputs a \texttt{.png} file and your recipe calls for a \texttt{.gif} file\footnote{\texttt{.gif} files are smaller.}, you can refer to the \texttt{.png} intermediary by calling \texttt{\$({\color{blue}subst} gif,png,\$@)}.
+
+For example, if we take \texttt{take-picture} to output \texttt{picture01.png} to a given directory, we could use \texttt{subst} in a makefile like so:
+
+\begin{make}{How to use \texttt{subst}}{make:subst}
+	\maker{QA/images/picture01.gif}{mprage/T1.nii.gz} \\
+	\tab \$(BIN)/take-picture mprage/T1.nii.gz QA/images ;\ \\
+	\tab convert \$(subst gif,png,\$@) \$@ \\ 
+	\tab rm \$(subst gif,png,\$@)
+\end{make}
+
+\texttt{convert} is an ImageMagick function that, among its many powers, can convert filetypes. We \texttt{rm} the \texttt{.png} file at the end, because the whole point of this filetype-conversion exercise was to save disk space.
+
+There also exists the \texttt{patsubst} function, whose functionality is mostly better executed by using substitution references instead. See \href{https://www.gnu.org/software/make/manual/html_node/Text-Functions.html#Text-Functions}{subsection 8.2 of the GNU Make Manual} for more information.
+
+A \textit{very} handy function is \texttt{word}, which selects the \textit{n}th word from a whitespace-delimited string. Because dependency lists are whitespace-separated, this allows us to select the \textit{n}th dependency. For example, \texttt{\$({\color{blue}word} 2,foo bar baz)} would return \texttt{bar}. The list of dependencies can be accessed as \texttt{\$\^}, in the following example, it is \texttt{mprage/T2.nii.gz} that would be skull-stripped, not \texttt{mprage/T1.nii.gz}.
+
+\begin{make}{How to use \texttt{word}}{make:word}
+	\maker{mprage/T2_brain.nii.gz}{mprage/T1.nii.gz mprage/T2.nii.gz} \\
+	\tab bet \$(word 2,\$\verb!^!) \$@\\
+\end{make}
+
+One can also use \texttt{firstword} but \texttt{\$({\color{blue}word} 1,\$\^)} has the advantage of being more consistent. There is also \texttt{words}, which returns the number of words, and \texttt{lastword}, whose functionalities seem limited in context. But perhaps there is a use for them.
+
+The third most useful text-manipulation function is \texttt{strip}, which removes leading and trailing whitespace from its argument, and replaces internal whitespace sequences with a single space.  
+
+\texttt{strip}'s functionality is highlighted in logic statements (read more about conditionals in \autoref{chap:dti}), where whitespace can be introduced through things like \texttt{\$({\color{blue}shell} cat foo)}. Stripping knotty strings like that allows \maken{}'s limited logic to compare all variables.
+
+If each subject had a small text file flag in their directory that indicated their status, say \texttt{group}, its contents could be read and acted up on.
+
+\begin{make}{Using \texttt{strip}}{make:strip}
+	GROUP=\$(shell cat group) \\
+	
+	ifeq (\$(GROUP),TD) \\
+	\maker{Preprocess}{Preprocess-TD QA-TD} \\
+	else\\
+	\maker{Preprocess}{Preprocess-ASD QA-ASD} \\
+	endif
+\end{make}
+
+In \autoref{make:strip}, only the TD pipeline will be called, depending on the tag. 
+
+There are other string manipulation functions we have not found a use for, that are documented here nonetheless for your reference.
+
+\begin{figure}[!ht]	\begin{tabularx}{\textwidth}{>{\ttfamily\color{blue}}l >{\ttfamily}l X}
+		findstring & find,in & Returns \texttt{find} if \texttt{find} is found in \texttt{in}, otherwise, the empty string. \\
+		filter & pattern,text & Returns all words in \texttt{text} that match \texttt{pattern} \\
+		filter-out & pattern,text & Returns the inverse of \texttt{filter}. \\
+		sort & list & Sorts the list and removes duplicates. \\
+	\end{tabularx}
+	\caption{\maken{} filename manipulation functions\label{fig:makestrfunc}}
+\end{figure}
+
 \section{Additional Resources For Learning About \maken{}}
 The focus of this manual is on structuring neuroimaging projects using \maken{}. These additional books and manuals will be extremely helpful for learning about \maken{} more generally. \\
 
