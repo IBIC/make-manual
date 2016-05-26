@@ -210,14 +210,27 @@ In \autoref{make:strip}, only the TD pipeline will be called, depending on the t
 
 There are other string manipulation functions we have not found a use for, that are documented here nonetheless for your reference.
 
-\begin{figure}[!ht]	\begin{tabularx}{\textwidth}{>{\ttfamily\color{blue}}l >{\ttfamily}l X}
-		findstring & find,in & Returns \texttt{find} if \texttt{find} is found in \texttt{in}, otherwise, the empty string. \\
+\begin{figure}[!ht]	
+	\begin{tabularx}{\textwidth}{>{\ttfamily\color{blue}}l >{\ttfamily}l X}
+		findstring & find,in & Returns ``\textit{find}'' if \texttt{find} is found in \texttt{in}, otherwise, the empty string. \\
 		filter & pattern,text & Returns all words in \texttt{text} that match \texttt{pattern} \\
 		filter-out & pattern,text & Returns the inverse of \texttt{filter}. \\
 		sort & list & Sorts the list and removes duplicates. \\
 	\end{tabularx}
 	\caption{\maken{} filename manipulation functions\label{fig:makestrfunc}}
 \end{figure}
+
+\subsection{Logging Messages from \maken}
+
+Further, there are three \maken{} control functions that will report a message to the terminal, as well as additional behaviors, depending on the function.
+
+\begin{easylist}[itemize]
+	& \texttt{error} generates a fatal error and exists \maken{}.
+	& \texttt{warning} prints a message to the screen with the name of the makefile and the line number, but doesn't stop execution.
+	& \texttt{info} prints a message, but does not print the name of the makefile or the line number.
+\end{easylist}
+
+All these functions are called with the same syntax as the other functions, \texttt{\$({\color{blue}func}) "message\ldots")}.
 
 \section{Additional Resources For Learning About \maken{}}
 The focus of this manual is on structuring neuroimaging projects using \maken{}. These additional books and manuals will be extremely helpful for learning about \maken{} more generally. \\
