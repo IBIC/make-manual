@@ -220,6 +220,21 @@ There are other string manipulation functions we have not found a use for, that 
 	\caption{\maken{} filename manipulation functions\label{fig:makestrfunc}}
 \end{figure}
 
+Furthermore, there are special variables that can access the directory and file path from the target and prerequisites.
+
+\begin{figure}[!ht]	
+	\begin{tabularx}{\textwidth}{>{\ttfamily}l X}
+		\$(@D)	& The directory part of the target, without the trailing slash. \\
+		\$(@F)	& The file part of the target. \\
+		\$(<D)	& The directory part of the first prerequisite. \\
+		\$(<F)	& The file part of the first prerequisite. \\
+		\$(\^D)	& The directory parts of all prerequisites. \\
+		\$(\^F)	& The file parts of all prerequisites. 
+	\end{tabularx}
+	\caption{Extra-special variables}
+\end{figure}
+
+
 \subsection{Logging Messages from \maken}
 
 Further, there are three \maken{} control functions that will report a message to the terminal, as well as additional behaviors, depending on the function.
