@@ -172,3 +172,98 @@ This cycle never stops if, somewhere, a target is specified that is never actual
 \subsection{\maken{} doesn't rebuild things that it should}
 
 This type of error usually indicates a logical problem in the tree of targets that begins with what you have told make to do. Recall that by default, \maken{} builds the first target that appears in the makefile. If you have included makefiles at the beginning of your file, it might happen that the default target is not actually what you think it is.
+
+\section{Using Make Functions to Save Time}
+
+One might notice that very often strings or entire recipes are duplicated in a makefile. We can use \maken{}'s built-in functions to save time and shrink a makefile.
+
+\subsection{Using Functions on Recipes}
+
+Recipes in a single makefile often appear very similar to one another, but different enough that either pattern matching is insufficient or technically impossible (because you are limited to one ``\texttt{\%}'' in a target specification).
+
+For example, take the two very similar recipes in \autoref{make:two-recipes} that extract and convert \texttt{rest_on}, \texttt{rest_off}, \texttt{axcpt_on}, and \texttt{axcpt_off}, but are limited by the fact that only one pattern can be matched at a time (e.g. either the \texttt{rest}/\texttt{axcpt} alternation can be subsumed by pattern matching, or \texttt{on}/\texttt{off} can be, but not both.)
+
+\begin{make}{Two very similar make recipes}{make:two-recipes}
+	\maker{rest_\%/rest_\%_e001.nii.gz}{parrec/rest_\%.zip} \\
+	\tab mkdir -p rest_\$*;\ \\
+	\tab unzip \$< -d rest_\$*/ ;\ \\
+	\tab \$(PIPELINES)/bin/run_ConvertR2A.sh \$(MATLABCompiler) \$(SubjDIR)/rest_\$*/ ;\ \\
+	\tab rm -f rest_\$*/*.\{PAR,REC,XML\} ;\ \\
+	\tab for i in `seq 1 3`; do mv rest_\$*/*RS*-e00\$\$\{i\}*.nii \ \\
+	\tab rest_\$*/rest_\$*_e00\$\$\{i\}.nii; done ;\ \\
+	\tab gzip rest_\$*/rest_\$*_*.nii 
+	
+	\vspace{\baselineskip}
+	
+	\maker{axcpt_\%/axcpt_\%_e001.nii.gz}{parrec/axcpt_\%.zip} \\
+	\tab mkdir -p axcpt_\$* ;\  \\
+	\tab unzip \$< -d axcpt_\$*/ ;\ \\
+	\tab \$(PIPELINES)/bin/run_ConvertR2A.sh \$(MATLABCompiler) \$(SubjDIR)/axcpt_\$*/ ;\ \\
+	\tab rm -f rest_\$*/*.\{PAR,REC,XML\} ;\ \\
+	\tab for i in `seq 1 3`; do \ \\
+	\tab mv axcpt_\$*/*Task*-e00\$\$\{i\}*.nii\\ axcpt_\$*/axcpt_\$*_e00\$\$\{i\}.nii; done ;\ \\
+	\tab gzip axcpt_\$*/axcpt_\$*_*.nii
+\end{make}
+
+These two recipes can be simplified by using \maken{}'s \texttt{eval} function, discussed online (in a different context) in the GNU make manual's \href{https://www.gnu.org/software/make/manual/make.html#Eval-Function}{``The \texttt{eval} function'' chapter}. The \texttt{eval} function takes arguments passed to it and evaluates and expands them, as if they written out in the makefile as normal.
+
+The \texttt{eval} function is used as follows, where ``\texttt{function}'' is the predefined function, the definition of which we'll arrive to in a second: 
+\begin{make}{How to use the \texttt{eval} function}{make:eval}
+	\$(eval \$(call function,param1,param2,\ldots))
+\end{make}
+
+Functions can have any number of parameters, although at least one is required for the use of a function to make any sense. These are passed as comma-separated arguments to \texttt{call}. Within the function, the numbered arguments are accessed much like a \texttt{bash} command-line argument: \texttt{\$(1)}, \texttt{\$(2)}, etc.
+
+Using the \texttt{eval} function to create recipes for neuroimaging proceeds as below:
+
+\vspace{0.5\baselineskip}
+
+\begin{easylist}[enumerate]
+	& Define a function that expands to a useful recipe.
+	& Create a list of the parameters to be passed to that function (i.e. the different ways transform).
+	& Evaluate the function.
+	& Add the newly created targets to a phony target (if required).
+\end{easylist}
+
+\vspace{0.5\baselineskip}
+
+The definition of the function is quite simple, wrap the recipe in the lines \texttt{def <name> =} and \texttt{endef} (\autoref{make:def}), note that parameters are referred to with regular \maken{} variable syntax --- \texttt{\$(n)} --- and that some extreme levels of escaping are required for shell variables. Because the function is expanded an extra time before being evaluated, shell variables (like the iterator in the for loop), need to be doubly escaped, leading to an obnoxious string of four \texttt{\$}.
+
+In this case, the \maken{} variables \texttt{\$(PIPELINES)}, \texttt{\$(MATLABCompiler)}, and \texttt{\$(SubjDir)} are expanded on the first go-round, which is fine because they're defined properly outside of the function. A variable whose expansion must wait until execution, for example, if it's set in the recipe itself, would have to be escaped as well, but with only two \texttt{\$}.
+
+\begin{make}{Using \texttt{def}}{make:def}
+	define convert = \\
+	\maker{\$(1)/\$(1)_e001.nii.gz}{parrec/\$(1).zip} \\
+	\tab mkdir -p \$(1) ;\ \\
+	\tab if [ ! -f \$(1)/*.PAR ] \&\& [ ! -f \$(1)/*.REC ] ; then \ \\
+	\tab unzip parrec/\$(1).zip -d \$(1) ;\ \\
+	\tab fi ;\ \\
+	\tab \$(PIPELINES)/bin/run_ConvertR2A.sh \$(MATLABCompiler) \$(SubjDIR)/\$(1)/ ;\ \\
+	\tab rm -f \$(1)/*.\{PAR,REC,XML,LOG\} ;\ \\
+	\tab for i in `seq 3` ; do \ \\
+	\tab mv \$(1)/*ME*-e00\$\$\$\$\{i\}*.nii \$(1)/\$(1)_e00\$\$\$\$\{i\}.nii ;\ \\
+	\tab gzip \$(1)/\$(1)_e00\$\$\$\$\{i\}.nii ;\ \\
+	\tab done\\
+	
+	endef
+\end{make}
+
+Note that in this definition, \texttt{\$(1)} encompasses the entire \texttt{(rest|axcpt)_(on|off)} sequence. Hence we must now build up a list of strings representing the permutations. Although four permutations are relatively easy to type, \autoref{make:evalloop} is an example of a programmatic way to create such a list.
+
+\begin{make}{Looping over make function}{make:evalloop}
+	scans = rest axcpt \\
+	status = on off \\
+	
+	\$(foreach i,\$(scans), \$(foreach j,\$(status), \$(eval \$(call convert,\$(i)_\$(j)))))
+\end{make}
+
+Here, because there are two lists to combine, we simply loop over both lists (note: defined without quotes), and make the argument to \texttt{convert} the concatenation of both scan and status. If the function required the two to be separated at some point, they could be passed as two arguments and concatenated within the script.
+
+This has the result of essentially adding four new recipes, one for each scan type to the makefile before it is interpreted for execution.
+
+\subsection{Using Functions to Create Dependency Lists}
+
+Another place one might find long, repetitive strings is in the definition of long dependency list for phony targets. As a brief example: \texttt{\maker{pcasl-patient}{pcasl_on/PCASLrs.nii.gz pcasl_off/PCASLrs.nii.gz}}
+
+This string can be shortened too, with the \texttt{\$(foreach )} function described above. For example, the above recipe could be replaced with
+\texttt{\maker{pcasl-patient}{\$(foreach s,\$(status), pcasl_\$(s)/PCASLrs.nii.gz}}. This allows the \texttt{\$(s)} to be reused in multiple places (unlike the pattern substitution function,  \texttt{\$(patsubst )}, which can only replace one occurrence of a \texttt{\%}.
